@@ -1,0 +1,2 @@
+# Preserve the raw SHA-256 verified by OptionsStageSources.
+/Editor/Catalog/options-values.json -text
