@@ -288,6 +288,10 @@
   }
 
   function draw() {
+    if (window.MapEditorPerspective?.active) {
+      window.MapEditorPerspective.update();
+      return;
+    }
     const view = resizeCanvas();
     ctx.clearRect(0, 0, view.cssWidth, view.cssHeight);
     ctx.fillStyle = "#10161c";
@@ -308,6 +312,19 @@
     const picked = canvasTile(event);
     if (!picked) return;
     const [x, y] = picked;
+    applyCellAction(x, y, event);
+  }
+
+  function applyCellAction(x, y, event = {}) {
+    if (!Number.isInteger(x) || !Number.isInteger(y) || x < 0 || y < 0 || x >= state.width || y >= state.height) return;
+    if (event.altKey) {
+      const tile = state.cells[y][x] || Model.tile();
+      state.brush = clone(tile);
+      e.tileKey.value = tile.tileKey;
+      for (const key of ['heightType', 'buildableType', 'passableMask', 'playerSideMask']) e[key].value = tile[key];
+      setPaintMode('PAINT');
+      return;
+    }
     const route = activeRoute();
     if (state.routeTool && !route) return;
     if (state.routeTool === "START") {
@@ -332,7 +349,7 @@
       e.status.textContent = `已向路线 ${state.routeIndex} 添加 MOVE (${x}, ${y})。`;
       renderCheckpoints();
     } else {
-      state.cells[y][x] = state.paintMode === "ERASE" || event.button === 2 ? null : currentTile();
+      state.cells[y][x] = state.paintMode === "ERASE" || event.button === 2 || event.buttons === 2 ? null : currentTile();
     }
     notifyChanged();
   }
@@ -439,7 +456,7 @@
   window.addEventListener("resize", () => { draw(); });
 
   window.MapEditor = {
-    buildMapJson, loadMap, draw, notifyChanged, renderRouteControls, renderCheckpoints, activeRoute,
+    buildMapJson, loadMap, draw, notifyChanged, renderRouteControls, renderCheckpoints, activeRoute, applyCellAction,
     getState: () => state
   };
   setTileDefaults();

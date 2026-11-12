@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,">
-<title>明日方舟地图编辑器</title><link rel="stylesheet" href="styles.css"></head><body>
+<title>明日方舟地图编辑器</title><link rel="stylesheet" href="styles.css?v=wiki1"></head><body>
   <main id="mapEditorDialog" class="map-editor-dialog">
     <div class="map-editor-window">
       <header class="map-editor-header">
@@ -13,9 +13,10 @@
       </header>
 
       <div class="map-editor-layout">
-        <aside class="map-editor-controls">
+        <aside id="settingsDrawer" class="map-editor-controls editor-drawer drawer-left" aria-label="关卡编辑" inert>
+<header class="drawer-heading"><h2>关卡编辑</h2><button data-close-drawer="settingsDrawer" aria-label="收起关卡编辑">←</button></header>
           <details open>
-            <summary>地图尺寸与绘制</summary>
+            <summary>地图尺寸</summary>
             <div class="detail-body editor-section">
               <div class="field-grid compact-grid">
                 <label class="field"><span>宽度</span><input id="editorMapWidth" type="number" min="1" max="256" step="1" value="10"></label>
@@ -25,24 +26,6 @@
                 <button id="editorResizeMapButton" type="button">应用尺寸</button>
                 <button id="editorClearMapButton" type="button">清空地图</button>
                 <button id="editorFillMapButton" type="button">全部填充当前地块</button>
-              </div>
-              <label class="field"><span>tileKey</span>
-                <input type="text" id="editorTileKey" list="tileKeys" value="tile_road"><datalist id="tileKeys">
-                  <option value="tile_road">tile_road</option><option value="tile_floor">tile_floor</option>
-                  <option value="tile_wall">tile_wall</option><option value="tile_forbidden">tile_forbidden</option>
-                  <option value="tile_start">tile_start</option><option value="tile_end">tile_end</option>
-                  <option value="tile_telin">tile_telin</option><option value="tile_telout">tile_telout</option>
-                </datalist>
-              </label>
-              <div class="field-grid compact-grid">
-                <label class="field"><span>heightType</span><select id="editorHeightType"><option value="LOWLAND">LOWLAND</option><option value="HIGHLAND">HIGHLAND</option></select></label>
-                <label class="field"><span>buildableType</span><select id="editorBuildableType"><option value="NONE">NONE</option><option value="RANGED">RANGED</option><option value="MELEE">MELEE</option></select></label>
-                <label class="field"><span>passableMask</span><select id="editorPassableMask"><option value="ALL">ALL</option><option value="FLY_ONLY">FLY_ONLY</option></select></label>
-                <label class="field"><span>playerSideMask</span><select id="editorPlayerSideMask"><option value="ALL">ALL</option></select></label>
-              </div>
-              <div class="editor-button-row">
-                <button id="editorPaintModeButton" class="active" type="button">绘制地块</button>
-                <button id="editorEraseModeButton" type="button">留空</button>
               </div>
             </div>
           </details>
@@ -79,21 +62,30 @@
           </div>
         </aside>
 
-        <section class="map-editor-visual">
-          <div class="canvas-toolbar">
-            <strong>地图与路线</strong>
-            <span id="editorStatus" class="muted">选择地块并在画布上绘制。</span>
-          </div>
-          <div class="canvas-wrap map-editor-canvas-wrap">
-            <div class="map-view-controls" aria-label="地图编辑器视图控制">
-              <button id="editorZoomOutButton" type="button" title="缩小地图">−</button>
-              <button id="editorFitButton" type="button" title="恢复适应窗口">适应</button>
-              <button id="editorZoomInButton" type="button" title="放大地图">+</button>
-              <span>滚轮缩放 · 中键或 Shift+拖动平移</span>
-            </div>
-            <canvas id="mapEditorCanvas" width="1100" height="720" aria-label="地图与路线编辑画布"></canvas>
-            <div id="mapEditorTooltip" class="tile-tooltip" hidden></div>
-          </div>
+<aside id="paletteDrawer" class="map-editor-controls editor-drawer drawer-right" aria-label="地形与装置" inert>
+<header class="drawer-heading"><h2>地形与装置</h2><button data-close-drawer="paletteDrawer" aria-label="收起地形与装置">→</button></header>
+<details open><summary>地形笔刷</summary><div class="detail-body editor-section">              <label class="field"><span>tileKey</span>
+                <input type="text" id="editorTileKey" list="tileKeys" value="tile_road"><datalist id="tileKeys">
+                  <option value="tile_road">tile_road</option><option value="tile_floor">tile_floor</option>
+                  <option value="tile_wall">tile_wall</option><option value="tile_forbidden">tile_forbidden</option>
+                  <option value="tile_start">tile_start</option><option value="tile_end">tile_end</option>
+                  <option value="tile_telin">tile_telin</option><option value="tile_telout">tile_telout</option>
+                </datalist>
+              </label>
+              <div class="field-grid compact-grid">
+                <label class="field"><span>heightType</span><select id="editorHeightType"><option value="LOWLAND">LOWLAND</option><option value="HIGHLAND">HIGHLAND</option></select></label>
+                <label class="field"><span>buildableType</span><select id="editorBuildableType"><option value="NONE">NONE</option><option value="RANGED">RANGED</option><option value="MELEE">MELEE</option></select></label>
+                <label class="field"><span>passableMask</span><select id="editorPassableMask"><option value="ALL">ALL</option><option value="FLY_ONLY">FLY_ONLY</option></select></label>
+                <label class="field"><span>playerSideMask</span><select id="editorPlayerSideMask"><option value="ALL">ALL</option></select></label>
+              </div>
+              <div class="editor-button-row">
+                <button id="editorPaintModeButton" class="active" type="button">绘制地块</button>
+                <button id="editorEraseModeButton" type="button">留空</button>
+              </div>
+</div></details>
+<div id="deviceControls"></div>
+<details><summary>显示兼容性</summary><p id="mapCompatibility" class="muted"></p></details>
+<details><summary>选中地形与装置 · 原始配置</summary><pre id="mapSelectionDetail">Alt+单击地图查看并拾取地形。</pre></details>
           <div class="tile-legend-block editor-tile-legend" aria-label="地图编辑器程序绘制地块图例">
             <p class="tile-legend-title">程序绘制地块</p>
             <div class="tile-legend-grid">
@@ -110,6 +102,26 @@
               <span class="tile-legend-item"><i class="tile-legend-icon tile-telout"></i><span><strong>传送门出口</strong><small>tile_telout</small></span></span>
             </div>
           </div>
+</aside>
+        <button class="drawer-handle handle-left" aria-controls="settingsDrawer" aria-expanded="false">关卡编辑 ›</button>
+        <button class="drawer-handle handle-right" aria-controls="paletteDrawer" aria-expanded="false">‹ 地形与装置</button>
+        <section class="map-editor-visual">
+          <div class="canvas-toolbar">
+            <strong>地图与路线</strong>
+            <select id="mapViewMode" aria-label="地图展示方式"><option value="prts">PRTSMap 立体 / 平面</option><option value="canvas">原始二维画布</option></select>
+            <span id="editorStatus" class="muted">选择地块并在画布上绘制。</span>
+          </div>
+          <div id="prtsMapHost" hidden></div>
+          <div class="canvas-wrap map-editor-canvas-wrap">
+            <div class="map-view-controls" aria-label="地图编辑器视图控制">
+              <button id="editorZoomOutButton" type="button" title="缩小地图">−</button>
+              <button id="editorFitButton" type="button" title="恢复适应窗口">适应</button>
+              <button id="editorZoomInButton" type="button" title="放大地图">+</button>
+              <span>滚轮缩放 · 中键或 Shift+拖动平移</span>
+            </div>
+            <canvas id="mapEditorCanvas" width="1100" height="720" aria-label="地图与路线编辑画布"></canvas>
+            <div id="mapEditorTooltip" class="tile-tooltip" hidden></div>
+          </div>
           <div class="legend editor-legend">
             <span><i class="swatch editor-route-start"></i>路线起点</span><span><i class="swatch editor-route-end"></i>路线终点</span>
             <span><i class="swatch editor-route-move"></i>位置检查点</span><span>路线按检查点顺序连线</span>
@@ -125,4 +137,8 @@
 <script src="tile-renderer.js"></script>
 <script src="map-editor.js"></script>
 <script src="editor-ui.js"></script>
+<script src="tile-info.js"></script>
+<script src="tile-palette.js?v=wiki3"></script>
+<script src="drawers.js"></script>
+<script type="module" src="prts-map/bootstrap.mjs?v=camera1"></script>
 </body></html>

@@ -92,7 +92,9 @@ summary { padding: 10px 6px; cursor: pointer; font-size: 13px; font-weight: 600;
 .checkpoint-actions { display: flex; gap: 3px; }
 .checkpoint-actions button { padding: 3px 6px; font-size: 11px; }
 .editor-export-actions { display: grid; gap: 8px; padding: 4px 1px 14px; }
-.map-editor-visual { display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto; min-width: 0; min-height: 0; background: #10161c; }
+.map-editor-visual { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: #10161c; }
+.map-editor-canvas-wrap { flex: 1; min-height: 480px !important; }
+.map-editor-visual [hidden] { display: none !important; }
 .canvas-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 14px; min-height: 55px; padding: 10px 16px; border-bottom: 1px solid var(--line); font-size: 12px; }
 .canvas-toolbar strong { white-space: nowrap; }
 .canvas-wrap { position: relative; min-height: 0; overflow: hidden; }
@@ -124,3 +126,52 @@ summary { padding: 10px 6px; cursor: pointer; font-size: 13px; font-weight: 600;
   .editor-button-row { flex-wrap: wrap; }
   .map-view-controls > span { display: none; }
 }
+
+/* Non-modal side drawers: the map keeps its full central workspace. */
+.map-editor-layout { display:block; position:relative; overflow:hidden; }
+.map-editor-visual { height:100%; overflow:hidden; }
+.editor-drawer { position:absolute; top:0; bottom:0; width:min(390px, calc(100% - 56px)); z-index:30; transition:transform .22s ease; box-shadow:0 0 24px #0008; padding:12px 16px 40px; }
+.drawer-left { left:0; transform:translateX(-105%); }
+.drawer-right { right:0; transform:translateX(105%); border-left:1px solid var(--line); }
+.editor-drawer.is-open { transform:translateX(0); }
+.drawer-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; position:sticky; top:-12px; background:var(--panel); z-index:4; padding:12px 0; }
+.drawer-heading h2 { font-size:16px; }
+.drawer-handle { position:absolute; top:68px; z-index:31; padding:14px 8px; writing-mode:vertical-rl; letter-spacing:2px; background:#172633; border-color:#597085; }
+.handle-left { left:0; border-radius:0 8px 8px 0; }
+.handle-right { right:0; border-radius:8px 0 0 8px; }
+.drawer-left.is-open ~ .handle-left { left:min(390px, calc(100% - 56px)); }
+.drawer-right.is-open ~ .handle-right { right:min(390px, calc(100% - 56px)); }
+.drawer-handle { transition:left .22s ease,right .22s ease; }
+.editor-drawer .editor-button-row { flex-wrap:wrap; }
+.editor-drawer .editor-tile-legend { max-height:none; overflow:visible; padding:10px 0; }
+#mapSelectionDetail { white-space:pre-wrap; overflow-wrap:anywhere; font-size:12px; }
+#mapCompatibility { line-height:1.7; overflow-wrap:anywhere; }
+#prtsMapHost { flex:1; min-height:0; overflow:auto; }
+.canvas-toolbar #mapViewMode { width:auto; max-width:260px; }
+.canvas-toolbar #editorStatus { flex:1; min-width:0; }
+.map-editor-canvas-wrap { min-height:0!important; }
+@media(max-width:900px){ .map-editor-header { flex-wrap:wrap; padding:10px; gap:8px; } .map-editor-header .muted,.section-kicker { display:none; } .canvas-toolbar { flex-wrap:wrap; gap:6px; } .canvas-toolbar #editorStatus { flex-basis:100%; } }
+@media(prefers-reduced-motion:reduce){ .editor-drawer,.drawer-handle { transition:none; } }
+
+.editor-drawer { top:var(--drawer-top,120px); }
+.drawer-handle { top:var(--drawer-top,120px); }
+.tile-palette-button { text-align:left; width:100%; }
+.tile-palette-button[aria-pressed="true"] { border-color:var(--accent); background:#30271b; }
+
+.tile-palette-entry { display:flex; min-width:0; align-items:stretch; gap:4px; }
+.tile-palette-entry .tile-palette-button { flex:1; min-width:0; }
+.tile-info-button { flex:0 0 32px; padding:4px; display:grid; place-items:center; }
+.tile-info-button img { filter:invert(1); }
+.tile-info-dialog { width:min(640px,calc(100vw - 32px)); max-height:85vh; padding:0; color:var(--text); background:var(--panel); border:1px solid #52677b; border-radius:12px; }
+.tile-info-dialog::backdrop { background:#0009; }
+.tile-info-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 20px; position:sticky; top:0; background:var(--panel); border-bottom:1px solid var(--line); }
+.tile-info-content { padding:20px; overflow-wrap:anywhere; }
+.tile-info-content dl { display:grid; grid-template-columns:100px minmax(0,1fr); gap:12px; line-height:1.7; }
+.tile-info-content dt { color:var(--cyan); }.tile-info-content dd { margin:0; }
+.tile-info-content pre { white-space:pre-wrap; font-size:12px; }
+
+/* Embedded Wiki stays inside the editor modal. */
+.tile-info-dialog { width:min(1100px,calc(100vw - 32px)); max-height:90dvh; }
+.tile-wiki-toolbar { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; margin-top:12px; }
+.tile-wiki-toolbar a { color:var(--cyan); }
+.tile-wiki-frame { display:block; width:100%; height: min(65dvh,760px); border:1px solid #52677b; background:white; }

@@ -145,7 +145,18 @@ fn asset(path: &str) -> Option<(&'static str, &'static [u8])> {
         "/map-model.js" => Some(("text/javascript", include_bytes!("../../map-model.js"))),
         "/tile-renderer.js" => Some(("text/javascript", include_bytes!("../../tile-renderer.js"))),
         "/map-editor.js" => Some(("text/javascript", include_bytes!("../../map-editor.js"))),
+        "/tile-info.js" => Some(("text/javascript", include_bytes!("../../tile-info.js"))),
+        "/tile-palette.js" => Some(("text/javascript", include_bytes!("../../tile-palette.js"))),
+        "/assets/icons/info.svg" => Some(("image/svg+xml", include_bytes!("../../assets/icons/info.svg"))),
+        "/drawers.js" => Some(("text/javascript", include_bytes!("../../drawers.js"))),
         "/editor-ui.js" => Some(("text/javascript", include_bytes!("../../editor-ui.js"))),
+        "/prts-map/bootstrap.mjs" => Some(("text/javascript", include_bytes!("../../prts-map/bootstrap.mjs"))),
+        "/prts-map/editor-renderer.mjs" => Some(("text/javascript", include_bytes!("../../prts-map/editor-renderer.mjs"))),
+        "/prts-map/projection.mjs" => Some(("text/javascript", include_bytes!("../../prts-map/projection.mjs"))),
+        "/prts-map/definitions.mjs" => Some(("text/javascript", include_bytes!("../../prts-map/definitions.mjs"))),
+        "/prts-map/blackboard.mjs" => Some(("text/javascript", include_bytes!("../../prts-map/blackboard.mjs"))),
+        "/prts-map/reference.css" => Some(("text/css", include_bytes!("../../prts-map/reference.css"))),
+        "/prts-map/editor.css" => Some(("text/css", include_bytes!("../../prts-map/editor.css"))),
         _ => None,
     }
 }

@@ -103,7 +103,9 @@ function render(){
  const parent=$('documentControls');parent.replaceChildren();renderSchedule(parent);renderEnemies(parent);
  const meta=section(parent,'关卡设置与扩展字段');const metaGrid=node('div',undefined,meta);metaGrid.className='schema-fields';for(const key of ['levelId','mapId','bgmEvent','environmentSe','operaConfig','cameraPlugin','randomSeed'])field(metaGrid,doc(),key);
  button(meta,'编辑 options',()=>jsonEditor('关卡 options',doc().options,v=>{if(!v||typeof v!=='object'||Array.isArray(v))throw Error('options 必须为对象');doc().options=v;}));
- for(const k of ['runes','optionalRunes','globalBuffs','predefines','hardPredefines','tilesDisallowToLocate','excludeCharIdList'])button(meta,'编辑 '+k,()=>jsonEditor(k,doc()[k],v=>doc()[k]=v));
+ const devices=$('deviceControls');devices.replaceChildren();const deviceSection=section(devices,'装置与预设单位');
+ for(const [key,label] of [['predefines','普通预设'],['hardPredefines','困难预设']])button(deviceSection,label,()=>jsonEditor(label,doc()[key],v=>doc()[key]=v));
+ for(const k of ['runes','optionalRunes','globalBuffs','tilesDisallowToLocate','excludeCharIdList'])button(meta,'编辑 '+k,()=>jsonEditor(k,doc()[k],v=>doc()[k]=v));
  button(meta,'编辑完整地图 JSON',()=>jsonEditor('地图完整 JSON',E.buildMapJson(),v=>E.loadMap(v)));
  const val=section(parent,'格式校验');button(val,'校验当前地图',()=>{const result=M.validate(E.buildMapJson());$('validation').textContent=[...result.errors.map(x=>'错误：'+x),...result.warnings.map(x=>'提示：'+x)].join('\n')||'结构与引用校验通过';});node('pre','尚未校验',val).id='validation';
  renderRoutes();E.draw();

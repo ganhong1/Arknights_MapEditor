@@ -6,6 +6,9 @@
 
 ## 使用
 
+- 默认使用 PRTSMap 风格地图，可在「3D 立体」与「2D 平面」之间切换；绘制、右键擦除、Alt 拾取、路线落点共用原编辑数据。右上选择器可回到原始二维画布。
+- 地块外观为配置示意；未知专属样式标记 `?`。预放置单位以通用标签显示，隐藏及 hard 预设有区分；卡牌不放置到地图。此视图不模拟装置机制或原生美术。来源、兼容边界及检查见 [PRTSMap 适配说明](prts-map/SOURCES.md)。
+
 - 新建或打开本地地图 JSON；
 - 绘制地块，右键擦除，Alt+单击拾取地块完整属性；滚轮缩放，Shift+拖动或中键平移。“地块 JSON”可编辑 blackboard、effects 和特殊地块字段。
 - 在 `routes` / `extraRoutes` 之间切换。可设置起终点、出生偏移及随机范围、运动方式、寻路标记，并新增、编辑、排序和删除全部有效检查点类型。
@@ -54,6 +57,9 @@ LevelData
 ~~~powershell
 powershell -ExecutionPolicy Bypass -File .\build-exe.ps1
 ~~~
+
+Web 数据模型和 PRTSMap 投影可用 `node --test map-model.test.js prts-map/projection.test.mjs` 验证。
+通过 `MAP_EDITOR_FIXTURE_ROOT` 指定同时包含 `Map_Tools` 和 `Route_Calculator` 的旧样例根目录，可额外运行原样例往返测试。
 
 ## 使用许可
 
