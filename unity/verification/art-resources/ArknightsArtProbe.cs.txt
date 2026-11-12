@@ -1,0 +1,682 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
+
+// Explicit batch entry point in a separate disposable project. No plugin/game mutation.
+[InitializeOnLoad]
+public static class ArknightsArtProbe
+{
+    private const string ResumeKey = "ArtProbe.Scene.Pending";
+    private static readonly Dictionary<string, AssetBundle> Bundles = new Dictionary<string, AssetBundle>();
+    private static readonly List<AssetBundle> OwnedBundles = new List<AssetBundle>();
+    private static readonly JArray Samples = new JArray();
+    private static readonly JArray Logs = new JArray();
+    private static JObject report;
+    private static string root;
+    private static string output;
+    private static string scope = "setup";
+    private static int logCount;
+    private static AsyncOperation sceneOperation;
+    private static string scenePath;
+    private static int sceneTicks;
+    private static double deadline;
+    private static bool sceneStarted;
+    private static bool closingScene;
+    private static Scene loadedScene;
+    private static TrailRenderer liveTrail;
+    private static Camera liveCamera;
+    private static JObject liveSample;
+
+    static ArknightsArtProbe()
+    {
+        if (SessionState.GetBool(ResumeKey, false)) EditorApplication.update += ResumeScene;
+    }
+
+    public static void Run()
+    {
+        root = Arg("-probeRoot");
+        output = Arg("-probeOutput");
+        var expectedAssets=Path.GetFullPath(Path.Combine(root,"UnityProbeProject","Assets")).TrimEnd(Path.DirectorySeparatorChar,Path.AltDirectorySeparatorChar);
+        if(!Application.isBatchMode||!string.Equals(Path.GetFullPath(Application.dataPath).TrimEnd(Path.DirectorySeparatorChar,Path.AltDirectorySeparatorChar),expectedAssets,StringComparison.OrdinalIgnoreCase))
+            throw new InvalidOperationException("Use only the dedicated batch probe project under probeRoot/UnityProbeProject");
+        if (!Directory.Exists(Path.Combine(root, "Bundles"))) throw new DirectoryNotFoundException(root);
+        if (File.Exists(Path.Combine(output, "report.json"))) throw new IOException("Output already exists");
+        Directory.CreateDirectory(output);
+        if (Arg("-probeMode") == "scene" || Arg("-probeMode") == "trail-live")
+        {
+            SessionState.SetString("ArtProbe.Root", root);
+            SessionState.SetString("ArtProbe.Output", output);
+            SessionState.SetString("ArtProbe.Mode", Arg("-probeMode"));
+            SessionState.SetBool(ResumeKey, true);
+            EditorApplication.EnterPlaymode();
+            return;
+        }
+        Init("editor-static");
+        try
+        {
+            if(Arg("-probeMode")=="static")Category("raw-control",RawControl);
+            LoadBundles();
+            if (Arg("-probeMode") == "effects") Category("particle-animation", ParticleSamples);
+            else if (Arg("-probeMode") == "particles") Category("particle", ParticleSamples);
+            else if (Arg("-probeMode") == "bindings") {
+                Category("bindings", BindingSamples);
+                Category("material-animation", MaterialAnimationSamples);
+                Category("sprite-trail", SpriteTrailSamples);
+            }
+            else if (Arg("-probeMode") == "trail") Category("trail-diagnostic", TrailDiagnostic);
+            else if (Arg("-probeMode") == "transform") Category("transform-animation", TransformSamples);
+            else if (Arg("-probeMode") == "trail-control") Category("trail-control", TrailControl);
+            else
+            {
+                Category("texture", TextureSamples);
+                Category("material", MaterialSamples);
+                Category("model", ModelSamples);
+                Category("cubemap", CubeSamples);
+                Category("particle-animation", ParticleSamples);
+                Category("tile", TileSamples);
+            }
+            report["completed"] = true;
+        }
+        catch (Exception e) { report["fatal"] = e.ToString(); }
+        finally { Finish(); }
+    }
+
+    private static string Arg(string key)
+    {
+        var args = Environment.GetCommandLineArgs();
+        var i = Array.IndexOf(args, key);
+        if (i < 0 || i + 1 >= args.Length) throw new ArgumentException(key);
+        return args[i + 1];
+    }
+
+    private static void Init(string mode)
+    {
+        report = new JObject { ["mode"] = mode, ["unity"] = Application.unityVersion,
+            ["utc"] = DateTime.UtcNow.ToString("o"), ["gpu"] = SystemInfo.graphicsDeviceName,
+            ["graphicsApi"] = SystemInfo.graphicsDeviceType.ToString(), ["project"] = Application.dataPath,
+            ["pipeline"] = GraphicsSettings.currentRenderPipeline == null ? "Builtin" : GraphicsSettings.currentRenderPipeline.name,
+            ["samples"] = Samples, ["logs"] = Logs };
+        Application.logMessageReceived += OnLog;
+        report["harnessSha256"]=Hash(File.ReadAllBytes(Path.Combine(Application.dataPath,"Editor","ArknightsArtProbe.cs")));
+        Save();
+    }
+
+    private static void OnLog(string text, string stack, LogType type)
+    {
+        if (type == LogType.Log) return;
+        logCount++;
+        if (Logs.Count < 240) Logs.Add(new JObject { ["scope"] = scope, ["type"] = type.ToString(), ["message"] = text });
+    }
+
+    private static void Save()
+    {
+        report["logCount"] = logCount;
+        File.WriteAllText(Path.Combine(output, "report.json"), report.ToString(Formatting.Indented));
+    }
+
+    private static void RawControl()
+    {
+        scope = "raw-compression-control";
+        var manifest = JObject.Parse(File.ReadAllText(Path.Combine(root, "offline-bundles-manifest.json")));
+        var path = (string)manifest["sourceRoot"] + "/arts/maps/map_lm_center/background_mesh/bg_lmc.ab";
+        var sample = new JObject { ["kind"] = "raw-assetbundle", ["source"] = path };
+        var bundle = AssetBundle.LoadFromFile(path);
+        sample["loaded"] = bundle != null;
+        if (bundle != null) bundle.Unload(true);
+        Samples.Add(sample);
+    }
+
+    private static void LoadBundles()
+    {
+        var manifest = JObject.Parse(File.ReadAllText(Path.Combine(root, "offline-bundles-manifest.json")));
+        var paths = ((JArray)manifest["records"]).Select(r => new KeyValuePair<string, string>((string)r["relative"], (string)r["output"])).ToList();
+        var supplement = Path.Combine(root, "extra-load-paths.json");
+        if (File.Exists(supplement))
+            foreach (var p in JArray.Parse(File.ReadAllText(supplement))) paths.Add(new KeyValuePair<string,string>((string)p["relative"], (string)p["path"]));
+        var rows = new JArray();
+        foreach (var pair in paths.GroupBy(p => p.Key).Select(g => g.First()))
+        {
+            scope = "bundle:" + pair.Key;
+            var bundle = AssetBundle.LoadFromFile(pair.Value);
+            rows.Add(new JObject { ["relative"] = pair.Key, ["path"] = pair.Value, ["loaded"] = bundle != null,
+                ["scenes"] = bundle == null ? new JArray() : new JArray(bundle.GetAllScenePaths()) });
+            if (bundle == null) continue;
+            Bundles[pair.Key] = bundle;
+            OwnedBundles.Add(bundle);
+        }
+        report["bundleLoads"] = rows;
+        Save();
+    }
+
+    private static AssetBundle Bundle(string name) => Bundles.TryGetValue(name, out var value) ? value : null;
+
+    private static void TrySample(string kind, string id, Action<JObject> run)
+    {
+        scope = kind + ":" + id;
+        var sample = new JObject { ["kind"] = kind, ["id"] = id };
+        Samples.Add(sample);
+        try { run(sample); }
+        catch (Exception e) { sample["exception"] = e.ToString(); }
+        Save();
+    }
+
+    private static void Category(string name, Action action)
+    {
+        try { action(); }
+        catch(Exception e) { Samples.Add(new JObject{["kind"]="category-error",["id"]=name,["exception"]=e.ToString()});Save(); }
+    }
+
+    private static void TextureSamples()
+    {
+        var bundle = Bundle("arts/maps/map_lm_center/res.ab");
+        var textures = bundle.LoadAllAssets<Texture2D>().OrderBy(t=>t.name).ToArray();
+        report["mapTextures"] = new JArray(textures.Select(t=>new JObject { ["name"]=t.name,["width"]=t.width,["height"]=t.height,["format"]=t.format.ToString(),["mips"]=t.mipmapCount }));
+        var picked = textures.Where(t => t.name == "TX_LMC_BG" || t.name == "TX_LMC_D" || t.name.ToLowerInvariant().Contains("normal")).Take(3).ToList();
+        foreach (var t in textures) if (picked.Count < 4 && !picked.Contains(t)) picked.Add(t);
+        foreach (var texture in picked)
+            TrySample("texture", texture.name, s => {
+                s["loaded"] = true; s["width"]=texture.width; s["height"]=texture.height; s["format"]=texture.format.ToString(); s["readable"]=texture.isReadable;
+                s["capture"] = Blit(texture, Safe(texture.name)+".png");
+            });
+        var lighting = Bundle("scenes/obt/main/level_main_05-10/level_main_05-10/lightingdata.ab");
+        foreach (var texture in lighting.LoadAllAssets<Texture2D>())
+            TrySample("lightmap-texture", texture.name, s => { s["loaded"]=true; s["capture"]=Blit(texture,Safe(texture.name)+".png"); });
+        report["lightingAssets"] = new JArray(lighting.LoadAllAssets().Where(o=>o!=null).Select(o=>new JObject{["name"]=o.name,["type"]=o.GetType().FullName}));
+    }
+
+    private static JObject Blit(Texture source, string file)
+    {
+        var rt = RenderTexture.GetTemporary(Math.Min(1024,source.width),Math.Min(1024,source.height),0,RenderTextureFormat.ARGB32);
+        try { Graphics.Blit(source,rt); return Capture(rt,file); }
+        finally { RenderTexture.ReleaseTemporary(rt); }
+    }
+
+    private static JObject Capture(RenderTexture rt, string file)
+    {
+        var before=RenderTexture.active;
+        var texture=new Texture2D(rt.width,rt.height,TextureFormat.RGBA32,false);
+        try
+        {
+            RenderTexture.active=rt;
+            texture.ReadPixels(new Rect(0,0,rt.width,rt.height),0,0); texture.Apply();
+            var pixels=texture.GetPixels32(); var corner=pixels[0];
+            var changed=pixels.Count(p=>Math.Abs(p.r-corner.r)+Math.Abs(p.g-corner.g)+Math.Abs(p.b-corner.b)>20);
+            var magenta=pixels.Count(p=>p.r>190&&p.b>190&&p.g<75);
+            var png=texture.EncodeToPNG(); File.WriteAllBytes(Path.Combine(output,file),png);
+            return new JObject{["path"]=file,["sha256"]=Hash(png),["width"]=rt.width,["height"]=rt.height,["differentFromCornerPixels"]=changed,["magentaPixels"]=magenta,["pixels"]=pixels.Length};
+        }
+        finally { RenderTexture.active=before; Object.DestroyImmediate(texture); }
+    }
+
+    private static JObject MaterialInfo(Material material)
+    {
+        if(material==null) return new JObject{["missing"]=true};
+        var textures=new JArray();
+        foreach(var name in material.GetTexturePropertyNames()) {
+            var t=material.GetTexture(name);
+            textures.Add(new JObject{["slot"]=name,["texture"]=t==null?null:t.name,["type"]=t==null?null:t.GetType().Name});
+        }
+        return new JObject{["name"]=material.name,["shader"]=material.shader==null?null:material.shader.name,
+            ["supported"]=material.shader!=null&&material.shader.isSupported,["passCount"]=material.passCount,
+            ["keywords"]=new JArray(material.shaderKeywords),["textures"]=textures};
+    }
+
+    private static void MaterialSamples()
+    {
+        var materials=Bundle("arts/maps/map_lm_center/res.ab").LoadAllAssets<Material>();
+        report["mapMaterials"]=new JArray(materials.Select(MaterialInfo));
+        var picks=materials.Where(m=>new[]{"MT_LMC_D","MT_LMC_common","LMC_Light","MT_LMC_Rain_BG"}.Contains(m.name)).Take(4).ToList();
+        foreach(var m in materials.OrderBy(m=>m.name)) if(picks.Count<4&&!picks.Contains(m)) picks.Add(m);
+        foreach(var material in picks) TrySample("material-original",material.name,s=>{
+            s["loaded"]=true; s["material"]=MaterialInfo(material);
+            using(var view=new View()) {
+                var go=GameObject.CreatePrimitive(PrimitiveType.Sphere);view.Add(go);go.GetComponent<Renderer>().sharedMaterial=material;
+                s["capture"]=view.Render(Safe(material.name)+"-original.png",new Bounds(Vector3.zero,Vector3.one*2));
+            }
+        });
+    }
+
+    private static void ModelSamples()
+    {
+        const string key="arts/maps/map_lm_center/background_mesh/bg_lmc.ab";
+        var bundle=Bundle(key); var path=bundle.GetAllAssetNames().First();
+        var prefab=bundle.LoadAsset<GameObject>(path);
+        TrySample("model-prefab-original",path,s=>{
+            s["loaded"]=prefab!=null;
+            using(var view=new View()) {
+                var go=Object.Instantiate(prefab);view.Add(go);s["hierarchy"]=Hierarchy(go);
+                s["capture"]=view.Render("background-original.png",BoundsOf(go));
+            }
+        });
+        var mesh=bundle.LoadAssetWithSubAssets<Mesh>(path).FirstOrDefault();
+        TrySample("mesh-diagnostic",path,s=>{
+            s["loaded"]=mesh!=null;if(mesh==null)return;
+            s["vertices"]=mesh.vertexCount;s["subMeshes"]=mesh.subMeshCount;s["bounds"]=mesh.bounds.ToString();
+            using(var view=new View()) {
+                var go=new GameObject("Mesh diagnostic");view.Add(go);go.AddComponent<MeshFilter>().sharedMesh=mesh;
+                var material=new Material(Shader.Find("Unlit/Color")){color=new Color(.55f,.75f,.85f)};
+                try { go.AddComponent<MeshRenderer>().sharedMaterials=Enumerable.Repeat(material,mesh.subMeshCount).ToArray();s["capture"]=view.Render("background-geometry.png",mesh.bounds); }
+                finally { Object.DestroyImmediate(material); }
+            }
+        });
+    }
+
+    private static void BindingSamples()
+    {
+        var materials=Bundle("arts/maps/map_lm_center/res.ab").LoadAllAssets<Material>();
+        var shaders=new Dictionary<int,string>();
+        foreach(var pair in Bundles.Where(p=>p.Key.Contains("shaders")||p.Key.Contains("dfba18")))
+            foreach(var shader in pair.Value.LoadAllAssets<Shader>())shaders[shader.GetInstanceID()]=pair.Key;
+        foreach(var material in materials.Where(m=>m.name=="MT_LMZ_D"||m.name=="MT_LMZ_Deng2"))TrySample("material-original",material.name,s=>{
+            s["loaded"]=true;s["material"]=MaterialInfo(material);string owner;
+            s["shaderSourceBundle"]=material.shader!=null&&shaders.TryGetValue(material.shader.GetInstanceID(),out owner)?owner:"not-resolved";
+            using(var view=new View()){var go=GameObject.CreatePrimitive(PrimitiveType.Sphere);view.Add(go);go.GetComponent<Renderer>().sharedMaterial=material;s["capture"]=view.Render(Safe(material.name)+"-original.png",new Bounds(Vector3.zero,Vector3.one*2));}
+        });
+        TrySample("model-material-binding","bg_lmc + MT_LMC_N_BG",s=>{
+            var bundle=Bundle("arts/maps/map_lm_center/background_mesh/bg_lmc.ab");var prefab=bundle.LoadAsset<GameObject>(bundle.GetAllAssetNames().First());
+            var material=materials.First(m=>m.name=="MT_LMC_N_BG");s["loaded"]=prefab!=null;
+            s["operation"]="Explicit research binding; replaces FBX default material with original map material";
+            using(var view=new View()) {var go=Object.Instantiate(prefab);view.Add(go);foreach(var renderer in go.GetComponentsInChildren<Renderer>())renderer.sharedMaterials=Enumerable.Repeat(material,renderer.sharedMaterials.Length).ToArray();s["hierarchy"]=Hierarchy(go);s["capture"]=view.Render("background-bound.png",BoundsOf(go));}
+        });
+        var normal=Bundle("arts/maps/map_lm_center/res.ab").LoadAllAssets<Texture2D>().First(t=>t.name=="TX_LMC_N");
+        TrySample("normal-texture",normal.name,s=>{s["loaded"]=true;s["format"]=normal.format.ToString();s["capture"]=Blit(normal,"normal-map.png");});
+    }
+
+    private static void CubeSamples()
+    {
+        var bundle=Bundle("scenes/obt/main/level_main_05-10/level_main_05-10/lightingdata.ab");
+        foreach(var cube in bundle.LoadAllAssets<Cubemap>()) TrySample("cubemap-skybox",cube.name,s=>{
+            s["loaded"]=true;s["size"]=cube.width;s["format"]=cube.format.ToString();
+            var shader=Shader.Find("Skybox/Cubemap");s["displayShader"]=shader==null?null:shader.name;
+            var material=new Material(shader);material.SetTexture("_Tex",cube);
+            try { using(var view=new View()) {
+                var sky=view.camera.gameObject.AddComponent<Skybox>();sky.material=material;view.camera.clearFlags=CameraClearFlags.Skybox;
+                var captures=new JArray();
+                foreach(var rotation in new[]{new Vector3(0,0,0),new Vector3(0,90,0),new Vector3(0,180,0),new Vector3(0,270,0),new Vector3(-90,0,0),new Vector3(90,0,0)}) {
+                    view.camera.transform.SetPositionAndRotation(Vector3.zero,Quaternion.Euler(rotation));
+                    captures.Add(view.RenderCamera("cubemap-"+captures.Count+".png"));
+                }
+                s["captures"]=captures;
+            }}finally{Object.DestroyImmediate(material);}
+        });
+        foreach(var pair in Bundles.Where(p=>p.Key.IndexOf("sky",StringComparison.OrdinalIgnoreCase)>=0).ToArray()) {
+            foreach(var mat in pair.Value.LoadAllAssets<Material>().Take(2)) TrySample("skybox-material-original",mat.name,s=>{
+                s["loaded"]=true;s["material"]=MaterialInfo(mat);
+                using(var view=new View()) {view.camera.gameObject.AddComponent<Skybox>().material=mat;view.camera.clearFlags=CameraClearFlags.Skybox;s["capture"]=view.RenderCamera(Safe(mat.name)+"-sky.png");}
+            });
+        }
+    }
+
+    private static void ParticleSamples()
+    {
+        var bundle=Bundle("battle/prefabs/effects/absin.ab");
+        var paths=new[]{"dyn/battle/prefabs/effects/absin_skill_02_start.prefab","dyn/battle/prefabs/effects/absin_skill_02_hit.prefab"};
+        foreach(var path in paths) TrySample("particle-prefab-original",path,s=>{
+            var prefab=bundle.LoadAsset<GameObject>(path);s["loaded"]=prefab!=null;if(prefab==null)return;
+            using(var view=new View()) {
+                var go=Object.Instantiate(prefab);view.Add(go);go.SetActive(true);s["hierarchy"]=Hierarchy(go);
+                var systems=go.GetComponentsInChildren<ParticleSystem>(true);s["systems"]=systems.Length;
+                foreach(var system in systems){system.Stop(false,ParticleSystemStopBehavior.StopEmittingAndClear);system.useAutoRandomSeed=false;system.randomSeed=42;}
+                var frames=new JArray();
+                var fixedBounds=new Bounds(go.transform.position+Vector3.up*.7f,Vector3.one*3);
+                s["fixedCameraBounds"]=fixedBounds.ToString();
+                foreach(var time in new[]{.05f,.1f,.2f,.5f,1.0f}) {
+                    foreach(var system in systems)system.Simulate(time,false,true,true);
+                    frames.Add(new JObject{["time"]=time,["particles"]=systems.Sum(p=>p.particleCount),["capture"]=view.Render(Safe(Path.GetFileNameWithoutExtension(path))+"-"+time.ToString("0.00",System.Globalization.CultureInfo.InvariantCulture)+".png",fixedBounds)});
+                }
+                s["frames"]=frames;
+            }
+        });
+        if(Arg("-probeMode")=="particles")return;
+        var animated=bundle.GetAllAssetNames().Where(p=>p.EndsWith(".prefab")).Select(p=>new{path=p,go=bundle.LoadAsset<GameObject>(p)})
+            .FirstOrDefault(p=>p.go!=null&&p.go.GetComponentInChildren<Animator>(true)!=null);
+        if(animated!=null)TrySample("animation",animated.path,s=>{
+            using(var view=new View()) {
+                var go=Object.Instantiate(animated.go);view.Add(go);var animator=go.GetComponentInChildren<Animator>(true);
+                var controller=animator.runtimeAnimatorController;s["loaded"]=controller!=null;s["hierarchy"]=Hierarchy(go);
+                if(controller==null){s["skipReason"]="No controller";return;}var clip=controller.animationClips.FirstOrDefault();if(clip==null){s["skipReason"]="No clip";return;}
+                var bindings=AnimationUtility.GetCurveBindings(clip);
+                s["clip"]=clip.name;s["length"]=clip.length;s["bindings"]=new JArray(bindings.Select(b=>new JObject{["path"]=b.path,["type"]=b.type.FullName,["property"]=b.propertyName}));var frames=new JArray();
+                var fixedBounds=new Bounds(go.transform.position+Vector3.up*.7f,Vector3.one*3);
+                s["fixedCameraBounds"]=fixedBounds.ToString();
+                s["operation"]="AnimationClip.SampleAnimation; explicit ParticleSystem.Simulate; not Animator state machine";
+                foreach(var system in go.GetComponentsInChildren<ParticleSystem>(true)){system.Stop(false,ParticleSystemStopBehavior.StopEmittingAndClear);system.useAutoRandomSeed=false;system.randomSeed=42;}
+                foreach(var time in new[]{0f,clip.length*.5f,clip.length*.95f}) {
+                    clip.SampleAnimation(animator.gameObject,time);
+                    var observed=new JArray();
+                    foreach(var b in bindings){float value;var read=AnimationUtility.GetFloatValue(animator.gameObject,b,out value);observed.Add(new JObject{["path"]=b.path,["property"]=b.propertyName,["read"]=read,["value"]=read?(JToken)value:JValue.CreateNull()});}
+                    foreach(var system in go.GetComponentsInChildren<ParticleSystem>(true))system.Simulate(time,false,true,true);
+                    frames.Add(new JObject{["time"]=time,["pose"]=Pose(go),["properties"]=observed,["capture"]=view.Render("animation-"+frames.Count+".png",fixedBounds)});
+                }
+                s["frames"]=frames;
+            }
+        });
+        else Samples.Add(new JObject{["kind"]="animation",["skipReason"]="No Animator in selected bundle"});
+    }
+
+    private static JObject RendererProperties(Renderer renderer)
+    {
+        var block=new MaterialPropertyBlock();renderer.GetPropertyBlock(block);
+        var indexed=new MaterialPropertyBlock();renderer.GetPropertyBlock(indexed,0);
+        var mat=renderer.sharedMaterial;
+        return new JObject{["blockEmpty"]=block.isEmpty,["blockUV"]=block.GetVector("_MainTex_ST").ToString("R"),["blockAmount"]=block.GetFloat("_Amount"),
+            ["indexedEmpty"]=indexed.isEmpty,["indexedUV"]=indexed.GetVector("_MainTex_ST").ToString("R"),["indexedAmount"]=indexed.GetFloat("_Amount"),
+            ["materialUV"]=mat.GetVector("_MainTex_ST").ToString("R"),["materialAmount"]=mat.GetFloat("_Amount")};
+    }
+
+    private static void MaterialAnimationSamples()
+    {
+        var bundle=Bundle("battle/prefabs/effects/absin.ab");
+        foreach(var id in new[]{"absin_skill_01_start","absin_skill_02_start"})
+        foreach(var method in new[]{"SampleAnimation","AnimatorUpdate"})TrySample("material-animation",id+":"+method,s=>{
+            var prefab=bundle.LoadAsset<GameObject>("dyn/battle/prefabs/effects/"+id+".prefab");s["loaded"]=prefab!=null;
+            using(var view=new View()) {
+                var go=Object.Instantiate(prefab);view.Add(go);go.SetActive(true);
+                var animator=go.GetComponentInChildren<Animator>(true);var clip=animator.runtimeAnimatorController.animationClips.First();
+                var target=go.GetComponentsInChildren<MeshRenderer>(true).First(r=>r.name=="wenli");
+                foreach(var renderer in go.GetComponentsInChildren<Renderer>(true))renderer.enabled=renderer==target;
+                foreach(var ps in go.GetComponentsInChildren<ParticleSystem>(true))ps.Stop(false,ParticleSystemStopBehavior.StopEmittingAndClear);
+                s["clip"]=clip.name;s["length"]=clip.length;s["target"]=target.name;s["material"]=MaterialInfo(target.sharedMaterial);s["operation"]=method+"; render only animated wenli mesh, no particle simulation";
+                var fixedBounds=target.bounds;var frames=new JArray();var previous=0f;
+                animator.cullingMode=AnimatorCullingMode.AlwaysAnimate;
+                if(method=="AnimatorUpdate"){animator.Rebind();animator.Update(0);}
+                foreach(var time in new[]{0f,clip.length*.25f,clip.length*.5f,clip.length*.9f}){
+                    if(method=="SampleAnimation")clip.SampleAnimation(animator.gameObject,time);else animator.Update(time-previous);
+                    previous=time;frames.Add(new JObject{["time"]=time,["properties"]=RendererProperties(target),["capture"]=view.Render(id+"-"+method+"-"+frames.Count+".png",fixedBounds)});
+                }
+                s["frames"]=frames;
+            }
+        });
+    }
+
+    private static void SpriteTrailSamples()
+    {
+        var sprites=new List<Sprite>();
+        foreach(var pair in Bundles.Where(p=>p.Key.Contains("battlecommon")||p.Key.Contains("fxcommon")||p.Key.Contains("dfba18")))
+            sprites.AddRange(pair.Value.LoadAllAssets<Sprite>());
+        report["spriteCandidates"]=new JArray(sprites.Select(s=>new JObject{["name"]=s.name,["texture"]=s.texture==null?null:s.texture.name,["rect"]=s.rect.ToString()}));
+        foreach(var sprite in sprites.Where(s=>s.texture!=null).Take(3))TrySample("sprite",sprite.name,s=>{
+            s["loaded"]=true;s["texture"]=sprite.texture.name;s["rect"]=sprite.rect.ToString();s["displayShader"]="Unity default SpriteRenderer";
+            using(var view=new View()) {var go=new GameObject("Sprite sample");view.Add(go);var renderer=go.AddComponent<SpriteRenderer>();renderer.sprite=sprite;
+                view.camera.orthographic=true;view.camera.orthographicSize=Mathf.Max(renderer.bounds.extents.y,renderer.bounds.extents.x/1.3333f)*1.2f;
+                view.camera.transform.position=renderer.bounds.center-Vector3.forward*10;view.camera.transform.rotation=Quaternion.identity;s["capture"]=view.RenderCamera("sprite-"+Safe(sprite.name)+".png");}
+        });
+        var bundle=Bundle("battle/prefabs/effects/absin.ab");
+        var candidate=bundle.GetAllAssetNames().Where(p=>p.EndsWith(".prefab")).Select(p=>new{path=p,go=bundle.LoadAsset<GameObject>(p)}).FirstOrDefault(p=>p.go!=null&&p.go.GetComponentInChildren<TrailRenderer>(true)!=null);
+        if(candidate==null){Samples.Add(new JObject{["kind"]="trail",["skipReason"]="No TrailRenderer in selected bundle"});return;}
+        TrySample("trail",candidate.path,s=>{
+            using(var view=new View()){
+                var go=Object.Instantiate(candidate.go);view.Add(go);go.SetActive(true);var trail=go.GetComponentInChildren<TrailRenderer>(true);
+                foreach(var renderer in go.GetComponentsInChildren<Renderer>(true))renderer.enabled=renderer==trail;
+                foreach(var ps in go.GetComponentsInChildren<ParticleSystem>(true))ps.Stop(false,ParticleSystemStopBehavior.StopEmittingAndClear);
+                trail.gameObject.SetActive(true);trail.enabled=true;trail.Clear();trail.time=100;trail.emitting=false;
+                var points=Enumerable.Range(0,24).Select(i=>new Vector3(i/12f-1,Mathf.Sin(i/23f*Mathf.PI),0)).ToArray();trail.AddPositions(points);
+                s["loaded"]=true;s["material"]=MaterialInfo(trail.sharedMaterial);s["positions"]=trail.positionCount;s["width"]=trail.widthMultiplier;
+                s["operation"]="Native TrailRenderer with research-supplied points and lifetime=100; original material/width/gradient";
+                s["capture"]=view.Render("trail-original-material.png",new Bounds(new Vector3(0,.5f,0),new Vector3(3,2,1)));
+            }
+        });
+    }
+
+    private static void TrailDiagnostic()
+    {
+        var bundle=Bundle("battle/prefabs/effects/absin.ab");
+        TrySample("trail-diagnostic","absin_attack_01_trail",s=>{
+            var prefab=bundle.LoadAsset<GameObject>("dyn/battle/prefabs/effects/absin_attack_01_trail.prefab");
+            using(var view=new View()){
+                var go=Object.Instantiate(prefab);view.Add(go);var trail=go.GetComponentInChildren<TrailRenderer>(true);
+                s["originalActiveHierarchy"]=new JArray(go.GetComponentsInChildren<Transform>(true).Select(t=>new JObject{["name"]=t.name,["self"]=t.gameObject.activeSelf,["hierarchy"]=t.gameObject.activeInHierarchy}));
+                s["widthCurve"]=new JArray(trail.widthCurve.keys.Select(k=>new JObject{["time"]=k.time,["value"]=k.value}));
+                s["alphaKeys"]=new JArray(trail.colorGradient.alphaKeys.Select(k=>new JObject{["time"]=k.time,["alpha"]=k.alpha}));
+                s["colorKeys"]=new JArray(trail.colorGradient.colorKeys.Select(k=>new JObject{["time"]=k.time,["color"]=k.color.ToString()}));
+                s["originalTime"]=trail.time;s["originalWidth"]=trail.widthMultiplier;s["material"]=MaterialInfo(trail.sharedMaterial);
+                s["materialColors"]=new JArray(new[]{"_TintColor","_Color"}.Where(p=>trail.sharedMaterial.HasProperty(p)).Select(p=>new JObject{["key"]=p,["value"]=trail.sharedMaterial.GetColor(p).ToString()}));
+                for(var t=trail.transform;t!=null;t=t.parent)t.gameObject.SetActive(true);
+                foreach(var renderer in go.GetComponentsInChildren<Renderer>(true))renderer.enabled=renderer==trail;
+                foreach(var ps in go.GetComponentsInChildren<ParticleSystem>(true))ps.Stop(false,ParticleSystemStopBehavior.StopEmittingAndClear);
+                trail.time=100;trail.emitting=false;trail.Clear();trail.AddPositions(Enumerable.Range(0,24).Select(i=>new Vector3(i/12f-1,Mathf.Sin(i/23f*Mathf.PI),0)).ToArray());
+                var bounds=new Bounds(new Vector3(0,.5f,0),new Vector3(3,2,1));s["capture"]=view.Render("trail-active.png",bounds);
+                var mesh=new Mesh();trail.BakeMesh(mesh,view.camera,true);s["bakedVertices"]=mesh.vertexCount;s["bakedBounds"]=mesh.bounds.ToString();
+                try{
+                    var baked=new GameObject("Trail baked geometry");view.Add(baked);baked.AddComponent<MeshFilter>().sharedMesh=mesh;baked.AddComponent<MeshRenderer>().sharedMaterial=trail.sharedMaterial;trail.enabled=false;
+                    s["bakedCapture"]=view.Render("trail-baked-original-material.png",bounds);
+                    var diagnostic=new Material(Shader.Find("Unlit/Color")){color=Color.cyan};
+                    try{baked.GetComponent<MeshRenderer>().sharedMaterial=diagnostic;s["geometryCapture"]=view.Render("trail-baked-diagnostic.png",bounds);}
+                    finally{Object.DestroyImmediate(diagnostic);}
+                }finally{Object.DestroyImmediate(mesh);}
+            }
+        });
+    }
+
+    private static void TrailControl()
+    {
+        var prefab=Bundle("battle/prefabs/effects/absin.ab").LoadAsset<GameObject>("dyn/battle/prefabs/effects/absin_attack_01_trail.prefab");
+        foreach(var scenario in new[]{"original","original-width-reset","new-component"})TrySample("trail-control",scenario,s=>{
+            using(var view=new View()){
+                var go=Object.Instantiate(prefab);view.Add(go);var original=go.GetComponentInChildren<TrailRenderer>(true);
+                foreach(var renderer in go.GetComponentsInChildren<Renderer>(true))renderer.enabled=false;
+                foreach(var ps in go.GetComponentsInChildren<ParticleSystem>(true))ps.Stop(false,ParticleSystemStopBehavior.StopEmittingAndClear);
+                var trail=original;
+                if(scenario=="new-component"){var control=new GameObject("Native trail control");view.Add(control);trail=control.AddComponent<TrailRenderer>();trail.sharedMaterial=original.sharedMaterial;trail.colorGradient=original.colorGradient;}
+                if(scenario!="original"){trail.widthCurve=AnimationCurve.Linear(0,1,1,1);trail.widthMultiplier=.1f;trail.alignment=LineAlignment.View;}
+                trail.time=10;trail.emitting=false;trail.enabled=true;trail.Clear();trail.AddPositions(Enumerable.Range(0,24).Select(i=>new Vector3(i/12f-1,Mathf.Sin(i/23f*Mathf.PI),0)).ToArray());
+                var bounds=new Bounds(new Vector3(0,.5f,0),new Vector3(3,2,1));s["capture"]=view.Render("trail-control-"+scenario+".png",bounds);
+                var mesh=new Mesh();try{trail.BakeMesh(mesh,view.camera,true);s["vertices"]=mesh.vertexCount;s["firstVertices"]=new JArray(mesh.vertices.Take(8).Select(v=>v.ToString("R")));}
+                finally{Object.DestroyImmediate(mesh);}
+            }
+        });
+    }
+
+    private static void TransformSamples()
+    {
+        foreach(var key in new[]{"arts/maps/common/meshes/s_electric_tower_animation.ab","arts/effects/[pack]map.ab"}){
+            var bundle=Bundle(key);
+            foreach(var path in bundle.GetAllAssetNames().Where(p=>p.EndsWith(".fbx"))){
+                var clips=bundle.LoadAssetWithSubAssets<AnimationClip>(path);if(clips.Length==0)continue;
+                var prefab=bundle.LoadAsset<GameObject>(path);
+                foreach(var clip in clips.Take(4))TrySample("transform-animation",path+":"+clip.name,s=>{
+                    using(var view=new View()){
+                        var go=Object.Instantiate(prefab);view.Add(go);s["loaded"]=true;s["hierarchy"]=Hierarchy(go);s["clip"]=clip.name;s["length"]=clip.length;s["legacy"]=clip.legacy;
+                        var animator=go.GetComponentInChildren<Animator>(true);s["avatar"]=animator==null||animator.avatar==null?null:animator.avatar.name;
+                        s["operation"]="AnimationClip.SampleAnimation on FBX root; original mesh/material";
+                        var frames=new JArray();var bounds=BoundsOf(go);bounds.Expand(Mathf.Max(1,bounds.size.magnitude*.25f));
+                        foreach(var time in new[]{0f,clip.length*.25f,clip.length*.5f,clip.length*.9f}){
+                            clip.SampleAnimation(go,time);frames.Add(new JObject{["time"]=time,["pose"]=Pose(go),["capture"]=view.Render(Safe(prefab.name)+"-"+Safe(clip.name)+"-"+frames.Count+".png",bounds)});
+                        }
+                        s["frames"]=frames;s["distinctPoses"]=frames.Select(f=>(string)f["pose"]).Distinct().Count();
+                    }
+                });
+            }
+        }
+    }
+
+    private static void TileSamples()
+    {
+        var bundle=Bundle("battle/prefabs/[uc]tiles.ab");if(bundle==null)return;
+        foreach(var path in bundle.GetAllAssetNames().Where(p=>p.EndsWith("tile_road.prefab")||p.EndsWith("tile_wall.prefab")).Take(2))TrySample("tile-prefab",path,s=>{
+            var prefab=bundle.LoadAsset<GameObject>(path);s["loaded"]=prefab!=null;
+            using(var view=new View()){var go=Object.Instantiate(prefab);view.Add(go);s["hierarchy"]=Hierarchy(go);s["capture"]=view.Render(Safe(Path.GetFileNameWithoutExtension(path))+".png",BoundsOf(go));}
+        });
+    }
+
+    private static JObject Hierarchy(GameObject rootObject)
+    {
+        var transforms=rootObject.GetComponentsInChildren<Transform>(true);
+        var renderers=rootObject.GetComponentsInChildren<Renderer>(true);
+        return new JObject{["transforms"]=transforms.Length,["renderers"]=renderers.Length,
+            ["missingScripts"]=transforms.Sum(t=>GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(t.gameObject)),
+            ["materials"]=new JArray(renderers.SelectMany(r=>r.sharedMaterials).Distinct().Select(MaterialInfo)),
+            ["meshFilters"]=new JArray(rootObject.GetComponentsInChildren<MeshFilter>(true).Select(m=>new JObject{["name"]=m.name,["mesh"]=m.sharedMesh==null?null:m.sharedMesh.name,["vertices"]=m.sharedMesh==null?0:m.sharedMesh.vertexCount}))};
+    }
+
+    private static string Pose(GameObject go) => Hash(System.Text.Encoding.UTF8.GetBytes(string.Join(";",go.GetComponentsInChildren<Transform>(true).Select(t=>t.name+":"+t.localPosition.ToString("R")+":"+t.localRotation.ToString("R")+":"+t.localScale.ToString("R")))));
+    private static Bounds BoundsOf(GameObject go)
+    {
+        var renderers=go.GetComponentsInChildren<Renderer>().Where(r=>r.enabled).ToArray();
+        if(renderers.Length==0)return new Bounds(go.transform.position,Vector3.one*2);
+        var bounds=renderers[0].bounds;foreach(var r in renderers.Skip(1))bounds.Encapsulate(r.bounds);
+        if(bounds.size.magnitude<.01f)bounds=new Bounds(go.transform.position,Vector3.one*2);
+        return bounds;
+    }
+
+    private sealed class View:IDisposable
+    {
+        private readonly Scene scene=EditorSceneManager.NewPreviewScene();
+        public readonly Camera camera;
+        public View()
+        {
+            var cameraObject=new GameObject("Art Probe Camera");Add(cameraObject);camera=cameraObject.AddComponent<Camera>();
+            camera.enabled=false;camera.scene=scene;camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=new Color(.07f,.09f,.12f,1);camera.fieldOfView=35;
+            camera.nearClipPlane=.01f;camera.farClipPlane=10000;camera.allowHDR=false;camera.allowMSAA=false;
+            var light=new GameObject("Art Probe Light");Add(light);var component=light.AddComponent<Light>();component.type=LightType.Directional;component.intensity=1.5f;light.transform.rotation=Quaternion.Euler(35,30,0);
+        }
+        public void Add(GameObject go){SceneManager.MoveGameObjectToScene(go,scene);}
+        public JObject Render(string file,Bounds bounds)
+        {
+            var extent=Mathf.Max(bounds.extents.magnitude,.1f);var direction=new Vector3(.9f,.65f,-1).normalized;
+            camera.transform.position=bounds.center+direction*extent*3.7f;camera.transform.LookAt(bounds.center);
+            camera.farClipPlane=Mathf.Max(1000,extent*20);return RenderCamera(file);
+        }
+        public JObject RenderCamera(string file)
+        {
+            var rt=RenderTexture.GetTemporary(640,480,24,RenderTextureFormat.ARGB32);
+            try {camera.targetTexture=rt;camera.aspect=640f/480;camera.Render();return Capture(rt,file);}
+            finally{camera.targetTexture=null;RenderTexture.ReleaseTemporary(rt);}
+        }
+        public void Dispose(){EditorSceneManager.ClosePreviewScene(scene);}
+    }
+
+    private static void ResumeScene()
+    {
+        if(!EditorApplication.isPlaying)return;
+        if(SessionState.GetString("ArtProbe.Mode","")=="trail-live"){ResumeTrail();return;}
+        try
+        {
+            if(!sceneStarted)
+            {
+                sceneStarted=true;root=SessionState.GetString("ArtProbe.Root","");output=SessionState.GetString("ArtProbe.Output","");
+                Init("editor-playmode-scene");LoadBundles();
+                scenePath=Bundle("scenes/obt/main/level_main_05-10/level_main_05-10.ab").GetAllScenePaths().First();
+                var sceneName=Path.GetFileNameWithoutExtension(scenePath);
+                report["sceneLoadArgument"]=sceneName;
+                scope="scene-load";sceneOperation=SceneManager.LoadSceneAsync(sceneName,LoadSceneMode.Additive);
+                if(sceneOperation==null)throw new InvalidOperationException("SceneManager rejected scene name: "+sceneName);
+                deadline=EditorApplication.timeSinceStartup+90;return;
+            }
+            if(EditorApplication.timeSinceStartup>deadline)throw new TimeoutException("Scene operation");
+            if(!sceneOperation.isDone)return;
+            if(closingScene){report["sceneUnloaded"]=!loadedScene.isLoaded;report["completed"]=true;Finish();return;}
+            if(++sceneTicks<12)return;
+            loadedScene=SceneManager.GetSceneByPath(scenePath);
+            if(!loadedScene.IsValid())loadedScene=SceneManager.GetSceneByName(Path.GetFileNameWithoutExtension(scenePath));
+            if(!loadedScene.IsValid()||!loadedScene.isLoaded)throw new InvalidOperationException("Scene unavailable");
+            SceneManager.SetActiveScene(loadedScene);
+            scope="scene-render";
+            var roots=loadedScene.GetRootGameObjects();var renderers=roots.SelectMany(g=>g.GetComponentsInChildren<Renderer>(true)).ToArray();
+            var sample=new JObject{["kind"]="scene",["path"]=scenePath,["loaded"]=true,["roots"]=roots.Length,["renderers"]=renderers.Length,
+                ["missingScripts"]=roots.Sum(g=>g.GetComponentsInChildren<Transform>(true).Sum(t=>GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(t.gameObject))),
+                ["lightmaps"]=LightmapSettings.lightmaps.Length,["lightProbes"]=LightmapSettings.lightProbes==null?0:LightmapSettings.lightProbes.count,
+                ["rendererLightmaps"]=new JArray(renderers.Select(r=>new JObject{["name"]=r.name,["index"]=r.lightmapIndex,["scaleOffset"]=r.lightmapScaleOffset.ToString()})),
+                ["materials"]=new JArray(renderers.SelectMany(r=>r.sharedMaterials).Distinct().Select(MaterialInfo))};
+            Samples.Add(sample);
+            sample["runtimeComponents"]=new JArray(roots.SelectMany(g=>g.GetComponentsInChildren<Component>(true)).Where(c=>c!=null).GroupBy(c=>c.GetType().FullName).Select(g=>new JObject{["type"]=g.Key,["count"]=g.Count()}));
+            sample["runtimeNullComponentSlots"]=roots.Sum(g=>g.GetComponentsInChildren<Component>(true).Count(c=>c==null));
+            sample["runtimeScenePath"]=loadedScene.path;
+            sample["lightmapTextures"]=new JArray(LightmapSettings.lightmaps.Select(l=>new JObject{["color"]=l.lightmapColor==null?null:l.lightmapColor.name,["directional"]=l.lightmapDir==null?null:l.lightmapDir.name,["shadowMask"]=l.shadowMask==null?null:l.shadowMask.name}));
+            sample["validLightmapRendererCount"]=renderers.Count(r=>r.lightmapIndex>=0&&r.lightmapIndex<LightmapSettings.lightmaps.Length&&LightmapSettings.lightmaps[r.lightmapIndex].lightmapColor!=null);
+            sample["probeAssets"]=new JArray(Bundle("scenes/obt/main/level_main_05-10/level_main_05-10/lightingdata.ab").LoadAllAssets<LightProbes>().Select(p=>new JObject{["name"]=p.name,["count"]=p.count,["positions"]=p.positions.Length}));
+            var allCameras=roots.SelectMany(g=>g.GetComponentsInChildren<Camera>(true)).ToArray();foreach(var c in allCameras)c.enabled=false;
+            var cameraObject=new GameObject("Art Probe Scene Camera");SceneManager.MoveGameObjectToScene(cameraObject,loadedScene);
+            var camera=cameraObject.AddComponent<Camera>();camera.enabled=false;camera.scene=loadedScene;camera.nearClipPlane=.05f;camera.farClipPlane=10000;
+            camera.backgroundColor=new Color(.07f,.09f,.12f);camera.clearFlags=CameraClearFlags.SolidColor;
+            var framing=renderers.Where(r=>r is MeshRenderer&&r.enabled&&r.gameObject.activeInHierarchy&&r.bounds.size.magnitude<2000).ToArray();
+            var foreground=framing.Where(r=>r.name.IndexOf("bg",StringComparison.OrdinalIgnoreCase)<0&&r.name.IndexOf("background",StringComparison.OrdinalIgnoreCase)<0).ToArray();
+            var bounds=foreground.First().bounds;foreach(var r in foreground.Skip(1))bounds.Encapsulate(r.bounds);
+            sample["cameraBounds"]=bounds.ToString();sample["framedRenderers"]=framing.Length;
+            camera.fieldOfView=40;camera.transform.position=bounds.center+new Vector3(0,-.65f,-1).normalized*Mathf.Max(5,bounds.extents.magnitude*2.6f);camera.transform.LookAt(bounds.center);
+            var rt=RenderTexture.GetTemporary(1280,720,24,RenderTextureFormat.ARGB32);
+            try
+            {
+                camera.targetTexture=rt;camera.aspect=1280f/720;camera.Render();sample["capture"]=Capture(rt,"scene-original.png");
+                var baked=LightmapSettings.lightmaps;
+                try{LightmapSettings.lightmaps=new LightmapData[0];camera.Render();sample["withoutLightmaps"]=Capture(rt,"scene-without-lightmaps.png");}
+                finally{LightmapSettings.lightmaps=baked;}
+                camera.Render();sample["restoredLightmaps"]=Capture(rt,"scene-restored-lightmaps.png");
+            }
+            finally{camera.targetTexture=null;RenderTexture.ReleaseTemporary(rt);Object.Destroy(cameraObject);}
+            Save();scope="scene-unload";sceneOperation=SceneManager.UnloadSceneAsync(loadedScene);closingScene=true;deadline=EditorApplication.timeSinceStartup+30;
+        }
+        catch(Exception e)
+        {
+            if(report==null){EditorApplication.Exit(1);return;}
+            report["fatal"]=e.ToString();
+            if(!closingScene)
+            {
+                var candidate=string.IsNullOrEmpty(scenePath)?default(Scene):SceneManager.GetSceneByPath(scenePath);
+                if(!candidate.IsValid()&&!string.IsNullOrEmpty(scenePath))candidate=SceneManager.GetSceneByName(Path.GetFileNameWithoutExtension(scenePath));
+                if(candidate.IsValid()&&candidate.isLoaded)
+                {
+                    loadedScene=candidate;sceneOperation=SceneManager.UnloadSceneAsync(candidate);closingScene=true;
+                    deadline=EditorApplication.timeSinceStartup+30;Save();return;
+                }
+            }
+            report["sceneCleanupIncomplete"]=loadedScene.IsValid()&&loadedScene.isLoaded;
+            Finish();
+        }
+    }
+
+    private static void ResumeTrail()
+    {
+        try{
+            if(!sceneStarted){
+                sceneStarted=true;root=SessionState.GetString("ArtProbe.Root","");output=SessionState.GetString("ArtProbe.Output","");
+                Init("playmode-trail");LoadBundles();loadedScene=SceneManager.CreateScene("ArtProbeTrail");SceneManager.SetActiveScene(loadedScene);
+                var prefab=Bundle("battle/prefabs/effects/absin.ab").LoadAsset<GameObject>("dyn/battle/prefabs/effects/absin_attack_01_trail.prefab");
+                var go=Object.Instantiate(prefab);SceneManager.MoveGameObjectToScene(go,loadedScene);liveTrail=go.GetComponentInChildren<TrailRenderer>(true);
+                foreach(var renderer in go.GetComponentsInChildren<Renderer>(true))renderer.enabled=renderer==liveTrail;
+                foreach(var ps in go.GetComponentsInChildren<ParticleSystem>(true))ps.Stop(false,ParticleSystemStopBehavior.StopEmittingAndClear);
+                liveTrail.time=10;liveTrail.emitting=false;liveTrail.Clear();
+                var cameraObject=new GameObject("Trail camera");SceneManager.MoveGameObjectToScene(cameraObject,loadedScene);liveCamera=cameraObject.AddComponent<Camera>();
+                liveCamera.enabled=false;liveCamera.scene=loadedScene;liveCamera.clearFlags=CameraClearFlags.SolidColor;liveCamera.backgroundColor=new Color(.07f,.09f,.12f);liveCamera.fieldOfView=35;
+                liveCamera.transform.position=new Vector3(0,.5f,-6);liveCamera.transform.LookAt(new Vector3(0,.5f,0));
+                liveSample=new JObject{["kind"]="trail-live",["id"]=prefab.name,["loaded"]=true,["material"]=MaterialInfo(liveTrail.sharedMaterial),["operation"]="Original renderer/material/width/gradient; lifetime=10 and one research path point per Editor update in PlayMode"};Samples.Add(liveSample);
+                deadline=EditorApplication.timeSinceStartup+30;return;
+            }
+            if(EditorApplication.timeSinceStartup>deadline)throw new TimeoutException("Trail live sample");
+            if(closingScene){if(!sceneOperation.isDone)return;report["sceneUnloaded"]=!loadedScene.isLoaded;report["completed"]=true;Finish();return;}
+            if(sceneTicks<24){var i=sceneTicks++;liveTrail.AddPosition(new Vector3(i/12f-1,Mathf.Sin(i/23f*Mathf.PI),0));return;}
+            if(++sceneTicks<29)return;
+            var rt=RenderTexture.GetTemporary(640,480,24,RenderTextureFormat.ARGB32);
+            try{liveCamera.targetTexture=rt;liveCamera.aspect=640f/480;liveCamera.Render();liveSample["capture"]=Capture(rt,"trail-live.png");}
+            finally{liveCamera.targetTexture=null;RenderTexture.ReleaseTemporary(rt);}
+            var mesh=new Mesh();try{liveTrail.BakeMesh(mesh,liveCamera,true);liveSample["vertices"]=mesh.vertexCount;liveSample["triangles"]=mesh.triangles.Length/3;
+                liveSample["firstVertices"]=new JArray(mesh.vertices.Take(8).Select(v=>v.ToString("R")));liveSample["vertexColors"]=new JArray(mesh.colors.Take(8).Select(v=>v.ToString()));}
+            finally{Object.Destroy(mesh);}
+            Save();sceneOperation=SceneManager.UnloadSceneAsync(loadedScene);closingScene=true;deadline=EditorApplication.timeSinceStartup+30;
+        }catch(Exception e){if(report==null){EditorApplication.Exit(1);return;}report["fatal"]=e.ToString();if(!closingScene&&loadedScene.IsValid()&&loadedScene.isLoaded){sceneOperation=SceneManager.UnloadSceneAsync(loadedScene);closingScene=true;deadline=EditorApplication.timeSinceStartup+30;Save();return;}report["sceneCleanupIncomplete"]=loadedScene.IsValid()&&loadedScene.isLoaded;Finish();}
+    }
+
+    private static void Finish()
+    {
+        SessionState.SetBool(ResumeKey,false);EditorApplication.update-=ResumeScene;
+        var sceneStillLoaded=loadedScene.IsValid()&&loadedScene.isLoaded;
+        if(!sceneStillLoaded)foreach(var bundle in OwnedBundles.AsEnumerable().Reverse())if(bundle!=null)bundle.Unload(true);
+        OwnedBundles.Clear();Bundles.Clear();
+        report["loadedBundlesAfterCleanup"]=AssetBundle.GetAllLoadedAssetBundles().Count();
+        Save();Application.logMessageReceived-=OnLog;
+        EditorApplication.Exit(report["fatal"]==null?0:1);
+    }
+
+    private static string Hash(byte[] bytes){using(var sha=SHA256.Create())return BitConverter.ToString(sha.ComputeHash(bytes)).Replace("-","").ToLowerInvariant();}
+    private static string Safe(string name)=>string.Concat(name.Select(c=>char.IsLetterOrDigit(c)||c=='-'||c=='_'?c:'_'));
+}
