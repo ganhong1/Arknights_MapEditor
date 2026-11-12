@@ -1,0 +1,122 @@
+# LevelData.options 可用值调查
+
+日期：2026-11-06。仅离线研究，未修改插件校验或访问游戏实例。
+
+## 证据与范围
+
+- 类型：APW `source/ark-mix-source/DumpCS/2.7.81/dump-pc-x64-inspector-20261026.cs`，Options 第640109行、掩码第255068行、Blackboard第262001行。
+- 复用 `source/ark-mix-source/GameAssembly/2.7.81 GameAssembly/GameAssembly.dll.i64`，关闭时不保存，未复制数据库。
+- 数据库记录的输入 SHA256：`583b04ff4d1b1a4b35eaf09d77d936408c25447c9e345ef0463d814b6a123fc5`。与已有磁盘 DLL 归档完整哈希一致；构造器另经磁盘 PE 映射和反汇编交叉核对。目录版本标签不是当前运行/热更新版本认证。
+- 本地 ArknightsGameData 基线提交：`bb8f9ac8db143a661577ed6ef5184d3c6e93d1d0`；扫描3899份带options对象的文件，JSON解析失败0。样例取值不是合法值穷举。
+- 取证目录相对仓库（D盘主仓库位置）：`../../../storage/map-editor-unity/options-research-20261106/`。包含 corpus-values.json、native-initial.json、native-consumers.json、native-boundaries.json、native-module-options.json、disk-byte-check.json。原生导出保存方法地址、函数字节哈希与伪码；后续批次也保存字节。IDA个别伪码有局部变量分配警告，不将错误的泛型共享符号当真实业务类。
+- 下列原生结论限定于无热更新委托替换的固定二进制路径，不保证所有模式/符文输入都遵循同一个最终行为。
+
+## 构造器与值域
+
+`Options::.ctor @ 0x18241EA80`明确写入：characterLimit=99、maxLifePoint=15、initialCost=3、maxCost=99、costIncreaseTime=1、moveMultiplier=0.5、steeringEnabled=true、maxPlayTime=-1。其余常规字段没有显式赋值，普通托管新对象零初始化时为false/0/null。这不证明每种JSON反序列化路径都会调用构造器，不应打开文档就给缺失字段补值。
+
+| 字段 | 类型/构造初值 | 已证明的处理与可编辑边界 |
+|---|---|---|
+| characterLimit | Int32 / 99 | LoadOptions直接复制；LoadGameWithRune叠加Deck.initCharacterLimitUp后负结果归零。未见该路径统一业务上限；原版包括0、99。不要限制为1～12。 |
+| maxLifePoint | Int32 / 15 | 直接复制到运行生命上限并初始化生命。所查加载路径未见正数断言；原版1～300不能视为合法区间。0/负数的完整胜负行为仍待证实。 |
+| initialCost | Int32 / 3 | InitCostForSide把initialCost+initCostUp限制在运行minCost/maxCost之间；不是把原始JSON直接强制截断。 |
+| maxCost | Int32 / 99 | LoadOptions直接写入；SetMaxCost另受MAX_COST_CEIL约束。原版99/500/999均存在，不可写死99。负值/整数溢出组合未证明适合作为正常配置。 |
+| costIncreaseTime | Single / 1 | 初始化转FP，PeriodicTimer.Reset用Max(0,period)；UpdateCost先检查isValid，isValid调用MathUtil.GT(period,0)。0不是无限快回费；RoguelikeDeify初始化还主动设置回费周期0。极小正值的有效阈值须继续追GT/FP精度，不能简单只校验>0。 |
+| moveMultiplier | Single / 0.5 | LoadOptions直接复制，另传入ClientAntiCheatChecker.Init；没有在已查加载函数中发现白名单。样例均0.5，不能据此认定其他数值安全或非法。 |
+| steeringEnabled | Boolean / true | true或false；LoadOptions直接复制。false的全部行为未实测。 |
+| reachableCheckIgnoreStartTile | Boolean / false（零初始化） | true或false；LoadOptions直接复制。 |
+| isTrainingLevel | Boolean / false（零初始化） | true或false；LoadOptions直接复制，不代表完整教学流程。 |
+| isHardTrainingLevel | Boolean / false（零初始化） | true或false；不能当突袭开关。具体读取链尚未闭合。 |
+| isPredefinedCardsSelectable | Boolean / false（零初始化） | true或false；具体卡牌选择调用链尚未闭合。 |
+| displayRestTime | Boolean / false（零初始化） | true或false；显示控制与结束规则分开，具体读取链尚未闭合。 |
+| maxPlayTime | Single / -1 | 多个GameMode分别转FP存储，包括Act20Side/Act27Side/FootballCup/FunLive/HalfIdle/RoguelikeDeify/RoguelikeDuel/Sandbox；Act27SideUI另转Int32显示。不能把-1、0或任意正数的结果统一解释成默认模式的限时失败。 |
+| functionDisableMask | Enum(Int32) / 0 | 已知19个独立位，NONE=0、ALL=524287。UIController.OnGameInit传给_UpdateDisableMask。样例支持数字与枚举字符串；未知位保留并提示，不凭枚举表擅自丢弃。 |
+| configBlackBoard | Blackboard列表 / null | 条目key:string、value:Single、valueStr:string；原版null和列表并存。本地查到89个不同键，不是完整允许键表；消费者按模式分别解释。 |
+
+Int32表示范围为-2147483648～2147483647，只是存储边界，不是业务安全区间。Single还受后续FP转换与计算约束，不能把全部有限float都宣称有效。
+
+NonSerialized：enemyTauntLevelPow、deployCostPostDelta、deployCostPostDeltaMinCost不列入普通表单；最后一项构造器明确赋Int32.MinValue，前两项零初始化。导入已有扩展字段仍应原样保留。
+
+## 核心证据链
+
+- BattleOptions.LoadOptions：0x1805DA010。复制基础值，无统一ValidateOptions或数值枚举约束；该结论仅限定已读方法。
+- BattleController.LoadGameWithRune：0x180627330。模式/符文处理后的options与Deck修正参与初始化；部署数量负结果归零。
+- BattleCostManager.InitCostForSide：0x1806549B0。开局费用叠加后钳制；周期转FP再Reset。
+- PeriodicTimer.Reset：0x181E04750；get_isValid：0x181E04D40；后者尾调用MathUtil.GT(FP,FP) 0x1866E4C60。
+- BattleCostManager.UpdateCost：0x180656130。未锁定且当前费用小于上限时，先通过计时器isValid才Update/Next/增加费用。
+- DefaultGameMode.Init：0x180C19EB0。无热更新委托时原生函数无配置处理，不能借它推定统一时间规则。
+- UIController.OnGameInit：0x181278090。functionDisableMask传给_UpdateDisableMask。
+- ArkDexCaptureGameMode.Init：0x180BD2440。configBlackBoard.branch_interval经TryGetFloat，缺失时m_spawnInterval=0。
+- FootballCupGameMode.Init：0x180C21CA0。stadium_type经GetIntOrDefault，默认0；这还不是完整枚举合法值证明。
+- LegionGameMode.PostprocessLevelOptions：0x180C43770。非空configBlackBoard传给_ProcessLevelConfig。
+
+## 编辑器接入建议
+
+已实施的存储校验、原生数值提示与后续边界见 [Options 编辑设计](OPTIONS_EDITOR_DESIGN.md)。
+
+1. 保留未提供、null、显式值区别，不以构造器初值替换已有文档。
+2. 类型与整数溢出作为硬错误；样例范围只作参考，不作白名单。
+3. 部署数量0、费用上限500/999、回费周期0均不应被“常见值限制”拒绝。
+4. 对负费用上限、负生命、极端浮点、极小周期等显示机制风险，尚未证明的边界不冒充引擎硬限制。
+5. maxPlayTime显示原值并解释模式依赖；不做跨模式通用的“无限时间”转换开关。
+6. 黑板按key/value/valueStr编辑，已核实键提供上下文说明；允许保留其他键，不声称89键完备。
+
+## 深入核验更新：时间、生命、移动与逐键黑板
+
+### 纠正先前阈值结论
+
+前一版将自然回费阈值写为FP.EN4，是IDA导入类型布局错误造成的误判。本轮按dump字段偏移和实际机器指令复核：FP静态字段在16字节Decimal之后，IDA名称整体错位8字节；MathUtil.cctor读取静态偏移0x78，实际是FP.EN5。先前EN4结论作废。
+
+FP.cctor 0x1866FD010：该值由One / 100000产生；FP.op_Division 0x1866FD730最终取(i+1)>>1。得到raw=42950，即42950/2^32≈0.0000100000761449337。GT(a,b)要求raw(a)>raw(b)+42950。
+
+float→FP 0x1866FDAD0实际为mulss乘2^32，再cvttss2si **rax**（64位）。伪码显示32位转换也是错误。这里要以指令宽度为准。
+
+离线算术模型 numeric-boundary-model.json 推导：初始化回费周期的最小通过float32为位型0x3727c700，约0.000010000308975577354；前一相邻float32量化到raw42950，仍不通过。此为固定原生路径的算术推导，未执行游戏实测。
+
+这只是有效性下界，不是建议的最小周期。UpdateCost会循环追赶累计费用，极短有效周期仍有性能风险。运行时ResetButKeepProgress与初始化Reset不同，不能据此推导所有修改时刻的行为。
+
+### 时间并无统一的结束语义
+
+| 消费模式/地址 | 时间入口与判断 | 结束结果/限制 |
+|---|---|---|
+| Act20Side 0x180BCC640 | 先确认最大时间大于容差零，再比较max-fixedPlayTime | 超时WIN；非正值不进这一限时分支 |
+| Act27Side 0x180BCD000 | 同类正值门槛及剩余时间比较 | 超时LOSE |
+| FunLive 0x180C27110 | 直接比较max-fixedPlayTime，没有同样的正值门槛 | 超时WIN；不能把-1/0通用解释为无限 |
+| RoguelikeDuel 0x180C52CB0 | 剩余时间先FloorToInt，再Max(0,...) | 到零写duelBattleResult=2并FinishGame(WIN)；局内结果与外层WIN不同 |
+| RoguelikeDeify 0x180C4DB80 | 剩余时间整数化并归零 | 后续结合已选角色状态决定结果；不能只看maxPlayTime |
+| Sandbox 0x180C6A040 | isTimingMode、未结束、正值门槛，比较userFixedPlayTime | 超过上限时WIN；计时来源并非上述fixedPlayTime |
+
+这些是对应检查方法的行为，不保证调用频率、模式前置条件及热更新都相同。displayRestTime的显示开关不能替代模式计时机制。Single有限不代表FP运算安全：乘2^32后的64位转换、后续加减乘法都可能溢出。对于进入FP的输入应检查量化后是否落入有效有限区间，不能只校验JSON是数字。
+
+### maxLifePoint：初始生命和运行修改必须分开
+
+LoadGameWithRune 0x180627330直接初始化当前生命字典。SetLifePoint 0x180631250仅在playing或force时处理：先写入传入值，没有按maxLifePoint截断；正值返回；非正值再写为0，并通知当前模式OnPlayerLifeToZero。
+
+DefaultGameMode.OnPlayerLifeToZero在dump映射到0x180C1A980（IDA将其标为共享的HalfIdle代理）；函数内部明确读取DefaultGameMode热更新槽，无替换时调用FinishGame(LOSE)。这证明默认模式收到归零通知会判负，仍不证明初始0会立即触发此通知。证据见native-final-boundaries.json。
+
+因此不能把maxLifePoint当运行生命值的强制上限，也不能仅由SetLifePoint推断“初始生命0立即失败”：初始化没有走同一个setter。ModifyLifePoint 0x180629E20还有全局modifier、模式回调和事件，符文/模式会参与。编辑器可提示非正初始生命风险，不应宣称所有模式统一禁止或统一立即失败。
+
+### moveMultiplier：倍率不是只允许0.5的枚举
+
+Entity.get_moveSpeed 0x180707AA0取MOVE_SPEED属性、将运行MOVE_MULTIPLIER转FP、FastMul后AsFloat。这里没有正数钳制。MoveController.get_moveSpeed 0x1808B8750再经目标接口读取速度。
+
+已继续追到Enemy._MoveByCursor 0x180A78FC0、FixedDirectionEnemy._MoveByRoute 0x180A922C0、FootballPlayerEnemy._MoveToTarget 0x180AA5450、TraceTargetEnemy._MoveToTarget 0x180AB81E0：部分位置更新直接使用direction×speed×deltaTime。固定方向分支中负倍率会反转该位移项，零倍率使该项为零；不能推广为所有敌人都能正确倒走/停止。追踪路径还含距离平方判定，动画、弹珠转向和碰撞力也读取速度，极端值可能破坏行为。推荐正常编辑使用有限非负数，负数作高风险自定义警告；这属于编辑器策略，不是已找到的引擎统一限制。
+
+### 黑板读取的通用规则
+
+- _TryGetNumber 0x182320780：按顺序查找，不区分大小写；只有valueStr为空/null的同名条目才是数值条目。
+- TryGetString 0x1823203B0：同样按顺序且不区分大小写；只有valueStr非空的同名条目才是字符串条目。不会自动把数字字符串转换成value。
+- TryGetInt 0x182320170：Single→Double→System.Math.Floor(0x1804D3200)→Int32。-0.5会成为-1而不是0。越界值不应依赖CPU转换哨兵。Single也不能精确表达全部Int32。
+- TryGetBool 0x18231FEE0：数值经!MathUtil.IsZero；Single版IsZero 0x1866E54E0用abs(v)<=float32(1e-5)。所以不是严格只接受0/1，也不是任意非零都为true。UI仍建议写0/1；负数绝对值足够大也会读为true。
+- 重复键不是简单统一“最后覆盖”：数值查询/字符串查询各自寻找首个符合类型的条目。编辑器应提示大小写重复及类型冲突，不应静默转字典或排序后重建。
+- 默认值由每个调用点传入。Legion多个键缺失时保留已有输入值，并不存在适用于全部模式的单一默认值。
+
+逐键记录见同目录 OPTIONS_BLACKBOARD_CONSTRAINTS_20261106.md；原版样例清单仍为3899份文件/89个键，本轮没有将符号检索命中率冒充完整效果验证。
+
+### 证据和未闭合项
+
+新增native-deep.json、native-followups.json、native-numeric-helpers.json保存固定地址、字节及SHA256；numeric-boundary-model.json为离线算术模型。原生伪码出现错误泛型名、字段布局、返回宽度时，以dump/指令交叉核对，不照抄名称。
+
+尚需继续：所有模式初始非正生命的完整时序；FP乘法溢出对各移动器的影响；黑板资源ID对应版本的资源存在性与模式前置条件；旧AutoChess十个样例键的真实消费者；所有解析器的正则原文及异常路径。未解析的键保留原样，不制造可用值白名单。
+
+本轮仅更新研究文档和D盘证据，未修改插件源码、草稿或运行中的Unity/游戏。

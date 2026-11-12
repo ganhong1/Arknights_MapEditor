@@ -1,0 +1,32 @@
+# Unity 编辑器技术栈基线
+
+更新：2026-11-03。产品设计见[UNITY_EDITOR_DESIGN](UNITY_EDITOR_DESIGN.md)，执行状态见[主计划](PlanDocumentsForImplementation/UnityEditor/UNITY_EDITOR_IMPLEMENTATION_PLAN.md)。
+
+| 层 | 固定选择 | 用途与边界 |
+| --- | --- | --- |
+| 已测宿主 | Windows，Unity 2021.3.39f1 | 最低版本声明不等于其他版本通过；不升级用户工程 |
+| 包身份 | `io.github.lingrs-llm-researchteam.mapeditor`，`0.1.0-preview.1` | Editor-only UPM；候选归档另以hash和candidate编号区分 |
+| 语言 | Unity 2021支持的C#，nullable注解 | Core/Storage无UnityEngine依赖，不依赖游戏程序集 |
+| JSON | `com.unity.nuget.newtonsoft-json` 3.2.2 | 包清单声明生产依赖；不再捆绑另一份DLL |
+| 窗口 | UI Toolkit / EditorWindow | 代码生成控件，复杂原生字段允许JSON编辑 |
+| 视图 | SceneView / PreviewSceneStage / Handles / Mesh | 分块示意，不是Unity美术还原；公开API |
+| 状态 | ScriptableObject会话＋Unity Undo | 单写入文档、独立保存基线、恢复缓存 |
+| 测试宿主 | Test Framework 1.1.33，ext.nunit 1.0.6 | 独立测试asmdef与manifest.testables；不成为生产依赖 |
+| 覆盖率 | CodeCoverage 1.2.5，settings-manager 1.0.1 | 独立验收宿主可选安装；Debug优化、显式程序集过滤 |
+| 自动验收 | PowerShell＋自制Editor C# harness | 仓库`unity/verification`；生成缓存和输出由参数指定磁盘 |
+| 开发控制 | Unity MCP（开发宿主可选） | 发行包与干净验收工程无需MCP |
+
+## 安装与可复现性
+
+生产清单只使用具体版本依赖。独立宿主准备脚本接受本地包目录或 `.tgz`，便于在已有依赖镜像下重复验收；宿主生成的本机依赖路径不能复制到发行包。仓库不提交Library、Temp、日志、构建产物或外部游戏资源。
+
+候选02 `.tgz` 采用UPM `package/` 根目录；142文件、75唯一meta GUID、4个Editor限定程序集，许可证保留。准确摘要与测试结果见[阶段核查](../unity/evidence/P0_P6_CHECKPOINT_20261103.md)。Git安装未验收，不能将本地tgz通过写成所有渠道通过。
+
+## 测量标准
+
+Editor测试覆盖、Player编译隔离、用户文档保存与游戏运行是不同门槛。候选02总体行覆盖82.6%，Core96.1%、Storage92.6%、DocumentSession100%，只约束该候选源码。候选03已包含局部草稿/原子恢复新修复，174/174，总体86.1%、Storage93.4%、DocumentSession/InspectorDraftStore100%；Core仍96.1%。候选04再加入不可变文档缓存与高级JSON默认折叠，179/179、86.3%；最终归档来源以交付审计为准，见[交付记录](../unity/evidence/UNITY_DELIVERY_20261103.md)。
+
+性能样本为30×30、60×60、120×120和80×35各5轮，记录新建文档/视图、单格热更新、100格命令及Undo快照增长。现有结果是同步CPU调用耗时；不是窗口交互帧p95，不能据此宣称达到33ms交互帧预算。全进程分配差值也不是Unity原生Undo精确内存。非batch独立宿主现已补5×100笔：命令p95 19.8717ms、CPU EditorLoop调用p95 25.8167ms；500次重绘且样本逐项复核。它仍不是GPU呈现或输入延迟；完整JSON展开不在该性能结论中。
+
+### 骨架层增量
+Unity 2021.3.39f1 / Built-in unlit Shader / 16×16 chunk Mesh / UV2样式索引。展示与LevelData分离；不引入WebView、逐格GameObject或外部纹理资源。仿真层另行适配。

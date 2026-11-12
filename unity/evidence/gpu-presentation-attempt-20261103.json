@@ -1,0 +1,19 @@
+{
+  "status": "blocked-by-os-etw-permission",
+  "presentMonVersion": "2.6.0",
+  "presentMonSha256": "b2a706bc6ad475749e3b7e3409263aa1e6906d45bdcf993f6dbc0f660188f1af",
+  "source": "https://github.com/GameTechDev/PresentMon/releases/tag/v2.6.0",
+  "presentMonExitCode": 6,
+  "error": "warning: PresentMon requires elevated privilege in order to query processes that are\r\n         short-running or started on another account.  Without it, those processes will\r\n         be listed as '<unknown>' and they can't be targeted by --process_name nor trigger\r\n         --terminate_on_proc_exit.\r\nerror: failed to start trace session: access denied.\r\n       PresentMon requires either administrative privileges or to be run by a user in the\r\n       \"Performance Log Users\" user group.  View the readme for more details.\r\n",
+  "gpuPresentationValidated": false,
+  "presentationCsvProduced": false,
+  "editorExitCode": 0,
+  "editorCleanupCompleted": true,
+  "closedOwnedProcesses": [
+    7020,
+    38072,
+    21408
+  ],
+  "otherUserApplicationsUntouched": true,
+  "clockBoundary": "Attempt report Qpc-named fields are Stopwatch ticks only; Windows QPC epoch equivalence not verified. No cross-clock frame association accepted."
+}

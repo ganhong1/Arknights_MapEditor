@@ -1,0 +1,202 @@
+{
+  "rawRows": 2280,
+  "phaseRows": 1111,
+  "phaseSeconds": 7.4909412,
+  "swapchains": {
+    "0x254F58FC2C0": {
+      "rows": 92,
+      "displayed": 92,
+      "modes": {
+        "Composed: Copy with GPU GDI": 92
+      },
+      "metrics": {
+        "MsGPUTime": {
+          "n": 92,
+          "p50": 0.2115,
+          "p95": 0.6875,
+          "max": 1.3782
+        },
+        "MsGPUBusy": {
+          "n": 92,
+          "p50": 0.1847,
+          "p95": 0.3619,
+          "max": 0.6549
+        },
+        "MsRenderPresentLatency": {
+          "n": 92,
+          "p50": 0.9179,
+          "p95": 2.8313,
+          "max": 3.9384
+        },
+        "MsUntilDisplayed": {
+          "n": 92,
+          "p50": 9.3821,
+          "p95": 13.2813,
+          "max": 13.9529
+        },
+        "MsBetweenPresents": {
+          "n": 92,
+          "p50": 27.144,
+          "p95": 148.6571,
+          "max": 153.18720000000002
+        },
+        "MsBetweenDisplayChange": {
+          "n": 92,
+          "p50": 22.2857,
+          "p95": 150.0335,
+          "max": 155.6322
+        }
+      }
+    },
+    "0x254F5902F20": {
+      "rows": 498,
+      "displayed": 498,
+      "modes": {
+        "Composed: Copy with GPU GDI": 498
+      },
+      "metrics": {
+        "MsGPUTime": {
+          "n": 498,
+          "p50": 0.09,
+          "p95": 0.6984,
+          "max": 2.4045
+        },
+        "MsGPUBusy": {
+          "n": 498,
+          "p50": 0.0888,
+          "p95": 0.4593,
+          "max": 2.4045
+        },
+        "MsRenderPresentLatency": {
+          "n": 498,
+          "p50": 0.9911,
+          "p95": 2.5736,
+          "max": 4.4441
+        },
+        "MsUntilDisplayed": {
+          "n": 498,
+          "p50": 8.225,
+          "p95": 12.4747,
+          "max": 16.9394
+        },
+        "MsBetweenPresents": {
+          "n": 498,
+          "p50": 14.0821,
+          "p95": 20.5112,
+          "max": 38.48260000000001
+        },
+        "MsBetweenDisplayChange": {
+          "n": 498,
+          "p50": 16.6369,
+          "p95": 22.2542,
+          "max": 39.0403
+        }
+      }
+    },
+    "0x254F5904130": {
+      "rows": 502,
+      "displayed": 502,
+      "modes": {
+        "Composed: Copy with GPU GDI": 502
+      },
+      "metrics": {
+        "MsGPUTime": {
+          "n": 502,
+          "p50": 13.758,
+          "p95": 19.4677,
+          "max": 37.2521
+        },
+        "MsGPUBusy": {
+          "n": 502,
+          "p50": 1.5727,
+          "p95": 2.8986,
+          "max": 4.7528
+        },
+        "MsRenderPresentLatency": {
+          "n": 502,
+          "p50": 1.3645,
+          "p95": 2.8492,
+          "max": 4.9395
+        },
+        "MsUntilDisplayed": {
+          "n": 502,
+          "p50": 7.1929,
+          "p95": 11.111,
+          "max": 13.6069
+        },
+        "MsBetweenPresents": {
+          "n": 502,
+          "p50": 14.1014,
+          "p95": 20.0589,
+          "max": 38.6328
+        },
+        "MsBetweenDisplayChange": {
+          "n": 502,
+          "p50": 16.6403,
+          "p95": 22.2441,
+          "max": 38.9082
+        }
+      }
+    },
+    "0x254F5906550": {
+      "rows": 19,
+      "displayed": 19,
+      "modes": {
+        "Composed: Copy with GPU GDI": 19
+      },
+      "metrics": {
+        "MsGPUTime": {
+          "n": 19,
+          "p50": 13.4436,
+          "p95": 35.6062,
+          "max": 35.6062
+        },
+        "MsGPUBusy": {
+          "n": 19,
+          "p50": 0.4324,
+          "p95": 1.264,
+          "max": 1.264
+        },
+        "MsRenderPresentLatency": {
+          "n": 19,
+          "p50": 0.6206,
+          "p95": 1.4002,
+          "max": 1.4002
+        },
+        "MsUntilDisplayed": {
+          "n": 19,
+          "p50": 7.3534,
+          "p95": 9.3513,
+          "max": 9.3513
+        },
+        "MsBetweenPresents": {
+          "n": 19,
+          "p50": 414.39610000000005,
+          "p95": 431.9092,
+          "max": 431.9092
+        },
+        "MsBetweenDisplayChange": {
+          "n": 19,
+          "p50": 411.1071,
+          "p95": 433.3423,
+          "max": 433.3423
+        }
+      }
+    }
+  },
+  "status": "measured",
+  "tool": "PresentMon2.6.0",
+  "editorExitCode": 0,
+  "presentMonExitCode": 0,
+  "candidate": "candidate-04",
+  "processId": 14520,
+  "metricDefinitions": "https://github.com/GameTechDev/PresentMon/blob/v2.6.0/README-ConsoleApplication.md",
+  "filter": "PID14520; Windows QPC phase interval includes Present timestamp; CPUStartQPC>=phase start; nearest-rank percentiles by swapchain",
+  "limitations": [
+    "Swap chains not individually attributed to SceneView",
+    "Not input-to-photon or optical monitor latency",
+    "GPUTime includes wait; GPUBusy is active execution; metrics must not be interchanged",
+    "Low-frequency Editor surfaces are retained, not counted as failed map frames"
+  ],
+  "rawSha256": "dafc5a6e4671224a6b14f5be1d7767710ae52a1f8cb5ab3da94b7658c1c3e526"
+}

@@ -1,0 +1,154 @@
+{
+  "head": "ec480b64130da4a3dbe2a8ca4c6ea72e0f0613b0",
+  "branch": "feature/unity-leveldata-editor",
+  "files": [
+    {
+      "path": "ProjectDesignSchemeDocument/PlanDocumentsForImplementation/README.md",
+      "sha256": "4ea58c0b1a161d052401caceeedd63a1fe4399d2a120c7d72a7e4859bdc52597"
+    },
+    {
+      "path": "ProjectDesignSchemeDocument/PlanDocumentsForImplementation/UnityEditor/UNITY_EDITOR_IMPLEMENTATION_PLAN.md",
+      "sha256": "bab50a8e2e8a03198527baa85f9f2c9e4e6e34237e146846c7bcbbf1e017f7ca"
+    },
+    {
+      "path": "ProjectDesignSchemeDocument/README.md",
+      "sha256": "d7f194aa3a693f85939454e1096a9636cb305468c621324281db731507a86776"
+    },
+    {
+      "path": "assets/icons/info.svg",
+      "sha256": "f49e14b5230773a871e3e945cc092ec4f33649e51345f0ccba5501128d1f77be"
+    },
+    {
+      "path": "drawers.js",
+      "sha256": "e3a4fec2d52836c7dc69a54d564e308b6be1a6bb63a881fe4429a1a7d6720d2f"
+    },
+    {
+      "path": "prts-map/SOURCES.md",
+      "sha256": "83a7a343847460d399b0f6f49536ed7ef3bf689f543ad12d3f68b4500be8c294"
+    },
+    {
+      "path": "prts-map/blackboard.mjs",
+      "sha256": "1210f6e5e3e5c60bc1fe539f02648e4a164ca654fb689184f3d405a82063fe5a"
+    },
+    {
+      "path": "prts-map/bootstrap.mjs",
+      "sha256": "e31215feebf4882fddc37666fcecaecde2d3d62af7122f0607db59d879750545"
+    },
+    {
+      "path": "prts-map/browser-smoke.mjs",
+      "sha256": "0200025f76efc577ee82e963612154fe3bcd701ea7a929a4e2a6ddc075793be1"
+    },
+    {
+      "path": "prts-map/definitions.mjs",
+      "sha256": "caf54e7e2c141b06ff1990369f982afe4cdf6b40403fb273b0c1cabece0d93a5"
+    },
+    {
+      "path": "prts-map/editor-renderer.mjs",
+      "sha256": "2b071df02e85f68624a3ad4f25c3a7c894ab2f84e23db2e9b55f58f498718e00"
+    },
+    {
+      "path": "prts-map/editor.css",
+      "sha256": "dd25e92c1c14b617d62d67b6cb28a86838568815e4ad7d79477b5286b53e2ada"
+    },
+    {
+      "path": "prts-map/projection.mjs",
+      "sha256": "43c25052b0ebd39f2cf2c907d4a141ad75bd97ea72f169b604fad38d312febe7"
+    },
+    {
+      "path": "prts-map/projection.test.mjs",
+      "sha256": "7fc59863545281bb22fdc5943de148bdd7662faaa99707d5a8e3e5497f54bca1"
+    },
+    {
+      "path": "prts-map/reference.css",
+      "sha256": "4803f976fc2b41528b09afc8a855f030ad6ff9f9af76e4036bf1591d552ccc9b"
+    },
+    {
+      "path": "tile-info.js",
+      "sha256": "13f742a99498da5b9072f136a3073cbec38b5abc8e90317c8373f83249b7ae89"
+    },
+    {
+      "path": "tile-palette.js",
+      "sha256": "fe9845e802feffae789745bd05b9ea10907354e74df907207a1ec18e6b143953"
+    },
+    {
+      "path": ".gitattributes",
+      "sha256": "d8fb0de4792538f93822b2c0d235604921299d5e54a3d6ec7a6cb34536e8bf1e"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "f13f3f229d16f614545226e2d9e4dfd32d678a6f94cae384598528b1b91a9190"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "8226020493367afb92b6ec145c28c23100f2e9a5e06a15def114839aa61961ee"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "771ef81a940755ce197e4b68336e5a194b4c4bfe55c55a982c7afc02280aed3f"
+    },
+    {
+      "path": "README.md",
+      "sha256": "f9c9e72fc176253d1928e7ad85a2043e818002ae5e11878c4d11caef263e2b10"
+    },
+    {
+      "path": "app.ico",
+      "sha256": "85400045acef1449eedfb128fe280501b2dfdafc68db5024dbc1e95c16e2aa3b"
+    },
+    {
+      "path": "build-exe.ps1",
+      "sha256": "0d4690490e22df7cf252f5f9c7c33814683ea00bb5b8af6fac1eace0ade72269"
+    },
+    {
+      "path": "desktop/Cargo.lock",
+      "sha256": "19520d06e36c892197290c1c85d690ea4991d97bdc2e701461448d2dfc9ef0dd"
+    },
+    {
+      "path": "desktop/Cargo.toml",
+      "sha256": "251c32eed9de5b1ea47dfce85845f4026125f4d9231c6710b7a3ae00ffefabd7"
+    },
+    {
+      "path": "desktop/build.rs",
+      "sha256": "7fcd071ddd41bef5fda01b3e6ac23189385c4775c9e59eb7a44d4caf0f43ff87"
+    },
+    {
+      "path": "desktop/src/main.rs",
+      "sha256": "62623457ad0f2ee918bd78baf6c8db5e19f7f38b158be49df31f2108385f45c8"
+    },
+    {
+      "path": "editor-ui.js",
+      "sha256": "76b0eb8ca82df00e7570b29afb34e6a33a64b9a71b60ae3f31b175ba9d6331da"
+    },
+    {
+      "path": "index.html",
+      "sha256": "34b8b0a300e29d8b0238a64b36f3dff438666e17020f4a6f8a4e24689b58ebf6"
+    },
+    {
+      "path": "map-editor.js",
+      "sha256": "203a4b2799f1a7924f3a21db5c5042380cc00deecee7bb5923245d95cb9c87fe"
+    },
+    {
+      "path": "map-model.js",
+      "sha256": "896beb07ca52b87c5e8f910f58cb06612477ce4b31a0965c6c7ba0f4aa6ef356"
+    },
+    {
+      "path": "map-model.test.js",
+      "sha256": "c01aae61ab5927924588231816d023419f9238ac61d21814f1d0225ef5b1b1c2"
+    },
+    {
+      "path": "schema.js",
+      "sha256": "dde645cdc504b5f67fab7eca69809258bf57abc39a97929f0ecd2d429e6d78a3"
+    },
+    {
+      "path": "styles.css",
+      "sha256": "db3e63ed4f0b0dfac4e2dc2489a09a066dc97032c56c0aa3be7584abdf9bb03b"
+    },
+    {
+      "path": "tile-renderer.js",
+      "sha256": "76788197c6fc4519869f635ce18f4a43a462593642fc38ea4278f23624bbce1b"
+    },
+    {
+      "path": "tools/generate-schema.py",
+      "sha256": "8a5abdfa2fa23de70e3263abf832ef9616cb31b9a61ac85629596438112f6f05"
+    }
+  ]
+}

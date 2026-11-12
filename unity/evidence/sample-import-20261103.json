@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "scope": "UPM Sample API import and document edit/save/reopen; no game validation",
+  "sample": {
+    "name": "Basic LevelData",
+    "imported": true,
+    "path": "Assets/Samples/Arknights LevelData Editor/0.1.0-preview.1/Basic LevelData",
+    "exists": true
+  },
+  "roundtrip": {
+    "width": 2,
+    "height": 2,
+    "roundtrip": true,
+    "preserved": true,
+    "sha256": "a24f020736193309ce9df167bbd80f53c773203db785512e253ffcbe2c63a7fe"
+  }
+}
