@@ -1,0 +1,368 @@
+// Copy into Assets/Editor only in a dedicated disposable verification project.
+// Never included in the distributed package. Invoked explicitly via executeMethod.
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using Arknights.MapEditor.Core;
+using Arknights.MapEditor.Editor;
+using Unity.Profiling;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using Debug = UnityEngine.Debug;
+
+public static class MapEditorInteractivePerformance
+{
+    [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+    private static extern bool QueryPerformanceCounter(out long value);
+    [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+    private static extern bool QueryPerformanceFrequency(out long value);
+    private static long WindowsQpc() { long value; if (!QueryPerformanceCounter(out value)) throw new InvalidOperationException("QPC unavailable"); return value; }
+    private const int RoundCount = 5, StrokesPerRound = 100;
+    private const BindingFlags Private = BindingFlags.Instance | BindingFlags.NonPublic;
+    private static MapEditorWindow window;
+    private static SceneView sceneView;
+    private static bool ownsSceneView;
+    private static Vector3 originalPivot;
+    private static Quaternion originalRotation;
+    private static float originalSize;
+    private static bool originalOrthographic;
+    private static Stage previousStage;
+    private static MapPreviewStage preview;
+    private static Action<IReadOnlyList<Vector2Int>> paint;
+    private static ProfilerRecorder editorLoop;
+    private static Report report;
+    private static string output;
+    private static bool authorized, running, pending;
+    private static bool warmupDiagnosticLogged, changedProfiling, originalProfilingEnabled, originalProfileEditor;
+    private static bool originalDriverEnabled;
+    private static double deadline, warmupUntil, commandMs;
+    private static int repaints, warmupRepaints, roundStartRepaints, issuedSampleCount, round, stroke, totalStrokes;
+    private static int recorderCountAtIssue;
+    private static long valueAtIssue, markerCountAtIssue;
+    private static readonly List<double> commands = new List<double>();
+    private static readonly List<double> frames = new List<double>();
+
+    [Serializable] public sealed class RoundResult
+    {
+        public int round, strokes, sceneViewRepaints;
+        public double commandP95Ms, editorLoopP95Ms;
+        public double[] commandMilliseconds, editorLoopMilliseconds;
+    }
+    [Serializable] public sealed class Report
+    {
+        public int schemaVersion = 1, width = 60, height = 60, requestedRounds = RoundCount, strokesPerRound = StrokesPerRound;
+        public bool isBatchMode, valid, cleanupCompleted;
+        public string unityVersion, operatingSystem, cpu, gpu, graphicsApi, failure, samplingBoundary;
+        public int cpuThreads, memoryMiB, graphicsMemoryMiB;
+        public int issuedStrokes, completedSamples, sceneViewRepaints, warmupSceneViewRepaints;
+        public long measurementStartStopwatchTicks, measurementEndStopwatchTicks, stopwatchFrequency;
+        public long windowsQpcStart, windowsQpcEnd, windowsQpcFrequency;
+        public int initialSceneViews, measuredSceneViews;
+        public bool createdSceneView;
+        public string editorLoopUnit;
+        public string recorderOptions;
+        public bool enabledEditorProfilingForRun;
+        public bool originalProfilerEnabled, originalProfileEditor, originalDriverEnabled, profilingSettingsRestored;
+        public RecorderState finalRecorderState;
+        public List<SampleDiagnostic> sampleDiagnostics = new List<SampleDiagnostic>();
+        public double aggregateCommandP95Ms, aggregateEditorLoopP95Ms;
+        public List<RoundResult> rounds = new List<RoundResult>();
+    }
+    [Serializable] public sealed class RecorderState
+    {
+        public string phase;
+        public bool valid, running, profilerEnabled, profileEditor;
+        public bool driverEnabled, cpuAreaEnabled;
+        public int connectedProfiler, lastProfilerFrameIndex;
+        public int count, repaints, issuedStrokes;
+        public long lastValueNanoseconds;
+    }
+    [Serializable] public sealed class SampleDiagnostic
+    {
+        public int round, stroke, issuedIndex, availableSamples, repaints;
+        public int recorderCountAtIssue;
+        public long valueAtIssue, markerCountAtIssue;
+        public long valueNanoseconds, markerCount;
+        public double commandMilliseconds;
+        public int[] nearbyIndices;
+        public long[] nearbyValues, nearbyCounts;
+    }
+
+    public static void Begin()
+    {
+        if (running) throw new InvalidOperationException("Benchmark already running.");
+        var args = Environment.GetCommandLineArgs();
+        var project = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
+        var marker = Path.Combine(project, ".mapeditor-interactive-performance");
+        if (!args.Contains("-mapEditorInteractivePerformance") || !File.Exists(marker) ||
+            File.ReadAllText(marker).Trim() != "Arknights.MapEditor.InteractivePerformance.v1" || Application.isBatchMode)
+            throw new InvalidOperationException("Explicit flag, dedicated project marker, and non-batch Editor are required. No benchmark was started.");
+        var outputIndex = Array.IndexOf(args, "-mapEditorPerformanceOutput");
+        if (outputIndex < 0 || outputIndex + 1 >= args.Length || !Path.IsPathRooted(args[outputIndex + 1]))
+            throw new ArgumentException("Supply an absolute new report path.");
+        output = Path.GetFullPath(args[outputIndex + 1]);
+        if (File.Exists(output) || Directory.Exists(output)) throw new IOException("Report target already exists.");
+        authorized = running = true;
+        report = new Report
+        {
+            isBatchMode = Application.isBatchMode, unityVersion = Application.unityVersion,
+            operatingSystem = SystemInfo.operatingSystem, cpu = SystemInfo.processorType,
+            cpuThreads = SystemInfo.processorCount, memoryMiB = SystemInfo.systemMemorySize,
+            gpu = SystemInfo.graphicsDeviceName, graphicsMemoryMiB = SystemInfo.graphicsMemorySize,
+            graphicsApi = SystemInfo.graphicsDeviceType.ToString(),
+            samplingBoundary = "Each stroke invokes the real bound paint callback inside EditorApplication.update. Main-thread-only, non-aggregated EditorLoop invocation samples are recorded without wrapping. Unity 2021.3 recorder Count includes the currently open marker slot: issueIndex=Count-1. At a later update, wait until Count>issueIndex+1, then read that original slot and require positive Value, Count=1, and duration enclosing the command. Command stopwatch and completed EditorLoop durations are separate. SceneView Repaint counts are observed independently; this is CPU EditorLoop invocation timing, not GPU presentation/input latency or an aggregated rendered-frame total."
+        };
+        try
+        {
+            Application.runInBackground = true;
+            deadline = EditorApplication.timeSinceStartup + 180;
+            if (args.Contains("-mapEditorEnableEditorProfiling"))
+            {
+                originalProfilingEnabled = UnityEngine.Profiling.Profiler.enabled;
+                originalProfileEditor = UnityEditorInternal.ProfilerDriver.profileEditor;
+                originalDriverEnabled = UnityEditorInternal.ProfilerDriver.enabled;
+                report.originalProfilerEnabled = originalProfilingEnabled;
+                report.originalProfileEditor = originalProfileEditor;
+                report.originalDriverEnabled = originalDriverEnabled;
+                changedProfiling = true;
+                UnityEditorInternal.ProfilerDriver.profileEditor = true;
+                UnityEngine.Profiling.Profiler.enabled = true;
+                // Unity 2021.3 ProfilerWindow.SetRecordingEnabled uses this Editor
+                // session switch; runtime Profiler.enabled alone is not that contract.
+                UnityEditorInternal.ProfilerDriver.enabled = true;
+                report.enabledEditorProfilingForRun = true;
+            }
+            previousStage = StageUtility.GetCurrentStage();
+            window = ScriptableObject.CreateInstance<MapEditorWindow>();
+            window.Show();
+            var session = (DocumentSession)Field(typeof(MapEditorWindow), "session").GetValue(window);
+            var json = LevelDocument.Create(60, 60).ToJson();
+            session.Load(json, "", "");
+            Field(typeof(MapEditorWindow), "draft").SetValue(window, session.Json);
+            Invoke("ClearInspectorDrafts");
+            window.CreateGUI();
+            var existingViews = Resources.FindObjectsOfTypeAll<SceneView>();
+            report.initialSceneViews = existingViews.Length;
+            sceneView = SceneView.lastActiveSceneView != null ? SceneView.lastActiveSceneView : existingViews.FirstOrDefault();
+            if (sceneView == null)
+            {
+                sceneView = ScriptableObject.CreateInstance<SceneView>(); ownsSceneView = true;
+                sceneView.titleContent = new GUIContent("MapEditor isolated performance");
+                sceneView.Show();
+            }
+            else
+            {
+                originalPivot = sceneView.pivot; originalRotation = sceneView.rotation;
+                originalSize = sceneView.size; originalOrthographic = sceneView.orthographic;
+            }
+            report.createdSceneView = ownsSceneView;
+            report.measuredSceneViews = Resources.FindObjectsOfTypeAll<SceneView>().Length;
+            if (report.measuredSceneViews != 1) throw new InvalidOperationException("Dedicated benchmark requires exactly one SceneView; existing extra views are not closed automatically.");
+            sceneView.Focus();
+            Invoke("OpenPreview");
+            preview = (MapPreviewStage)Field(typeof(MapEditorWindow), "ownedPreview").GetValue(window);
+            if (preview == null || StageUtility.GetCurrentStage() != preview) throw new InvalidOperationException("Actual map preview stage did not open.");
+            paint = (Action<IReadOnlyList<Vector2Int>>)Field(typeof(MapPreviewStage), "paint").GetValue(preview);
+            if (paint == null) throw new InvalidOperationException("Actual paint callback is not bound.");
+            sceneView.Frame(new Bounds(new Vector3(30, 0, 30), new Vector3(60, 1, 60)), false);
+            // Capacity prevents overwrite throughout the bounded run; reaching it fails explicitly.
+            // Unity 2021.3 Default = SumAllSamplesInFrame | WrapAroundWhenCapacityReached.
+            // EditorLoop can run more than once per profiler frame. Disable aggregation
+            // explicitly; keep the count==1 and enclosing-command checks below.
+            var options = ProfilerRecorderOptions.CollectOnlyOnCurrentThread;
+            editorLoop = ProfilerRecorder.StartNew(ProfilerCategory.Internal, "EditorLoop", 65536, options);
+            report.recorderOptions = (options | ProfilerRecorderOptions.StartImmediately).ToString();
+            if (!editorLoop.Valid) throw new InvalidOperationException("EditorLoop recorder unavailable.");
+            report.editorLoopUnit = editorLoop.UnitType.ToString();
+            if (report.editorLoopUnit != "TimeNanoseconds") throw new InvalidOperationException("EditorLoop marker is not measured in nanoseconds.");
+            warmupUntil = EditorApplication.timeSinceStartup + 3;
+            SceneView.duringSceneGui += OnSceneGui;
+            EditorApplication.update += Tick;
+            sceneView.Repaint();
+        }
+        catch (Exception error) { Finish(error); }
+    }
+
+    private static FieldInfo Field(Type owner, string name) => owner.GetField(name, Private) ?? throw new MissingFieldException(owner.FullName, name);
+    private static void Invoke(string name) => (typeof(MapEditorWindow).GetMethod(name, Private) ?? throw new MissingMethodException(name)).Invoke(window, null);
+    private static void OnSceneGui(SceneView view)
+    {
+        if (view == sceneView && StageUtility.GetCurrentStage() == preview && Event.current.type == EventType.Repaint) repaints++;
+    }
+
+    private static void Tick()
+    {
+        if (!running) return;
+        try
+        {
+            if (EditorApplication.timeSinceStartup > deadline) throw new TimeoutException("Interactive performance deadline (180 seconds) exceeded.");
+            if (Application.isBatchMode || window == null || sceneView == null || preview == null || StageUtility.GetCurrentStage() != preview)
+                throw new InvalidOperationException("Interactive host or owned stage changed.");
+            if (editorLoop.Count >= 65536) throw new InvalidOperationException("Recorder capacity reached; sample ownership would be ambiguous.");
+            sceneView.Repaint();
+            if (round == 0)
+            {
+                var args = Environment.GetCommandLineArgs();
+                var gateIndex = Array.IndexOf(args, "-mapEditorCaptureGate");
+                if (gateIndex >= 0 && (gateIndex + 1 >= args.Length || !File.Exists(args[gateIndex + 1]))) return;
+                if (!warmupDiagnosticLogged && EditorApplication.timeSinceStartup > warmupUntil + 7)
+                {
+                    warmupDiagnosticLogged = true;
+                    Debug.Log("MapEditor performance warmup diagnostic: " + JsonUtility.ToJson(RecorderSnapshot("warmup>10s")));
+                }
+                if (EditorApplication.timeSinceStartup < warmupUntil || repaints < 2 || editorLoop.Count < 10) return;
+                warmupRepaints = repaints; roundStartRepaints = repaints; round = 1;
+                if (!QueryPerformanceFrequency(out report.windowsQpcFrequency)) throw new InvalidOperationException("QPC frequency unavailable");
+                report.windowsQpcStart = WindowsQpc();
+                report.stopwatchFrequency = Stopwatch.Frequency; report.measurementStartStopwatchTicks = Stopwatch.GetTimestamp();
+                Debug.Log("MapEditor performance warmup completed: " + JsonUtility.ToJson(RecorderSnapshot("round-1")));
+            }
+            if (pending)
+            {
+                // Count includes the open invocation. Wait for a later slot to exist,
+                // then inspect the original command-bearing slot, never the new open one.
+                if (editorLoop.Count <= issuedSampleCount + 1) return;
+                var sample = editorLoop.GetSample(issuedSampleCount);
+                RecordSampleDiagnostic(sample);
+                if (sample.Value <= 0 || sample.Count != 1) throw new InvalidOperationException("EditorLoop sample is empty or aggregated; cannot label it a completed frame.");
+                var frameMs = sample.Value / 1000000.0;
+                // The sampled complete loop must enclose the synchronous command.
+                // A smaller value indicates delayed/misaligned recorder indexing.
+                if (frameMs + .05 < commandMs) throw new InvalidOperationException("EditorLoop sample does not enclose its stroke command; timing correlation rejected.");
+                commands.Add(commandMs); frames.Add(frameMs);
+                pending = false; stroke++;
+                if (stroke % 25 == 0) Debug.Log("MapEditor performance round=" + round + " strokes=" + stroke + " repaints=" + (repaints - roundStartRepaints));
+                if (stroke == StrokesPerRound)
+                {
+                    var repaintCount = repaints - roundStartRepaints;
+                    if (repaintCount < 1) throw new InvalidOperationException("Round has no actual SceneView repaint.");
+                    report.rounds.Add(new RoundResult { round = round, strokes = stroke, sceneViewRepaints = repaintCount,
+                        commandMilliseconds = commands.ToArray(), editorLoopMilliseconds = frames.ToArray(),
+                        commandP95Ms = P95(commands), editorLoopP95Ms = P95(frames) });
+                    commands.Clear(); frames.Clear(); stroke = 0; round++;
+                    roundStartRepaints = repaints;
+                    if (round > RoundCount) { Finish(null); return; }
+                }
+            }
+            // Alternating tile definitions at the same cell guarantees every stroke changes
+            // the actual document (never a no-op benchmark). Undo remains enabled.
+            var key = totalStrokes % 2 == 0 ? "tile_road" : "tile_wall";
+            var tile = "{\"tileKey\":\"" + key + "\",\"heightType\":\"" + (key == "tile_road" ? "LOWLAND" : "HIGHLAND") + "\",\"buildableType\":\"NONE\",\"passableMask\":\"ALL\"}";
+            Field(typeof(MapEditorWindow), "brushJson").SetValue(window, tile);
+            recorderCountAtIssue = editorLoop.Count;
+            if (recorderCountAtIssue < 1) throw new InvalidOperationException("No active EditorLoop slot at stroke issue.");
+            issuedSampleCount = recorderCountAtIssue - 1;
+            var activeSample = editorLoop.GetSample(issuedSampleCount);
+            valueAtIssue = activeSample.Value; markerCountAtIssue = activeSample.Count;
+            if (valueAtIssue >= 0 || markerCountAtIssue != 1)
+                throw new InvalidOperationException("EditorLoop issue slot is not an open single invocation; timing correlation rejected.");
+            var timer = Stopwatch.StartNew();
+            paint(new[] { new Vector2Int(30, 30) });
+            timer.Stop(); commandMs = timer.Elapsed.TotalMilliseconds;
+            totalStrokes++; pending = true;
+            sceneView.Repaint();
+        }
+        catch (Exception error) { Finish(error); }
+    }
+
+    private static double P95(IEnumerable<double> source)
+    {
+        var values = source.OrderBy(value => value).ToArray();
+        if (values.Length == 0) throw new InvalidOperationException("No timing samples.");
+        return values[(int)Math.Ceiling(values.Length * .95) - 1];
+    }
+    private static void RecordSampleDiagnostic(ProfilerRecorderSample sample)
+    {
+        var available = editorLoop.Count;
+        var first = Math.Max(0, issuedSampleCount - 2);
+        var last = Math.Min(available, issuedSampleCount + 4);
+        var indices = new List<int>(); var values = new List<long>(); var counts = new List<long>();
+        for (var i = first; i < last; i++)
+        {
+            var nearby = editorLoop.GetSample(i);
+            indices.Add(i); values.Add(nearby.Value); counts.Add(nearby.Count);
+        }
+        report.sampleDiagnostics.Add(new SampleDiagnostic { round = round, stroke = stroke,
+            issuedIndex = issuedSampleCount, availableSamples = available, repaints = repaints,
+            recorderCountAtIssue = recorderCountAtIssue, valueAtIssue = valueAtIssue, markerCountAtIssue = markerCountAtIssue,
+            valueNanoseconds = sample.Value, markerCount = sample.Count, commandMilliseconds = commandMs,
+            nearbyIndices = indices.ToArray(), nearbyValues = values.ToArray(), nearbyCounts = counts.ToArray() });
+    }
+    private static void Finish(Exception failure)
+    {
+        if (!authorized || !running) return;
+        report.windowsQpcEnd = WindowsQpc();
+        report.measurementEndStopwatchTicks = Stopwatch.GetTimestamp();
+        running = false;
+        EditorApplication.update -= Tick; SceneView.duringSceneGui -= OnSceneGui;
+        report.finalRecorderState = RecorderSnapshot(round == 0 ? "warmup-exit" : "sampling-exit");
+        try
+        {
+            editorLoop.Dispose();
+            if (window != null) { window.DiscardChanges(); window.Close(); }
+            if (StageUtility.GetCurrentStage() != previousStage && previousStage != null) StageUtility.GoToStage(previousStage, false);
+            if (sceneView != null)
+            {
+                if (ownsSceneView) sceneView.Close();
+                else
+                {
+                    sceneView.pivot = originalPivot; sceneView.rotation = originalRotation;
+                    sceneView.size = originalSize; sceneView.orthographic = originalOrthographic;
+                    sceneView.Repaint();
+                }
+            }
+            report.cleanupCompleted = StageUtility.GetCurrentStage() == previousStage;
+            if (!report.cleanupCompleted) throw new InvalidOperationException("Previous stage was not restored.");
+        }
+        catch (Exception cleanup) { failure = failure == null ? cleanup : new AggregateException(failure, cleanup); }
+        finally
+        {
+            if (changedProfiling)
+            {
+                UnityEditorInternal.ProfilerDriver.enabled = originalDriverEnabled;
+                UnityEditorInternal.ProfilerDriver.profileEditor = originalProfileEditor;
+                UnityEngine.Profiling.Profiler.enabled = originalProfilingEnabled;
+                report.profilingSettingsRestored = UnityEngine.Profiling.Profiler.enabled == originalProfilingEnabled &&
+                    UnityEditorInternal.ProfilerDriver.profileEditor == originalProfileEditor && UnityEditorInternal.ProfilerDriver.enabled == originalDriverEnabled;
+                if (!report.profilingSettingsRestored)
+                {
+                    var restore = new InvalidOperationException("Profiling settings did not restore to their original values.");
+                    failure = failure == null ? restore : new AggregateException(failure, restore);
+                }
+            }
+        }
+        report.valid = failure == null && report.rounds.Count == RoundCount && warmupRepaints >= 2;
+        report.issuedStrokes = totalStrokes; report.completedSamples = report.rounds.Sum(item => item.strokes) + frames.Count;
+        report.sceneViewRepaints = repaints; report.warmupSceneViewRepaints = warmupRepaints;
+        report.failure = failure == null ? "" : failure.ToString();
+        if (report.rounds.Count > 0)
+        {
+            report.aggregateCommandP95Ms = P95(report.rounds.SelectMany(item => item.commandMilliseconds));
+            report.aggregateEditorLoopP95Ms = P95(report.rounds.SelectMany(item => item.editorLoopMilliseconds));
+        }
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(output));
+            using (var stream = new FileStream(output, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+            using (var writer = new StreamWriter(stream)) { writer.Write(JsonUtility.ToJson(report, true)); writer.Flush(); stream.Flush(true); }
+        }
+        catch (Exception error) { report.valid = false; Debug.LogError("Cannot write performance report: " + error); }
+        Debug.Log("MapEditor interactive performance: " + JsonUtility.ToJson(report));
+        EditorApplication.Exit(report.valid ? 0 : 1);
+    }
+    private static RecorderState RecorderSnapshot(string phase)
+    {
+        var valid = editorLoop.Valid;
+        return new RecorderState { phase = phase, valid = valid, running = valid && editorLoop.IsRunning,
+            count = valid ? editorLoop.Count : 0, lastValueNanoseconds = valid ? editorLoop.LastValue : 0,
+            profilerEnabled = UnityEngine.Profiling.Profiler.enabled, profileEditor = UnityEditorInternal.ProfilerDriver.profileEditor,
+            driverEnabled = UnityEditorInternal.ProfilerDriver.enabled, connectedProfiler = UnityEditorInternal.ProfilerDriver.connectedProfiler,
+            lastProfilerFrameIndex = UnityEditorInternal.ProfilerDriver.lastFrameIndex,
+            cpuAreaEnabled = UnityEditorInternal.ProfilerDriver.IsAreaEnabled(UnityEngine.Profiling.ProfilerArea.CPU),
+            repaints = repaints, issuedStrokes = totalStrokes };
+    }
+}

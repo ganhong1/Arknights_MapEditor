@@ -1,0 +1,58 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using UnityEditor;
+using UnityEditor.Build.Reporting;
+using UnityEditor.Compilation;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+// Acceptance host only: intentionally has no compile-time dependency on MapEditor.
+public static class MapEditorPackageAcceptance
+{
+    public static void VerifyAndBuild()
+    {
+        var args = Environment.GetCommandLineArgs();
+        string Arg(string key) { var n = Array.IndexOf(args, key); if (n < 0 || n + 1 >= args.Length) throw new ArgumentException(key); return args[n + 1]; }
+        var expected = Arg("-mapEditorExpected");
+        var output = Path.GetFullPath(Arg("-mapEditorAcceptanceOutput"));
+        Directory.CreateDirectory(output);
+        if (expected != "installed" && expected != "absent") throw new ArgumentException("Expected installed or absent");
+        var editorNames = CompilationPipeline.GetAssemblies(AssembliesType.Editor).Select(a => a.name).ToArray();
+        var playerNames = CompilationPipeline.GetAssemblies(AssembliesType.Player).Select(a => a.name).ToArray();
+        bool IsPlugin(string name) => name.StartsWith("MapEditor.", StringComparison.Ordinal);
+        var found = editorNames.Where(IsPlugin).OrderBy(n => n).ToArray();
+        if ((expected == "installed") != found.Contains("MapEditor.Editor")) throw new Exception("Package installation mismatch");
+        if (expected == "absent" && found.Length != 0) throw new Exception("Plugin assemblies remain after uninstall");
+        if (playerNames.Any(IsPlugin)) throw new Exception("Editor-only plugin leaked into Player assembly list");
+        Directory.CreateDirectory("Assets/MapEditorAcceptance");
+        const string scenePath = "Assets/MapEditorAcceptance/AcceptanceScene.unity";
+        const string markerPath = "Assets/MapEditorAcceptance/AcceptanceUserData.txt";
+        const string marker = "User-owned acceptance asset: preserve across install/uninstall/reinstall.\n";
+        if (!File.Exists(markerPath)) File.WriteAllText(markerPath, marker);
+        if (File.ReadAllText(markerPath) != marker) throw new Exception("User data changed");
+        if (!File.Exists(scenePath))
+        {
+            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            new GameObject("Acceptance camera", typeof(Camera));
+            new GameObject("UserOwnedMarker");
+            if (!EditorSceneManager.SaveScene(scene, scenePath)) throw new Exception("Cannot save acceptance scene");
+        }
+        AssetDatabase.Refresh();
+        string Hash(string path) { using (var h = SHA256.Create()) return BitConverter.ToString(h.ComputeHash(File.ReadAllBytes(path))).Replace("-", "").ToLowerInvariant(); }
+        var before = Hash(scenePath);
+        var baselinePath = "ProjectSettings/MapEditorAcceptanceScene.sha256";
+        if (!File.Exists(baselinePath)) File.WriteAllText(baselinePath, before);
+        if (File.ReadAllText(baselinePath) != before) throw new Exception("User scene changed across acceptance phases");
+        Directory.CreateDirectory(Path.Combine(output, "Player"));
+        var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions { scenes = new[] { scenePath }, locationPathName = Path.Combine(output, "Player/Acceptance.exe"), target = BuildTarget.StandaloneWindows64, options = BuildOptions.None });
+        if (report.summary.result != BuildResult.Succeeded) throw new Exception("Player build failed: " + report.summary.result);
+        if (Hash(scenePath) != before) throw new Exception("Build modified user scene");
+        var leaked = Directory.GetFiles(Path.Combine(output, "Player"), "MapEditor*.dll", SearchOption.AllDirectories);
+        if (leaked.Length != 0) throw new Exception("Plugin DLL leaked into Player: " + string.Join(",", leaked));
+        File.WriteAllText(Path.Combine(output, "acceptance.json"), JsonUtility.ToJson(new Result { expected = expected, editorPluginAssemblies = found, playerAssemblies = playerNames, sceneSha256 = before, buildResult = report.summary.result.ToString(), buildSize = report.summary.totalSize.ToString() }, true));
+    }
+    [Serializable] private sealed class Result { public string expected, sceneSha256, buildResult, buildSize; public string[] editorPluginAssemblies, playerAssemblies; }
+}
