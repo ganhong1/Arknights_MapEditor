@@ -302,6 +302,10 @@
   }
 
   function draw() {
+    if (window.MapEditorPerspective?.active) {
+      window.MapEditorPerspective.update();
+      return;
+    }
     if (!e.canvas.getClientRects().length) return;
     const view = resizeCanvas();
     ctx.clearRect(0, 0, view.cssWidth, view.cssHeight);
@@ -333,6 +337,27 @@
     const picked = canvasTile(event);
     if (!picked) return;
     const [x, y] = picked;
+    applyCellAction(x, y, event);
+  }
+
+  function applyCellAction(x, y, event = {}) {
+    if (!Number.isInteger(x) || !Number.isInteger(y) || x < 0 || y < 0 || x >= state.width || y >= state.height) return;
+    if (event.altKey) {
+      const tile = state.cells[y][x] || Model.tile();
+      state.brush = clone(tile);
+      e.tileKey.value = tile.tileKey;
+      for (const key of ['heightType', 'buildableType', 'passableMask', 'playerSideMask']) e[key].value = tile[key];
+      setPaintMode("PAINT");
+      e.status.textContent = "已拾取地块完整属性";
+      return;
+    }
+    if (state.paintMode === "INSPECT") {
+      if (event.button === undefined || event.button === 0) {
+        selectTile(x, y);
+        window.dispatchEvent(new Event("editor-tile-picked"));
+      }
+      return;
+    }
     const route = activeRoute();
     if (state.routeTool && !route) return;
     if (state.routeTool === "START") {
@@ -357,7 +382,7 @@
       e.status.textContent = `已向路线 ${state.routeIndex} 添加 MOVE (${x}, ${y})。`;
       renderCheckpoints();
     } else {
-      state.cells[y][x] = state.paintMode === "ERASE" || event.button === 2 ? null : currentTile();
+      state.cells[y][x] = state.paintMode === "ERASE" || event.button === 2 || event.buttons === 2 ? null : currentTile();
     }
     notifyChanged();
   }
@@ -433,16 +458,9 @@
 
   e.canvas.addEventListener("contextmenu", event => event.preventDefault());
   e.canvas.addEventListener("pointerdown", event => {
-    if (event.altKey) { const p=canvasTile(event); if(p) {state.brush=clone(state.cells[p[1]][p[0]] || Model.tile()); e.tileKey.value=state.brush.tileKey; e.heightType.value=state.brush.heightType; e.buildableType.value=state.brush.buildableType; e.passableMask.value=state.brush.passableMask; e.playerSideMask.value=state.brush.playerSideMask; e.status.textContent="已拾取地块完整属性";} return; }
+    if (event.altKey) { applyCanvasAction(event); return; }
     if (beginMapPan(event)) return;
-    if (state.paintMode === "INSPECT") {
-      const cell = canvasTile(event);
-      if (cell && event.button === 0) {
-        selectTile(cell[0], cell[1]);
-        window.dispatchEvent(new Event("editor-tile-picked"));
-      }
-      return;
-    }
+    if (state.paintMode === "INSPECT") { applyCanvasAction(event); return; }
     state.dragging = true;
     e.canvas.setPointerCapture(event.pointerId);
     applyCanvasAction(event);
@@ -477,7 +495,7 @@
   new ResizeObserver(draw).observe(e.canvas.parentElement);
 
   window.MapEditor = {
-    buildMapJson, loadMap, draw, selectTile, notifyChanged, renderRouteControls, renderCheckpoints, activeRoute,
+    buildMapJson, loadMap, draw, selectTile, notifyChanged, renderRouteControls, renderCheckpoints, activeRoute, applyCellAction,
     getState: () => state
   };
   setTileDefaults();

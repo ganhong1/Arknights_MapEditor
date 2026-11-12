@@ -9,7 +9,8 @@
   const panelNames = {
     paint: "地图尺寸与绘制", routes: "路线与检查点", waves: "波次 / Branch / 动作",
     enemies: "敌人数据库引用", settings: "关卡设置", validation: "格式校验",
-    export: "导出选项", canvas: "地图画布", legend: "画布图例", inspector: "地图检查器"
+    export: "导出选项", brush: "地形绘制", devices: "装置与预设", catalog: "地形目录与详情",
+    canvas: "地图画布", legend: "画布图例", inspector: "地图检查器"
   };
   const defaults = Object.fromEntries(Object.keys(panelNames).map(key => [key, key !== "legend"]));
   const layoutKey = "arkmap.editor.panels.v1";
@@ -45,12 +46,14 @@
 
   function applyLayout() {
     for (const el of document.querySelectorAll("[data-panel]")) el.hidden = !panels[el.dataset.panel];
-    const sidebar = document.querySelector(".map-editor-controls");
+    const drawers = [...document.querySelectorAll(".editor-drawer")];
+    for (const drawer of drawers) {
+      drawer.hidden = !drawer.querySelector("[data-panel]:not([hidden])");
+      document.querySelector('[aria-controls="' + drawer.id + '"]').hidden = drawer.hidden;
+    }
     const workspace = document.querySelector(".map-workspace");
-    sidebar.hidden = !sidebar.querySelector("[data-panel]:not([hidden])");
     workspace.hidden = !panels.canvas && !panels.inspector;
-    document.querySelector(".map-editor-layout").classList.toggle("one-column", sidebar.hidden || workspace.hidden);
-    $("emptyWorkspace").hidden = !(workspace.hidden && sidebar.hidden);
+    $("emptyWorkspace").hidden = !workspace.hidden || drawers.some(drawer => !drawer.hidden);
     for (const input of $("panelChoices").querySelectorAll("input")) input.checked = panels[input.value];
   }
 
@@ -75,6 +78,12 @@
   $("showWindowOptions").onclick = () => $("windowOptions").showModal();
   $("resetPanels").onclick = () => { Object.assign(panels, defaults); changeLayout(); };
   window.addEventListener("editor-panels-rendered", applyLayout);
+  window.addEventListener("editor-reveal-panel", ({target}) => {
+    const panel = target.dataset.panel;
+    if (!Object.hasOwn(panels, panel)) return;
+    panels[panel] = true;
+    applyLayout();
+  });
 
   // JSON field names and values are searchable, including nested blackboards and unknown fields.
   function contains(value, query) {

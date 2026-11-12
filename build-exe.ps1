@@ -20,12 +20,19 @@ Copy-Item -LiteralPath (Join-Path $root 'README.md') -Destination $dist -Force
 $web = Join-Path $dist 'browser'
 New-Item -ItemType Directory -Force -Path $web | Out-Null
 # Explicit runtime assets keep unrelated source files out of the release.
-$assets = @('index.html', 'styles.css', 'schema.js', 'map-model.js', 'tile-renderer.js', 'map-editor.js', 'editor-ui.js', 'events.js', 'inspector.js')
+$assets = @('index.html', 'styles.css', 'schema.js', 'map-model.js', 'tile-renderer.js', 'map-editor.js', 'editor-ui.js', 'events.js', 'inspector.js', 'drawers.js', 'tile-info.js', 'tile-palette.js')
 # Remove assets shipped by the previous preview-enabled build when updating in place.
 foreach ($retired in @('engine.js', 'enemy_index.js', 'enemy-prefab-data.js', 'tile-image-assets.js', 'editor.css')) {
     $oldAsset = Join-Path $web $retired
     if (Test-Path -LiteralPath $oldAsset -PathType Leaf) { Remove-Item -LiteralPath $oldAsset -Force }
 }
 foreach ($asset in $assets) { Copy-Item -LiteralPath (Join-Path $root $asset) -Destination $web -Force }
+$iconOut = Join-Path $web 'assets/icons'
+New-Item -ItemType Directory -Force -Path $iconOut | Out-Null
+Copy-Item -LiteralPath (Join-Path $root 'assets/icons/info.svg') -Destination $iconOut -Force
+$mapAssets = @('bootstrap.mjs', 'editor-renderer.mjs', 'projection.mjs', 'definitions.mjs', 'blackboard.mjs', 'reference.css', 'editor.css', 'SOURCES.md')
+$mapOut = Join-Path $web 'prts-map'
+New-Item -ItemType Directory -Force -Path $mapOut | Out-Null
+foreach ($asset in $mapAssets) { Copy-Item -LiteralPath (Join-Path $root ('prts-map/' + $asset)) -Destination $mapOut -Force }
 Compress-Archive -Path (Join-Path $dist 'Arknights_Map_Editor.exe'),(Join-Path $dist 'README.md'),$web -DestinationPath (Join-Path $dist 'Arknights_Map_Editor.zip') -Force
 Write-Output (Join-Path $dist 'Arknights_Map_Editor.exe')
