@@ -1,0 +1,159 @@
+{
+  "instance": "DevProject@5728c218",
+  "version": "2021.3.39f1",
+  "jobId": "cb7974491ed345d3a1efb9c68fa9f93c",
+  "summary": {
+    "total": 16,
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 0.7842855,
+    "resultState": "Passed"
+  },
+  "results": [
+    {
+      "name": "ActualCompilationPreservesAppliedDocumentDraftAndSingleUndoSubscription",
+      "fullName": "Arknights.MapEditor.Tests.DomainReloadTests.ActualCompilationPreservesAppliedDocumentDraftAndSingleUndoSubscription",
+      "state": "Passed",
+      "durationSeconds": 0.0033534,
+      "message": "",
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "ClosingWindowReleasesItsRepeatedPreview",
+      "fullName": "Arknights.MapEditor.Tests.PreviewStageTests.ClosingWindowReleasesItsRepeatedPreview",
+      "state": "Passed",
+      "durationSeconds": 6.1648938,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "EnterAndExitPreviewPreservesUserSceneAndCleansOwnedMesh",
+      "fullName": "Arknights.MapEditor.Tests.PreviewStageTests.EnterAndExitPreviewPreservesUserSceneAndCleansOwnedMesh",
+      "state": "Passed",
+      "durationSeconds": 0.0202663,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "InvalidPreviewClosesSceneCreatedBeforeValidation",
+      "fullName": "Arknights.MapEditor.Tests.PreviewStageTests.InvalidPreviewClosesSceneCreatedBeforeValidation",
+      "state": "Passed",
+      "durationSeconds": 0.0042735,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "EditUndoRedoRestoresDocumentAndDirtyState",
+      "fullName": "Arknights.MapEditor.Tests.SessionTests.EditUndoRedoRestoresDocumentAndDirtyState",
+      "state": "Passed",
+      "durationSeconds": 0.0093689,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "InvalidRecoveryDoesNotMutateExistingSessionOrCheckpoint(\"saved-json\")",
+      "fullName": "Arknights.MapEditor.Tests.SessionTests.InvalidRecoveryDoesNotMutateExistingSessionOrCheckpoint(\"saved-json\")",
+      "state": "Passed",
+      "durationSeconds": 0.0063348,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "InvalidRecoveryDoesNotMutateExistingSessionOrCheckpoint(\"hash\")",
+      "fullName": "Arknights.MapEditor.Tests.SessionTests.InvalidRecoveryDoesNotMutateExistingSessionOrCheckpoint(\"hash\")",
+      "state": "Passed",
+      "durationSeconds": 0.0023895,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "InvalidRecoveryDoesNotMutateExistingSessionOrCheckpoint(\"missing-hash\")",
+      "fullName": "Arknights.MapEditor.Tests.SessionTests.InvalidRecoveryDoesNotMutateExistingSessionOrCheckpoint(\"missing-hash\")",
+      "state": "Passed",
+      "durationSeconds": 0.004605,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "InvalidRecoveryDoesNotMutateExistingSessionOrCheckpoint(\"missing-path\")",
+      "fullName": "Arknights.MapEditor.Tests.SessionTests.InvalidRecoveryDoesNotMutateExistingSessionOrCheckpoint(\"missing-path\")",
+      "state": "Passed",
+      "durationSeconds": 0.0018403,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "RecoveredSessionStillRejectsExternallyChangedSourceOnSave",
+      "fullName": "Arknights.MapEditor.Tests.SessionTests.RecoveredSessionStillRejectsExternallyChangedSourceOnSave",
+      "state": "Passed",
+      "durationSeconds": 0.0279646,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "RecoveryPreservesAppliedDocumentCheckpointAndInvalidDraftSeparately",
+      "fullName": "Arknights.MapEditor.Tests.SessionTests.RecoveryPreservesAppliedDocumentCheckpointAndInvalidDraftSeparately",
+      "state": "Passed",
+      "durationSeconds": 0.002495,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "SaveThenUndoDoesNotUndoTheDiskCheckpoint",
+      "fullName": "Arknights.MapEditor.Tests.SessionTests.SaveThenUndoDoesNotUndoTheDiskCheckpoint",
+      "state": "Passed",
+      "durationSeconds": 0.006712,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "SerializedSessionRestoresWithoutKeepingJsonTreeAlive",
+      "fullName": "Arknights.MapEditor.Tests.SessionTests.SerializedSessionRestoresWithoutKeepingJsonTreeAlive",
+      "state": "Passed",
+      "durationSeconds": 0.0043192,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "ApplyingDraftThenUndoAndRedoUpdatesVisibleText",
+      "fullName": "Arknights.MapEditor.Tests.WindowTests.ApplyingDraftThenUndoAndRedoUpdatesVisibleText",
+      "state": "Passed",
+      "durationSeconds": 0.2319721,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "InvalidDraftSaveReportsErrorAndRetainsDirtyText",
+      "fullName": "Arknights.MapEditor.Tests.WindowTests.InvalidDraftSaveReportsErrorAndRetainsDirtyText",
+      "state": "Passed",
+      "durationSeconds": 0.0342381,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "RebuildingUiPreservesUnappliedDraft",
+      "fullName": "Arknights.MapEditor.Tests.WindowTests.RebuildingUiPreservesUnappliedDraft",
+      "state": "Passed",
+      "durationSeconds": 0.0350055,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    }
+  ]
+}

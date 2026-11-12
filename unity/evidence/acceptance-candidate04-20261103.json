@@ -1,0 +1,1345 @@
+{
+  "schemaVersion": 1,
+  "candidate": "candidate-04",
+  "unity": "2021.3.39f1",
+  "testRun": {
+    "id": "2",
+    "testcasecount": "179",
+    "result": "Passed",
+    "total": "179",
+    "passed": "179",
+    "failed": "0",
+    "inconclusive": "0",
+    "skipped": "0",
+    "asserts": "0",
+    "engine-version": "3.5.0.0",
+    "clr-version": "4.0.30319.42000",
+    "start-time": "2026-11-03 09:56:02Z",
+    "end-time": "2026-11-03 09:56:17Z",
+    "duration": "14.9151918"
+  },
+  "tests": [
+    {
+      "name": "Arknights.MapEditor.Tests.Catalog.EditorCatalogTests.FrozenCatalogSeparatesTemplatesFromVisualOnlyEntries",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Catalog.EditorCatalogTests.ImportedObjectsKeepCategoryAndUnknownIds",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Catalog.EditorCatalogTests.RejectsTemplateIdentityMismatch",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Catalog.EditorCatalogTests.SearchCategoryDoesNotPromoteTerrainToDevice",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Catalog.EditorCatalogTests.TemplateAccessCannotMutateSharedCatalog",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.ChunkedMapTests.DirtyCellRebuildsOnlyItsChunkAndDisposeReleasesAllMeshes",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.ChunkedMapTests.PickingChecksDimensionsAndHeightWithoutColliders",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.CommandBoundaryRegressionTests.CountIntegralityUsesExactDecimalScale(\"9007199254740992.1\",True)",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.CommandBoundaryRegressionTests.CountIntegralityUsesExactDecimalScale(\"1e-9999\",True)",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.CommandBoundaryRegressionTests.CountIntegralityUsesExactDecimalScale(\"10e-1\",False)",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.CommandBoundaryRegressionTests.CountIntegralityUsesExactDecimalScale(\"100.00\",False)",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.CommandBoundaryRegressionTests.CountIntegralityUsesExactDecimalScale(\"1.50e1\",False)",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.CommandBoundaryRegressionTests.CountIntegralityUsesExactDecimalScale(\"0e-9999\",False)",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.CommandBoundaryRegressionTests.CountIntegralityUsesExactDecimalScale(\"0.000000000000000000001\",True)",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.CommandBoundaryRegressionTests.CropRetainsAlreadyExternalCoordinatesWithoutAddingUnusedTiles",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.CommandBoundaryRegressionTests.KnownNonRouteActionDefaultIndexDoesNotPreventRouteChanges",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.AcceptsEscapedStringsAndScientificNotationWithoutChangingTheirValue",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.CoordinatesAndInvalidEditsFailWithoutChangingOriginal",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.CoordinatesAreBottomOriginAndReturnedCellsAreCopies",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.CreateSupportsRectangularDimensions(1,1)",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.CreateSupportsRectangularDimensions(7,3)",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.CreateSupportsRectangularDimensions(256,1)",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.EditingLevelIdPreservesOriginalAndUnknownContent",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.EditingSharedTileChangesOnlySelectedCellAndDoesNotMutateInputs",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.PreservesValidSupplementaryUnicodeInKeysAndValues(\"\\\\ud83d\\\\ude00\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.PreservesValidSupplementaryUnicodeInKeysAndValues(\"\\\\uD83D\\\\uDE00\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.PreservesValidSupplementaryUnicodeInKeysAndValues(\"😀\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RawEditCannotBypassStrictJsonOrDuplicateKeyValidation",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsDuplicateKeysAtAnyDepth",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsExcessDepthAndSize",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidDimensions(0,3)",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidDimensions(257,1)",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidDimensions(1,-1)",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[0],[0,0]],\\\"tiles\\\":[{}]}}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[2]],\\\"tiles\\\":[{}]}}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[-1]],\\\"tiles\\\":[{}]}}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[0.0]],\\\"tiles\\\":[{}]}}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[true]],\\\"tiles\\\":[{}]}}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[0]],\\\"tiles\\\":[null]}}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"[]\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"{}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsMalformedUnicodeDecodedFromEscape(\"\\\\ud800\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsMalformedUnicodeDecodedFromEscape(\"\\\\udc00\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsMalformedUnicodeDecodedFromEscape(\"\\\\ud800\\\\u0041\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsMalformedUnicodeDecodedFromEscape(\"\\\\ud800\\\\ud800\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsMalformedUnicodeDecodedFromEscape(\"\\\\udc00\\\\ud800\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsMalformedUnicodeDecodedFromEscape(\"\\\\ud800x\\\\udc00\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsMixedRawAndEscapedSurrogates",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{'a':1}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{a:1}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":1,}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":[1,]}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":/*comment*/1}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":NaN}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":Infinity}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":undefined}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":01}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":+1}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":.1}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":1.}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":1} {}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":\\\"raw\\nnewline\\\"}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsOutOfFiniteRangeNumbers(\"1e400\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsOutOfFiniteRangeNumbers(\"-1e400\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RoundTripPreservesUnknownFieldsAndRepresentations",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.MapCommandTests.BatchChangesAreAtomicAndRetainUneditedSharedTiles",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.MapCommandTests.BatchRejectsRawTokenInjectionAndKeepsUnknownTilePayloads",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.MapCommandTests.CropChecksNestedPresetAndUnknownCoordinatesWithoutGuessingOffsets",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.MapCommandTests.CroppingReferencedCoordinatesFailsInsteadOfClamping",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.MapCommandTests.ResizePreservesBottomLeftCoordinatesAndUnknownMapFields",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.MapCommandTests.SectionEditDistinguishesNullMissingAndPreservesOtherSections",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.ReferenceValidationTests.InvalidRouteStructureAndCoordinatesProducePathDiagnostics",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.ReferenceValidationTests.ValidNumericEnumsFractionalCoordinatesAndWaveDefaultsAreAccepted",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.ReferenceValidationTests.WaveAndActionNumbersAreValidatedWithoutNormalizingUnknownFields",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.ScheduleCommandTests.ActionCommandsPreserveExtensionFieldsAndSeparateBranchAddress",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.ScheduleCommandTests.DeleteUnusedMainRouteReindexesOnlyMainActions",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.ScheduleCommandTests.EnemyDeletionRejectsMainAndBranchSpawnReferences",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.ScheduleCommandTests.ExtraRouteDeletionReindexesBranchAndExplicitExtraLibrary",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.ScheduleCommandTests.PredefinedCollectionsRemainDistinctAndTriggerReferencesBlockDeletion",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.ScheduleCommandTests.ReferenceDiagnosticsReportKnownFailuresAndUnknownSemanticsSeparately",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.ScheduleCommandTests.RouteMoveRetainsTargetIdentityInActions",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.ScheduleCommandTests.UnknownRouteReferencesAndMalformedSchedulesBlockDestructiveEdits",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.WebDifferentialFixtureTests.CellEditDoesNotImplicitlyPerformWebLegacyMigration",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Core.WebDifferentialFixtureTests.LocalCellEditMatchesWebExportAndPreservesUnrelatedSections",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.DomainReloadTests.ActualCompilationPreservesAppliedDocumentDraftAndSingleUndoSubscription",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.EditorWorkflowTests.AdvancedJsonIsCollapsedByDefaultAndPreservesDraftAcrossToggleAndRebuild",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.EditorWorkflowTests.AutomaticRecoveryRetainsInvalidDraftAndIndependentArtDraft",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.EditorWorkflowTests.CancelLevelSaveNeverStartsProjectSave",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.EditorWorkflowTests.ClosingWindowDoesNotSwitchForeignStage",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.EditorWorkflowTests.CorruptUnifiedProjectRecoveryKeepsCurrentSessionAndDrafts",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.EditorWorkflowTests.ExistingWriterIsFocusedWithoutReplacingSecondDocument",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.EditorWorkflowTests.InvalidDocumentCanOnlyBeSavedAsNewRawFile",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.EditorWorkflowTests.LegacyRecoveryRestoresLevelAndClearsUnrelatedProjectAndInspectorState",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.EditorWorkflowTests.OpeningProjectClearsOldInspectorDraftsOnlyAfterSuccess",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.EditorWorkflowTests.PaintStrokeUndoSaveReopenPreservesUnknownFields",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.EditorWorkflowTests.SaveCancelAndSwitchCancelRetainDocument",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftStoreTests.BeginAndCapturePreserveOriginalBaselineAndInvalidRawText",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftStoreTests.CorruptEnvelopesAreRejected(\"{\\\"version\\\":1,\\\"version\\\":1,\\\"slots\\\":[]}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftStoreTests.CorruptEnvelopesAreRejected(\"{\\\"version\\\":2,\\\"slots\\\":[]}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftStoreTests.CorruptEnvelopesAreRejected(\"{\\\"version\\\":1,\\\"slots\\\":[],\\\"future\\\":true}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftStoreTests.CorruptEnvelopesAreRejected(\"{version:1,slots:[]}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftStoreTests.CorruptEnvelopesAreRejected(\"{\\\"version\\\":1,\\\"slots\\\":[]} true\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftStoreTests.DuplicateSlotsInvalidHashesAndOversizeWritesAreRejectedAtomically",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftStoreTests.UpdateRetainsStaleDraftAndRevertingTextClearsDirty",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftWindowTests.ExplicitReloadRequiresConfirmationAndSuccessfulApplyRemovesSlot",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftWindowTests.InitialCoordinateControlsUseExistingRoutePositions",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftWindowTests.InvalidInitialCoordinateEnvelopeIsRejectedEvenWhenCurrentRawIsValid",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftWindowTests.OversizeVisibleEditIsRolledBackToPreservedDraft",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftWindowTests.RestoreRejectsMalformedCoordinateDraftBeforeReplacingSession(\"{broken\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftWindowTests.RestoreRejectsMalformedCoordinateDraftBeforeReplacingSession(\"{\\\"startRow\\\":0,\\\"startCol\\\":0,\\\"endRow\\\":1,\\\"endCol\\\":1e100,\\\"checkpoints\\\":\\\"[]\\\"}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftWindowTests.RestoreRejectsMalformedCoordinateDraftBeforeReplacingSession(\"{\\\"startRow\\\":0,\\\"startCol\\\":0,\\\"endRow\\\":1,\\\"endCol\\\":1,\\\"checkpoints\\\":[]}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.InspectorDraftWindowTests.SectionDraftSurvivesGuiRebuildAndCannotApplyToAnotherDocumentOrTarget",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.PerformanceTests.RecordFiveRoundIsolatedSchematicAndCommandMeasurements",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.PlayModeLifecycleTests.EnteringPlayWithoutDomainReloadClosesOnlyPreviewAndRetainsDraft",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.PreviewStageTests.ClosingWindowReleasesItsRepeatedPreview",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.PreviewStageTests.EnterAndExitPreviewPreservesUserSceneAndCleansOwnedMesh",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.PreviewStageTests.InvalidPreviewClosesSceneCreatedBeforeValidation",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.ProjectRecoveryUiTests.LegacyRecoveryHasNoProjectState",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.ProjectRecoveryUiTests.ProjectBindingRejectsDifferentOrUnsavedDocument",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.ProjectRecoveryUiTests.RecoveryPreflightPreservesInvalidDraftWithoutWritingSource",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.ProjectRecoveryUiTests.RecoveryPreflightRejectsMalformedEnvelope(\"{\\\"version\\\":2}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.ProjectRecoveryUiTests.RecoveryPreflightRejectsMalformedEnvelope(\"{\\\"version\\\":1,\\\"projectPath\\\":null}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.ProjectRecoveryUiTests.ResetDropsPriorProjectAssociationAndDraftDirtyState",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.SessionCacheTests.EditUndoRedoLoadAndRecoveryAlwaysResolveCurrentRevision",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.SessionCacheTests.InvalidLoadRetainsDocumentCacheAndDirtyCheckpoint",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.SessionCacheTests.RepeatedDocumentAccessSharesImmutableTreeAndExternalReadsCannotMutateIt",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.SessionCacheTests.SerializedJsonChangeInvalidatesExistingCacheAndFreshSessionLazilyRebuilds",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.SessionTests.EditUndoRedoRestoresDocumentAndDirtyState",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.SessionTests.InvalidRecoveryDoesNotMutateExistingSessionOrCheckpoint(\"saved-json\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.SessionTests.InvalidRecoveryDoesNotMutateExistingSessionOrCheckpoint(\"hash\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.SessionTests.InvalidRecoveryDoesNotMutateExistingSessionOrCheckpoint(\"missing-hash\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.SessionTests.InvalidRecoveryDoesNotMutateExistingSessionOrCheckpoint(\"missing-path\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.SessionTests.RecoveredSessionStillRejectsExternallyChangedSourceOnSave",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.SessionTests.RecoveryPreservesAppliedDocumentCheckpointAndInvalidDraftSeparately",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.SessionTests.SaveThenUndoDoesNotUndoTheDiskCheckpoint",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.SessionTests.SerializedSessionRestoresWithoutKeepingJsonTreeAlive",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.DeletedDestinationIsConflictRatherThanSilentRecreation",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.ExternalEditIsPreservedWhenDigestDoesNotMatch",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.InvalidDigestIsRejectedBeforeWriting",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.InvalidUtf16InputDoesNotDamageOldFile",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.LockedFileFailurePreservesExistingBytes",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.MatchingExpectedDigestAllowsAtomicReplacement",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.NullExpectedDigestNeverOverwritesExistingFile",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.ReadAcceptsUtf8BomButDigestIncludesOriginalBomBytes",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.ReadEnforcesBoundedFileSize",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.ReadRejectsInvalidUtf8InsteadOfReplacingCharacters",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.SaveDoesNotCreateMissingParentDirectories",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.SaveNewFileReturnsExactTextAndByteDigest",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.ProjectMovesWithoutChangingRelativeReferences",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.ProjectRejectsDuplicateArtKeys",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.ProjectRejectsMalformedEnvelope(\"{\\\"version\\\":2,\\\"levelDataPath\\\":\\\"map.json\\\",\\\"artMappings\\\":[]}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.ProjectRejectsMalformedEnvelope(\"{\\\"version\\\":1,\\\"version\\\":1,\\\"levelDataPath\\\":\\\"map.json\\\",\\\"artMappings\\\":[]}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.ProjectRejectsMalformedEnvelope(\"{\\\"version\\\":1,\\\"levelDataPath\\\":42,\\\"artMappings\\\":[]}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.ProjectRejectsUnsafeRelativePaths(\"../outside.json\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.ProjectRejectsUnsafeRelativePaths(\"maps/../../outside.json\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.ProjectRejectsUnsafeRelativePaths(\"C:/outside.json\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.ProjectRejectsUnsafeRelativePaths(\"/outside.json\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.ProjectRejectsUnsafeRelativePaths(\"maps\\\\level.json\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.ProjectRejectsUnsafeRelativePaths(\"https://host/map.json\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.ProjectRejectsUnsafeRelativePaths(\"NUL.json\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.ProjectRejectsUnsafeRelativePaths(\"maps/COM1\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.ProjectRejectsUnsafeRelativePaths(\"maps/line\\n.json\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.RecoveryCannotOverwriteOrDeleteExternalChanges",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.ProjectAndRecoveryTests.RecoverySessionsAreIsolatedAndDiscardRequiresOwnership",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.LegacyVersionOneHasExplicitlyEmptyAdditionalDrafts",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RejectsDamagedEnvelope(\"{\\\"version\\\":2}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RejectsDamagedEnvelope(\"{\\\"version\\\":1,\\\"version\\\":1}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RejectsDamagedEnvelope(\"{\\\"version\\\":1,\\\"DocumentJson\\\":null}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RejectsDamagedEnvelope(\"{\\\"version\\\":1,\\\"DocumentJson\\\":4}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RejectsDamagedEnvelope(\"[]\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RejectsDamagedEnvelope(\"{} {}\")",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RejectsInvalidUtf8",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RequiresCallerOwnedHashToReplaceCache",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RoundTripPreservesInvalidDraftWithoutWritingSource",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.UnifiedSnapshotFailurePreservesBothDocumentAndProject",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.VersionTwoRejectsMissingOrNonStringProjectFields",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.WindowTests.ApplyingDraftThenUndoAndRedoUpdatesVisibleText",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.WindowTests.InvalidDraftSaveReportsErrorAndRetainsDirtyText",
+      "result": "Passed"
+    },
+    {
+      "name": "Arknights.MapEditor.Tests.WindowTests.RebuildingUiPreservesUnappliedDraft",
+      "result": "Passed"
+    }
+  ],
+  "packageAudit": {
+    "sha256": "a624c58972addc7a40560b200462485e667237e29917a76faed906ec66649758",
+    "files": 152,
+    "meta": 80,
+    "sourceHashes": {
+      "CHANGELOG.md": "77e62ef559ffd411c5c1be19a4373ee10acd83bf8ebad6f4a864e1ec42298d4c",
+      "CHANGELOG.md.meta": "18734efa70f31870020ee2bd909e002a6a80c8ba098605d67867c7bb54785704",
+      "Documentation~/map-editor.md": "5813c1274408fcc55a85927f73bc20e3095e5bad73f7311c2d624ea9a811b617",
+      "Documentation~/PR_DRAFT.md": "d1b7043010234aaa6de4fa41e9761fae41e6c572b3b01b789bdcf809c675fa5c",
+      "Editor/Application/DocumentSession.cs": "f79c7c9ccfb7b3596a6bd9a91438d9a9d58807d449106b1b2bf6a53d3d42ebe6",
+      "Editor/Application/DocumentSession.cs.meta": "d8cb842abc26b589c059861d36371974d08e62008fd36c6d032c54f4d048c9d8",
+      "Editor/Application/EditorFileDialogs.cs": "7ab08d459261b67071643aacedc04e8349d21d92f1ac63128e8b90e3b8f8966b",
+      "Editor/Application/EditorFileDialogs.cs.meta": "52834e08e3723727823671daa1d1019dcdb871663947dbadfeeec4e090576dff",
+      "Editor/Application/InspectorDraftStore.cs": "99f76b2ce0f563747246f985148f16e2f31f4e34caad877112525726b109fe1b",
+      "Editor/Application/InspectorDraftStore.cs.meta": "f8ef13ae92a2a85fc95f2285476ddabb234f649ff1ce9d674e0adc25405a73cd",
+      "Editor/Application.meta": "e858658f3352dce6e6fe5a45adab126f9de08ad023eb750136744d570520b276",
+      "Editor/Catalog/catalog.json": "b8484aa2f09058fa444a4a3b59da284b6e675d9b4e836c37f2730f21d62e36fe",
+      "Editor/Catalog/catalog.json.meta": "3ae10dfa3311e17b30cfbcf1afed1ee5f57d50635b24c90da87d6bddebb8e6c4",
+      "Editor/Catalog/CatalogEntry.cs": "06642265790e796f77cbcf4d4a3349cb652e21e1b34060e16737cc58e77ce8c7",
+      "Editor/Catalog/CatalogEntry.cs.meta": "c1b7763949d417992e168ec919be14d65c767be0dcf4edf8f672cabd1271ec21",
+      "Editor/Catalog/EditorCatalog.cs": "5d666c2509205d55ca850a8eeccf7b400476292b02904a5f3f9456cf42cb606b",
+      "Editor/Catalog/EditorCatalog.cs.meta": "63fbbeeca840844e6d085761111167dfe5b729ac95fdbdce1ba2eccd5efeca06",
+      "Editor/Catalog/ImportedObjectEntry.cs": "cff11172d0c3001fe35542fa04f4fc0747cb24698b5c6009ceda99c855200ecc",
+      "Editor/Catalog/ImportedObjectEntry.cs.meta": "bdda90952a371d6fb4f8b1c0e924a6fbc3a73163fb7254a7e3bf0d6dcd23a09d",
+      "Editor/Catalog/SOURCES.md": "69c68c8a5b6444a726034028da30e2c569ac6ff482d79e407d7ca01f558a1c25",
+      "Editor/Catalog/SOURCES.md.meta": "b725bb57ddc3a41d31509fa360731176ab44013b854bd2858dce8eb2d273cbd5",
+      "Editor/Catalog.meta": "cfeaf34c1da6b1772620c16d04bab414b4a3506f34a928b66f96e893c38f05b8",
+      "Editor/Core/CellEdit.cs": "590ebc7ece7435bccf5b8040ebb8b03386e02e4edf457006a26003c004dd9b79",
+      "Editor/Core/CellEdit.cs.meta": "5a6f13bfc9292f29e43309b4d82af86e53efccd2cbb16738df47bcf732a4db4f",
+      "Editor/Core/LevelDiagnostic.cs": "252b091bb583d521db0b897b1714296a290d16223d764366d75664c2ebfad6e5",
+      "Editor/Core/LevelDiagnostic.cs.meta": "0ac8d3ef76d425364e12800ff1715c04193dba8515dc2e6128f37bf18281bd11",
+      "Editor/Core/LevelDocument.cs": "a9d1da8e815fea2a01b402fa0e0ee48fc181fd2338a8ad998bffb0eb08a7b89a",
+      "Editor/Core/LevelDocument.cs.meta": "8b9a29991ae37cdeda17ce2ad8f2f3f51281314537e45578d7b78e7873b30603",
+      "Editor/Core/LevelDocument.InputCommands.cs": "d588e9de742c41c139f971135810a9a2dd36765f9d8fecf3b5c7e1b5de348a55",
+      "Editor/Core/LevelDocument.InputCommands.cs.meta": "133d722cad13adefcc201ada0e609587338e9e9c2f876d6cc1dddc93e1bf094c",
+      "Editor/Core/LevelDocument.Schedule.cs": "2bf42cf84ef4c2c9deeb7fed0637d503b51c1503d5fa1dd06ab8aa0c58a20e9b",
+      "Editor/Core/LevelDocument.Schedule.cs.meta": "612fc24945cd1841909cb1d6b796f922314f88655917e7f823e7fb528ed4ee14",
+      "Editor/Core/LevelDocument.Validation.cs": "2df7942236db2b92272a6d82f6057f829ec3f2a82bba8085db89395449e7604d",
+      "Editor/Core/LevelDocument.Validation.cs.meta": "f57789c6724b29ebf245d6df5f62973fd65a8d528b52722d131c28122bfe57c8",
+      "Editor/Core/LevelDocumentException.cs": "b9093a3963c826c14dce2aaf0e67ec7663b146c21d8b37f27dd1a6b94173b62f",
+      "Editor/Core/LevelDocumentException.cs.meta": "7b4d2b920e5319d2034bb2ea8369411fe2ec606786dfc7e0d97a68062cb4a945",
+      "Editor/Core/MapEditor.Core.asmdef": "5f39a84dfb7c8f23d59108a7071639c4c63da470aa523e6585e832ca29f009bc",
+      "Editor/Core/MapEditor.Core.asmdef.meta": "aefebae3f0bd3a0f74a7c7be2bbaff4ac9b4ca9f363db473c7ff9abb382f31a3",
+      "Editor/Core/ScheduleAddress.cs": "e0367582f7bc272696d5e42e4bce71fa662833dbc5d355eeb98323b97a5b5d37",
+      "Editor/Core/ScheduleAddress.cs.meta": "a19bcfc81322b86bdb636c37e6bb0d6ebf050ab05f1d9707bb1262f350382295",
+      "Editor/Core/StrictJsonGuard.cs": "380379db3bac876f7c28881c4944261a747c840743a929b8138f7cb6241f4316",
+      "Editor/Core/StrictJsonGuard.cs.meta": "4c8c024996d12bbc1f6ee1947ac280added039d0894ba0467a89ff236c70bdd1",
+      "Editor/Core.meta": "21dd3ee0348209f5b20cc552efe7583472c7fed9c29f44f668ee2d2b920d8e1d",
+      "Editor/MapEditor.Editor.asmdef": "8e41160e1df7fd8b0f040bfdec91fd42c34af2840f1203db863681fe3deff551",
+      "Editor/MapEditor.Editor.asmdef.meta": "88ccc56e6febb2fd554628b6e7c0512e4735160bf2f43caba5bdf795d0dc33b3",
+      "Editor/SceneTools/ChunkedMapView.cs": "bb89bce2e861a03df81b847af8d7956e832b6044d9602726a6e9f7e41095fd57",
+      "Editor/SceneTools/ChunkedMapView.cs.meta": "8d3eb404b3acf014e202cd052444c1f5dab479379d7aac778989eebff7a4c3d6",
+      "Editor/SceneTools/MapPreviewStage.cs": "8b5f54326a9d08e7dba7b6a3d3fdc5d72f320cb5ecae88d57eb2a20a5e74bb9b",
+      "Editor/SceneTools/MapPreviewStage.cs.meta": "cb2359b10e29597b235f180a595646939ed1804962be7a0d98c9c55f9d02a588",
+      "Editor/SceneTools.meta": "a99f83067054a47c5eb01cc8c93ccbe14064c12b4168aa2631861096d064773f",
+      "Editor/Storage/ArkMapProject.cs": "b15d0e12b07bd83f134db6d7c654f4b64a1653dd84226139b6289d8920c1bcc0",
+      "Editor/Storage/ArkMapProject.cs.meta": "98a3a35645f451fd998cdd5be7c691211d4dddcbf9d6225ddc97f4883917737a",
+      "Editor/Storage/ArkMapProjectStore.cs": "6dd10a267317e80a749a0afeed33cc879ea3e09ceabedff48428e825d2144064",
+      "Editor/Storage/ArkMapProjectStore.cs.meta": "f2a5c267caada9dfa34c74b8f7ce8a55b5b189f81c799c63bbb911c926e0f7e1",
+      "Editor/Storage/ArtMapping.cs": "010801f763f65d52eb01dfcee8762f366976355e0ed5f518667654c7a8169476",
+      "Editor/Storage/ArtMapping.cs.meta": "e37c73ce9e1dc6bbaffc189a9b930ce59d8dd3a6d5d1e5e5aa854caff39280fc",
+      "Editor/Storage/AutoRecovery.cs": "a97e654346e912ee75e8c76bba289448b1e88616b7e36b7c5082fd0507ab7024",
+      "Editor/Storage/AutoRecovery.cs.meta": "d1a9bc895032e9f0e01e64221c42866bd6a5e3674b1a09a88ca3ab2a855433b1",
+      "Editor/Storage/DocumentFileConflictException.cs": "6cc324d43bb6987423b14fd8f2a4991d01e665ec77af6fc701256746047072ea",
+      "Editor/Storage/DocumentFileConflictException.cs.meta": "3389ec057ce19642b3a9ae9fea9a425b9539dedf9aaa4937a4cdb37bb9cedf91",
+      "Editor/Storage/DocumentFileSnapshot.cs": "857fb6b7d546ef76b521a8914a495a78db272dc0f40a9a796394ec62c53c1199",
+      "Editor/Storage/DocumentFileSnapshot.cs.meta": "a76538e322ef0325483e4b8e5729c2c874e698e82290a766497584273bc964e3",
+      "Editor/Storage/DocumentFileStore.cs": "4a8e26335e32ba59de82ef9b843eb937a0531b2a34613d675638b2bd6aa20416",
+      "Editor/Storage/DocumentFileStore.cs.meta": "ba4b50cfd25ff1d25d165a90d4cb37413074e23e52cdb85dbf7ae86c602b5a84",
+      "Editor/Storage/MapEditor.Storage.asmdef": "67f10531314b28a6b139726f1bd0e33f32063eff6337d66200d444c81b0a4b7c",
+      "Editor/Storage/MapEditor.Storage.asmdef.meta": "c7975b708f4abb24dcbea73e679febc95d59f8cd3a8be7385a41c3830ee2b5c2",
+      "Editor/Storage/RecoverySnapshot.cs": "ab6ae5e38e64fc3905787e8be52f716efb175050569751b61e975cb7a514e689",
+      "Editor/Storage/RecoverySnapshot.cs.meta": "e8fca1b1ff3bc5d3972a3634f2df63e2a08d6df072566cdb906f19663693dd8d",
+      "Editor/Storage/RecoveryStore.cs": "03f40648b9474458a92f61f7a547626a42abe38872dd749d66f13df67d619e49",
+      "Editor/Storage/RecoveryStore.cs.meta": "67ef833209e1c06e88607cd630981c427dc173fd2ec0584318c991129b1f39cf",
+      "Editor/Storage/SafeProjectPath.cs": "1eef5e6f31107b5a7f8d06c63ce91b470cf02938ea071639e843624cebf40bac",
+      "Editor/Storage/SafeProjectPath.cs.meta": "7050dc51f89ddc1de35f4bcdcae958cd077771418bbff8d115ecc8761f2a0344",
+      "Editor/Storage.meta": "79a6572b7b110fe72f472789da6a7f8310c274f1717fb51d2d579c1cfd4d67db",
+      "Editor/UI/InvalidDocumentWindow.cs": "91486a432243b3d7baf2a1b0c3c95138bdee5af051645ca65e9aafc412001f81",
+      "Editor/UI/InvalidDocumentWindow.cs.meta": "3f8eae0aea911c72b32fe52a36b80a0a2c1d401bb5e0fcf075bdb9a836da9066",
+      "Editor/UI/MapEditorWindow.Catalog.cs": "936271494ba2976bdaf4ca2473c4bf587ad5c5297fb7efe8e0b299e84f8afc26",
+      "Editor/UI/MapEditorWindow.Catalog.cs.meta": "bfa124b62954f66d5ada276b442b253a5b300e483fd1c240e14df3a87092f01f",
+      "Editor/UI/MapEditorWindow.cs": "ae07a68725f361086302ba06e68e9a64333a901d67a6e904049e3b6ff488800a",
+      "Editor/UI/MapEditorWindow.cs.meta": "2af9cdb04339673527c5160a41de36f8d778e6f8424074a97cfa9df2c13828cd",
+      "Editor/UI/MapEditorWindow.Editing.cs": "0c45126754448b9790b78499cdd543b6e8b0ae894f516209b9310d789f87a35f",
+      "Editor/UI/MapEditorWindow.Editing.cs.meta": "7b31880cfe68d2780796321ad0cf637442175d0dab09bd5da5ab8e86952283c3",
+      "Editor/UI/MapEditorWindow.InspectorDrafts.cs": "d1d652de47598fce37ff5afb395c215f57b1c4f0d2c7c7820482739a66037201",
+      "Editor/UI/MapEditorWindow.InspectorDrafts.cs.meta": "5d1931aa5f6a9fdf7236ed5a34226ddf7dffd2f005630947eca44817b506e2bb",
+      "Editor/UI/MapEditorWindow.Project.cs": "cc5858af971de30593bd39ef6ef65bb9cbfee8688561782a137aff1e3256d920",
+      "Editor/UI/MapEditorWindow.Project.cs.meta": "d35bb2982983d2bd93c7c1ee839647ae1b94d0237b05847cfa9ab6e578a124ba",
+      "Editor/UI/MapEditorWindow.Routes.cs": "f1606994ea9968b98103b9ab2bca596616fb7717cff0d6867223e042458424e7",
+      "Editor/UI/MapEditorWindow.Routes.cs.meta": "61cc316b8069408c7cd0c16b68ad790e58295222ca8075af69b60ee3a06c2ff6",
+      "Editor/UI/MapEditorWindow.Schedule.cs": "84ad43a0cf9466ae385759e3faec6e581d9d3b9e0a16942afe0ec36b73235a79",
+      "Editor/UI/MapEditorWindow.Schedule.cs.meta": "d76dcd847a2aac3a0e5a143d47e16d3ca3e921df415cc86d3d29ef95ab8547a4",
+      "Editor/UI.meta": "8977245040d80fce52d0cdc3ae76eeb76b1b476e60cf6cfb92e4ca4bc1a73e8a",
+      "Editor.meta": "469d0bb75d4ecea443e2a4c6eb3da16158d97ddde124123e4a997e0a55defecf",
+      "LICENSE.md": "771ef81a940755ce197e4b68336e5a194b4c4bfe55c55a982c7afc02280aed3f",
+      "LICENSE.md.meta": "39ae14fb51990b1813188cfb378a23841a78fa4ccaae11993b38be131f272290",
+      "package.json": "c93b06178c8fb73ef7d8140cbf5b48754ec14960d22fa2229857dc1a1f136dce",
+      "package.json.meta": "53a37ae810df0ffbc3fd8555a1d47abab0e219b6441c39a45e1a1d85a44d1a35",
+      "README.md": "2ac16501cb237f60df59033badbc3b025678b8a6b1addb4a18dbb2fc4726486d",
+      "README.md.meta": "6f61402ad031ec31ab75ad51a69eeb0cfa703331e9b17298707d644e0996108e",
+      "Samples~/BasicMap/level.json": "8f448db0bff60b45b6a89563a6a1a9c4adbffeacc12775fa7c312c40b71f92e4",
+      "Samples~/BasicMap/README.md": "775c58b5e7f4329d01d5bb2ce16a3e4bcbd54bc2d01f25a1cfd9b92102231865",
+      "Tests/Editor/Catalog/EditorCatalogTests.cs": "7c27bf13a574a12097d111d69732a0c5a7e5731712f3f18e7463a832a1931ea6",
+      "Tests/Editor/Catalog/EditorCatalogTests.cs.meta": "ae2f3c2af7ac3047cec34c6a34033e6909b1f3015f992ee7f37296473e95ce06",
+      "Tests/Editor/Catalog.meta": "9fce54a38aa5f4da4a2541f24f14399024c810f0c974733482909b003225ccf4",
+      "Tests/Editor/ChunkedMapTests.cs": "5edbe449974f1be9c7af6a55ee0da75f7a4abfa5dfa9c239dd297aca354be43d",
+      "Tests/Editor/ChunkedMapTests.cs.meta": "41bfcb455056c2d7afe8cc8f10d8afb8c73908836a617d105b56d7280957d488",
+      "Tests/Editor/Core/CommandBoundaryRegressionTests.cs": "449eda008deaaa8d5b90b33d0523109a07356f2e403bf91b21441b24bbb1b730",
+      "Tests/Editor/Core/CommandBoundaryRegressionTests.cs.meta": "6a3b9948ed817490731ef60dcbcdd0e1a4043f5ad3035dd64f59f27637f9a0f1",
+      "Tests/Editor/Core/LevelDocumentTests.cs": "5a5277cbb14cc815089dcc06d009a6b4243c46e92368780801c58a73f2ba293e",
+      "Tests/Editor/Core/LevelDocumentTests.cs.meta": "c230612168b83ea17987ea978cfc41de068107c1c2a52f669eec06f2b2558af2",
+      "Tests/Editor/Core/MapCommandTests.cs": "e6338f30199eb3ba16c45a97e24b581336f8daa19cebe49393e74decd7a08102",
+      "Tests/Editor/Core/MapCommandTests.cs.meta": "0a5f0bd740e85db407520b61c11c8129da16baa7d41ecd7566c0bb8bbff49526",
+      "Tests/Editor/Core/ReferenceValidationTests.cs": "4e26b3412d13a4e6a9762318da92bb02e79710bb79bcda147d4ea320b83a7f4f",
+      "Tests/Editor/Core/ReferenceValidationTests.cs.meta": "7b71c380f0e910f2ddc2853af2810fc6a05d2169182e99ca48602fd1eb51cc97",
+      "Tests/Editor/Core/ScheduleCommandTests.cs": "c07bcd1a082766f68f27a818fc4b814d5467ed01752bf70e6b09115041b4ae89",
+      "Tests/Editor/Core/ScheduleCommandTests.cs.meta": "d44e626c738bc7de1334a1c5acf0cbe78d2c8eef8390ce539725c1f85baf342c",
+      "Tests/Editor/Core/WebDifferentialFixtureTests.cs": "5217312f9b8e81048b4314069c13148fe82fcd15f5a0ecf9e32c70d587c790f4",
+      "Tests/Editor/Core/WebDifferentialFixtureTests.cs.meta": "36628b0624f254d430cef47513bb31f29d130845ccd1da4fc16335cb8d6d535f",
+      "Tests/Editor/Core.meta": "1a0198b9c65c9633c9d905ff6e0067c780edd723905f540e6d31e1ec7d4c8468",
+      "Tests/Editor/DomainReloadTests.cs": "27f0c3fd30ccfe7752daecad1f21fa5aa56f48364ddc4365681f4061cb2884e7",
+      "Tests/Editor/DomainReloadTests.cs.meta": "0e818892626f44d88913d1779175be4a4643970e63d2467b51908cbdf47cc7e4",
+      "Tests/Editor/EditorWorkflowTests.cs": "3b009d907245da3031f216c63695330d96976bce6b904c60de4d4647b284cd71",
+      "Tests/Editor/EditorWorkflowTests.cs.meta": "820f9127bb5b1d682e35fca4ef9638b6d9f8b5e9a324730fb790d89a8d28d6c1",
+      "Tests/Editor/InspectorDraftStoreTests.cs": "77a0ab7a7df688d6da1c0cdab3af79721d650cbeb6042f47666ad14b8cc989f7",
+      "Tests/Editor/InspectorDraftStoreTests.cs.meta": "44bf5f6378c65f2edc64a3e94a8e573d7af498ca786247ccc2f2521998b4e0de",
+      "Tests/Editor/InspectorDraftWindowTests.cs": "cb8d8da958b3077c8dc0033abbf309d69300d36b8ad0ad7b846e5fa49902c668",
+      "Tests/Editor/InspectorDraftWindowTests.cs.meta": "b45f3752604b0f3d61c55513237730226cdc8ec1929d497f1c34da59e7fd4f23",
+      "Tests/Editor/MapEditor.Editor.Tests.asmdef": "5936069af7a0d9057ff6b3b3b1fb12d8b69496f50ffe282c18e48ebbd010c24f",
+      "Tests/Editor/MapEditor.Editor.Tests.asmdef.meta": "73802c1526f15da2a64ed13a2d50bd0ad3f087b32dc9c7c3ea75081d02db4805",
+      "Tests/Editor/PerformanceTests.cs": "fa8d84d9dbaa6947175ee167a23e7a625831ec772970073c2d2c4a01a6dce621",
+      "Tests/Editor/PerformanceTests.cs.meta": "fc001e496c762a61d3edd264bcceb89691b80114b4c010d07cdda3f237fc0348",
+      "Tests/Editor/PlayModeLifecycleTests.cs": "393e5a267e521ae6a81a122e8d94081eac71c5fa94aeb3319b2f34d86bea02dc",
+      "Tests/Editor/PlayModeLifecycleTests.cs.meta": "2ad01944d015b788a070f65f6f8dbf0a700da0d34cb1946bf2dbe68c9eb0169b",
+      "Tests/Editor/PreviewStageTests.cs": "506514029db127fef98944f228e9408f58f35f5452e7eaa2bace1a685e1f8731",
+      "Tests/Editor/PreviewStageTests.cs.meta": "40183cd5a68bb39b83063f628f19211ead7e6495ac9c42cd83ea9ed26671eb2b",
+      "Tests/Editor/ProjectRecoveryUiTests.cs": "ae3e2b235632edf6f756e1ecc45017fb1b3efab09a505628f2d2e46f54522452",
+      "Tests/Editor/ProjectRecoveryUiTests.cs.meta": "e27ea914e712082e2b3300885c213a323788449f95e662e017e4af24304219b4",
+      "Tests/Editor/SessionCacheTests.cs": "9657183abe0c09b1b6f1e2e375ab26221d5748f7021b14c9d59a302ab0400346",
+      "Tests/Editor/SessionCacheTests.cs.meta": "92491075a3485d74b6739a62c61855882c13a5ef11c0cf2b3007cbfdd8e1b37e",
+      "Tests/Editor/SessionTests.cs": "13c4abed5b4a467a776e4d1e2ce6adbe45a103c02609e0153506d4480b3a4c01",
+      "Tests/Editor/SessionTests.cs.meta": "06e32ecd0c45db38044c8c0d8639bfddfb3b336d7b326e7ec0a2604151b5102c",
+      "Tests/Editor/Storage/DocumentFileStoreTests.cs": "e38533d2103533da6cee9e300ffa49ff8aa682bc24109d6a1ea75e0d2569685b",
+      "Tests/Editor/Storage/DocumentFileStoreTests.cs.meta": "1d58720a4f596c4befc200db23d4323bac66da2a5e22941619f6262f68dd2d92",
+      "Tests/Editor/Storage/ProjectAndRecoveryTests.cs": "77cd594fee8ffede12fc87f1738953fe76d79e11c7c9f63c530701485ffb24bd",
+      "Tests/Editor/Storage/ProjectAndRecoveryTests.cs.meta": "0e5a8ce0f4ba6e6ffcbfe66ed6f25f8f8dda4668a3a783cb8415a01eaa230948",
+      "Tests/Editor/Storage/RecoveryStoreTests.cs": "767f402f2a3ef9031aa2277efbefafec655cb696b781e4495ca417cda66d6a7b",
+      "Tests/Editor/Storage/RecoveryStoreTests.cs.meta": "9d114f76e245ca684fdb5a0db21f60c945564dd61fdbc7c0a55cac32550684d1",
+      "Tests/Editor/Storage.meta": "bde2a37aa039f400d056245daab781773da776eee81a6b1fc0cad9272b5ab40a",
+      "Tests/Editor/WindowTests.cs": "8085a448a2c0cca307cff6630ed657e846a99ee0544f806d0d3eda3ba37642ef",
+      "Tests/Editor/WindowTests.cs.meta": "7966df266074c3e535f3e45354f81cb52ebb13e776804e28c5b1ff805070b2a4",
+      "Tests/Editor.meta": "4b21e68baa3a05e38a4f461e22a7879efda57181e67c4e67dc30cda2adbca636",
+      "Tests.meta": "82fd38918858b601557faf1694a02f468b6591220b176cfe3f17cdde6e61be27",
+      "Third Party Notices.md": "1589bc2d684f5712d0533ed6292d82cb4c0ac0a1026f27b1da109248259a7fd3",
+      "Third Party Notices.md.meta": "7feb38e6c63e034394a2348cd8c6b90385e968f116ac388c3e0e0b825964ed4b"
+    }
+  },
+  "coverage": {
+    "summary": {
+      "generatedon": "2026-11-03T09:56:20Z",
+      "parser": "MultiReportParser (4x OpenCoverParser)",
+      "assemblies": 3,
+      "classes": 27,
+      "files": 35,
+      "coveredlines": 1815,
+      "uncoveredlines": 286,
+      "coverablelines": 2101,
+      "totallines": 3043,
+      "linecoverage": 86.3,
+      "coveredbranches": 0,
+      "totalbranches": 0,
+      "coveredmethods": 265,
+      "totalmethods": 283,
+      "methodcoverage": 93.6
+    },
+    "coverage": {
+      "assemblies": [
+        {
+          "name": "MapEditor.Core",
+          "classes": 6,
+          "coverage": 96.1,
+          "coveredlines": 653,
+          "coverablelines": 679,
+          "totallines": 944,
+          "branchcoverage": null,
+          "coveredbranches": 0,
+          "totalbranches": 0,
+          "methodcoverage": 100,
+          "coveredmethods": 75,
+          "totalmethods": 75,
+          "classesinassembly": [
+            {
+              "name": "Arknights.MapEditor.Core.CellEdit",
+              "coverage": 100,
+              "coveredlines": 9,
+              "coverablelines": 9,
+              "totallines": 21,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 4,
+              "totalmethods": 4
+            },
+            {
+              "name": "Arknights.MapEditor.Core.LevelDiagnostic",
+              "coverage": 100,
+              "coveredlines": 7,
+              "coverablelines": 7,
+              "totallines": 14,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 4,
+              "totalmethods": 4
+            },
+            {
+              "name": "Arknights.MapEditor.Core.LevelDocument",
+              "coverage": 95.2,
+              "coveredlines": 503,
+              "coverablelines": 528,
+              "totallines": 710,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 45,
+              "totalmethods": 45
+            },
+            {
+              "name": "Arknights.MapEditor.Core.LevelDocumentException",
+              "coverage": 100,
+              "coveredlines": 5,
+              "coverablelines": 5,
+              "totallines": 16,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 2,
+              "totalmethods": 2
+            },
+            {
+              "name": "Arknights.MapEditor.Core.ScheduleAddress",
+              "coverage": 100,
+              "coveredlines": 11,
+              "coverablelines": 11,
+              "totallines": 21,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 6,
+              "totalmethods": 6
+            },
+            {
+              "name": "Arknights.MapEditor.Core.StrictJsonGuard",
+              "coverage": 99.1,
+              "coveredlines": 118,
+              "coverablelines": 119,
+              "totallines": 162,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 14,
+              "totalmethods": 14
+            }
+          ]
+        },
+        {
+          "name": "MapEditor.Editor",
+          "classes": 11,
+          "coverage": 78.6,
+          "coveredlines": 890,
+          "coverablelines": 1131,
+          "totallines": 1706,
+          "branchcoverage": null,
+          "coveredbranches": 0,
+          "totalbranches": 0,
+          "methodcoverage": 89.4,
+          "coveredmethods": 144,
+          "totalmethods": 161,
+          "classesinassembly": [
+            {
+              "name": "Arknights.MapEditor.Catalog.CatalogEntry",
+              "coverage": 80,
+              "coveredlines": 8,
+              "coverablelines": 10,
+              "totallines": 20,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 77.7,
+              "coveredmethods": 7,
+              "totalmethods": 9
+            },
+            {
+              "name": "Arknights.MapEditor.Catalog.EditorCatalog",
+              "coverage": 98.1,
+              "coveredlines": 54,
+              "coverablelines": 55,
+              "totallines": 84,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 8,
+              "totalmethods": 8
+            },
+            {
+              "name": "Arknights.MapEditor.Catalog.ImportedObjectEntry",
+              "coverage": 71.4,
+              "coveredlines": 5,
+              "coverablelines": 7,
+              "totallines": 18,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 66.6,
+              "coveredmethods": 4,
+              "totalmethods": 6
+            },
+            {
+              "name": "Arknights.MapEditor.Editor.ChunkedMapView",
+              "coverage": 98.7,
+              "coveredlines": 79,
+              "coverablelines": 80,
+              "totallines": 110,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 10,
+              "totalmethods": 10
+            },
+            {
+              "name": "Arknights.MapEditor.Editor.DocumentSaveState",
+              "coverage": 100,
+              "coveredlines": 3,
+              "coverablelines": 3,
+              "totallines": 103,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 1,
+              "totalmethods": 1
+            },
+            {
+              "name": "Arknights.MapEditor.Editor.DocumentSession",
+              "coverage": 100,
+              "coveredlines": 59,
+              "coverablelines": 59,
+              "totallines": 103,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 11,
+              "totalmethods": 11
+            },
+            {
+              "name": "Arknights.MapEditor.Editor.EditorFileDialogs",
+              "coverage": 0,
+              "coveredlines": 0,
+              "coverablelines": 3,
+              "totallines": 18,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 0,
+              "coveredmethods": 0,
+              "totalmethods": 3
+            },
+            {
+              "name": "Arknights.MapEditor.Editor.InspectorDraftStore",
+              "coverage": 100,
+              "coveredlines": 90,
+              "coverablelines": 90,
+              "totallines": 144,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 21,
+              "totalmethods": 21
+            },
+            {
+              "name": "Arknights.MapEditor.Editor.InvalidDocumentWindow",
+              "coverage": 65,
+              "coveredlines": 13,
+              "coverablelines": 20,
+              "totallines": 34,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 80,
+              "coveredmethods": 4,
+              "totalmethods": 5
+            },
+            {
+              "name": "Arknights.MapEditor.Editor.MapEditorWindow",
+              "coverage": 76.7,
+              "coveredlines": 535,
+              "coverablelines": 697,
+              "totallines": 932,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 92.8,
+              "coveredmethods": 65,
+              "totalmethods": 70
+            },
+            {
+              "name": "Arknights.MapEditor.Editor.MapPreviewStage",
+              "coverage": 41.1,
+              "coveredlines": 44,
+              "coverablelines": 107,
+              "totallines": 140,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 76.4,
+              "coveredmethods": 13,
+              "totalmethods": 17
+            }
+          ]
+        },
+        {
+          "name": "MapEditor.Storage",
+          "classes": 10,
+          "coverage": 93.4,
+          "coveredlines": 272,
+          "coverablelines": 291,
+          "totallines": 496,
+          "branchcoverage": null,
+          "coveredbranches": 0,
+          "totalbranches": 0,
+          "methodcoverage": 97.8,
+          "coveredmethods": 46,
+          "totalmethods": 47,
+          "classesinassembly": [
+            {
+              "name": "Arknights.MapEditor.Storage.ArkMapProject",
+              "coverage": 100,
+              "coveredlines": 15,
+              "coverablelines": 15,
+              "totallines": 26,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 3,
+              "totalmethods": 3
+            },
+            {
+              "name": "Arknights.MapEditor.Storage.ArkMapProjectStore",
+              "coverage": 88.2,
+              "coveredlines": 45,
+              "coverablelines": 51,
+              "totallines": 78,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 83.3,
+              "coveredmethods": 5,
+              "totalmethods": 6
+            },
+            {
+              "name": "Arknights.MapEditor.Storage.ArtMapping",
+              "coverage": 90,
+              "coveredlines": 9,
+              "coverablelines": 10,
+              "totallines": 19,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 4,
+              "totalmethods": 4
+            },
+            {
+              "name": "Arknights.MapEditor.Storage.AutoRecovery",
+              "coverage": 100,
+              "coveredlines": 32,
+              "coverablelines": 32,
+              "totallines": 51,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 8,
+              "totalmethods": 8
+            },
+            {
+              "name": "Arknights.MapEditor.Storage.DocumentFileConflictException",
+              "coverage": 100,
+              "coveredlines": 1,
+              "coverablelines": 1,
+              "totallines": 11,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 1,
+              "totalmethods": 1
+            },
+            {
+              "name": "Arknights.MapEditor.Storage.DocumentFileSnapshot",
+              "coverage": 100,
+              "coveredlines": 7,
+              "coverablelines": 7,
+              "totallines": 16,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 3,
+              "totalmethods": 3
+            },
+            {
+              "name": "Arknights.MapEditor.Storage.DocumentFileStore",
+              "coverage": 89.2,
+              "coveredlines": 91,
+              "coverablelines": 102,
+              "totallines": 157,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 9,
+              "totalmethods": 9
+            },
+            {
+              "name": "Arknights.MapEditor.Storage.RecoverySnapshot",
+              "coverage": 100,
+              "coveredlines": 17,
+              "coverablelines": 17,
+              "totallines": 27,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 8,
+              "totalmethods": 8
+            },
+            {
+              "name": "Arknights.MapEditor.Storage.RecoveryStore",
+              "coverage": 100,
+              "coveredlines": 30,
+              "coverablelines": 30,
+              "totallines": 70,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 3,
+              "totalmethods": 3
+            },
+            {
+              "name": "Arknights.MapEditor.Storage.SafeProjectPath",
+              "coverage": 96.1,
+              "coveredlines": 25,
+              "coverablelines": 26,
+              "totallines": 41,
+              "branchcoverage": null,
+              "coveredbranches": 0,
+              "totalbranches": 0,
+              "methodcoverage": 100,
+              "coveredmethods": 2,
+              "totalmethods": 2
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "review": {
+    "unresolvedCriticalHigh": 0,
+    "scope": "Immutable session cache, serialized undo/reload invalidation, collapsed advanced JSON draft preservation"
+  },
+  "limitations": [
+    "CPU EditorLoop invocation timing is not GPU presentation or input latency",
+    "Expanded full JSON panel performance is not covered by interactive run06",
+    "Git install deferred until authorized accessible commit",
+    "No game runtime or final art validation"
+  ],
+  "playerAcceptance": {
+    "expected": "installed",
+    "sceneSha256": "1c4d70c2b972b446516a2dc7324ccde46c44e51f5c847245fe5aa6afef537e17",
+    "buildResult": "Succeeded",
+    "buildSize": "68993125",
+    "editorPluginAssemblies": [
+      "MapEditor.Core",
+      "MapEditor.Editor",
+      "MapEditor.Editor.Tests",
+      "MapEditor.Storage"
+    ],
+    "playerAssemblies": [
+      "UnityEngine.TestRunner"
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-03",
+  "unity": "2021.3.39f1",
+  "tests": {
+    "total": 192,
+    "passed": 192,
+    "failed": 0,
+    "report": "../../../../storage/map-editor-unity/skeleton-tests-03/results.xml"
+  },
+  "live": {
+    "stage": "MapPreviewStage",
+    "vertices": 1200,
+    "shaderErrors": false,
+    "shaderSupported": true,
+    "editorWindows": 1,
+    "sceneViews": 1
+  },
+  "sourceHashes": {
+    "Editor/SceneTools/SkeletonStyle.cs": "3fc9821b7761f7ae7d43cedb6379c4a3fb82c09b120b4ec6fd8a376e1bba10aa",
+    "Editor/SceneTools/Skeleton.shader": "3ec11867e7535fc0fa84f4b56fc6b842f446e0db2e1e51746b90036686bfdf02",
+    "Editor/SceneTools/ChunkedMapView.cs": "c46f3b6bc67903aac3381d481457c1022f1042e2caf3ca17c263c2131e1cacc7",
+    "Editor/SceneTools/MapPreviewStage.cs": "91c6a92f455d7b570a45f340dac13859aa8e9530a27672601771747bc1de6050",
+    "Editor/Catalog/skeleton-definitions.json": "e5c2b9c817285e6ae8931576d5169ba1488fea5fb8611177ba8ce7d095947677",
+    "Editor/UI/MapEditorWindow.cs": "942c2d7110b6b726f04c816e40b05939411fb885aba8ffc48c7b7d8de946f3ed",
+    "Editor/UI/MapEditorWindow.Editing.cs": "2934573bf451320f25f152f6e279dbba9a6170c3bb4d3a6449f5397cdf01d8af",
+    "Tests/Editor/SkeletonStyleTests.cs": "5bd997f8d1df4ba9bdbd81c711a67d412607f45497d14a8d4e83fdd2a09aee30",
+    "Tests/Editor/ChunkedMapTests.cs": "89a246c957c404ad8491a68483ef7e2bce885c25bfbdfe0ffc7b8965c270ee5a",
+    "Tests/Editor/PreviewStageTests.cs": "1b6411c708258b910db863aa08aacd7ce36e403b8e8b7234c2d36618328f1616",
+    "Samples~/SkeletonGallery/level.json": "33337c21f33e535ec4e999c525829aa4ee4b508889a5788b2a1f584a4a03f4fb"
+  },
+  "visualInspection": false,
+  "gameOperations": false
+}

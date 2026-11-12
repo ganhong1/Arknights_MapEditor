@@ -1,0 +1,346 @@
+# Unity LevelData 编辑器设计
+
+## Options 研究与逐字段编辑（2026-11-09）
+
+`options` 已核对15个序列化字段。构造初值、原版样例和实际消费者边界必须分开：maxPlayTime并非通用超时失败规则，maxLifePoint不强制截断运行生命，moveMultiplier并非0.5白名单。回费有效阈值已按指令与dump偏移纠正为FP.EN5，旧EN4说法作废。黑板保留有序记录、大小写、数值/字符串类型和空值状态；整数读取Floor，布尔采用近零判断。
+
+证据：[Options值域](OPTIONS_VALUE_RESEARCH_20261106.md)、[89个观测键逐项记录](OPTIONS_BLACKBOARD_CONSTRAINTS_20261106.md)。79项仅找到消费者或部分解析机制，10项仅有样例；不能当完整允许键/值清单。
+
+按用户确认，「全局设置」只编辑 `LevelData.options`；地图尺寸移到独立地图数据模块的 `map`。options 表单已按原始15字段声明顺序实现；functionDisableMask 的19位选项和 configBlackBoard 的有序条目编辑在各自字段内展开。字段表单与完整原始JSON共用既有 `global:options` 草稿槽，应用仅修改 options，支持一次撤销。缺失、null、未知成员、未修改的旧异常值和掩码未知位保留；构造参考值只在显式添加字段时写入。未证实的业务边界不强行限定。完整边界见[Options编辑设计](OPTIONS_EDITOR_DESIGN.md)，实际验证见主计划和本轮证据。
+
+### MapData 独立模块（2026-11-09）
+
+独立「地图数据 · mapData」按钮按 map、tiles、blockEdges、tags、effects、layerRects 导航；保留旧入口序列化 ID，默认进入 `tiles · TileData`，复用原配置管理、共享绑定、三选项确认和草稿，不另建副本。尺寸与二维索引 JSON 在 map 内；另外四字段当前提供原文编辑与结构检查，尚未提供猜测性的图形助手。完整 mapData JSON 与局部字段同样执行索引及裁剪预检；索引范围遵守非负 Int16。现有 row/col 扫描不能覆盖效果 offset 或 layerRects 的全部空间语义。详见[MapData 编辑设计](MAPDATA_EDITOR_DESIGN.md)。
+
+## 多地图工作台
+
+当前默认入口使用可拖拽停靠的原生场景窗口。新建/打开地图时，已在主窗口停靠的地图场景保持当前位置；新建场景和原浮动场景进入主窗口的 Game 标签组，其次选择 Scene 或已有地图场景标签组。右侧关卡工作台保留文档标签和编辑工具，每个显示组使用一个 `SceneView` 子类，经受保护接口绑定独立预览场景。方向轴、导航和场景工具由 Unity 提供。地块绘制使用 Shift + 左键，保存仍由工作台执行。旧自绘窗口仅用于迁移已打开的文档会话。
+
+Unity 2021.3 的 `CreateWindow` 按窗口具体类型匹配停靠目标，且包含浮动窗口；`EditorWindow.docked` 也可能包含浮动多标签组。停靠适配集中在 `NativeMapSceneDock`，以 `ContainerWindow.showMode == MainWindow` 选择目标，再调用已有 `DockArea.AddTab`。没有可用的主窗口地图标签组时显示原因，保留原文档、选择和场景；不额外弹出场景窗口。依据：[Unity 2021.3 EditorWindow](https://github.com/Unity-Technologies/UnityCsReference/blob/2021.3/Editor/Mono/EditorWindow.cs)、[ContainerWindow](https://github.com/Unity-Technologies/UnityCsReference/blob/2021.3/Editor/Mono/ContainerWindow.cs)。
+
+
+一个可停靠的工作台包含左、右两个地图组。组内以标签切换地图，组间可以并排显示，也可以合回单组。地图文档持有各自的编辑草稿、源文件和撤销记录。可见视口持有自己的相机、旋转、缩放与平移状态。同一文档可以在两组各显示一次，修改后同步刷新。
+
+每个可见视口用独立 Unity 预览场景和 RenderTexture，复用骨架网格、物件图标和标签渲染。工作台不切换 Unity 的全局 Stage。关闭或切换标签只释放所属视口，未保存的文档在关闭前仍需确认。隐藏视口释放渲染资源，标签保留相机状态。
+
+场景标签组中的「地图视口」只显示地图和视图控制。右侧独立「关卡工作台」显示文档标签、编辑工具和资源库。右侧切换文档会选择对应地图视口，点击地图视口也会更新右侧的标签和编辑面板。已有单图窗口的草稿可以继续在原窗口编辑。
+
+更新：2026-11-03。设计已批准；实施与验收状态由[唯一主计划](PlanDocumentsForImplementation/UnityEditor/UNITY_EDITOR_IMPLEMENTATION_PLAN.md)维护。本文解释稳定架构，不以设计存在声明功能全部完成。
+
+## 产品边界
+
+Unity Editor 中编辑原生 LevelData，保留现有 Web 入口。地图示意服务于配置编辑，不复现游戏最终光影，不连接游戏或私服。首个已测宿主为 Windows / Unity 2021.3.39f1；其他版本不能由最低版本声明推断兼容。
+
+当前职责收敛为完整 LevelData 的生产与内部自我审查，包括 options 等序列化字段的后续编辑能力。关卡／模式到资源的关联、运行部署与实际效果验收由外部程序承担。原版关卡与模式资料可以作为只读出处和研究依据，不自动扩大为本插件的启动或模式适配职责。
+
+原生 LevelData 是战斗配置数据真源。独立 `.arkmap` 编辑工程保存版本、相对 LevelData 路径和美术映射；Unity GUID 不能冒充游戏资源路径。后续资产构建及运行适配必须独立验收。
+
+## 依赖与所有权
+
+```text
+UI Toolkit / SceneView + Handles
+  └─ MapEditor.Editor：会话、命令提交、Unity Undo、预览 stage、目录
+       ├─ MapEditor.Core：不可变 JSON 文档、局部命令、结构及引用诊断
+       └─ MapEditor.Storage：原子文件替换、摘要冲突、工程与恢复持久化
+
+文档 ──派生──> ChunkedMapView（可销毁重建，不作为保存来源）
+文档 ──导出──> LevelData JSON
+编辑器配置 ──保存──> .arkmap（不混入 LevelData）
+```
+
+Core 与 Storage 无 Unity 对象依赖。所有包程序集显式限定 Editor；目录名不代替程序集平台设置。发行包不依赖 MCP、工具链探针、游戏 DLL 或本机路径。
+
+实际目录为 `unity/Packages/io.github.lingrs-llm-researchteam.mapeditor`，生产源码位于 `Editor/{Core,Storage,Application,UI,SceneTools,Catalog}`。宿主工程和生成缓存置于仓库外；`unity/verification` 保存验收工具，不编入包。
+
+## 数据契约
+
+- JSON 树保留未知字段、数组顺序和缺失/null/空集合区别；局部命令只修改对应路径，失败不提交半成品。
+- 明确新建才生成默认值；导入不自动规范化成新关卡。严格解析拒绝重复键、非有限数、无效Unicode及超限输入。
+- 路线、敌人、波次、Branch、预设按已实现规则校验引用；无法判定的原生语义不冒充完整游戏校验。
+- 资源库按家族浏览 116 个原生地块和独立的骨架箱子示意项。按具体变体浏览实际关卡使用的完整 TileData，另列最多三份默认推荐。隐藏输入、卡牌、机制触发器分别建模。
+
+## 关卡预设与干员资源库
+
+左侧「地图与配置 → 关卡预设」管理 `predefines` 与 `hardPredefines`。以基础／困难预设层、干员／装置、场上／卡牌组织 `characterInsts`、`characterCards`、`tokenInsts`、`tokenCards`。右侧「预设干员」和「装置」提供搜索、只读预览与选用。选用的配置进入当前地图左侧草稿，放置或提交时写入对应原生数组。
+
+「预设干员」搜索框右侧可展开标签筛选，支持职业、职业分支、稀有度、位置和词缀。组内默认匹配任意所选标签，组间同时匹配。词缀可切换为同时满足。多形态干员按单个形态匹配，列表按干员显示一条。标签可与关键词和原版样例筛选同时使用。
+
+预设干员详情按场上与卡牌切换原版配置，选中样例后逐字段显示练度、技能、模组和预设参数，可展开原始 JSON 与出处。左侧关卡预设记录支持列表和块状浏览，两种视图共用当前记录和草稿。
+
+预设块复用 2.7.81 干员头像和装置图集。场上块显示坐标和朝向，干员卡牌块显示练度，装置卡牌块显示初始数量。工作台的手牌区开关控制当前地图预览，按所选基础或困难预设层读取 `characterCards` 和 `tokenCards`。
+
+SceneView 的部署卡沿底部右对齐，卡列宽度由卡片数量决定。以原版 `card_character.prefab` 的 178 × 184 布局和 109–178 卡宽区间计算缩放，缩到最小卡宽后开启横向滚动。界面复用 2.7.81 的九宫格卡框、选中框、职业和精英图标、稀有度条及装置数量底图。默认干员头像来自既有图集，原版样例使用的皮肤头像和可取得的装置头像来自固定 Android 资源批次。点击预览卡会选中左侧对应记录。
+
+点击资源库干员条目会高亮选中，并在左侧「关卡预设」建立可编辑草稿。详情图标打开原版配置。点击地图格时可选择仅创建场上预设、仅创建卡牌、同时创建或取消。场上记录绑定坐标和朝向，卡牌记录使用独立副本。同时创建合并为一次撤销，已有别名保留在场上记录。
+
+干员库以角色 ID 为索引，形态沿用原生 `tmplId` 和形态技能顺序。轻量索引提供名称、职业、稀有度、头像和样例统计。练度字段的选项由固定版本游戏表生成，头像复用已有 2.7.81 图集。原版样例区分场上和卡牌，场上按去掉坐标与朝向的完整配置去重，卡牌按完整配置去重。出处保留正文身份、预设层及索引，可回读原始坐标和朝向。
+
+左侧干员练度表单用于资源库选用、已有预设编辑和编队导入。编队来源是本地快照中的槽位选择与对应干员记录。复制先解析形态、技能及专精、模组等级和战斗信赖，再生成独立草稿。场上预设在地图放置时写入坐标和朝向，卡牌通过左侧按钮添加。编队输入由本地快照提供，关卡正文只保存关卡预设。
+
+「从编队复制」支持带 `troop.chars` 和 `troop.squads` 的账号编队快照，以及带 `roster`、`patches` 和可选 `squadSelections` 的 BattleLab 编队快照。选择槽位后先显示转换结果，再选择场上或卡牌草稿。需要补充的槽位或模组记录在预览处指出。场上草稿可指定朝向后点击地图格，卡牌草稿点击「加入关卡卡牌」提交，两者都使用文档撤销记录。
+
+资源索引包含 461 名干员。1,765 份场上样例和 2,938 份卡牌样例来自成品关卡库中的 1,289 份正文，原始出处覆盖各资源版本。索引保存六张定义表与关卡归档的 SHA-256，详情按干员从归档读取。[2.7.81 定义表批次](https://torappu.prts.wiki/gamedata/26-10-22-14-02-11-51447808/excel/character_table.json)
+
+461 名干员均按原生 Sprite 名绑定头像。新增的 238 张头像使用第二张图集，资源库和骨架层共用两张头像图集。每行详情按钮复用地形和装置库的图标。干员详情包括形态、部署位、标签、等级上限、技能、模组和皮肤。原版样例和出处另在场上／卡牌页展开。
+
+## 装置资源库
+
+目录以装置 ID 组织，同一详情内分别展示「场上预设」和「卡牌配置」，对应 tokenInsts 与 tokenCards。每种形式独立提供默认推荐、全部既有已知配置、当前配置出处和总出处。没有原版样例的形式保留空态，不将卡牌转换为场上记录，也不制造原版默认配置。
+
+目录保留历史 846 个装置 ID，另收录在原版预设中出现的 token_10053_radian_tower3。当前 403 个 ID 有样例。完整普查见[装置配置核验](../unity/evidence/DEVICE_PRESET_AUDIT_20261106.md)。发布数据采用轻量索引和逐装置 JSON，详细配置按需读取并有界缓存，不在创建界面时解析整份研究证据。
+
+既有配置按内容去重，不提供“配置组／组内原始记录”的第二层选择。场上预设仅排除顶层 position、direction；hidden、alias、黑板、技能、未知字段及 missing/null/empty 差异仍参与去重。卡牌按完整记录去重，包含 initialCnt，不添加地图摆放字段。当前固定快照对应 6,919 份场上配置和 811 份卡牌配置。默认推荐最多三份，第一份初始选中；它们直接引用这些配置，排序考虑标识字符串、字段完整度、覆盖参数、隐藏／别名和出处覆盖，属于编辑器推荐而非游戏默认。
+
+「当前配置出处」聚合该配置全部原版记录的关卡，「总出处」覆盖当前使用形式的全部配置，均按正文路径去重。点击出处可查看每条原始记录及数组位置，包含原版 position、direction；这些摆放值不作为可选配置的默认值。切换推荐保留展开状态，配置与出处搜索继续复用 Fuse.js，列表与块状出处显示不变。
+
+「使用这套配置」只载入局部草稿。场上配置同时启用地图放置：Shift + 左键点击／拖动，坐标从目标格绑定，朝向从“放置朝向”读取；每次手势作为一次文档编辑，卡牌继续显式“插入预设”。放置保留非摆放字段，不修改地形，不自动加入分支或波次。编辑锁禁止修改；切换置空／选用地块取消装置放置；越界、非法方向及本层重复非空别名整体拒绝。连续放置重新绑定当前文档基线，其他操作导致的过期草稿仍拒绝。新装置 RIGHT 是编辑器放置选择，不声称原生默认方向。保留取消覆盖草稿的原有确认机制。
+
+「查看通用配置 · 预制体默认字段」按用户最新要求仅研究、暂不接入。PredefinedCharacter / PredefinedTokenCard 是 LevelData 输入类，Character/Trap 预制体是组件树，CharacterData、技能表与天赋还提供另一层数据。已检查的 71 份旧批次组件记录不能直接当作完整关卡预设默认值，也不代表全目录已核验。详见[装置配置与摆放核验](../unity/evidence/DEVICE_CONFIGURATION_PLACEMENT_20261106.md)。
+
+分支、别名、敌人、路线和关卡黑板之间的跨模块关联由 LevelData 整体审查负责，不在资源库添加独立「配置关联检查」面板，不自动复制配套分支或波次。原始记录内的相关参数仍完整可见、可在装置编辑中修改。hardPredefines、waves 和 branches 继续由独立地图级模块管理。
+- 文档保存使用同目录临时文件和原子替换，先检查原文件摘要；这不是跨进程原子CAS，最终检查与替换间仍有竞争窗口。
+
+### 地块配置、资源与实例
+
+| 概念 | 所在层 | 职责 |
+| --- | --- | --- |
+| `TileData` | `LevelData.mapData.tiles[]` | 一条完整地块配置，包含资源键、部署与通行设置、黑板和特效 |
+| `TileData.tileKey` | `TileData` | 创建地块时用于定位具体 Prefab。选择变体后按此键导出 |
+| `blackboard` | `TileData.blackboard` | 内嵌的参数列表。由地块脚本、Buff 或关卡机制按键解释 |
+| Prefab | Unity 地块资源 | 创建实例用的对象模板，包含 `Tile` 或其派生组件及序列化字段 |
+| 实例化后的 `Tile` | 战斗地图上的地块对象组件 | 接收所在格子的配置，带有该实例的格位及运行状态 |
+| `Tile._tileKey` | Prefab 的 `Tile` 组件 | 实体侧的序列化键。不同 Prefab 可以共用同一个值，也可以各用不同值 |
+
+```text
+LevelData.mapData.map[row][col]
+└─ 索引 → mapData.tiles[index]（一条完整 TileData）
+   ├─ tileKey → Map._CreateTile → BattleFactory.CreateTile → 具体 Prefab → 实例化 Tile
+   │                                                                      └─ 带有 Prefab 的 Tile._tileKey
+   └─ 完整 TileData → Tile.SetData → 应用到该格的 Tile 实例
+```
+
+多个格子可以引用同一条配置，首次建图时各自创建地块实例。这里的共享指关卡配置索引。实例内部是否复制数据由 `Tile.SetData` 的实现决定。编辑共享配置会影响全部绑定格。需要单独调整某格时，先创建一条独立 `TileData`，再把该格绑定到新配置。
+
+例如 `tile_character` 和 `tile_characterf` 各自加载对应的 Prefab，两个组件的 `Tile._tileKey` 都是 `tile_character`，但 Prefab 上的 `_isNonebuildableLike` 不同。两种 Prefab 的关卡配置都可以使用 `zi_tile_type = "Empty"`，同一 `tile_character` 也有 `"Fortune"` 或 `"Trigger"` 的配置。Prefab 款式和关卡参数分别保存。
+
+### TileData 完整字段树
+
+```text
+TileData
+├─ tileKey                 string                  具体地块资源键
+├─ heightType              HeightType              高度，常用 LOWLAND / HIGHLAND
+├─ buildableType           BuildableType           部署类型，NONE / MELEE / RANGED / ALL
+├─ passableMask            MotionMask              通行类型，NONE / WALK_ONLY / FLY_ONLY / ALL
+├─ playerSideMask          PlayerSideMask          玩家侧限制，ALL / SIDE_A / SIDE_B / NONE
+├─ advancedBuildableMask   AdvancedBuildableMask   高级部署限制，源码标记 [NonSerialized]
+├─ blackboard              List<Blackboard.DataPair>  黑板，可为 null，JSON 中为数组
+│  └─ 每条 DataPair
+│     ├─ key               string                  参数名
+│     ├─ value             float                   数值
+│     └─ valueStr          string                  字符串值，可为 null
+└─ effects                 MapEffectData[]         地块附带的特效，可为 null
+   └─ 每条 MapEffectData
+      ├─ key               string                  特效资源键
+      ├─ offset            UnityEngine.Vector3     位置偏移
+      │  ├─ x              float
+      │  ├─ y              float
+      │  └─ z              float
+      └─ direction         SharedConsts.Direction  常用 UP / RIGHT / DOWN / LEFT
+```
+
+`DataPair.isNumericValue` 和 `isStringValue` 是标记 `[JsonIgnore]` 的辅助属性。常规表单仅写入已经核实的关卡字段，对导入的原始 JSON 保留既有未知值、数组顺序及缺失、`null`、空数组的区别。
+
+### 黑板参数的证据与编辑边界
+
+- 从原版关卡的 `TileData.blackboard` 提取具体地块在特定机制下实际使用的键、类型和取值样例。样例值本身不建立完整范围或默认值。
+- 用地块脚本、Buff 或关卡机制的读取位置确认准确拼写、类型、默认值、作用域和触发条件。烟花引线的 `line_inedex` 是实际键，两种引线地块都用过，应保留原拼写。
+- Prefab 可提供组件字段、Buff 以及 `loadFromBlackboard` 等线索。医疗符文的属性修饰器通过黑板取值，原版关卡示例填 `HP_RECOVERY_PER_SEC_BY_MAX_HP_RATIO = 0.03`。外部关卡机制也能读取格子的黑板，因此单独查看 Prefab 不能得到完整的参数列表。
+- TileData 预览面板按地块与机制开放已核实的状态和参数控件。每条 `TileData` 内嵌一份黑板，单份可容纳多条键值；保留原始编辑入口。预设如需复用，可在编辑器侧组合具体 `tileKey` 和参数，应用时写入原生配置。
+
+### 地形搜索与关卡出处
+
+地形详情保留原版配置和默认推荐，另展示 116 份按原版预制体读取的七字段通用配置。通用配置可用于核对字段结构，实际可绘制配置仍从原版样例中选择。黑板目录区分原生选项、可验证类型、当前组件不消费的输入及仅供参考的原版值。结构化编辑只修改明确选中的键值，重复键由高级 JSON 处理。
+
+资源库、配置样例和关卡出处共用 AngelinaTravelToolbox 的 Fuse.js 7.5.0 匹配规则。地形名称和关卡名称的拼音索引由 pinyin-pro 3.29.3 离线生成。搜索文档使用地形名、变体 ID、关卡名称、关卡 ID 和相对路径。关卡资料缺少名称时仍可按文件名或路径检索。多个关键字分别匹配后取交集。列表和分页块状视图共用搜索结果。出处使用由 Fuse.js 生成的预构建索引，出处和样例搜索在后台执行。排序和查询组合继续交给 Fuse.js，固定参数的 Bitap 内核由 C# 等价执行，并与原版 Fuse.js 的结果做对照测试。Unity 编辑器内置 Jint 3.1.6 与 Esprima 3.0.5，无需安装 Node。
+
+成品关卡与 Options 关卡出处分组共用名称、拼音、首字母、关卡编号及正文路径索引。地形、装置、配置、出处、黑板键和功能禁用位的文字筛选都经过同一搜索实现。禁用位搜索只改变选项可见性。
+
+### 独立 TileData 管理与绑定确认
+
+地块资源库按具体变体维护去重的原版 `TileData` 样例和默认推荐。推荐引用已有样例，优先选择字段完整、附加参数少且出现在更多关卡的配置。直接选用地块时取第一份推荐；浏览其他样例时需要明确选用，随后复制整份配置到当前地形。样例保留出处，具体效果仍取决于关卡机制。地图级 `TileData` 模块负责查看、新建、复制、修改和删除配置，并用坐标查看和管理每条配置的绑定格。多个格子可显式绑定到同一条配置。编辑共享条目会影响全部绑定格，界面应显示引用数量及坐标。某一格需要独立参数时，先显式新建或复制一条配置，再单独绑定这格。保留用户显式创建的独立条目，即使两条配置的内容暂时相同。导出沿用 `mapData.map[row][col]` 到 `mapData.tiles[]` 的原生索引。
+
+自动绑定、置换和清理可开关，默认开启。放置地块时，以资源模板创建地图配置并绑定坐标。替换已有地块或置空，若涉及自动置换或清理，先展示确认窗口。窗口显示操作涉及的坐标、旧配置、剩余引用和拟清理条目；一次批量操作使用一个汇总窗口。
+
+| 按钮 | 行为 |
+| --- | --- |
+| 确定 | 执行置换或置空。旧配置仍被任一格引用时继续保留；仅清理失去最后一个引用、由编辑器自动创建且未指定保留的旧配置 |
+| 取消 | 放弃本次操作，配置和坐标绑定保持原样 |
+| 替换但保留原 TileData | 执行置换或置空，并把旧配置保留在本图的配置列表中，即使引用数降为零 |
+
+置空使用原生可导出的禁入区配置。关闭自动模式后，由用户手动创建、选择和绑定配置，旧条目由用户显式管理。手动删除仍有引用的配置时，必须先为受影响格指定有效的替代配置。确认后的绑定变化、清理及必要的原生索引重映射作为一次可撤销操作提交。
+
+### 第一版地块家族分类
+
+固定原版资源基线中有 **116 个可加载地块 Prefab**。第一版目录规划为 **91 张卡片**，其中 18 张家族卡涵盖 43 个具体地块，73 个具体地块各自一张卡。以下成员 ID 统一省略 `tile_` 前缀。
+
+归组证据依次取共用实体键、原版机制清单，以及原版说明、关卡用法与 Prefab 配置的交叉对应。共用 `Tile._tileKey` 只覆盖字格和炼金两组。原版各机制可以有自己的清单，资源库用编辑器目录表达这些家族。画笔、拾取、导入和导出一律保留具体 `TileData.tileKey`。黑板属于当前地块配置的状态与参数。
+
+| 家族卡 | 成员 | 分组依据 |
+| --- | --- | --- |
+| 字格 | `character`、`characterf` | 共用实体键，Prefab 各自配置 |
+| 炼金地块 | `alchemy_road`、`alchemy_wall` | 共用实体键，原版 `_alchemyTileKeys` 同时列出 |
+| 可浮空区块 | `balloon`、`balloon_fbd` | 原版 `_balloonTileKeys` 同时列出 |
+| `ristar` 地块 | `ristar_road`、`ristar_road_forbidden` | 原版环境系统 `_tileKeyList` 同时列出 |
+| 引线地块 | `cnvfuse`、`cnvfuse_fbd` | 同一引线机制，可部署与不可部署款 |
+| 化境地块 | `dygmny_1`、`dygmny_2`、`dygmny_3` | 同名、同效果说明、同特效资源 |
+| 草毯 | `ftplant_road`、`ftplant_roadf`、`ftplant_wall` | 同一树丛生长与伤害机制 |
+| 转角冰面 | `icetur_lb`、`icetur_lt`、`icetur_rb`、`icetur_rt` | 同一专用脚本，各款引用自己的 `_orbitCenter` |
+| 激活的「谐振器」 | `magic_circle`、`magic_circle_h` | 同一重整束流说明，所核对的行为字段一致 |
+| 芦苇丛 | `reed`、`reedf`、`reedw` | 同一专用脚本，保留各款范围、点燃效果和 Buff |
+| 交接！ | `replace_road`、`replace_wall` | 同一替换部署机制 |
+| 悬索桥起点 | `sandrope`、`sandrope_2` | 同一脚本，原版说明区分不可部署款 |
+| 入梦砖 | `sleep_road`、`sleep_wall` | 原版机制分别声明两键，关卡用作低地和高台 |
+| 源石污染区 | `toxic`、`toxichill`、`toxicroad`、`toxicwall` | 同名、同效果说明，所核对的行为字段一致 |
+| 晦明之印 | `yinyang_road`、`yinyang_wall` | 同一专用脚本与明晦赋予机制 |
+| 接驳地块 | `merope`、`rarope` | 同名同说明，原版接驳机制分别声明两键 |
+| 玉门天灾工事 | `passable_wall`、`passable_wall_forbidden` | 同图出现、同脚本和已核对行为字段，配置区分可远程部署与不可部署 |
+| 兔子洞出口 | `rabbithole_out_1`、`rabbithole_out_2` | 普通出口与隐蔽出口，入口单独保留 |
+
+| 待复核关系 | 各自独立的地块 | 待确认项 |
+| --- | --- | --- |
+| 腐蚀地面 | `corrosion`、`corrosion_2` | 同脚本和特效，Buff 配置有差异；`defbreak` 也独立保留 |
+| 蔓延地块 | `creep`、`creepf` | 共用专用脚本，`_creepRange` 不同，待确认差异及命名 |
+| `flower` 地块 | `flower`、`flowerf` | 所核对的行为字段一致，缺明确区分两款的说明 |
+| `pollution` 地块 | `pollution_road`、`pollution_roadf`、`pollution_wall`、`pollution_wallf` | 目标筛选不同，与 `toxic` 家族分开 |
+| 热泵通道 | `volcano`、`volcano_emp` | 同脚本和基础特效，触发与动作配置不同 |
+
+| ID 范围 | 其余 61 个独立地块，每个 ID 一张卡 |
+| --- | --- |
+| `a`–`b` | `achand`、`acshop`、`act27side`、`act48side`、`aircraft`、`allygoal`、`bigforce`、`bnspck_road` |
+| `c`–`e` | `codpsea`、`deepsea`、`deepwater`、`defbreak`、`defup`、`empshock`、`empty`、`end`、`end_cooperate`、`end_dqq`、`enemygoal` |
+| `f`–`h` | `fence`、`fence_bound`、`floor`、`flystart`、`football`、`forbidden`、`ftstart`、`gazebo`、`grass`、`green`、`grvtybtn`、`healing`、`hole` |
+| `i`–`q` | `icestr`、`infection`、`infection_dqq`、`mire`、`mpprts_enemy_born`、`poison`、`puddle`、`quicksand` |
+| `r`–`s` | `rabbithole_in_1`、`rcm_crate`、`rcm_operator`、`richfd`、`road`、`shallowwater`、`smog`、`stairs`、`start`、`start_cooperate`、`start_dqq`、`steam` |
+| `t`–`y` | `telin`、`telout`、`volcano_strife`、`volspread`、`wall`、`wooden_wall`、`woodrd`、`xbdpsea`、`yinyang_switch` |
+
+`tile_water`、`tile_act6fun_start`、`tile_act6fun_end` 分别是 `tile_deepsea`、`tile_start`、`tile_end` 的模式说明别名。详情可以展示这些名称，资源库可绘制统计只纳入有独立 Prefab 的 116 项。PRTSMap 总览的虚拟箱子展示项也单独统计。
+
+**证据定位**
+
+PC 2.7.81 的 APW `source/ark-mix-source/DumpCS/2.7.81/dump-pc-x64-source.cs`，`DataPair` 第 95283 行，`MapEffectData` 第 103335 行，`TileData` 第 103351 行，`Tile` 第 252617 行。原版关卡样例位于 APW `source/ArknightsGameData/zh_CN/gamedata/levels` 下的 `activities/act49side/level_act49side_04.json`、`activities/act38side/level_act38side_01.json` 和 `obt/main/level_main_02-10.json`。BattleLab 的 `scratch/verification/terrain-20261030` 保存工厂和导入方法体，`docs/reference/terrain-object-reference.md` 保存原版说明和实测来源。Prefab 及环境清单来自 Android 资源版本 `26-10-22-14-02-11-51447808` 的 `battle/prefabs/[uc]tiles.ab` 和 `battle/prefabs/[uc]envsystems.ab`。外部证据目录 `storage/map-editor-unity/assetstudio-crosscheck-20261104` 内的 `terrain-prefab-variant-index.json` 和 `terrain-envsystem-tile-key-references.json` 记录逐项提取结果。
+
+## 编辑与生命周期
+
+每份文档一个写入会话，一次画笔或结构命令对应一次 Unity Undo。会话序列化JSON快照，保存基线与Undo状态分开，避免撤销使已保存摘要倒退。完整JSON未应用草稿与已应用文档分别保存；未应用局部表单草稿同样必须进入关闭/切换/恢复保护，候选03已覆盖该保护。
+
+预览采用公开 `PreviewSceneStage/StageUtility`，row/col映射到Unity Z/X。16×16分块网格替代逐格GameObject；绘制按脏块更新，拾取按格计算；路线与装置使用示意标记。SceneView沿用原生导航，仅自身笔画拥有输入控制。重载、Play Mode、窗口关闭、foreign stage历史均按本会话所有权解绑，禁止全局清理用户对象。
+
+恢复缓存放在宿主 `Library/ArknightsMapEditor/Recovery`，由用户明确恢复，不直接覆盖源文件。缓存不是永久备份，也不保证崩溃前最后一次输入。v2在单文件原子写入文档、局部草稿及独立工程草稿；候选03已验证，v1兼容仅恢复其实际包含的文档状态。
+
+## 已批准技术决策
+
+| 决策 | 选择 | 保留的取舍 |
+| --- | --- | --- |
+| D01 包交付 | Editor-only UPM，保留Web | Git安装等有可访问提交后再验收，不为验证擅自推送 |
+| D02 版本 | 2021.3.39f1首个基线 | 不承诺Unity6及所有后续版本 |
+| D03 UI | UI Toolkit＋SceneView公开接口 | 当前为代码构建UI；不声称已提供独立EditorTool/Overlay或UXML资产 |
+| D04 JSON | Unity Newtonsoft 3.2.2＋类型化访问 | 不以只含已知字段的DTO覆盖原文档 |
+| D05 真源 | LevelData＋独立工程配置 | 派生Unity场景不成为第二份权威地图 |
+| D06 Undo | 单一Unity Undo＋序列化会话 | 大文档快照成本需持续测量，不并存独立历史栈 |
+| D07 视图 | 分块网格＋有限标记 | 已测非batch CPU EditorLoop调用p95 25.8167ms；不等于GPU呈现帧率 |
+| D08 宿主隔离 | 开发、验收与工具链探针分离 | 包中无MCP依赖；自制空场景Player构建不是游戏构建 |
+
+## 质量与后续边界
+
+候选包的准确测试范围见[2026-11-03阶段核查](../unity/evidence/P0_P6_CHECKPOINT_20261103.md)。已验证的安装/卸载/Player隔离不能替代最新工作区回归；源码通过也不证明游戏运行。新增运行适配、全量目录、最终美术呈现和更多Unity版本均须独立设计及验收，不静默扩大当前完成范围。
+
+### 模式与关卡变体的证据基线（2026-11-05）
+
+[全量正文核验](../unity/evidence/LEVELDATA_MODE_AUDIT_20261105.md)表明，模式适配需要同时覆盖同一正文上的条件选择和显式关卡族的多正文变体。已解析的主线关系中 268 条共用正文、84 条采用不同正文，原始差异涉及地图、路线、敌人、装置、波次等 11 个顶层字段，部分变体还改变地图宽度。
+
+逻辑关卡 ID、正文资源 ID 和 Unity 场景资源关联分别保存。正文解析复用 battle_misc_table.levelScenePairs 的原生单次映射，不能把逻辑 levelId 对应文件未出现直接认定为缺失。模式配置作为独立工程信息，保留实际正文和来源身份。原始 JSON 差异、条件筛选结果和运行效果分别展示；没有完整消费证据时保留未知状态。
+
+资源库的装置记录先覆盖场上预设与卡牌配置；困难训练预设、波次与分支归关卡级模块。原生难度筛选和具体玩法约束用于适配器，不能把目标枚举或当前已观察的变化字段当作全部字段的模式修改权限表。
+
+## 常规绘制热路径（2026-11-03）
+
+DocumentSession缓存不可变LevelDocument；serialized JSON改变（包括Undo/Redo）即失效，域重载后懒重建。GetCell/GetSection仍深复制，不向调用方暴露可变内部树。完整LevelData JSON属于高级编辑，默认折叠并保存展开状态，折叠不丢草稿/dirty/恢复数据。60×60性能报告仅覆盖此默认路径，展开大文本仍可能有布局开销。
+
+## 骨架渲染与仿真层分离（2026-11-03）
+
+骨架层采用 Unity 2021 Built-in 的分块 Mesh＋共享无光照 Shader。16×16 一块，每格顶面及四侧面，实际 heightType 决定高低台，buildableType 决定基础明暗；图案由顶点 UV2 索引选择，自绘程序图案避免逐格对象、Canvas及纹理图集依赖。局部修改只重建脏块。
+
+复用本仓 prts-map/definitions.mjs 的54项视觉定义及别名，保留来源版本；本次 Shader 和网格为独立实现，不导入网页图片或游戏美术。未知ID以粉色叉标记并完整保留数据。54项定义不等于119个游戏ID全部得到专属图案；部分定义共用图案，机关状态、文字符号细节及黑板动态效果尚不模拟。
+
+视图提供PRTS式固定立体角度、正上方俯视和原生正交/透视切换；自由旋转、平移、滚轮缩放仍由SceneView提供。拾取包含可见顶面和侧面，格间缝隙不会误绘。路线线段和装置框是编辑标记，不是寻路或运行实例。洞口为平面图案，不切割真实孔洞。
+
+LevelData与独立工程配置仍是权威数据。未来仿真层应有独立资源/生命周期，通过同一坐标和编辑命令读取数据；骨架材质不得写回游戏地图或成为真实美术资源。视角按钮只能作用于本窗口持有且当前激活的预览stage。
+
+新增 Samples~/SkeletonGallery 的9×6示例供样式体验；其地块参数只是展示配置，不能当作游戏可运行模板。最新工作区验证见 unity/evidence/SKELETON_STYLE_20261103.md，旧包和性能数字不覆盖本次网格增加。
+
+### PRTSMap 全量前端资源接入（2026-11-03）
+
+地块维持54项定义和原生程序Shader；物件采用官网V0.49.66已核实的685个有效ID（本地旧清单475＋官网新增210），不以687张图片重复计数。7项asset_path覆盖在打包时优先于普通char_icons路径。来源URL和原图SHA-256保存在`Editor/Catalog/prts-object-icons.json`。
+
+物件采用2048×2048无压缩图集、一个共享材质及批量平面Mesh，遵循40px图标/50px格距、透明圆角裁切；这不是浏览器画面嵌入，也不代表游戏Prefab支持。仅实际`characterInsts/tokenInsts`位置生成图标；隐藏/未知项保留线框，卡牌不生成实体。字体改为原生字形图集和地图平面网格，避免屏幕朝向GUI标签破坏透视。新增对象由对应PreviewStage拥有，关闭/重载时释放，原始LevelData不改写。
+
+`Tools/Arknights/PRTSMap`下提供54地块与685物件独立样本窗口，不能替换其他窗口未保存文档。完整视觉签收仍以逐项对照为准；资源与几何覆盖通过不等于所有视角、动画、遮挡和文字均已像素一致。
+
+
+## 完整数据主体与左右抽屉（2026-11-06）
+
+工作台主体为当前文档的完整 LevelData 数据视图，提供字段树／原始 JSON 切换。字段树只读，显示已应用内容；原始 JSON 保留现有草稿和显式校验应用流程，未应用源草稿／局部草稿明确提示，不覆盖彼此。
+
+左侧编辑抽屉包含地图数据（内含独立 TileData 编辑）、路线、装置、波次、美术、高级等模块，从左侧向右展开；右侧资源库独立展开。两侧作为独立布局列占据宽度，中间 LevelData 自动填满剩余空间，不作为被遮挡的背景。两条分界线可用鼠标拖拽调宽，宽度随文档窗口序列化保存；窄窗口按比例收缩侧栏并优先保留中央区域。收起侧栏同时隐藏分隔条并释放宽度，顶部公共工具栏不被遮挡。抽屉开合只切换显示，不重建编辑控件；选择装置配置后自动打开对应编辑页。每张文档独立保存抽屉和视图状态。
+
+字段树按原始字段顺序展示所有现有字段，包括未知字段；不为缺失字段伪造值。容器按需展开，每次最多追加 50 个子项，可继续查看余项。字段路径采用转义 JSON Pointer，展开状态在界面重建时保留。树形显示不替代完整嵌套 Schema 或游戏效果验收。
+
+## 按 LevelData 职责组织编辑入口（2026-11-06）
+左侧原地形模块合入 TileData，资源库地形不变。待放置配置与当前地图 TileData 管理分别呈现，不把修改待放置配置描述为修改共享实例。地图数据模块的 map 提供尺寸及裁剪预检入口，全局设置只包含 options。地图与配置组包含全局设置／地图数据／路线／装置；战斗逻辑组包含波次／分支／敌人定义／符文与增益。美术和高级保留。
+
+2026-11-09 模块导航调整：全局设置从公共标题栏移入左侧模块导航。整块导航作为左抽屉顶部的原生 Foldout 向下展开，标题显示“编辑模块 · 当前模块名”；导航内容限高并可滚动。收起只隐藏导航，当前模块正文仍在其下显示并获得释放的高度，不重建控件或清空草稿。展开状态随文档窗口序列化，独立窗口迁入工作台时一并复制。实际点击核验收起后 options 编辑区域由399.2增至632逻辑像素，控件引用相同；重建后仍保持收起。更新前后完整恢复副本逐字段及SHA-256一致，控制台错误0条。
+分支、敌人定义、符文与增益为只读占位，显示原始字段路径、缺失／null／数组或对象数量，定位中央字段树；runes、optionalRunes、globalBuffs 分开呈现，不自动补字段。
+
+## TileData 实际编辑事务（2026-11-06）
+配置管理直接操作当前文档的 mapData.tiles 与 mapData.map；同一索引共享同一配置，应用修改同步影响所有绑定格。复制配置只新增未绑定条目，不暗中改写引用。显式多格绑定采用底部起算的行、列；场景放置每格创建独立配置，不按 JSON 相等自动合并。
+自动绑定默认开启，置换／置空／填充共用确定、取消、替换但保留原 TileData 三选项；确定只清理本次被替换且已无引用的配置，第三项保留旧配置，取消不改文档。关闭自动绑定后，场景自动放置停用，用户仍可显式绑定，旧配置保留。删除仅允许无引用条目，删除后完整重映射格子索引，不输出 null 空洞。
+未应用配置 JSON 纳入 InspectorDraftStore，保留原文档版本及目标索引；切换配置需确认丢弃未应用修改，过期配置拒绝写入，重新读取为显式操作。增删改查与绑定通过文档事务更新，沿用撤销、保存和场景刷新。
+
+### TileData 单一编辑入口（2026-11-06）
+移除待放置 TileData 的重复编辑面板及填充全图操作。保留资源库选择、实际 TileData 配置管理和顶部置空。资源选择仍提供放置来源，不再显示第二套高度／部署／JSON 编辑控件。
+
+### 全局与音乐音效字段（2026-11-06）
+本节记录2026-11-06的原始JSON阶段；2026-11-09起，尺寸已移入 mapData.map，options 已接逐字段表单。音乐音效单独分组，背景音乐 bgmEvent、环境音效 environmentSe 分别提供按钮与独立编辑页。本版采用原始 JSON 编辑、显式读取与应用，保留未知成员及缺失/null/空字符串区别，不自动补默认值。草稿沿用版本检查与恢复存储，应用沿用撤销和保存。音频资源加载不在本次验证范围。
+mapData.tiles 保存 TileData 配置数组，mapData.map 中的格子保存配置索引；多个格子可引用同一配置。
+
+## 成品关卡地图资源库
+
+右侧资源库新增「成品关卡地图」。点击打开「从成品关卡新建地图」窗口，先选择关卡，再选择该关卡下的模式和来源版本。模式沿用关卡 ID 和原表记录，按游戏关联组织关卡组。同一正文由多个版本复用时，选择器仍保留各版本及出处。已知的玩法组件在同一窗口按用途浏览，保留原有归属。
+
+ZIP 随编辑器包分发，索引和独立压缩的正文使用哈希绑定。打开窗口只读索引，选择版本时按需读取对应正文。骨架预览复用现有 Unity 渲染器，在独立预览场景中显示。点击「新建地图」才创建可编辑副本，加入现有工作台的新标签，保留当前地图及其草稿。
+
+预览和新建读取同一份原始 LevelData，保留 mapId、mapData、预设、路线、波次和其他字段。模式、来源版本、路径、正文摘要随索引提供，供后续美术层解析原生场景和依赖包。骨架预览和美术资源解析分别使用独立生命周期。导出的 LevelData 沿用原有结构。
+
+### 原生场景的路线演示
+
+「地图与配置 → 路线 → 路线演示」读取已应用的 LevelData。可按出怪记录、路线定义或分支出怪选择焦点。单一路线、时间窗口和次序窗口沿用 PRTSMap 0.49.66 的控制方式。前后窗口分别设置，时间默认向前 10 秒，次序默认向前 5 条。记录显示全关出怪序号、时刻、数量和原始路线索引。一次出怪动作可包含多个敌人。
+
+SceneView 用 Unity Handles 绘制红色地面路线、黄色空中路线和浅色行进段。等待标记锚定上一处有效坐标。消失和再出现分别标记，隐藏期间断开移动轨迹。重合的路线索引合并绘制，仍保留各自的出怪记录。切换焦点时保留仍在范围内的路线进度，支持播放、暂停、重播、调速和拖动进度。预览状态归当前地图文档，不写入 LevelData、保存或撤销记录。
+
+原生地图窗口默认使用 PRTSMap 路线演示。Unity 脚本重载恢复当前文档的显示开关、模式、焦点、范围和速度。重新打开地图时使用 PRTSMap 默认演示。
+
+地面路径按通行掩码、斜向通行、墙体标记及 PRTSMap 认可的阻挡装置计算。无法解出的路径段以虚线显示。随机组选择和运行期改变通行状态的机制有各自的输入，当前演示读取静态文档及动作时刻。
+
+5-10 以 2.7.81 的 12×8 正文为样例。[原版正文](https://torappu.prts.wiki/gamedata/26-10-22-14-02-11-51447808/levels/obt/main/level_main_05-10.json)
+
+当前导入基线为 3,461 个关卡组、4,741 个关卡 ID 和 8,664 份语义去重正文。骨架验证逐正文检查读取、解析、地图几何和实际渲染，单独记录失败原因。关卡归属和压缩统计见本地审计 `storage/map-editor-unity/level-semantic-audit-20261111/README.md`。
+
+包内 `Editor/Catalog/finished-levels.zip` 为 40,230,466 字节，展开后为 1,127,005,633 字节。索引含原关卡 ID、模式、版本、路径和代表正文校验值。新建副本的来源记录随工作台会话和恢复副本保留。LevelData 保持可直接编辑和导出的原生结构。
+
+原生类型与运行适配的开发基线固定为 PC 2.7.81，Unity 工作台固定为 2021.3.39f1。成品关卡地图是独立的历史参考语料，含 GameData 提交 `bb8f9ac8`（提交标注客户端 2.7.71）、GameResource 提交 `d89e2600`（资源标签 `26-09-22-07-47-20_6c71fa`）及未标注客户端版号的 PRTSMap 缓存。切换原生开发基线时单独核验对应客户端、热更资源与字段证据。
+
+Unity 2021.3.39f1 在 Direct3D 11 下逐份生成骨架网格并读回画面。首次审计中 8,100 份使用完整的当时骨架样式，562 份正常出图并对缺少图标的预设干员使用标记。两个来源版本的生息演算空模板原始 `mapData.map` 为 null，保留在库中供查阅。首次逐项报告见同一审计目录的 `unity-render-results.csv`。
+
+骨架层新增 223 个预设干员头像，图像从客户端 2.7.81 的 Android 固定批次 `26-10-22-14-02-11-51447808` 原生 Sprite 取得。默认头像按干员 ID 查找，独立图集与既有两张装置图集共用骨架图标着色器。索引记录原图集、Sprite 对象、原图摘要和编辑器图集 UV。冻结 v2 总图的展示副本包含 1,056 个装置和 1,237 个预设干员实例。
+
+头像接入后使用同一成品关卡 ZIP 全量复核。8,662 份有地图格的正文都完成骨架出图，地块样式和可见实体图标的回退数均为零。两份空模板保持原始结构。复核报告位于审计目录的 `post-avatar-full-recheck/results.csv`。

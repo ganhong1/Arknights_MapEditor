@@ -1,0 +1,56 @@
+{
+  "files": [
+    {
+      "path": "unity/Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/Core/LevelDocument.cs",
+      "sha256": "94ed17b324ea601f5300e2d1704490a45aa23b6f978a85cc5deb928a0a57ec65"
+    },
+    {
+      "path": "unity/Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/Core/LevelDocument.MapData.cs",
+      "sha256": "245918b2a8a309ef03c85ae61223a3b780fca0480eaf3ada0e378966e68e6538"
+    },
+    {
+      "path": "unity/Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/UI/MapEditorWindow.Editing.cs",
+      "sha256": "602be16eec9d5380dbbb1fa3b62b3b5270f645b3897cd29141a3514821681b2e"
+    },
+    {
+      "path": "unity/Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/UI/MapEditorWindow.Workbench.cs",
+      "sha256": "d253ee94bca1d336b7575e1303bb1ea734ca50d1af902e966e6f27aa82e80599"
+    },
+    {
+      "path": "unity/Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/UI/MapEditorWindow.MapData.cs",
+      "sha256": "0910924cf46825679da581f657f318f2d0331d67b4b0cbe36ae0362d2a9da854"
+    },
+    {
+      "path": "unity/Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/UI/MapEditorWindow.Options.cs",
+      "sha256": "405e1f5e33cef2c2d3cc530e977e7db485b9976d30af050c2ac6c30269741978"
+    },
+    {
+      "path": "unity/Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/UI/OptionsFieldSchema.cs",
+      "sha256": "01f6325e4db4beed899ee5cef99d3dec510c6b3830fae65038aaad8d9fc82768"
+    },
+    {
+      "path": "unity/Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/UI/OptionsValueEditor.cs",
+      "sha256": "95b0781354686465a7a1e0f9b630014ef2438854b51b01df63403c236cfb7c07"
+    },
+    {
+      "path": "unity/Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/UI/OptionsBlackboardEditor.cs",
+      "sha256": "c2cca5982e0210c1b2f2a127fc004efe4e3c2bf5d73cc932f685dc01d3a10691"
+    },
+    {
+      "path": "unity/Packages/io.github.lingrs-llm-researchteam.mapeditor/Tests/Editor/MapDataTests.cs",
+      "sha256": "52fcd1490e54412e386dbfea72d195bb82c527198fd5c35c083683f843baf09c"
+    },
+    {
+      "path": "unity/Packages/io.github.lingrs-llm-researchteam.mapeditor/Tests/Editor/MapDataWindowTests.cs",
+      "sha256": "4b5eaf3cfea9c5f270ad467c84e50b75b55bb8b0a4f10502a22ce96dcc4fc156"
+    },
+    {
+      "path": "unity/Packages/io.github.lingrs-llm-researchteam.mapeditor/Tests/Editor/OptionsWindowTests.cs",
+      "sha256": "f80bb725e0e84754c8b0e15a84566a91918bca951a69885f254217c9cbcf7729"
+    },
+    {
+      "path": "unity/Packages/io.github.lingrs-llm-researchteam.mapeditor/Tests/Editor/EditorWorkflowTests.cs",
+      "sha256": "761b3e3a52c31489b63685c71ec74a34975ff2b024b8e2907d13dd3ab28bd7b5"
+    }
+  ]
+}

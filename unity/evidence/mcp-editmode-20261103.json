@@ -1,0 +1,717 @@
+{
+  "instance": "DevProject@5728c218",
+  "version": "2021.3.39f1",
+  "jobId": "8d15a98299f1404c85cff67b4d2d99dd",
+  "summary": {
+    "total": 78,
+    "passed": 78,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 0.8632614,
+    "resultState": "Passed"
+  },
+  "results": [
+    {
+      "name": "AcceptsEscapedStringsAndScientificNotationWithoutChangingTheirValue",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.AcceptsEscapedStringsAndScientificNotationWithoutChangingTheirValue",
+      "state": "Passed",
+      "durationSeconds": 0.0171065,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "CoordinatesAndInvalidEditsFailWithoutChangingOriginal",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.CoordinatesAndInvalidEditsFailWithoutChangingOriginal",
+      "state": "Passed",
+      "durationSeconds": 0.0053736,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "CoordinatesAreBottomOriginAndReturnedCellsAreCopies",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.CoordinatesAreBottomOriginAndReturnedCellsAreCopies",
+      "state": "Passed",
+      "durationSeconds": 0.0018541,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "CreateSupportsRectangularDimensions(1,1)",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.CreateSupportsRectangularDimensions(1,1)",
+      "state": "Passed",
+      "durationSeconds": 0.0015077,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "CreateSupportsRectangularDimensions(7,3)",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.CreateSupportsRectangularDimensions(7,3)",
+      "state": "Passed",
+      "durationSeconds": 0.0003564,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "CreateSupportsRectangularDimensions(256,1)",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.CreateSupportsRectangularDimensions(256,1)",
+      "state": "Passed",
+      "durationSeconds": 0.000772,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "EditingLevelIdPreservesOriginalAndUnknownContent",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.EditingLevelIdPreservesOriginalAndUnknownContent",
+      "state": "Passed",
+      "durationSeconds": 0.0017557,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "EditingSharedTileChangesOnlySelectedCellAndDoesNotMutateInputs",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.EditingSharedTileChangesOnlySelectedCellAndDoesNotMutateInputs",
+      "state": "Passed",
+      "durationSeconds": 0.0006759,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "PreservesValidSupplementaryUnicodeInKeysAndValues(\"\\\\ud83d\\\\ude00\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.PreservesValidSupplementaryUnicodeInKeysAndValues(\"\\\\ud83d\\\\ude00\")",
+      "state": "Passed",
+      "durationSeconds": 0.000488,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "PreservesValidSupplementaryUnicodeInKeysAndValues(\"\\\\uD83D\\\\uDE00\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.PreservesValidSupplementaryUnicodeInKeysAndValues(\"\\\\uD83D\\\\uDE00\")",
+      "state": "Passed",
+      "durationSeconds": 0.000173,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "PreservesValidSupplementaryUnicodeInKeysAndValues(\"😀\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.PreservesValidSupplementaryUnicodeInKeysAndValues(\"😀\")",
+      "state": "Passed",
+      "durationSeconds": 0.0001324,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RawEditCannotBypassStrictJsonOrDuplicateKeyValidation",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RawEditCannotBypassStrictJsonOrDuplicateKeyValidation",
+      "state": "Passed",
+      "durationSeconds": 0.0015913,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsDuplicateKeysAtAnyDepth",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsDuplicateKeysAtAnyDepth",
+      "state": "Passed",
+      "durationSeconds": 0.0003278,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsExcessDepthAndSize",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsExcessDepthAndSize",
+      "state": "Passed",
+      "durationSeconds": 0.0088263,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsInvalidDimensions(0,3)",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidDimensions(0,3)",
+      "state": "Passed",
+      "durationSeconds": 0.0005051,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsInvalidDimensions(257,1)",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidDimensions(257,1)",
+      "state": "Passed",
+      "durationSeconds": 0.0001103,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsInvalidDimensions(1,-1)",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidDimensions(1,-1)",
+      "state": "Passed",
+      "durationSeconds": 0.0000476,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[0],[0,0]],\\\"tiles\\\":[{}]}}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[0],[0,0]],\\\"tiles\\\":[{}]}}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0016724,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[2]],\\\"tiles\\\":[{}]}}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[2]],\\\"tiles\\\":[{}]}}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0001385,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[-1]],\\\"tiles\\\":[{}]}}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[-1]],\\\"tiles\\\":[{}]}}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0002909,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[0.0]],\\\"tiles\\\":[{}]}}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[0.0]],\\\"tiles\\\":[{}]}}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0003128,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[true]],\\\"tiles\\\":[{}]}}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[true]],\\\"tiles\\\":[{}]}}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0001018,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[0]],\\\"tiles\\\":[null]}}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"{\\\"mapData\\\":{\\\"map\\\":[[0]],\\\"tiles\\\":[null]}}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000907,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsInvalidMap(\"[]\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"[]\")",
+      "state": "Passed",
+      "durationSeconds": 0.000221,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsInvalidMap(\"{}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsInvalidMap(\"{}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000703,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsMalformedUnicodeDecodedFromEscape(\"\\\\ud800\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsMalformedUnicodeDecodedFromEscape(\"\\\\ud800\")",
+      "state": "Passed",
+      "durationSeconds": 0.0002747,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsMalformedUnicodeDecodedFromEscape(\"\\\\udc00\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsMalformedUnicodeDecodedFromEscape(\"\\\\udc00\")",
+      "state": "Passed",
+      "durationSeconds": 0.0001059,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsMalformedUnicodeDecodedFromEscape(\"\\\\ud800\\\\u0041\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsMalformedUnicodeDecodedFromEscape(\"\\\\ud800\\\\u0041\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000649,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsMalformedUnicodeDecodedFromEscape(\"\\\\ud800\\\\ud800\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsMalformedUnicodeDecodedFromEscape(\"\\\\ud800\\\\ud800\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000585,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsMalformedUnicodeDecodedFromEscape(\"\\\\udc00\\\\ud800\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsMalformedUnicodeDecodedFromEscape(\"\\\\udc00\\\\ud800\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000563,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsMalformedUnicodeDecodedFromEscape(\"\\\\ud800x\\\\udc00\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsMalformedUnicodeDecodedFromEscape(\"\\\\ud800x\\\\udc00\")",
+      "state": "Passed",
+      "durationSeconds": 0.0002035,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsMixedRawAndEscapedSurrogates",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsMixedRawAndEscapedSurrogates",
+      "state": "Passed",
+      "durationSeconds": 0.0007633,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsNonStrictJson(\"{'a':1}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{'a':1}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0002053,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsNonStrictJson(\"{a:1}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{a:1}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000757,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsNonStrictJson(\"{\\\"a\\\":1,}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":1,}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000527,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsNonStrictJson(\"{\\\"a\\\":[1,]}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":[1,]}\")",
+      "state": "Passed",
+      "durationSeconds": 0.000047,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsNonStrictJson(\"{\\\"a\\\":/*comment*/1}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":/*comment*/1}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000466,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsNonStrictJson(\"{\\\"a\\\":NaN}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":NaN}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000446,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsNonStrictJson(\"{\\\"a\\\":Infinity}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":Infinity}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000447,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsNonStrictJson(\"{\\\"a\\\":undefined}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":undefined}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000439,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsNonStrictJson(\"{\\\"a\\\":01}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":01}\")",
+      "state": "Passed",
+      "durationSeconds": 0.000047,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsNonStrictJson(\"{\\\"a\\\":+1}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":+1}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000492,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsNonStrictJson(\"{\\\"a\\\":.1}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":.1}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000438,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsNonStrictJson(\"{\\\"a\\\":1.}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":1.}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000483,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsNonStrictJson(\"{\\\"a\\\":1} {}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":1} {}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000486,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsNonStrictJson(\"{\\\"a\\\":\\\"raw\\nnewline\\\"}\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsNonStrictJson(\"{\\\"a\\\":\\\"raw\\nnewline\\\"}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0000502,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsOutOfFiniteRangeNumbers(\"1e400\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsOutOfFiniteRangeNumbers(\"1e400\")",
+      "state": "Passed",
+      "durationSeconds": 0.0005521,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RejectsOutOfFiniteRangeNumbers(\"-1e400\")",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RejectsOutOfFiniteRangeNumbers(\"-1e400\")",
+      "state": "Passed",
+      "durationSeconds": 0.0001147,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "RoundTripPreservesUnknownFieldsAndRepresentations",
+      "fullName": "Arknights.MapEditor.Tests.Core.LevelDocumentTests.RoundTripPreservesUnknownFieldsAndRepresentations",
+      "state": "Passed",
+      "durationSeconds": 0.0043452,
+      "message": null,
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "ActualCompilationPreservesAppliedDocumentDraftAndSingleUndoSubscription",
+      "fullName": "Arknights.MapEditor.Tests.DomainReloadTests.ActualCompilationPreservesAppliedDocumentDraftAndSingleUndoSubscription",
+      "state": "Passed",
+      "durationSeconds": 0.0036147,
+      "message": "",
+      "stackTrace": "",
+      "output": ""
+    },
+    {
+      "name": "ClosingWindowReleasesItsRepeatedPreview",
+      "fullName": "Arknights.MapEditor.Tests.PreviewStageTests.ClosingWindowReleasesItsRepeatedPreview",
+      "state": "Passed",
+      "durationSeconds": 6.7226418,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "EnterAndExitPreviewPreservesUserSceneAndCleansOwnedMesh",
+      "fullName": "Arknights.MapEditor.Tests.PreviewStageTests.EnterAndExitPreviewPreservesUserSceneAndCleansOwnedMesh",
+      "state": "Passed",
+      "durationSeconds": 0.0253333,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "EditUndoRedoRestoresDocumentAndDirtyState",
+      "fullName": "Arknights.MapEditor.Tests.SessionTests.EditUndoRedoRestoresDocumentAndDirtyState",
+      "state": "Passed",
+      "durationSeconds": 0.0112809,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "SaveThenUndoDoesNotUndoTheDiskCheckpoint",
+      "fullName": "Arknights.MapEditor.Tests.SessionTests.SaveThenUndoDoesNotUndoTheDiskCheckpoint",
+      "state": "Passed",
+      "durationSeconds": 0.0188441,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "SerializedSessionRestoresWithoutKeepingJsonTreeAlive",
+      "fullName": "Arknights.MapEditor.Tests.SessionTests.SerializedSessionRestoresWithoutKeepingJsonTreeAlive",
+      "state": "Passed",
+      "durationSeconds": 0.0018503,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "DeletedDestinationIsConflictRatherThanSilentRecreation",
+      "fullName": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.DeletedDestinationIsConflictRatherThanSilentRecreation",
+      "state": "Passed",
+      "durationSeconds": 0.0087701,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "ExternalEditIsPreservedWhenDigestDoesNotMatch",
+      "fullName": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.ExternalEditIsPreservedWhenDigestDoesNotMatch",
+      "state": "Passed",
+      "durationSeconds": 0.0085131,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "InvalidDigestIsRejectedBeforeWriting",
+      "fullName": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.InvalidDigestIsRejectedBeforeWriting",
+      "state": "Passed",
+      "durationSeconds": 0.0016494,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "InvalidUtf16InputDoesNotDamageOldFile",
+      "fullName": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.InvalidUtf16InputDoesNotDamageOldFile",
+      "state": "Passed",
+      "durationSeconds": 0.0074769,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "LockedFileFailurePreservesExistingBytes",
+      "fullName": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.LockedFileFailurePreservesExistingBytes",
+      "state": "Passed",
+      "durationSeconds": 0.006383,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "MatchingExpectedDigestAllowsAtomicReplacement",
+      "fullName": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.MatchingExpectedDigestAllowsAtomicReplacement",
+      "state": "Passed",
+      "durationSeconds": 0.0210183,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "NullExpectedDigestNeverOverwritesExistingFile",
+      "fullName": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.NullExpectedDigestNeverOverwritesExistingFile",
+      "state": "Passed",
+      "durationSeconds": 0.0056221,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "ReadAcceptsUtf8BomButDigestIncludesOriginalBomBytes",
+      "fullName": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.ReadAcceptsUtf8BomButDigestIncludesOriginalBomBytes",
+      "state": "Passed",
+      "durationSeconds": 0.008099,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "ReadEnforcesBoundedFileSize",
+      "fullName": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.ReadEnforcesBoundedFileSize",
+      "state": "Passed",
+      "durationSeconds": 0.0020463,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "ReadRejectsInvalidUtf8InsteadOfReplacingCharacters",
+      "fullName": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.ReadRejectsInvalidUtf8InsteadOfReplacingCharacters",
+      "state": "Passed",
+      "durationSeconds": 0.0031107,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "SaveDoesNotCreateMissingParentDirectories",
+      "fullName": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.SaveDoesNotCreateMissingParentDirectories",
+      "state": "Passed",
+      "durationSeconds": 0.0011727,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "SaveNewFileReturnsExactTextAndByteDigest",
+      "fullName": "Arknights.MapEditor.Tests.Storage.DocumentFileStoreTests.SaveNewFileReturnsExactTextAndByteDigest",
+      "state": "Passed",
+      "durationSeconds": 0.0108265,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "RejectsDamagedEnvelope(\"{\\\"version\\\":2}\")",
+      "fullName": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RejectsDamagedEnvelope(\"{\\\"version\\\":2}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0096492,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "RejectsDamagedEnvelope(\"{\\\"version\\\":1,\\\"version\\\":1}\")",
+      "fullName": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RejectsDamagedEnvelope(\"{\\\"version\\\":1,\\\"version\\\":1}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0120836,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "RejectsDamagedEnvelope(\"{\\\"version\\\":1,\\\"DocumentJson\\\":null}\")",
+      "fullName": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RejectsDamagedEnvelope(\"{\\\"version\\\":1,\\\"DocumentJson\\\":null}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0093095,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "RejectsDamagedEnvelope(\"{\\\"version\\\":1,\\\"DocumentJson\\\":4}\")",
+      "fullName": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RejectsDamagedEnvelope(\"{\\\"version\\\":1,\\\"DocumentJson\\\":4}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0079907,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "RejectsDamagedEnvelope(\"[]\")",
+      "fullName": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RejectsDamagedEnvelope(\"[]\")",
+      "state": "Passed",
+      "durationSeconds": 0.0019202,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "RejectsDamagedEnvelope(\"{} {}\")",
+      "fullName": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RejectsDamagedEnvelope(\"{} {}\")",
+      "state": "Passed",
+      "durationSeconds": 0.0078016,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "RejectsInvalidUtf8",
+      "fullName": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RejectsInvalidUtf8",
+      "state": "Passed",
+      "durationSeconds": 0.0016761,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "RequiresCallerOwnedHashToReplaceCache",
+      "fullName": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RequiresCallerOwnedHashToReplaceCache",
+      "state": "Passed",
+      "durationSeconds": 0.0225396,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "RoundTripPreservesInvalidDraftWithoutWritingSource",
+      "fullName": "Arknights.MapEditor.Tests.Storage.RecoveryStoreTests.RoundTripPreservesInvalidDraftWithoutWritingSource",
+      "state": "Passed",
+      "durationSeconds": 0.0148462,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "ApplyingDraftThenUndoAndRedoUpdatesVisibleText",
+      "fullName": "Arknights.MapEditor.Tests.WindowTests.ApplyingDraftThenUndoAndRedoUpdatesVisibleText",
+      "state": "Passed",
+      "durationSeconds": 0.1990442,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    },
+    {
+      "name": "RebuildingUiPreservesUnappliedDraft",
+      "fullName": "Arknights.MapEditor.Tests.WindowTests.RebuildingUiPreservesUnappliedDraft",
+      "state": "Passed",
+      "durationSeconds": 0.0297016,
+      "message": null,
+      "stackTrace": null,
+      "output": ""
+    }
+  ]
+}

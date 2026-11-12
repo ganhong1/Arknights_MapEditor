@@ -1,0 +1,345 @@
+# 地图美术：代码入口、资源目录与编辑器接入研究
+
+更新：2026-11-09。
+
+本文集中记录地图美术的原生配置、资源索引、加载与绑定链路、本机资源位置，以及美术资源库的接入思路。原版事实、当前插件实现和设计提议分节记录。实施状态仍由[Unity 主计划](PlanDocumentsForImplementation/UnityEditor/UNITY_EDITOR_IMPLEMENTATION_PLAN.md)维护；本文不另建实施计划。
+
+相关设计：[Unity 编辑器设计](UNITY_EDITOR_DESIGN.md)、[MapData 模块设计](MAPDATA_EDITOR_DESIGN.md)。
+
+## 1. 来源与版本
+
+| 来源 | 本文使用范围 | 版本或日期 |
+| --- | --- | --- |
+| PC 类型转储、既有原生反编译及字节核验 | 类结构、资源路由、场景绑定、部分效果初始化与释放 | PC 2.7.81；原生 DLL SHA-256 为 `583b04ff4d1b1a4b35eaf09d77d936408c25447c9e345ef0463d814b6a123fc5`；研究记录日期2026-11-02 |
+| 5-10 场景及其材质、光照包解析 | 对象类型、层级与资源引用 | Unity `2021.3.39f1`，platform `19`（Windows）；各包摘要保存在资源图 |
+| 本机 PC 内置资源目录 | 当前文件存在、目录结构及清单入口 | 2026-11-09只读核验；`hot_update_list.json.versionId = 26-10-20-11-10-38-04170990` |
+| Android 地块资源对账 | tileKey、资源路径、Prefab 引用 | 资源版本 `26-10-14-13-45-10-99469376`；与PC资源分开 |
+| 本地 GameData | mapThemes、levelScenePairs 等配置 | Git HEAD `bb8f9ac8db143a661577ed6ef5184d3c6e93d1d0` |
+| 当前插件代码 | 美术入口、工程保存与预览实现 | 当前工作树，2026-11-09 |
+
+固定原生函数存在 XLua 分派；2026-11-02 的函数结论对应已核验字节中的原生路径。客户端版本、资源版本、平台和配置仓库提交分别记录，不以其中一项代替其他项。2026-11-09 的文件存在核验没有重新解析或重哈希全部包，也没有操作游戏或Unity。
+
+## 2. 原版整体结构
+
+原版有统一的资源清单和加载管理；每张地图的具体表现保存在 Unity 场景、组件和资源引用中。
+
+下面是职责与引用关系，不表示所有组件都挂在同一个 GameObject 下。
+
+```text
+全局资源目录：Torappu.Resource.ResourceManifest
+├─ assetToBundleList[]                  资源到包的映射
+│  ├─ assetName
+│  ├─ bundleIndex
+│  ├─ name
+│  └─ path
+└─ bundles[]                           包元数据和依赖
+   ├─ name
+   ├─ props
+   ├─ sccIndex
+   └─ allDependencies[]
+             │
+             ▼
+关卡选择与加载
+├─ LevelUtils.GetSceneName
+│  └─ levelScenePairs.sceneId → mapId → levelId
+├─ ResourceRouter.GetMapScenePath
+├─ BattleLoader / AbstractBattleLoader
+├─ ResourceManagerEntry / ABResourceManager
+│  ├─ 资源路径规范化、清单查找
+│  ├─ BundleRouter 选择实际文件位置
+│  └─ 加载场景包与依赖包
+└─ Unity SceneManager.LoadSceneAsync
+             │
+             ▼
+地图场景与表现
+├─ MapGraphic
+│  ├─ _mapSettings：视角、高台高度、层高度、主题键
+│  ├─ _lightmapSettings：天空盒键与光照制作参数
+│  ├─ _effectSettings：镜头效果、地图特效
+│  ├─ _graphics：TileGraphic[] 引用
+│  └─ _background：背景 Transform 引用
+├─ 场景对象树
+│  ├─ Transform：父子关系、位置、旋转、缩放
+│  ├─ MeshFilter → Mesh
+│  └─ Renderer → Material → Shader / Texture / 材质参数
+├─ RenderSettings / LightmapSettings / Light
+│  └─ 环境、光照贴图、反射与探针等
+└─ 场景效果组件
+   └─ 例如 SceneEffectConfig → SceneEffectProfile
+      └─ 阴影染色、雾与调色等
+```
+
+动态敌人、干员、装置及技能效果由各自的原生资源流程加载。MapGraphic 是地图表现的重要配置入口；ResourceManifest 是资源定位与包依赖清单，两者职责不同。
+
+## 3. 与 TileData 的对应关系
+
+| 对比项 | 地块逻辑 | 地图美术 |
+| --- | --- | --- |
+| 配置主体 | `mapData.tiles[]` 中的 TileData | 场景对象、组件和资源引用 |
+| 格子关联 | `mapData.map[row][col]` 指向 tiles 索引 | TileGraphic 按格子位置关联逻辑 Tile |
+| 复用 | 多格共享一份 TileData | 多对象共享 Mesh、Material、Texture、Prefab |
+| 字段结构 | TileData 有统一顶层字段 | 各组件分别声明自己的字段 |
+| 整体组织 | 二维索引矩阵与配置数组 | 对象树与跨文件资源引用图 |
+| 保存载体 | LevelData | 场景包、资源包及依赖包 |
+
+同一 TileData 对应的不同格子可以使用不同 TileGraphic、模型或材质。外观绑定可以按格子坐标管理，不要求以共享 TileData 索引作为唯一目标。
+
+`TileData.effects` 则仍属于共享逻辑配置：修改它影响所有绑定格。需要单格差异时，应显式创建独立 TileData，沿用现有共享配置规则。`mapData.effects` 是地图级入口，两者不合并。
+
+## 4. 代码入口与已核实行为
+
+PC 声明文件：`APW_ROOT/source/ark-mix-source/DumpCS/2.7.81/dump-pc-x64-source.cs`。本机路径根见第8节。行号用于定位当前固定转储；后续换版需重新对应。
+
+| 入口 | 声明位置或固定地址 | 已核实内容 |
+| --- | --- | --- |
+| ResourceManifest | 行146431 | bundles、assetToBundleList；包属性含 CACHEABLE、RETAINED |
+| BundleRouter | 行147486 | streamingResPath、persistentResPath；持久目录和内置目录的选择 |
+| RuntimeAssetMeta | 行147526 | 资源名、路径、包名等运行元数据 |
+| MapThemeData | 行115577 | 主题颜色与控制类型；不是模型或材质集合 |
+| SceneEffectConfig / SceneEffectProfile | 行222284 / 222330 | 场景效果配置与参数资源 |
+| MapGraphic | 行250877 | 地图表现参数与 Unity 对象引用 |
+| TileGraphic | 行253114 | 地块图形、格坐标及地图绑定 |
+| ResourceRouter.GetMapScenePath | 行256555；`0x1808F35E0` | 从场景ID组成场景虚拟资源路径 |
+| ABResourceManager.LoadResourceManifest | `0x183C84100` | 选择清单、读取并反序列化；默认使用 FLAT_BUFFER 转换器 |
+| ABResourceManager._InitBundles | `0x183C86DE0` | 建立资源到包映射，并刷新 RuntimeAssetMeta |
+| ABResourceManager._PreprocessAssetPath | `0x183C87B70` | 转小写、去扩展名，并处理资源语言路径 |
+| BundleRouter.GetFullPathInfo | `0x183CA4DE0` | 按更新记录、文件存在及大小选择持久文件，否则回退内置目录 |
+| ABResourceManager.LoadSceneAsync | `0x183C84580` | 加载场景包与清单依赖，再调用 Unity 场景加载 |
+| MapGraphic.AttachToMap | `0x180878380` | 更新图形格坐标、按坐标关联逻辑 Tile |
+| Map.ImportData | `0x18087E720` | includeGraphic、attachGraphic 等选项影响图形保留与场景绑定 |
+| Map._InitSceneEffects | `0x180883FA0` | 收集场景效果，处理同类型重复项，执行初始化与后续注册 |
+| BattleOptions._LoadMapTheme | `0x1805DA720` | 应用主题颜色并刷新地图主题配置 |
+| BattleController.CreateMapEffect | `0x1806216A0` | 根据 MapEffectData.key、位置与偏移创建特效 |
+
+### 4.1 场景选择
+
+固定原生流程先用运行中的 levelId 查询 `battle_misc_table.levelScenePairs`。映射的 sceneId 有效时优先使用它；否则使用 `LevelData.mapId`，再回退 `levelId`。`LevelUtils.LoadLevel(requestedLevelId)` 会将请求ID写回运行中的 LevelData。
+
+`ResourceRouter.GetMapScenePath` 生成虚拟资源路径，例如 `scenes/Obt/Main/level_main_05-10/level_main_05-10`。资源管理器继续规范化并通过清单定位实际包；虚拟路径、包文件路径和 Unity 对象引用是不同标识。
+
+### 4.2 MapGraphic 的配置范围
+
+| 字段 | 主要内容 |
+| --- | --- |
+| `_mapSettings` | cameraView、highlandHeight、layerHeight、theme |
+| `_lightmapSettings` | repackLightmap、bakeLightmapInXYPlane、skyBoxKey、光照分辨率、环境与反射强度、AO、Final Gather等 |
+| `_effectSettings` | cameraEffect、MapEffectData[] mapEffects |
+| `_graphics` | TileGraphic[]；包含场景对象引用 |
+| `_background` | 背景 Transform；允许原版样本为null |
+| 相机配置读取 | 同对象 StoreValueComponent 中的 camera_focus 与 camera_offset，并有缓存 |
+
+`_lightmapSettings` 含制作和烘焙配置，声明存在不等于运行时改值会重新烘焙。实际灯光、Renderer、RenderSettings和其他效果组件仍保存在场景及依赖资源中。
+
+主题通过 `stage_table.mapThemes` 查找，字段包含 unitColor、buildableColor、trapTintColor、emissionColor、highlandBuildableColor、highlandEmissionColor、themeType 等。
+
+### 4.3 原生特效字段
+
+```text
+LevelData
+└─ mapData
+   ├─ effects[]                        地图级
+   │  └─ MapEffectData { key, offset{x,y,z}, direction }
+   └─ tiles[index].effects[]           共享 TileData 级
+      └─ MapEffectData { key, offset{x,y,z}, direction }
+```
+
+这些字段已有原生含义。美术模块如提供快捷入口，应编辑同一个文档与草稿，不再保存一份重复配置。
+
+## 5. 资源引用与加载管理
+
+ResourceManifest 记录包及依赖、资源与包的对应关系。它是游戏自己的清单结构，不是 Unity 构建输出的普通文本 `.manifest`。
+
+原生对象引用需保留所属文件上下文：
+
+```text
+资源版本 + 平台
+└─ 包路径
+   └─ SerializedFile / CAB
+      └─ pathID                        文件中的对象
+         └─ PPtr { m_FileID, m_PathID }
+            ├─ 本文件对象，或
+            └─ 经本文件 externals 解析到另一文件的对象
+```
+
+pathID 可为64位整数；导出到经过 JavaScript 的JSON目录时使用字符串保存。fileID 不能跨文件直接复用。
+
+Unity 编辑器导入资源另有 `GUID + local file ID` 身份。一个导入文件可包含多个子资源，因此只保存GUID不足以区分模型、材质等子对象。运行资源键、CAB/pathID和编辑器GUID/local file ID分别保存。
+
+Unity 的 AssetDatabase 可以负责已导入资源的搜索和依赖查询；原始游戏包需要使用自己的资源索引适配。官方接口参考：
+
+- [TryGetGUIDAndLocalFileIdentifier](https://docs.unity3d.com/2021.3/Documentation/ScriptReference/AssetDatabase.TryGetGUIDAndLocalFileIdentifier.html)
+- [FindAssets](https://docs.unity3d.com/2021.3/Documentation/ScriptReference/AssetDatabase.FindAssets.html)
+- [GetDependencies](https://docs.unity3d.com/2021.3/Documentation/ScriptReference/AssetDatabase.GetDependencies.html)
+- [AssetBundle 依赖加载](https://docs.unity3d.com/2021.3/Documentation/Manual/AssetBundles-Dependencies.html)
+
+## 6. 5-10 实际资源样本
+
+来源：`BATTLELAB_ROOT/scratch/verification/map-art-entry-20261102/scene-art-graph.json`。以下是既有解析记录，不是本轮重新解包结果。
+
+| 包 | 已记录内容 |
+| --- | --- |
+| `scenes/obt/main/level_main_05-10/level_main_05-10.ab` | 354 GameObject、354 Transform、183 MeshRenderer、183 MeshFilter、3 Mesh、198 MonoBehaviour、27 Light、3 Camera，以及场景设置 |
+| `arts/maps/map_lm_center/res.ab` | 17 Material、20 Texture2D；已导出材质树，计数不表示20张贴图像素均已导出 |
+| `scenes/obt/main/level_main_05-10/level_main_05-10/lightingdata.ab` | 2 Texture2D、1 Cubemap、1 LightProbes；资源图保存统计与外部表，objects为空 |
+
+实际引用例子：
+
+```text
+GameObject 6：S_Ground_tiles_longmen_0547
+├─ MeshFilter 898 → 本场景 Mesh 1
+└─ MeshRenderer 715
+   └─ Material -5055759525525426966：MT_LMC_D（地图资源CAB）
+      ├─ keywords：_EMISSION / _METALLICGLOSSMAP / _NORMALMAP
+      └─ Shader：外部CAB中的 pathID -8014961710185377972
+```
+
+pathID1347 的组件字段与 MapGraphic 声明对应：theme为 `LMC_NIGHT`，cameraEffect为 `screen_LMC_fog_02`，graphics数组93项，background为null。该次解析没有完成缺失MonoScript依赖的类型回查，因此组件身份依据字段结构对应。
+
+183个Renderer中，182个有静态合批记录，179个有有效范围的烘焙光照索引；场景只有3个Mesh。成品场景中的对象未必拥有可独立搬动的模型。提取可拼接部件时，需要对应子网格、几何坐标、材质槽、UV与光照索引。
+
+资源库应区分：独立Prefab、独立Mesh、场景对象、合批网格片段、完整场景。不能仅按GameObject数量统计可摆放部件。
+
+## 7. 当前插件已有内容
+
+以下路径相对于当前仓库。包根为 `unity/Packages/io.github.lingrs-llm-researchteam.mapeditor`。
+
+| 位置（相对包根） | 当前状态 |
+| --- | --- |
+| `Editor/UI/MapEditorWindow.Workbench.cs` | 右侧美术分类占位，尚无美术目录与选用功能 |
+| `Editor/UI/MapEditorWindow.Project.cs` | 左侧美术页提供映射JSON、Unity Object选择、手工key与相对资源路径、工程保存和打开 |
+| `Editor/Storage/ArtMapping.cs` | Key、ResourcePath、UnityGuid三字段 |
+| `Editor/Storage/ArkMapProject.cs` | LevelDataPath与映射列表；key唯一，最多4096条 |
+| `Editor/Storage/ArkMapProjectStore.cs` | `.arkmap` v1严格字段结构；resourcePath相对工程文件解析 |
+| `Editor/SceneTools/NativeMapSceneView.cs` | 独立预览场景承载骨架表现；没有消费美术映射的渲染层 |
+| `Editor/Catalog/CatalogSearch.cs` | 可复用现有Fuse.js及Angelina适配搜索链 |
+| `Editor/Catalog/DeviceSampleCatalog.cs` | 可参考轻量索引、逐项详情加载与有界缓存 |
+
+当前GUID只被记录，尚未用于资源反查、类型检查或预览加载。恢复数据保存美术JSON和工程路径，也保留未应用或非法JSON草稿。
+
+`.arkmap` v1不接受额外字段。新增资源类型、子资源标识或绑定目标时，需要格式升级与迁移。旧key没有明确作用域，迁移不根据名字猜测它代表地块、材质或场景。
+
+当前场景刷新依赖 LevelDocument 身份变化。独立美术配置需要自己的revision与刷新事件，否则只改映射时不会更新表现。
+
+## 8. 本机资源与调查文件位置
+
+这些是2026-11-09的本机研究位置，用于定位已有材料，不是插件发行路径或运行时配置。源码引用仍使用相对路径，外部资源根由本地配置提供。
+
+```text
+APW_ROOT = D:/Temporary_Embedded_Project/ArkPathWeaver
+BATTLELAB_ROOT = D:/Temporary_Embedded_Project/ArknightsBattleLab
+PC_AB_ROOT = D:/game/zmd/Hypergryph Launcher/games/Arknights/Arknights_Data/StreamingAssets/AB/Windows
+```
+
+### 8.1 当前PC内置资源
+
+下列文件已用只读文件接口核对存在。路径相对 `PC_AB_ROOT`。
+
+| 内容 | 相对路径 |
+| --- | --- |
+| 5-10场景 | `scenes/obt/main/level_main_05-10/level_main_05-10.ab` |
+| 地图材质与贴图 | `arts/maps/map_lm_center/res.ab` |
+| 背景模型包 | `arts/maps/map_lm_center/background_mesh/bg_lmc.ab` |
+| 5-10光照包 | `scenes/obt/main/level_main_05-10/level_main_05-10/lightingdata.ab` |
+| 地块Prefab包 | `battle/prefabs/[uc]tiles.ab` |
+| 特效包实例 | `battle/prefabs/effects/absin.ab` |
+| Shader包 | `[uc]shaders.ab`、`shaders/standard.ab` |
+| 公共依赖包 | `arts/[pack]common.ab`、`battle/[pack]common.ab` |
+| 资源版本与清单入口 | `hot_update_list.json` |
+| 当前登记的资源清单 | `41ae9b221e84c6ff47871ca907c538d2.idx` |
+
+本机 hot_update_list 字段：versionId为 `26-10-20-11-10-38-04170990`，manifestName为上表idx文件名，manifestVersion为 `V079`。模型、材质、贴图通常保存在包内部。
+
+本轮没有确认本机PC持久热更新目录的具体位置。原生BundleRouter会按记录选择更新文件或内置文件；表中路径仅表示已确认的内置资源位置。
+
+### 8.2 索引、配置与研究材料
+
+| 材料 | 位置 | 用途 |
+| --- | --- | --- |
+| APW资源总览 | `APW_ROOT/ProjectDesignSchemeDocument/PROJECT_RESOURCES.md` | 资源与工具入口 |
+| 原生类型转储 | `APW_ROOT/source/ark-mix-source/DumpCS/2.7.81/dump-pc-x64-source.cs` | 原生类、字段及地址 |
+| 已保存的包与CAB索引 | `D:/MixTools/Unity/Logs/arknights-base-bundle-node-index.json` | 13,313条包记录；其中场景非lightingdata 2,593条、lightingdata 2,382条、arts/maps 500条 |
+| 5-10资源图 | `BATTLELAB_ROOT/scratch/verification/map-art-entry-20261102/scene-art-graph.json` | 包摘要、对象统计、SerializedFile外部表及对象引用 |
+| 初始入口研究 | `BATTLELAB_ROOT/docs/reviews/map-art-entry-20261102.md` | 场景选择、MapGraphic、地块图形绑定 |
+| 完整资源链研究 | `BATTLELAB_ROOT/docs/reviews/map-art-resource-pipeline-20261102.md` | 清单、依赖、原生函数与场景效果链 |
+| 原生字节回执 | `BATTLELAB_ROOT/scratch/verification/map-art-entry-20261102/` 下的 `native-receipt.json`、`loading/`、`binding/`、`resource-chain/`、`presentation/`、`map-initialization/` | 函数导出与固定DLL字节来源 |
+| Android地块对账 | `BATTLELAB_ROOT/scratch/verification/terrain-20261030/failure-source/resource-reconciliation.json` | 117 container entries、116 tile prefab entries，版本与Prefab引用 |
+| 地块组件记录 | 上述failure-source目录中的 `apk-tiles-objects.json` | 既有组件树记录 |
+| 地图主题 | `APW_ROOT/source/ArknightsGameData/zh_CN/gamedata/excel/stage_table.json` 的 `mapThemes` | 当前本地52项主题配置 |
+| 场景映射 | `APW_ROOT/source/ArknightsGameData/zh_CN/gamedata/battle/battle_misc_table.json` 的 `levelScenePairs` | 当前本地586项映射；hookedMapPreviewId与sceneId分别解释 |
+| PRTS骨架图标 | `APW_ROOT/source/prtsMap-source/analysis/objects-20261103/audit.json` | 685有效ID、687PNG；网站版本0.49.66，属于网页图标 |
+| 地图与角色图像 | `APW_ROOT/source/ArknightsGameResource/` | PNG资料；本地资源版本26-09-22-07-47-20_6c71fa；不是完整Unity资产工程 |
+
+保存的包节点数、Prefab引用数、图像数量分别按其来源统计，不相加成为“可用美术资源总数”。包索引也不是当前全部文件存在与依赖闭合的结果。
+
+## 9. 编辑器接入提议
+
+本节记录聊天中的设计提议，尚未实施。
+
+### 9.1 资源目录和当前地图绑定分开
+
+资源条目记录名称、类型、原生键、来源版本、包和对象定位、依赖、Unity导入定位、缩略图与原版用法。位置、旋转、缩放属于当前地图的使用记录，不参与资源自身去重。
+
+| 建议分类 | 内容 | 选用操作 |
+| --- | --- | --- |
+| 地图场景 | 原版场景、自建场景 | 选择当前美术场景 |
+| 地块表现 | 已确认可独立使用的地面、高台、边缘部件 | 绑定选中格子 |
+| 背景与装饰 | 背景、建筑、植物、摆件 | 放置场景对象 |
+| 特效 | 地图、地块、独立粒子效果 | 选择作用域并编辑对应输入 |
+| 环境与主题 | 主题参数、天空盒、灯光及原版环境记录 | 编辑各类型的配置 |
+| 基础资源 | Mesh、Material、Texture、Shader | 查看依赖或替换对象引用 |
+
+环境与主题是浏览分类，不意味着主题表、天空盒和烘焙光照共用一个原生配置类型。装置、敌人的定义继续由原模块管理，美术详情可以互相导航。音乐音效沿用已有独立入口。
+
+### 9.2 左右模块分工
+
+- 右侧美术库：分类、搜索、列表/块状浏览、缩略图、详情、依赖、原版用法和明确的选用动作。
+- 左侧美术模块：当前场景、格子外观、场景对象、材质、环境和原生特效快捷入口。
+- LevelData保存原生字段；独立工程保存关联与编辑配置；Unity场景、Prefab、Material保存实际美术资产。
+- 美术场景预览选择与mapId修改分别处理。骨架层与美术层分别管理生成对象，沿用各预览场景的所有权。
+- 已导入Unity资源使用AssetDatabase；外部游戏包使用原生索引适配。目录搜索复用现有实现，详情与缩略图按需加载。
+
+### 9.3 首个闭环候选
+
+以5-10的已解析资源图为调查样本，先补齐资产及依赖，再选择能够独立使用的部件：目录浏览 → 格子外观绑定 → 材质选择 → Unity美术层预览 → 保存/重开 → 撤销与多地图隔离。
+
+同一素材的地图专用修改应保存在独立覆盖或副本中；关闭地图仅释放其创建的对象。上述流程不包含游戏启动、官方包修改或运行部署。
+
+## 10. 后续调查项
+
+| 事项 | 需要取得的结果 |
+| --- | --- |
+| 原生清单与包索引对应 | 当前平台/版本的资源键、包路径、包内资源名、依赖关系 |
+| 对象级目录 | 场景、Prefab、Mesh、Material、Texture、Shader等实际对象定位 |
+| 可独立使用的部件 | 区分原始独立对象、场景对象、静态合批片段；记录所需拆分与空间条件 |
+| Shader与脚本依赖 | 复核2026-11-02历史缺失CAB在当前可用来源中的位置；不以旧记录判断当前客户端缺失 |
+| 特效与环境参数 | 核实资源键、组件引用、初始化阶段以及各自作用域 |
+| 光照与材质复用 | 材质槽、UV、lightmap索引、探针、渲染参数及可搬动范围 |
+| 工程格式升级 | `.arkmap` v2字段、旧映射迁移、子资源身份、绑定目标和草稿恢复 |
+| 独立刷新与生命周期 | 美术revision、撤销、多地图隔离、对象释放与缺失引用修复 |
+
+历史缺口中的 `anon/dfba18b16546da2b44cbbe0fa4019066.bin`（Shader）与 `anon/88b3c3ecaaefa6003de730686dd5ac53.bin`（MonoScript）来自2026-11-02记录。后续分层抽样复用了已转换的历史副本，CAB、Unity版本、平台和文件SHA已核对；未将历史副本登记为当前PC原包。MonoScript元数据不包含游戏脚本的可执行实现。
+
+## 11. Unity实际分层抽样（2026-11-09）
+
+完整结果见[分层抽样证据](../unity/evidence/ART_RESOURCE_SAMPLING_20261109.md)。在独立Unity2021.3.39f1工程中，基础纹理/精灵、原材质、背景模型绑定、粒子、材质动画、模型动画和5-10静态场景均取得GPU渲染图。
+
+本轮补充了以下实际条件：
+
+- 原PC包使用方舟压缩格式，直接LoadFromFile失败。标准UnityFS转换副本保持包内节点一致；最多25个样本依赖包成功加载并释放。
+- 5-10静态场景183个Renderer出图，179个有有效光照图引用；关闭光照图后画面改变，恢复后PNG哈希一致。
+- 场景仍有198个空脚本组件槽；MapGraphic/TileGraphic初始化没有在此工程恢复。逻辑tile_road/tile_wall本身没有Renderer。
+- 原FBX的默认材质与地图使用材质分开。背景模型换成已有地图材质后呈现背景纹理；电塔本轮仅以白色默认材质验证几何与动画。
+- 两段absin动画通过Renderer的MaterialPropertyBlock改变UV与溶解量，不改变Transform。独立采样确认了参数变化与画面对应关系。
+- Cubemap可以六向显示，但有效LightProbes、独立原天空盒及骨骼蒙皮样本未验收。
+- 拖尾原组件与新建Unity组件在相同测试条件下都产生零宽几何，仍需核实更新输入，不能判断为游戏资产损坏或不兼容。
+
+本轮没有把测试代码接入插件美术库。后续接入应优先沿用已验证的资源/依赖加载、独立预览场景及释放路径，再分别处理游戏脚本初始化。
+
+## 12. 依赖补齐与 5-10 地图组装
+
+后续复测补齐了现装 CAB 依赖，并在独立 Unity 工程中组装原地图、光照、红蓝门和 10 台夜景弩炮。资源核对、初始化顺序、可复用部分与 Game 视图抖动修复记录在 [5-10 局内美术组装与 Unity 预览](BATTLE510_ART_ASSEMBLY.md)。
+
+## 13. 更新记录
+
+- 2026-11-09：汇总原版美术管理、TileData关系、代码入口、资源身份和本机路径；登记现有插件状态、美术库提议与后续调查项。只更新研究文档和导航。
+- 2026-11-09：完成Unity美术分层抽样，追加渲染/动画/光照证据、转换条件、脚本与未覆盖类型，测试工具保存在UPM包之外。
