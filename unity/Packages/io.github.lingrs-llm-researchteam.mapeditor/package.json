@@ -1,0 +1,24 @@
+{
+  "name": "io.github.lingrs-llm-researchteam.mapeditor",
+  "version": "0.1.0-preview.1",
+  "displayName": "Arknights LevelData Editor",
+  "description": "Editor-only LevelData authoring tools. Does not simulate the game.",
+  "unity": "2021.3",
+  "unityRelease": "39f1",
+  "license": "See LICENSE.md",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.2"
+  },
+  "samples": [
+    {
+      "displayName": "Basic LevelData",
+      "description": "Self-authored data editing sample; not a playable game level.",
+      "path": "Samples~/BasicMap"
+    },
+    {
+      "displayName": "Skeleton Style Gallery",
+      "description": "54 visual definitions; editor-only illustrative data, not gameplay templates.",
+      "path": "Samples~/SkeletonGallery"
+    }
+  ]
+}

@@ -1,0 +1,9139 @@
+{
+  "width": 72,
+  "height": 34,
+  "terrainCount": 120,
+  "objectCount": 1056,
+  "entries": [
+    {
+      "section": "terrain",
+      "id": "tile_forbidden",
+      "row": 32,
+      "col": 1
+    },
+    {
+      "section": "terrain",
+      "id": "tile_floor",
+      "row": 32,
+      "col": 3
+    },
+    {
+      "section": "terrain",
+      "id": "tile_wall",
+      "row": 32,
+      "col": 5
+    },
+    {
+      "section": "terrain",
+      "id": "tile_road",
+      "row": 32,
+      "col": 7
+    },
+    {
+      "section": "terrain",
+      "id": "tile_start",
+      "row": 32,
+      "col": 9
+    },
+    {
+      "section": "terrain",
+      "id": "tile_flystart",
+      "row": 32,
+      "col": 11
+    },
+    {
+      "section": "terrain",
+      "id": "tile_end",
+      "row": 32,
+      "col": 13
+    },
+    {
+      "section": "terrain",
+      "id": "tile_telin",
+      "row": 32,
+      "col": 15
+    },
+    {
+      "section": "terrain",
+      "id": "tile_telout",
+      "row": 32,
+      "col": 17
+    },
+    {
+      "section": "terrain",
+      "id": "tile_hole",
+      "row": 32,
+      "col": 19
+    },
+    {
+      "section": "terrain",
+      "id": "tile_empty",
+      "row": 32,
+      "col": 21
+    },
+    {
+      "section": "terrain",
+      "id": "tile_grass",
+      "row": 32,
+      "col": 23
+    },
+    {
+      "section": "terrain",
+      "id": "tile_fence",
+      "row": 32,
+      "col": 25
+    },
+    {
+      "section": "terrain",
+      "id": "tile_fence_bound",
+      "row": 32,
+      "col": 27
+    },
+    {
+      "section": "terrain",
+      "id": "tile_healing",
+      "row": 32,
+      "col": 29
+    },
+    {
+      "section": "terrain",
+      "id": "tile_bigforce",
+      "row": 32,
+      "col": 31
+    },
+    {
+      "section": "terrain",
+      "id": "tile_defup",
+      "row": 32,
+      "col": 33
+    },
+    {
+      "section": "terrain",
+      "id": "tile_gazebo",
+      "row": 32,
+      "col": 35
+    },
+    {
+      "section": "terrain",
+      "id": "tile_infection",
+      "row": 30,
+      "col": 1
+    },
+    {
+      "section": "terrain",
+      "id": "tile_volcano",
+      "row": 30,
+      "col": 3
+    },
+    {
+      "section": "terrain",
+      "id": "tile_volcano_emp",
+      "row": 30,
+      "col": 5
+    },
+    {
+      "section": "terrain",
+      "id": "tile_corrosion",
+      "row": 30,
+      "col": 7
+    },
+    {
+      "section": "terrain",
+      "id": "tile_defbreak",
+      "row": 30,
+      "col": 9
+    },
+    {
+      "section": "terrain",
+      "id": "tile_shallowwater",
+      "row": 30,
+      "col": 11
+    },
+    {
+      "section": "terrain",
+      "id": "tile_deepwater",
+      "row": 30,
+      "col": 13
+    },
+    {
+      "section": "terrain",
+      "id": "tile_deepsea",
+      "row": 30,
+      "col": 15
+    },
+    {
+      "section": "terrain",
+      "id": "tile_volspread",
+      "row": 30,
+      "col": 17
+    },
+    {
+      "section": "terrain",
+      "id": "tile_smog",
+      "row": 30,
+      "col": 19
+    },
+    {
+      "section": "terrain",
+      "id": "tile_wooden_wall",
+      "row": 30,
+      "col": 21
+    },
+    {
+      "section": "terrain",
+      "id": "tile_yinyang_road",
+      "row": 30,
+      "col": 23
+    },
+    {
+      "section": "terrain",
+      "id": "tile_yinyang_wall",
+      "row": 30,
+      "col": 25
+    },
+    {
+      "section": "terrain",
+      "id": "tile_yinyang_switch",
+      "row": 30,
+      "col": 27
+    },
+    {
+      "section": "terrain",
+      "id": "tile_poison",
+      "row": 30,
+      "col": 29
+    },
+    {
+      "section": "terrain",
+      "id": "tile_icestr",
+      "row": 30,
+      "col": 31
+    },
+    {
+      "section": "terrain",
+      "id": "tile_icetur_lb",
+      "row": 30,
+      "col": 33
+    },
+    {
+      "section": "terrain",
+      "id": "tile_icetur_lt",
+      "row": 30,
+      "col": 35
+    },
+    {
+      "section": "terrain",
+      "id": "tile_icetur_rb",
+      "row": 28,
+      "col": 1
+    },
+    {
+      "section": "terrain",
+      "id": "tile_icetur_rt",
+      "row": 28,
+      "col": 3
+    },
+    {
+      "section": "terrain",
+      "id": "tile_aircraft",
+      "row": 28,
+      "col": 5
+    },
+    {
+      "section": "terrain",
+      "id": "tile_reed",
+      "row": 28,
+      "col": 7
+    },
+    {
+      "section": "terrain",
+      "id": "tile_reedf",
+      "row": 28,
+      "col": 9
+    },
+    {
+      "section": "terrain",
+      "id": "tile_reedw",
+      "row": 28,
+      "col": 11
+    },
+    {
+      "section": "terrain",
+      "id": "tile_mire",
+      "row": 28,
+      "col": 13
+    },
+    {
+      "section": "terrain",
+      "id": "tile_passable_wall",
+      "row": 28,
+      "col": 15
+    },
+    {
+      "section": "terrain",
+      "id": "tile_passable_wall_forbidden",
+      "row": 28,
+      "col": 17
+    },
+    {
+      "section": "terrain",
+      "id": "tile_stairs",
+      "row": 28,
+      "col": 19
+    },
+    {
+      "section": "terrain",
+      "id": "tile_grvtybtn",
+      "row": 28,
+      "col": 21
+    },
+    {
+      "section": "terrain",
+      "id": "tile_ristar_road",
+      "row": 28,
+      "col": 23
+    },
+    {
+      "section": "terrain",
+      "id": "tile_ristar_road_forbidden",
+      "row": 28,
+      "col": 25
+    },
+    {
+      "section": "terrain",
+      "id": "tile_start_cooperate",
+      "row": 28,
+      "col": 27
+    },
+    {
+      "section": "terrain",
+      "id": "tile_end_cooperate",
+      "row": 28,
+      "col": 29
+    },
+    {
+      "section": "terrain",
+      "id": "tile_rcm_operator",
+      "row": 28,
+      "col": 31
+    },
+    {
+      "section": "terrain",
+      "id": "tile_rcm_crate",
+      "row": 28,
+      "col": 33
+    },
+    {
+      "section": "terrain",
+      "id": "tile_crate",
+      "row": 28,
+      "col": 35
+    },
+    {
+      "section": "objects",
+      "id": "token_10000_silent_healrb",
+      "name": "医疗探机",
+      "row": 25,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "token_10001_deepcl_tentac",
+      "name": "触手",
+      "row": 25,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "token_10002_kalts_mon3tr",
+      "name": "Mon3tr",
+      "row": 25,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "token_10002_kalts_mon3tr_boc_s6",
+      "name": null,
+      "row": 25,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "token_10003_cgbird_bird",
+      "name": "幻影",
+      "row": 25,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "token_10004_otter_motter",
+      "name": "机械水獭",
+      "row": 25,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "token_10004_otter_motter_ghost_s1",
+      "name": null,
+      "row": 25,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "token_10005_mgllan_drone1",
+      "name": "龙腾.F",
+      "row": 25,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "token_10005_mgllan_drone2",
+      "name": "龙腾.L",
+      "row": 25,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "token_10005_mgllan_drone3",
+      "name": "龙腾.A",
+      "row": 25,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "token_10006_vodfox_doll",
+      "name": "诅咒娃娃",
+      "row": 25,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "token_10007_phatom_twin",
+      "name": "镜中虚影",
+      "row": 25,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "token_10007_phatom_twin_ghost_s1",
+      "name": null,
+      "row": 25,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "token_10008_cqbw_box",
+      "name": "此面向敌",
+      "row": 25,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "token_10009_weedy_cannon",
+      "name": "工程蓄水炮",
+      "row": 25,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "token_10010_folivo_car",
+      "name": "移动摄影器",
+      "row": 25,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "token_10011_beewax_oblisk",
+      "name": "沙之碑",
+      "row": 25,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "token_10013_robin_mine",
+      "name": "“夹子”",
+      "row": 25,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "token_10014_bstalk_crab",
+      "name": "磐蟹护卫队",
+      "row": 25,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "token_10014_bstalk_crab_snow_s4",
+      "name": null,
+      "row": 25,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "token_10015_dusk_drgn",
+      "name": "“小自在”",
+      "row": 25,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "token_10016_rfrost_mine",
+      "name": "迎宾踏垫",
+      "row": 25,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "token_10017_skadi2_dedant",
+      "name": "斯卡蒂的海嗣",
+      "row": 25,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "token_10017_skadi2_dedant_boc_s4",
+      "name": null,
+      "row": 25,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "token_10018_robrta_mach",
+      "name": "全自动造型仪",
+      "row": 25,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "token_10018_robrta_mach_ambiencesynesthesia_s3",
+      "name": null,
+      "row": 25,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "token_10019_nearl2_sword",
+      "name": "“耀阳”",
+      "row": 25,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "token_10020_ling_soul1",
+      "name": "“清平”",
+      "row": 25,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "token_10020_ling_soul2",
+      "name": "“逍遥”",
+      "row": 24,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "token_10020_ling_soul3",
+      "name": "“弦惊”",
+      "row": 24,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "token_10021_blkngt_hypnos",
+      "name": "眠兽",
+      "row": 24,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "token_10021_blkngt_hypnos_nian_s8",
+      "name": null,
+      "row": 24,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "token_10022_kazema_shadow",
+      "name": "纸偶",
+      "row": 24,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "token_10023_windft_wrench",
+      "name": "可靠电池",
+      "row": 24,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "token_10024_ebnhlz_rcube",
+      "name": "旧日残影",
+      "row": 24,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "token_10025_doroth_recttp",
+      "name": "共振装置",
+      "row": 24,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "token_10025_doroth_recttp_witch_s4",
+      "name": null,
+      "row": 24,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "token_10026_bgsnow_subbow",
+      "name": "“打字机”",
+      "row": 24,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "token_10027_ironmn_pile1",
+      "name": "白铁™多功能平台",
+      "row": 24,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "token_10027_ironmn_pile2",
+      "name": "白铁™多功能平台",
+      "row": 24,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "token_10027_ironmn_pile3",
+      "name": "铁钳号·原型机",
+      "row": 24,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "token_10028_vigil_wolf",
+      "name": "狼群",
+      "row": 24,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "token_10028_vigil_wolf_epoque_s27",
+      "name": null,
+      "row": 24,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "token_10029_slent2_protrb",
+      "name": "夜灯",
+      "row": 24,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "token_10030_mlyss_wtrman",
+      "name": "流形",
+      "row": 24,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "token_10031_swire2_gdtrap",
+      "name": "香槟炸弹",
+      "row": 24,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "token_10031_swire2_gdtrap_ambienceSynesthesia_s4",
+      "name": null,
+      "row": 24,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "token_10032_jesca2_jckshd",
+      "name": "机动盾牌",
+      "row": 24,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "token_10033_ela_grzmot",
+      "name": "雷鸣地雷",
+      "row": 24,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "token_10034_ray_sndbst",
+      "name": "沙地兽",
+      "row": 24,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "token_10035_wisdel_wward",
+      "name": "魂灵之影",
+      "row": 24,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "token_10036_lasher_mcbird",
+      "name": "发条羽兽",
+      "row": 24,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "token_10037_mitm_trshrb",
+      "name": "樱桃三号",
+      "row": 24,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "token_10041_cathy_catsld",
+      "name": "爬行号·防护单元",
+      "row": 24,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "token_10041_cathy_catsld_0",
+      "name": null,
+      "row": 24,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "token_10042_tecno_puppet",
+      "name": "木偶舞者",
+      "row": 24,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "token_10043_necras_skeltn",
+      "name": "悲叹的仆役",
+      "row": 23,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "token_10044_wulfen_mine",
+      "name": "矿石“杀手”",
+      "row": 23,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "token_10045_alanna_crane",
+      "name": "小螺帽",
+      "row": 23,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "token_10050_monstr_prosts",
+      "name": "重构体",
+      "row": 23,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "token_10051_radian_tower1",
+      "name": "戴乌",
+      "row": 23,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "token_10052_radian_tower2",
+      "name": "赛柯",
+      "row": 23,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "token_10053_radian_tower3",
+      "name": "桑特拉",
+      "row": 23,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "token_10054_phatm2_encdool",
+      "name": "本能的召唤",
+      "row": 23,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "token_10056_angel2_target",
+      "name": "投递坐标",
+      "row": 23,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "token_10057_svash2_eagle1",
+      "name": "风雪之眼",
+      "row": 23,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "token_10057_svash2_eagle2",
+      "name": "风雪之眼",
+      "row": 23,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "token_10057_svash2_eagle3",
+      "name": "风雪之眼",
+      "row": 23,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "token_10059_nasti_nstdef",
+      "name": "“质检专员”",
+      "row": 23,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "token_10060_nasti_nstchr",
+      "name": "“监工专员”",
+      "row": 23,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "token_10061_nasti_nstbld",
+      "name": "“应急承重小组”",
+      "row": 23,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "token_10063_buddy_bddg",
+      "name": "牙猎犬",
+      "row": 23,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "token_10064_wang_stone1",
+      "name": "棋子",
+      "row": 23,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "token_10066_closur_ourbase",
+      "name": "指挥中心",
+      "row": 23,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "token_10067_toledo_tldptm",
+      "name": "征服者传说",
+      "row": 23,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "token_10068_kalts2_mtship",
+      "name": "战术锚点",
+      "row": 23,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "token_10069_mcnist_mcgraf",
+      "name": "结构性原理",
+      "row": 23,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "token_10070_aphris_pc",
+      "name": "中继器",
+      "row": 23,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_001_crate",
+      "name": "障碍物",
+      "row": 23,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_006_antidr",
+      "name": "干扰装置",
+      "row": 23,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_008_farm",
+      "name": "指挥终端",
+      "row": 23,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_009_battery",
+      "name": "便携式补给站",
+      "row": 23,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_010_frosts",
+      "name": "源石冰晶",
+      "row": 23,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_012_mine",
+      "name": "干扰地雷",
+      "row": 23,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_015_tree",
+      "name": "巨蕈",
+      "row": 22,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_016_peon",
+      "name": "罗德岛临时雇员",
+      "row": 22,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_018_bomb",
+      "name": "轰隆隆先生",
+      "row": 22,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_019_electric",
+      "name": "梅什科线圈",
+      "row": 22,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_025_prison",
+      "name": "禁锢装置",
+      "row": 22,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_026_inverter",
+      "name": "改良型二踢脚",
+      "row": 22,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_027_stone",
+      "name": "碎石",
+      "row": 22,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_031_sleep",
+      "name": "雪雉的安全起重机",
+      "row": 22,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_033_sbomb",
+      "name": "高能源石炸弹",
+      "row": 22,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_034_machst",
+      "name": "加固装置",
+      "row": 22,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_035_emperor",
+      "name": "大帝",
+      "row": 22,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_037_airsup",
+      "name": "可移动战术机库",
+      "row": 22,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_038_dsbell",
+      "name": "应急救治设施",
+      "row": 22,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_039_dstnta",
+      "name": "子代",
+      "row": 22,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_040_canoe",
+      "name": "特制水上平台",
+      "row": 22,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_041_fcanon",
+      "name": "风筝",
+      "row": 22,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_045_dublst",
+      "name": "爆破装置",
+      "row": 22,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_046_oxygen",
+      "name": "防水蚀镀膜装置",
+      "row": 22,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_048_neonlamp",
+      "name": "城市霓虹",
+      "row": 22,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_049_candle",
+      "name": "骑士之徽",
+      "row": 22,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_052_slowfd",
+      "name": "失修舞台雾机",
+      "row": 22,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_053_airbomb",
+      "name": "便携气罐",
+      "row": 22,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_057_wpnsts",
+      "name": "“冰淇淋机”",
+      "row": 22,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_060_bouncy",
+      "name": "圣徒之手",
+      "row": 22,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_062_magicstart",
+      "name": "“低音号”",
+      "row": 22,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_063_magicturn",
+      "name": "L-7 “回音壁”",
+      "row": 22,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_064_magiccircle",
+      "name": "“谐振器”",
+      "row": 22,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_067_dice",
+      "name": "骰子",
+      "row": 22,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_069_buffcard",
+      "name": "战备激活阀",
+      "row": 21,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_070_supplycard",
+      "name": "预备区发讯器",
+      "row": 21,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_071_recyclecard",
+      "name": "紧急召回情报箱",
+      "row": 21,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_072_revivecard",
+      "name": "休整区发讯器",
+      "row": 21,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_073_btauntcard",
+      "name": "污染晶石",
+      "row": 21,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_074_bbombcard",
+      "name": "聚热晶簇",
+      "row": 21,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_075_bgarmn",
+      "name": "R-31重型动力装甲",
+      "row": 21,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_076_bgarms",
+      "name": "R-31a重型动力装甲",
+      "row": 21,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_077_rmtarmn",
+      "name": "R-11突击动力装甲",
+      "row": 21,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_078_rmtarms",
+      "name": "R-11a突击动力装甲",
+      "row": 21,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_080_garage",
+      "name": "自走车出发点",
+      "row": 21,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_081_turngear",
+      "name": "自走车单行道",
+      "row": 21,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_082_salecard",
+      "name": "改派发讯器",
+      "row": 21,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_083_bunker",
+      "name": "掩体",
+      "row": 21,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_084_aidkit",
+      "name": "急救包",
+      "row": 21,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_085_paras",
+      "name": "荧光孢子",
+      "row": 21,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_086_larva",
+      "name": "“汲营枯枝” ",
+      "row": 21,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_087_allady",
+      "name": "阿勒黛的卫护",
+      "row": 21,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_088_dice2",
+      "name": "8面骰子",
+      "row": 21,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_089_dice3",
+      "name": "12面骰子",
+      "row": 21,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_090_recodr",
+      "name": "实体程式",
+      "row": 21,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_093_tbattbc",
+      "name": "钳兽壳粉",
+      "row": 21,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_094_tbpsnc",
+      "name": "高效泡打粉",
+      "row": 21,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_095_tbsmmc",
+      "name": "芳香精油",
+      "row": 21,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_099_mhflsb",
+      "name": "眩光手雷",
+      "row": 21,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_100_mhlbmb",
+      "name": "高能源石爆桶",
+      "row": 21,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_101_mhshok",
+      "name": "高压脉冲诡雷",
+      "row": 21,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_102_mhwrbg",
+      "name": "滞空牵引无人机",
+      "row": 21,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_104_dplant",
+      "name": "改性植物激素",
+      "row": 20,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_106_smpow",
+      "name": null,
+      "row": 20,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_106_smtree",
+      "name": "积雪银凇 ",
+      "row": 20,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_108_smbox",
+      "name": "宝箱",
+      "row": 20,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_109_smrbox",
+      "name": "尖刺宝箱",
+      "row": 20,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_110_smbbox",
+      "name": "巨壳藤蔓",
+      "row": 20,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_114_smkbmb",
+      "name": "爆裂毒气罐",
+      "row": 20,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_116_stdurk",
+      "name": "“过去的我”",
+      "row": 20,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_117_ltstat",
+      "name": "圣像",
+      "row": 20,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_118_rockfl",
+      "name": "塌落的墙垣",
+      "row": 20,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_119_rdrepair",
+      "name": "备用木材",
+      "row": 20,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_120_rdblock",
+      "name": "破旧的木篱",
+      "row": 20,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_122_stmpq",
+      "name": "景观喷泉",
+      "row": 20,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_123_stmbot",
+      "name": "水汽汽水瓶",
+      "row": 20,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_124_eradio",
+      "name": "废热喷口",
+      "row": 20,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_125_bonore",
+      "name": "唤血祭坛",
+      "row": 20,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_126_outset",
+      "name": "炸弹载荷点",
+      "row": 20,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_127_bldore",
+      "name": "沥血王座",
+      "row": 20,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_128_toolore",
+      "name": "祭坛式雷达",
+      "row": 20,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_129_tooltower",
+      "name": "R-45便携式“留声机”",
+      "row": 20,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_130_tooltree",
+      "name": "景观巨蕈",
+      "row": 20,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_132_toolinvert",
+      "name": "“二踢脚”型数据收集装置",
+      "row": 20,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_133_toolgarage",
+      "name": "勘察用自走车",
+      "row": 20,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_135_portlent",
+      "name": "湮灭之相",
+      "row": 20,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_138_winstone",
+      "name": "点火石",
+      "row": 20,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_139_dhtl",
+      "name": "阻流阀",
+      "row": 20,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_140_dhsb",
+      "name": "泵站",
+      "row": 20,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_141_sheltr",
+      "name": "封阻物",
+      "row": 20,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_142_barrel",
+      "name": "源石爆炸物",
+      "row": 19,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_143_rnfcar",
+      "name": "封阻加固装置",
+      "row": 19,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_144_ads",
+      "name": "临时掩护装置",
+      "row": 19,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_145_edd",
+      "name": "诡雷布设装置",
+      "row": 19,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_147_spblls",
+      "name": "巫术弩炮",
+      "row": 19,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_148_amblls",
+      "name": "幽影门扉",
+      "row": 19,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_1500_lhgras",
+      "name": "草丛",
+      "row": 19,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_1501_lhpark",
+      "name": "花丛",
+      "row": 19,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_1502_lhrock",
+      "name": "岩石",
+      "row": 19,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_1503_lhshan",
+      "name": "山脉",
+      "row": 19,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_1504_lhtree",
+      "name": "林地",
+      "row": 19,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_1505_lhfrst",
+      "name": "密林",
+      "row": 19,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_1506_lhhe",
+      "name": "河流",
+      "row": 19,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_1508_lhmine",
+      "name": "源石矿场",
+      "row": 19,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_1509_lhbot",
+      "name": "勘探器",
+      "row": 19,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_1510_lhplt",
+      "name": "源石晶簇",
+      "row": 19,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_1511_lhfac",
+      "name": "晶簇稳定器",
+      "row": 19,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_1512_lhfarm",
+      "name": "源石回收炉",
+      "row": 19,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_1513_lhshop",
+      "name": "冶铸车",
+      "row": 19,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_1514_lhpad",
+      "name": "田地",
+      "row": 19,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_1516_lhnat",
+      "name": "供能基站",
+      "row": 19,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_1517_lhcol",
+      "name": "藏书馆",
+      "row": 19,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_1518_lhdoor",
+      "name": "改良巫术祭坛",
+      "row": 19,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_1522_lhvlg",
+      "name": "先遣侦测器",
+      "row": 19,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_1528_lhruin",
+      "name": "废墟",
+      "row": 19,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_1529_lhsht",
+      "name": "岗哨",
+      "row": 19,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_1530_lhcamp",
+      "name": "荒野村落",
+      "row": 19,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_1534_lheqp",
+      "name": "插件补给点",
+      "row": 19,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_1535_lhupgd",
+      "name": "插件强化点",
+      "row": 18,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_1536_lhbat",
+      "name": "噬血诅地",
+      "row": 18,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_1537_lhside",
+      "name": "信号基站",
+      "row": 18,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_1538_lhblod",
+      "name": "血裔胞体",
+      "row": 18,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_1539_lhflwr",
+      "name": "精怪实验室",
+      "row": 18,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_157_bounc2",
+      "name": "小帮手",
+      "row": 18,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_158_lrsteam",
+      "name": "查尔斯·林奇",
+      "row": 18,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_159_lrcore",
+      "name": "核心增幅器",
+      "row": 18,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_1601_akshept",
+      "name": "星术绒绒",
+      "row": 18,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_1602_akspspt",
+      "name": "奥术绒绒",
+      "row": 18,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_1603_akbudyt",
+      "name": "大个子绒绒",
+      "row": 18,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_1605_akplspt",
+      "name": "活泼绒绒",
+      "row": 18,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_1606_aksnilt",
+      "name": "固海凿石者",
+      "row": 18,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_1607_akplbtt",
+      "name": "阿咬",
+      "row": 18,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_1608_akplbrt",
+      "name": "高普尼克",
+      "row": 18,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_1609_akcrabt",
+      "name": "石背岩壳蟹",
+      "row": 18,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_1610_akplsnt",
+      "name": "直立小雪怪",
+      "row": 18,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_1611_akdogt",
+      "name": "花冠园丁",
+      "row": 18,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_1612_akdgspt",
+      "name": "黑毛花冠园丁",
+      "row": 18,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_1613_akslmt",
+      "name": "果冻清道夫",
+      "row": 18,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_1615_akftrt",
+      "name": "大嘴捕食草",
+      "row": 18,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_1616_akmaget",
+      "name": "爬行鬼伞",
+      "row": 18,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_1617_akrangt",
+      "name": "红宝石投石虫",
+      "row": 18,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_1618_akshdt",
+      "name": "困困荪茸",
+      "row": 18,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_1619_akbowt",
+      "name": "石榴弩手",
+      "row": 18,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_161_lrcage",
+      "name": "枯朽祭坛",
+      "row": 18,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_1620_akdeft",
+      "name": "椰壳蟹",
+      "row": 18,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_1624_akfiret",
+      "name": "灼热跳跳蜥",
+      "row": 18,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_1626_aktelet",
+      "name": "蓝冠羽镖客",
+      "row": 17,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_1627_aktespt",
+      "name": "橙冠羽镖客",
+      "row": 17,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_1631_akraget",
+      "name": "密林锋脊裂兽",
+      "row": 17,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_1632_akrgspt",
+      "name": "枯焦锋脊裂兽",
+      "row": 17,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_1633_akrbt",
+      "name": "深林伪形兽",
+      "row": 17,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_1634_akrbsp",
+      "name": "赤黑伪形兽",
+      "row": 17,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_1635_akblcr",
+      "name": "浪花小壳蟹",
+      "row": 17,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_1636_akrdcr",
+      "name": "熔火小壳蟹",
+      "row": 17,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_1637_akickb",
+      "name": "寒山大角驮兽",
+      "row": 17,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_1638_akdrgn",
+      "name": "锐爪巨翼兽",
+      "row": 17,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_1639_akkabi",
+      "name": "温和驮兽",
+      "row": 17,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_1645_akmndx",
+      "name": "未定义石兽",
+      "row": 17,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_1646_akqhc",
+      "name": "青花",
+      "row": 17,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_1647_akqhsp",
+      "name": "赤霞",
+      "row": 17,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_1648_akpeat",
+      "name": "不知足吞噬者",
+      "row": 17,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_1649_akflwr",
+      "name": "钵海收割者",
+      "row": 17,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_1650_aktstn",
+      "name": "孤独的巨像",
+      "row": 17,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_1651_akmdbf",
+      "name": "“酩酊”",
+      "row": 17,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_165_muftbl",
+      "name": "足球",
+      "row": 17,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_166_muwork",
+      "name": "设施建筑工",
+      "row": 17,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_173_slfrut",
+      "name": "闪亮果实",
+      "row": 17,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_174_smfrut",
+      "name": "奇异黑光果实",
+      "row": 17,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_175_frfrut",
+      "name": "香甜烤果子",
+      "row": 17,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_176_frutwn",
+      "name": "缤纷果酒",
+      "row": 17,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_177_tentcl",
+      "name": "宝箱的肉？",
+      "row": 17,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_181_sgray",
+      "name": "结晶消除桩",
+      "row": 17,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_182_sglink",
+      "name": "纯净结晶",
+      "row": 17,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_183_sheltk",
+      "name": "作战专用掩体",
+      "row": 17,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_184_vtarsn",
+      "name": "军工厂指令平台",
+      "row": 16,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_184_vtarsn_0",
+      "name": null,
+      "row": 16,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_186_cnvfwks",
+      "name": "烟花发射器",
+      "row": 16,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_188_arcsum1",
+      "name": "街边电话亭",
+      "row": 16,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_189_arcsum2",
+      "name": "军营电话亭",
+      "row": 16,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_190_arcsum3",
+      "name": "超时空电话亭",
+      "row": 16,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_191_arcexpd",
+      "name": "菜单电话机",
+      "row": 16,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_194_arcsoda",
+      "name": "口渴乐乐",
+      "row": 16,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_195_arcpw",
+      "name": "大力拳套",
+      "row": 16,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_197_muulwr",
+      "name": "护具分发员",
+      "row": 16,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_198_muulas",
+      "name": "混乱烟花箱",
+      "row": 16,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_199_muulrg",
+      "name": "猛兽能量饮料",
+      "row": 16,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_200_muulcl",
+      "name": "喷射汽水机",
+      "row": 16,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_201_muulco",
+      "name": "赛场啦啦队",
+      "row": 16,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_202_muworkg",
+      "name": "高级设施建筑工",
+      "row": 16,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_210_arcgrg",
+      "name": "两栖码头",
+      "row": 16,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_241_dyldlz",
+      "name": "聚宝斋",
+      "row": 16,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_255_pckzhn",
+      "name": "“斩”",
+      "row": 16,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_257_muulct",
+      "name": "迷幻反射镜",
+      "row": 16,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_260_murbas",
+      "name": "基础浮板",
+      "row": 16,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_261_murmag",
+      "name": "引力浮板",
+      "row": 16,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_267_xdmac1",
+      "name": "雪崩触发装置",
+      "row": 16,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_268_xdmac2",
+      "name": "积雪固定装置",
+      "row": 16,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_269_xdmac3",
+      "name": "落雪防护装置",
+      "row": 16,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_270_spawnp",
+      "name": "隐蔽矿道",
+      "row": 16,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_271_fowstn",
+      "name": "严重污染设施",
+      "row": 16,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_273_pycgp",
+      "name": "不完全充能反击",
+      "row": 16,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_274_pyctrn",
+      "name": "泡影流大冲击",
+      "row": 16,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_275_pycfly",
+      "name": "翔虫闪击",
+      "row": 15,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_276_pycstp",
+      "name": "束缚铁虫丝",
+      "row": 15,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_279_pirene",
+      "name": "喷泉水池",
+      "row": 15,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_281_ctlrol",
+      "name": "御龙：反壳龟",
+      "row": 15,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_282_ctlspy",
+      "name": "御龙：影丝蛛",
+      "row": 15,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_283_ctlblk",
+      "name": "御龙：岩甲兽",
+      "row": 15,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_284_ctlzog",
+      "name": "御龙：雷狼龙",
+      "row": 15,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_286_tjgsd",
+      "name": "书刀",
+      "row": 15,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_289_zicai",
+      "name": "财字",
+      "row": 15,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_290_zishi",
+      "name": "食字",
+      "row": 15,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_291_zibin",
+      "name": "兵字",
+      "row": 15,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_292_zishan",
+      "name": "山字",
+      "row": 15,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_294_ziyou",
+      "name": "友字",
+      "row": 15,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_295_ziyin",
+      "name": "印字",
+      "row": 15,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_296_iznsbr",
+      "name": "落魄士兵",
+      "row": 15,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_297_izsdkn",
+      "name": "持盾战败骑士",
+      "row": 15,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_298_izuabn",
+      "name": "乌萨斯弩手幸存者",
+      "row": 15,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_299_izduph",
+      "name": "深池搅局战士",
+      "row": 15,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_300_izdmge",
+      "name": "萨卡兹业余术师",
+      "row": 15,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_301_izbslm",
+      "name": "稳定的高能源石虫",
+      "row": 15,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_302_iznhkd",
+      "name": "萨卡兹枯朽胃胀者",
+      "row": 15,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_303_izbear",
+      "name": "下班的高普尼克",
+      "row": 15,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_304_izdoc",
+      "name": "变格博士",
+      "row": 15,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_305_izwsdl",
+      "name": "变格维什戴尔",
+      "row": 15,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_306_izklst",
+      "name": "变格凯尔希",
+      "row": 15,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_307_izsvas",
+      "name": "变格银灰",
+      "row": 15,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_318_ubodst",
+      "name": "伪装工具",
+      "row": 15,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_339_tchray",
+      "name": "“再度绽放”",
+      "row": 15,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_400_xbfarm",
+      "name": "便携式种植槽",
+      "row": 14,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_401_xbfato",
+      "name": "木材采集站",
+      "row": 14,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_403_wfactory",
+      "name": "蟹蟹抽水泵",
+      "row": 14,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_404_xbfortress",
+      "name": "坚固筑台",
+      "row": 14,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_404_xbfortress_lv2",
+      "name": null,
+      "row": 14,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_404_xbfortress_lv3",
+      "name": null,
+      "row": 14,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_405_xbroadblock",
+      "name": "都市风壁障",
+      "row": 14,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_405_xbroadblock_lv2",
+      "name": null,
+      "row": 14,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_405_xbroadblock_lv3",
+      "name": null,
+      "row": 14,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_406_xboverwatch",
+      "name": "监控塔",
+      "row": 14,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_406_xboverwatch_lv2",
+      "name": null,
+      "row": 14,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_406_xboverwatch_lv3",
+      "name": null,
+      "row": 14,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_407_xbcore",
+      "name": null,
+      "row": 14,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_407_xbcore_lv2",
+      "name": null,
+      "row": 14,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_409_xbwood",
+      "name": "杂木林",
+      "row": 14,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_410_xbstone",
+      "name": "巨大岩石",
+      "row": 14,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_411_xbiron",
+      "name": "奇异矿脉",
+      "row": 14,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_415_trademan",
+      "name": "联络员",
+      "row": 14,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_417_shielder",
+      "name": "护盾遥控器",
+      "row": 14,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_418_smokebomb",
+      "name": "安眠迷香",
+      "row": 14,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_419_enhancer",
+      "name": "醒神秘药",
+      "row": 14,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_420_umbrella",
+      "name": "反侦察藏匿机",
+      "row": 14,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_421_repairman",
+      "name": "应急修理车",
+      "row": 14,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_423_bondtw",
+      "name": "缚网发射台",
+      "row": 14,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_423_bondtw_lv2",
+      "name": null,
+      "row": 14,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_424_pushtw",
+      "name": "喷拒器",
+      "row": 14,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_424_pushtw_lv2",
+      "name": null,
+      "row": 14,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_425_xbwall",
+      "name": "防御工事",
+      "row": 14,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_425_xbwall_lv2",
+      "name": null,
+      "row": 13,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_426_xbmrcl",
+      "name": "模块演算设施",
+      "row": 13,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_427_xbprsh",
+      "name": "资源规划站",
+      "row": 13,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_427_xbprsh_lv2",
+      "name": null,
+      "row": 13,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_428_xblrsh",
+      "name": "备勤激活站",
+      "row": 13,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_428_xblrsh_lv2",
+      "name": null,
+      "row": 13,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_429_xbescp",
+      "name": "跨地块通讯站",
+      "row": 13,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_429_xbescp_lv2",
+      "name": null,
+      "row": 13,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_430_wdescp",
+      "name": "逃脱点",
+      "row": 13,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_431_xbgldn",
+      "name": "冶铸台",
+      "row": 13,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_431_xbgldn_lv2",
+      "name": null,
+      "row": 13,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_431_xbgldn_lv3",
+      "name": null,
+      "row": 13,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_438_xbfato2",
+      "name": "石材采集站",
+      "row": 13,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_439_xbfato3",
+      "name": "铁矿采集站",
+      "row": 13,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_443_xbtent",
+      "name": "作战中心",
+      "row": 13,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_444_xbexbi",
+      "name": "“纪念”",
+      "row": 13,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_445_xbfence",
+      "name": "兽栏",
+      "row": 13,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_448_xbmire",
+      "name": "污浊泥沼",
+      "row": 13,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_449_xbspgun",
+      "name": "烟雾发射台",
+      "row": 13,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_450_xbdrill",
+      "name": "澄亮采集站",
+      "row": 13,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_451_xbflare",
+      "name": "荧光棒",
+      "row": 13,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_452_xbcage",
+      "name": "捕猎笼",
+      "row": 13,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_452_xbcage_lv2",
+      "name": null,
+      "row": 13,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_453_xbbee",
+      "name": "寻宝仪",
+      "row": 13,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_454_xbember",
+      "name": "激励剂",
+      "row": 13,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_454_xbember_lv2",
+      "name": null,
+      "row": 13,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_454_xbember_lv3",
+      "name": null,
+      "row": 13,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_455_xbistorm",
+      "name": "冰爆罐",
+      "row": 13,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_455_xbistorm_lv2",
+      "name": null,
+      "row": 12,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_456_xbfarmm",
+      "name": "种植箱集群\n",
+      "row": 12,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_457_xbfort",
+      "name": "高台工事",
+      "row": 12,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_458_xbbarir",
+      "name": "反应壁障",
+      "row": 12,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_458_xbbarir_lv2",
+      "name": null,
+      "row": 12,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_458_xbbarir_lv3",
+      "name": null,
+      "row": 12,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_458_xbbarir_lv4",
+      "name": null,
+      "row": 12,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_459_xblight",
+      "name": "监视哨站",
+      "row": 12,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_460_xbdiam",
+      "name": "澄亮矿脉",
+      "row": 12,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_462_xbsighta",
+      "name": "灵动清泉",
+      "row": 12,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_463_xbsightb",
+      "name": "静谧盆栽",
+      "row": 12,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_464_xbsightc",
+      "name": "休闲长椅",
+      "row": 12,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag",
+      "name": "猎获笼",
+      "row": 12,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_10",
+      "name": null,
+      "row": 12,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_11",
+      "name": null,
+      "row": 12,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_12",
+      "name": null,
+      "row": 12,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_13",
+      "name": null,
+      "row": 12,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_14",
+      "name": null,
+      "row": 12,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_15",
+      "name": null,
+      "row": 12,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_16",
+      "name": null,
+      "row": 12,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_17",
+      "name": null,
+      "row": 12,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_18",
+      "name": null,
+      "row": 12,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_19",
+      "name": null,
+      "row": 12,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_2",
+      "name": null,
+      "row": 12,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_20",
+      "name": null,
+      "row": 12,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_26",
+      "name": null,
+      "row": 12,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_28",
+      "name": null,
+      "row": 12,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_3",
+      "name": null,
+      "row": 12,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_36",
+      "name": null,
+      "row": 11,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_38",
+      "name": null,
+      "row": 11,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_4",
+      "name": null,
+      "row": 11,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_5",
+      "name": null,
+      "row": 11,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_6",
+      "name": null,
+      "row": 11,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_7",
+      "name": null,
+      "row": 11,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_8",
+      "name": null,
+      "row": 11,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_9",
+      "name": null,
+      "row": 11,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv1",
+      "name": null,
+      "row": 11,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv11",
+      "name": null,
+      "row": 11,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv12",
+      "name": null,
+      "row": 11,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv13",
+      "name": null,
+      "row": 11,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv14",
+      "name": null,
+      "row": 11,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv15",
+      "name": null,
+      "row": 11,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv16",
+      "name": null,
+      "row": 11,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv17",
+      "name": null,
+      "row": 11,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv18",
+      "name": null,
+      "row": 11,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv2",
+      "name": null,
+      "row": 11,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv21",
+      "name": null,
+      "row": 11,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv22",
+      "name": null,
+      "row": 11,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv23",
+      "name": null,
+      "row": 11,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv24",
+      "name": null,
+      "row": 11,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv25",
+      "name": null,
+      "row": 11,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv26",
+      "name": null,
+      "row": 11,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv27",
+      "name": null,
+      "row": 11,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv3",
+      "name": null,
+      "row": 11,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv31",
+      "name": null,
+      "row": 11,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv32",
+      "name": null,
+      "row": 11,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv33",
+      "name": null,
+      "row": 10,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv34",
+      "name": null,
+      "row": 10,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv35",
+      "name": null,
+      "row": 10,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv36",
+      "name": null,
+      "row": 10,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv37",
+      "name": null,
+      "row": 10,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv4",
+      "name": null,
+      "row": 10,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv41",
+      "name": null,
+      "row": 10,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv42",
+      "name": null,
+      "row": 10,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv43",
+      "name": null,
+      "row": 10,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv44",
+      "name": null,
+      "row": 10,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv45",
+      "name": null,
+      "row": 10,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv46",
+      "name": null,
+      "row": 10,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv47",
+      "name": null,
+      "row": 10,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv48",
+      "name": null,
+      "row": 10,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv49",
+      "name": null,
+      "row": 10,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv5",
+      "name": null,
+      "row": 10,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv50",
+      "name": null,
+      "row": 10,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv51",
+      "name": null,
+      "row": 10,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv52",
+      "name": null,
+      "row": 10,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv53",
+      "name": null,
+      "row": 10,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv54",
+      "name": null,
+      "row": 10,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv55",
+      "name": null,
+      "row": 10,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv56",
+      "name": null,
+      "row": 10,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv57",
+      "name": null,
+      "row": 10,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv58",
+      "name": null,
+      "row": 10,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv59",
+      "name": null,
+      "row": 10,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv6",
+      "name": null,
+      "row": 10,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv60",
+      "name": null,
+      "row": 10,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv61",
+      "name": null,
+      "row": 9,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv62",
+      "name": null,
+      "row": 9,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv63",
+      "name": null,
+      "row": 9,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv64",
+      "name": null,
+      "row": 9,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv7",
+      "name": null,
+      "row": 9,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_475_xbcbag_lv8",
+      "name": null,
+      "row": 9,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_477_xbspps",
+      "name": "失衡异香",
+      "row": 9,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_478_xbcanoe",
+      "name": "特制水上平台",
+      "row": 9,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_482_xbblure",
+      "name": "源石虫引诱器",
+      "row": 9,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_482_xbblure_lv2",
+      "name": null,
+      "row": 9,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_482_xbblure_lv3",
+      "name": null,
+      "row": 9,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_483_xbtrophy",
+      "name": "“源石虫之心”",
+      "row": 9,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_487_xblfen",
+      "name": "大型兽栏",
+      "row": 9,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_488_xbtwod",
+      "name": "全自动切木站",
+      "row": 9,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_489_xbtrok",
+      "name": "全自动掘石站",
+      "row": 9,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_490_xbtiro",
+      "name": "全自动采铁站",
+      "row": 9,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_491_xbtwal",
+      "name": "虚影壁障",
+      "row": 9,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_493_xbabal",
+      "name": "追猎发射台",
+      "row": 9,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_494_xbasky",
+      "name": "拟南盏",
+      "row": 9,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_495_xbasmi",
+      "name": "草香粉",
+      "row": 9,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_496_xbaasm",
+      "name": "稀有·草香粉",
+      "row": 9,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_497_xbarok",
+      "name": "岩锤",
+      "row": 9,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_498_xbaaro",
+      "name": "稀有·岩锤",
+      "row": 9,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_499_xbaask",
+      "name": "稀有·拟南盏",
+      "row": 9,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_509_xbf1g",
+      "name": "木材采集站·采购",
+      "row": 9,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_510_xbf2g",
+      "name": "石材采集站·采购",
+      "row": 9,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_511_xbf3g",
+      "name": "铁矿采集站·采购",
+      "row": 9,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_512_xbwfg",
+      "name": "蟹蟹抽水泵·采购",
+      "row": 9,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_513_xb2bas",
+      "name": "罗德岛采集基站",
+      "row": 8,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_514_xb2brh",
+      "name": "临时采集基站",
+      "row": 8,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_525_xb2sta",
+      "name": "补给车出发站台",
+      "row": 8,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_526_xb2sit",
+      "name": "补给车中转站台",
+      "row": 8,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_527_xb2tml",
+      "name": "补给车终点站台",
+      "row": 8,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_529_xb2crv",
+      "name": "补给车转角轨道",
+      "row": 8,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_529_xb2trk",
+      "name": "补给车直行轨道",
+      "row": 8,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_534_xb2cmu",
+      "name": "通讯基站",
+      "row": 8,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_535_xb2fbw",
+      "name": "建材加工台",
+      "row": 8,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_536_xb2fbw2",
+      "name": "毛线加工台",
+      "row": 8,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_537_xb2fbs",
+      "name": "干亚麻加工台",
+      "row": 8,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_538_xb2fbs2",
+      "name": "稻谷加工台",
+      "row": 8,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_539_xb2fbi",
+      "name": "羽兽蛋加工台",
+      "row": 8,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_540_xb2fbi2",
+      "name": "皮毛加工台",
+      "row": 8,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_541_xb2rgw",
+      "name": "杂木林再生站",
+      "row": 8,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_542_xb2rgs",
+      "name": "巨大岩石再生站",
+      "row": 8,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_543_xb2rgi",
+      "name": "奇异矿脉再生站",
+      "row": 8,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_544_xb2fmr",
+      "name": "稻谷种植槽",
+      "row": 8,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_545_xb2fmf",
+      "name": "亚麻种植槽",
+      "row": 8,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_546_xb2fmr2",
+      "name": "稻谷幼苗",
+      "row": 8,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_547_xb2fmf2",
+      "name": "亚麻幼苗",
+      "row": 8,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_548_xb2spk",
+      "name": "营养液喷洒器",
+      "row": 8,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_549_xb2pwr",
+      "name": "动力补给站",
+      "row": 8,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_550_xb2ltr",
+      "name": "引雷针",
+      "row": 8,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_551_xb2fnc",
+      "name": "小型兽栏",
+      "row": 8,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_552_xb2fnc2",
+      "name": "大型兽栏",
+      "row": 8,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_553_xb2wfty",
+      "name": "蟹蟹抽水泵",
+      "row": 8,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_555_xb2cbp",
+      "name": "蟹笼",
+      "row": 8,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_556_xb2cbp2",
+      "name": "野生动物引诱装置",
+      "row": 7,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_557_xb2fnt",
+      "name": "澄澈清泉",
+      "row": 7,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_558_xb2ppt",
+      "name": "清幽盆栽",
+      "row": 7,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_559_xb2bch",
+      "name": "简约长椅",
+      "row": 7,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_560_xb2mil",
+      "name": "蟹壳加工台",
+      "row": 7,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_562_xb2bbq",
+      "name": "食品加工厂",
+      "row": 7,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_563_xb2bbq2",
+      "name": "制备加工厂",
+      "row": 7,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_564_xb2txtl",
+      "name": "金属加工厂",
+      "row": 7,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_566_xb2chm",
+      "name": "石料加工厂",
+      "row": 7,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_567_xb2chm2",
+      "name": "木料加工厂",
+      "row": 7,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_568_xb2wclr",
+      "name": "器械加工厂",
+      "row": 7,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_569_xb2wclr2",
+      "name": "后勤加工厂",
+      "row": 7,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_570_xb2kln",
+      "name": "外勤加工厂",
+      "row": 7,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_573_xb2mdk2",
+      "name": "纺织加工厂",
+      "row": 7,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_579_xb2efc2",
+      "name": null,
+      "row": 7,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_580_xb2dik",
+      "name": "酿造加工厂",
+      "row": 7,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_582_xb2dstr",
+      "name": "饮品供给站",
+      "row": 7,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_583_xb2fstr",
+      "name": "食品供给站",
+      "row": 7,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_584_xb2mkstr",
+      "name": "药品供给站",
+      "row": 7,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_585_xb2hwstr",
+      "name": "工具供给站",
+      "row": 7,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_586_xb2eqstr",
+      "name": "装备供给站",
+      "row": 7,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_587_xb2sqr",
+      "name": "迎风招展",
+      "row": 7,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_588_xb2ord",
+      "name": "道路",
+      "row": 7,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_589_xb2ocnl",
+      "name": "渠道",
+      "row": 7,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_590_xb2oflr",
+      "name": "观赏植物",
+      "row": 7,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_590_xb2oflr2",
+      "name": "观赏植物",
+      "row": 7,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_590_xb2oflr3",
+      "name": "观赏植物",
+      "row": 7,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_591_xb2orm",
+      "name": "基地建筑",
+      "row": 7,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_592_xb2orm2",
+      "name": "基地设施",
+      "row": 6,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_593_xb2obdg",
+      "name": "基地通道",
+      "row": 6,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_594_xb2ostn",
+      "name": "待清理地块",
+      "row": 6,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_595_xb2otph",
+      "name": "“基建能手”",
+      "row": 6,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_595_xb2otph2",
+      "name": "“矢力同心”",
+      "row": 6,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_595_xb2otph3",
+      "name": "“再度起航”",
+      "row": 6,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_596_xb2obds",
+      "name": "基地通道中转枢纽",
+      "row": 6,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_597_xb2cage",
+      "name": "捕猎笼",
+      "row": 6,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_597_xb2cage_lv2",
+      "name": null,
+      "row": 6,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_598_xb2ofmr2",
+      "name": "亚麻种植槽",
+      "row": 6,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_599_xb2ofmf2",
+      "name": "稻谷种植槽",
+      "row": 6,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_600_xb2ofmr",
+      "name": "稻谷幼苗",
+      "row": 6,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_601_xb2ofmf",
+      "name": "亚麻幼苗",
+      "row": 6,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_602_xb2ofnc",
+      "name": "小型兽栏",
+      "row": 6,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_603_xb2ofnc2",
+      "name": "大型兽栏",
+      "row": 6,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_604_xb2ofb2",
+      "name": "木材能源转化装置",
+      "row": 6,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_604_xb2ofb3",
+      "name": "石材能源转化装置",
+      "row": 6,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_604_xb2ofb4",
+      "name": "铁矿石能源转化装置",
+      "row": 6,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_606_xb2org",
+      "name": null,
+      "row": 6,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_606_xb2org2",
+      "name": "木石能源转化装置",
+      "row": 6,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_606_xb2org3",
+      "name": "石铁能源转化装置",
+      "row": 6,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_607_xb2ospk",
+      "name": "营养液喷洒器",
+      "row": 6,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_608_xb2ostr",
+      "name": "饮品供给站",
+      "row": 6,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_609_xb2opwr",
+      "name": "能源增幅装置",
+      "row": 6,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_609_xb2opwr2",
+      "name": "高效能源增幅装置",
+      "row": 6,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_610_xb2ofnt",
+      "name": "澄澈清泉",
+      "row": 6,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_611_xb2oppt",
+      "name": "清幽盆栽",
+      "row": 6,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_612_xb2obch",
+      "name": "简约长椅",
+      "row": 6,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_613_xb2osqr",
+      "name": "迎风招展",
+      "row": 5,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_614_xb2oltr",
+      "name": "引雷针",
+      "row": 5,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_615_xb2osta",
+      "name": "补给车出发站台",
+      "row": 5,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_616_xb2osit",
+      "name": "补给车中转站台",
+      "row": 5,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_617_xb2otml",
+      "name": "补给车终点站台",
+      "row": 5,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_618_xb2fostr",
+      "name": "食品供给站",
+      "row": 5,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_619_xb2omkstr",
+      "name": "药品供给站",
+      "row": 5,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_620_xb2ohwstr",
+      "name": "工具供给站",
+      "row": 5,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_622_xb2clr",
+      "name": "清杂机械羽兽",
+      "row": 5,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_623_xb2fke",
+      "name": "埋没金属箱",
+      "row": 5,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_629_xb2frt",
+      "name": "高台工事",
+      "row": 5,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_632_xb2oeqstr",
+      "name": "装备供给站",
+      "row": 5,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_633_xb2otrk",
+      "name": "补给车直行轨道",
+      "row": 5,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_634_xb2ocrv",
+      "name": "补给车转角轨道",
+      "row": 5,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_635_xb2owdp",
+      "name": "木材处理中心",
+      "row": 5,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_636_xb2ostnp",
+      "name": "石材处理中心",
+      "row": 5,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_637_xb2oirnp",
+      "name": "铁矿石处理中心",
+      "row": 5,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_638_xb2oafkp",
+      "name": "核心能源基站",
+      "row": 5,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_639_xb2ohfct",
+      "name": "高效能源转化装置",
+      "row": 5,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2",
+      "name": "猎获笼",
+      "row": 5,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv1",
+      "name": null,
+      "row": 5,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv10",
+      "name": null,
+      "row": 5,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv11",
+      "name": null,
+      "row": 5,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv12",
+      "name": null,
+      "row": 5,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv13",
+      "name": null,
+      "row": 5,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv14",
+      "name": null,
+      "row": 5,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv15",
+      "name": null,
+      "row": 5,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv16",
+      "name": null,
+      "row": 5,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv17",
+      "name": null,
+      "row": 4,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv18",
+      "name": null,
+      "row": 4,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv19",
+      "name": null,
+      "row": 4,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv2",
+      "name": null,
+      "row": 4,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv20",
+      "name": null,
+      "row": 4,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv26",
+      "name": null,
+      "row": 4,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv28",
+      "name": null,
+      "row": 4,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv3",
+      "name": null,
+      "row": 4,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv36",
+      "name": null,
+      "row": 4,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv38",
+      "name": null,
+      "row": 4,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv4",
+      "name": null,
+      "row": 4,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv5",
+      "name": null,
+      "row": 4,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv6",
+      "name": null,
+      "row": 4,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv7",
+      "name": null,
+      "row": 4,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv8",
+      "name": null,
+      "row": 4,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_640_xbcbag2_lv9",
+      "name": null,
+      "row": 4,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_700_cdabyss",
+      "name": "阿戈尔示波器",
+      "row": 4,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_701_cdabyssa",
+      "name": "阿戈尔示波器",
+      "row": 4,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_702_cdabyssb",
+      "name": "阿戈尔示波器",
+      "row": 4,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_703_cdcredit",
+      "name": "自适应补给元件",
+      "row": 4,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_704_cdcredita",
+      "name": "自适应补给元件",
+      "row": 4,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_705_cdcreditb",
+      "name": "自适应补给元件",
+      "row": 4,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_706_cdshield",
+      "name": "镀膜装置导能阀",
+      "row": 4,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_707_cdshielda",
+      "name": "重整导能组件",
+      "row": 4,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_708_cdshieldb",
+      "name": "镀膜装置导能阀",
+      "row": 4,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_709_cdbeacon",
+      "name": "丛林用示踪信标",
+      "row": 4,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_710_cdbeacona",
+      "name": "阻断波长",
+      "row": 4,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_711_cdbeaconb",
+      "name": "干扰波长",
+      "row": 4,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_712_cdhvrk",
+      "name": "超重绝缘水泥",
+      "row": 3,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_713_cdflsb",
+      "name": "劣质闪光弹",
+      "row": 3,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_714_cdaltar",
+      "name": "能量扰动放大器",
+      "row": 3,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_715_cdaltara",
+      "name": "能量扰动放大器",
+      "row": 3,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_716_cdaltarb",
+      "name": "能量扰动放大器",
+      "row": 3,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_717_cddiff",
+      "name": "战术装备整理箱",
+      "row": 3,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_718_cddiffa",
+      "name": "战术装备整理箱",
+      "row": 3,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_719_cddiffb",
+      "name": "战术装备整理箱",
+      "row": 3,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_720_cdheal",
+      "name": "便携式医疗设备",
+      "row": 3,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_721_cdheala",
+      "name": "便携式医疗设备",
+      "row": 3,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_722_cdhealb",
+      "name": "便携式医疗设备",
+      "row": 3,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_723_cdcvrt",
+      "name": "溢能回收转化器",
+      "row": 3,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_724_cdcvrta",
+      "name": "溢能回收转化器",
+      "row": 3,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_725_cdcvrtb",
+      "name": "溢能回收转化器",
+      "row": 3,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_726_cdrone",
+      "name": "战地援护无人机",
+      "row": 3,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_727_cdronea",
+      "name": "战地援护无人机",
+      "row": 3,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_728_cdroneb",
+      "name": "战地援护无人机",
+      "row": 3,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_729_cdkzmr",
+      "name": "竞技记录分析仪",
+      "row": 3,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_730_truamr",
+      "name": "“甜蜜狂搅”",
+      "row": 3,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_732_ltnova",
+      "name": "神经再生",
+      "row": 3,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_733_cdkzmra",
+      "name": "竞技记录分析仪",
+      "row": 3,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_734_cdkzmrb",
+      "name": "竞技记录分析仪",
+      "row": 3,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_735_platre",
+      "name": "汲取体",
+      "row": 3,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_736_mercha",
+      "name": "可充能督战音响",
+      "row": 3,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_737_merchaa",
+      "name": "可充能督战音响",
+      "row": 3,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_738_merchab",
+      "name": "可充能督战音响",
+      "row": 3,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_739_sniper",
+      "name": "智能空域控制机",
+      "row": 3,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_740_snipera",
+      "name": "智能空域控制机",
+      "row": 3,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_741_sniperb",
+      "name": "智能空域控制机",
+      "row": 2,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_742_gasbot",
+      "name": "速冷喷雾发射台",
+      "row": 2,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_743_gasbota",
+      "name": "速冷喷雾发射台",
+      "row": 2,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_744_gasbotb",
+      "name": "速冷喷雾发射台",
+      "row": 2,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_745_beer",
+      "name": "“蜜酿万岁！”",
+      "row": 2,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_746_cdrhine",
+      "name": "尖端研究成果共享终端",
+      "row": 2,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_747_cdrhinea",
+      "name": "尖端研究成果共享终端",
+      "row": 2,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_748_cdrhineb",
+      "name": "尖端研究成果共享终端",
+      "row": 2,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_749_cd1punch",
+      "name": "声波记录扩音器",
+      "row": 2,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_750_cd1puncha",
+      "name": "声波记录扩音器",
+      "row": 2,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_751_cd1punchb",
+      "name": "声波记录扩音器",
+      "row": 2,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_752_cdcaster",
+      "name": "法术调和能量场",
+      "row": 2,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_753_cdcastera",
+      "name": "法术调和能量场",
+      "row": 2,
+      "col": 16
+    },
+    {
+      "section": "objects",
+      "id": "trap_754_cdcasterb",
+      "name": "法术调和能量场",
+      "row": 2,
+      "col": 17
+    },
+    {
+      "section": "objects",
+      "id": "trap_755_cdsoul",
+      "name": "啸叫音响",
+      "row": 2,
+      "col": 18
+    },
+    {
+      "section": "objects",
+      "id": "trap_756_cdnest",
+      "name": "“黏黏的赠品”",
+      "row": 2,
+      "col": 19
+    },
+    {
+      "section": "objects",
+      "id": "trap_765_bmoney",
+      "name": "无可置疑的罪证",
+      "row": 2,
+      "col": 20
+    },
+    {
+      "section": "objects",
+      "id": "trap_768_godch",
+      "name": "保全人才合作协议",
+      "row": 2,
+      "col": 21
+    },
+    {
+      "section": "objects",
+      "id": "trap_769_godcha",
+      "name": "加急许可条款",
+      "row": 2,
+      "col": 22
+    },
+    {
+      "section": "objects",
+      "id": "trap_770_godchb",
+      "name": "临时任命条款",
+      "row": 2,
+      "col": 23
+    },
+    {
+      "section": "objects",
+      "id": "trap_771_bqrnge",
+      "name": "皇家科学院望远镜",
+      "row": 2,
+      "col": 24
+    },
+    {
+      "section": "objects",
+      "id": "trap_772_bqrngea",
+      "name": "专业显示模块",
+      "row": 2,
+      "col": 25
+    },
+    {
+      "section": "objects",
+      "id": "trap_773_bqrngeb",
+      "name": "灵活架设模块",
+      "row": 2,
+      "col": 26
+    },
+    {
+      "section": "objects",
+      "id": "trap_774_bqmlee",
+      "name": "攀云机",
+      "row": 2,
+      "col": 27
+    },
+    {
+      "section": "objects",
+      "id": "trap_775_bqmleea",
+      "name": "加固扩存改装",
+      "row": 2,
+      "col": 28
+    },
+    {
+      "section": "objects",
+      "id": "trap_776_bqmleeb",
+      "name": "长距增运改装",
+      "row": 2,
+      "col": 29
+    },
+    {
+      "section": "objects",
+      "id": "trap_777_giacan",
+      "name": "“留声机”底座",
+      "row": 2,
+      "col": 30
+    },
+    {
+      "section": "objects",
+      "id": "trap_780_supspt",
+      "name": "天工夜行套装",
+      "row": 2,
+      "col": 31
+    },
+    {
+      "section": "objects",
+      "id": "trap_781_supspta",
+      "name": "夜行斗篷模块",
+      "row": 1,
+      "col": 4
+    },
+    {
+      "section": "objects",
+      "id": "trap_782_supsptb",
+      "name": "夜行钩爪模块",
+      "row": 1,
+      "col": 5
+    },
+    {
+      "section": "objects",
+      "id": "trap_783_tnkspk",
+      "name": "反制装甲套组",
+      "row": 1,
+      "col": 6
+    },
+    {
+      "section": "objects",
+      "id": "trap_784_tnkspka",
+      "name": "微型尖刺配件",
+      "row": 1,
+      "col": 7
+    },
+    {
+      "section": "objects",
+      "id": "trap_785_tnkspkb",
+      "name": "维生监测配件",
+      "row": 1,
+      "col": 8
+    },
+    {
+      "section": "objects",
+      "id": "trap_787_supctl",
+      "name": "冷爆机",
+      "row": 1,
+      "col": 9
+    },
+    {
+      "section": "objects",
+      "id": "trap_788_supctla",
+      "name": "低温传导模块",
+      "row": 1,
+      "col": 10
+    },
+    {
+      "section": "objects",
+      "id": "trap_789_supctlb",
+      "name": "冰浪脉冲模块",
+      "row": 1,
+      "col": 11
+    },
+    {
+      "section": "objects",
+      "id": "trap_790_dytswd",
+      "name": "宿傲",
+      "row": 1,
+      "col": 12
+    },
+    {
+      "section": "objects",
+      "id": "trap_791_dytfre",
+      "name": "宿怒",
+      "row": 1,
+      "col": 13
+    },
+    {
+      "section": "objects",
+      "id": "trap_792_healbf",
+      "name": "“主动脉”支援系统",
+      "row": 1,
+      "col": 14
+    },
+    {
+      "section": "objects",
+      "id": "trap_793_healbfa",
+      "name": "抑制解除模组",
+      "row": 1,
+      "col": 15
+    },
+    {
+      "section": "objects",
+      "id": "trap_794_healbfb",
+      "name": "血浆活化模组",
+      "row": 1,
+      "col": 16
+    },
+    {
+      "section": "terrain",
+      "id": "tile_achand",
+      "name": "手牌区",
+      "row": 32,
+      "col": 37,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_acshop",
+      "name": "驳船区",
+      "row": 32,
+      "col": 39,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_act27side",
+      "name": "说明表未列名",
+      "row": 32,
+      "col": 41,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_act48side",
+      "name": "说明表未列名",
+      "row": 32,
+      "col": 43,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_act6fun_end",
+      "name": "攻略目标",
+      "row": 32,
+      "col": 45,
+      "displayOnly": true,
+      "modeAlias": true,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_act6fun_start",
+      "name": "进攻点",
+      "row": 32,
+      "col": 47,
+      "displayOnly": true,
+      "modeAlias": true,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_alchemy_road",
+      "name": "说明表未列名",
+      "row": 32,
+      "col": 49,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_alchemy_wall",
+      "name": "说明表未列名",
+      "row": 32,
+      "col": 51,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_allygoal",
+      "name": "说明表未列名",
+      "row": 32,
+      "col": 53,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_balloon",
+      "name": "“可浮空区块”",
+      "row": 32,
+      "col": 55,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_balloon_fbd",
+      "name": "“可浮空区块”",
+      "row": 32,
+      "col": 57,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_bnspck_road",
+      "name": "幸运宝座",
+      "row": 32,
+      "col": 59,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_character",
+      "name": "字格",
+      "row": 32,
+      "col": 61,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_characterf",
+      "name": "字格",
+      "row": 32,
+      "col": 63,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_cnvfuse",
+      "name": "引线地块",
+      "row": 32,
+      "col": 65,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_cnvfuse_fbd",
+      "name": "引线地块",
+      "row": 32,
+      "col": 67,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_codpsea",
+      "name": "说明表未列名",
+      "row": 32,
+      "col": 69,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_corrosion_2",
+      "name": "说明表未列名",
+      "row": 32,
+      "col": 71,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_creep",
+      "name": "说明表未列名",
+      "row": 30,
+      "col": 37,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_creepf",
+      "name": "说明表未列名",
+      "row": 30,
+      "col": 39,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_dygmny_1",
+      "name": "化境地块",
+      "row": 30,
+      "col": 41,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_dygmny_2",
+      "name": "化境地块",
+      "row": 30,
+      "col": 43,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_dygmny_3",
+      "name": "化境地块",
+      "row": 30,
+      "col": 45,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_empshock",
+      "name": "说明表未列名",
+      "row": 30,
+      "col": 47,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_end_dqq",
+      "name": "说明表未列名",
+      "row": 30,
+      "col": 49,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_enemygoal",
+      "name": "说明表未列名",
+      "row": 30,
+      "col": 51,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_flower",
+      "name": "说明表未列名",
+      "row": 30,
+      "col": 53,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_flowerf",
+      "name": "说明表未列名",
+      "row": 30,
+      "col": 55,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_football",
+      "name": "说明表未列名",
+      "row": 30,
+      "col": 57,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_ftplant_road",
+      "name": "草毯",
+      "row": 30,
+      "col": 59,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_ftplant_roadf",
+      "name": "草毯",
+      "row": 30,
+      "col": 61,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_ftplant_wall",
+      "name": "草毯",
+      "row": 30,
+      "col": 63,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_ftstart",
+      "name": "侵入点",
+      "row": 30,
+      "col": 65,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_green",
+      "name": "中转点",
+      "row": 30,
+      "col": 67,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_infection_dqq",
+      "name": "说明表未列名",
+      "row": 30,
+      "col": 69,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_magic_circle",
+      "name": "激活的“谐振器”",
+      "row": 30,
+      "col": 71,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_magic_circle_h",
+      "name": "激活的“谐振器”",
+      "row": 28,
+      "col": 37,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_merope",
+      "name": "接驳地块",
+      "row": 28,
+      "col": 39,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_mpprts_enemy_born",
+      "name": "未授权重构界面",
+      "row": 28,
+      "col": 41,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_pollution_road",
+      "name": "说明表未列名",
+      "row": 28,
+      "col": 43,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_pollution_roadf",
+      "name": "说明表未列名",
+      "row": 28,
+      "col": 45,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_pollution_wall",
+      "name": "说明表未列名",
+      "row": 28,
+      "col": 47,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_pollution_wallf",
+      "name": "说明表未列名",
+      "row": 28,
+      "col": 49,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_puddle",
+      "name": "池沼",
+      "row": 28,
+      "col": 51,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_quicksand",
+      "name": "盐漠",
+      "row": 28,
+      "col": 53,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_rabbithole_in_1",
+      "name": "兔子洞入口",
+      "row": 28,
+      "col": 55,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_rabbithole_out_1",
+      "name": "兔子洞出口",
+      "row": 28,
+      "col": 57,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_rabbithole_out_2",
+      "name": "隐蔽的兔子洞出口",
+      "row": 28,
+      "col": 59,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_rarope",
+      "name": "接驳地块",
+      "row": 28,
+      "col": 61,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_replace_road",
+      "name": "交接！",
+      "row": 28,
+      "col": 63,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_replace_wall",
+      "name": "交接！",
+      "row": 28,
+      "col": 65,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_richfd",
+      "name": "太阳谷预开发地块",
+      "row": 28,
+      "col": 67,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_sandrope",
+      "name": "悬索桥起点",
+      "row": 28,
+      "col": 69,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_sandrope_2",
+      "name": "悬索桥起点",
+      "row": 28,
+      "col": 71,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_sleep_road",
+      "name": "入梦砖",
+      "row": 26,
+      "col": 37,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_sleep_wall",
+      "name": "入梦砖",
+      "row": 26,
+      "col": 39,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_start_dqq",
+      "name": "说明表未列名",
+      "row": 26,
+      "col": 41,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_steam",
+      "name": "隐焰",
+      "row": 26,
+      "col": 43,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_toxic",
+      "name": "源石污染区",
+      "row": 26,
+      "col": 45,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_toxichill",
+      "name": "源石污染区",
+      "row": 26,
+      "col": 47,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_toxicroad",
+      "name": "源石污染区",
+      "row": 26,
+      "col": 49,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_toxicwall",
+      "name": "源石污染区",
+      "row": 26,
+      "col": 51,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_volcano_strife",
+      "name": "熔岩裂隙",
+      "row": 26,
+      "col": 53,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_water",
+      "name": "清澈水域",
+      "row": 26,
+      "col": 55,
+      "displayOnly": true,
+      "modeAlias": true,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_woodrd",
+      "name": "临时步道",
+      "row": 26,
+      "col": 57,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "terrain",
+      "id": "tile_xbdpsea",
+      "name": "说明表未列名",
+      "row": 26,
+      "col": 59,
+      "displayOnly": true,
+      "modeAlias": false,
+      "visual": "no-prts-style"
+    },
+    {
+      "section": "objects",
+      "id": "trap_002_emp",
+      "name": "震撼装置",
+      "row": 24,
+      "col": 40,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_003_gate",
+      "name": "闸门",
+      "row": 24,
+      "col": 41,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_004_iceblock",
+      "name": "封印的地面",
+      "row": 24,
+      "col": 42,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_005_sensor",
+      "name": "侦测器",
+      "row": 24,
+      "col": 43,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_007_ballis",
+      "name": "弩炮",
+      "row": 24,
+      "col": 44,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_011_ore",
+      "name": "源石祭坛",
+      "row": 24,
+      "col": 45,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_013_blower",
+      "name": "源石流发生装置",
+      "row": 24,
+      "col": 46,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_014_tower",
+      "name": "L-44\"留声机\"",
+      "row": 24,
+      "col": 47,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_017_wooden_broke",
+      "name": "破损的木桩",
+      "row": 24,
+      "col": 48,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_020_roadblock",
+      "name": "道路障碍物",
+      "row": 24,
+      "col": 49,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_021_flame",
+      "name": "能量聚合体",
+      "row": 24,
+      "col": 50,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_022_frosts_friend",
+      "name": "霜星的源石冰晶",
+      "row": 24,
+      "col": 51,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_023_ore_friend",
+      "name": "爱国者的源石祭坛",
+      "row": 24,
+      "col": 52,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_024_npcsld",
+      "name": "盾卫",
+      "row": 24,
+      "col": 53,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_028_cannon",
+      "name": "脉冲防御模组",
+      "row": 24,
+      "col": 54,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_029_poison",
+      "name": "催泪瓦斯控制阀",
+      "row": 24,
+      "col": 55,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_030_factory",
+      "name": "无人机工厂",
+      "row": 24,
+      "col": 56,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_032_mound",
+      "name": "土石结构",
+      "row": 24,
+      "col": 57,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_036_storm",
+      "name": "沙尘暴",
+      "row": 24,
+      "col": 58,
+      "visual": "weather-marker",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_042_tidectrl",
+      "name": "涨潮控制",
+      "row": 24,
+      "col": 59,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_043_dupilr",
+      "name": "破碎支柱",
+      "row": 24,
+      "col": 60,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_044_duruin",
+      "name": "战场废墟",
+      "row": 24,
+      "col": 61,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_047_mandrablock",
+      "name": "封印的地面",
+      "row": 24,
+      "col": 62,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_050_blizzard",
+      "name": "暴风雪",
+      "row": 24,
+      "col": 63,
+      "visual": "effect",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_051_vultres",
+      "name": "无主的财富",
+      "row": 24,
+      "col": 64,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_054_dancdol",
+      "name": "“报幕助手”",
+      "row": 24,
+      "col": 65,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_055_tileblock",
+      "name": "封印的地面",
+      "row": 24,
+      "col": 66,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_056_sfsuifire",
+      "name": "丹田",
+      "row": 24,
+      "col": 67,
+      "visual": "effect",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_058_gunctrl",
+      "name": "伦蒂尼姆城防副炮",
+      "row": 23,
+      "col": 40,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_059_peacokfool",
+      "name": "断罪者",
+      "row": 23,
+      "col": 41,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_061_creep",
+      "name": "溟痕",
+      "row": 23,
+      "col": 42,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_065_normbox",
+      "name": "宝箱",
+      "row": 23,
+      "col": 43,
+      "visual": "wiki-avatar",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_066_rarebox",
+      "name": "尖刺宝箱",
+      "row": 23,
+      "col": 44,
+      "visual": "wiki-avatar",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_068_badbox",
+      "name": "箱形恐鱼",
+      "row": 23,
+      "col": 45,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_079_allydonq",
+      "name": "猎潮的骑士",
+      "row": 23,
+      "col": 46,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_091_brctrl",
+      "name": "实体程式控制",
+      "row": 23,
+      "col": 47,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_092_vgctrl",
+      "name": "复仇黑手",
+      "row": 23,
+      "col": 48,
+      "visual": "effect",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_096_gflag",
+      "name": "山海密语仪",
+      "row": 23,
+      "col": 49,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_097_hstone",
+      "name": "城防路障",
+      "row": 23,
+      "col": 50,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_098_mire",
+      "name": "沼泽控制",
+      "row": 23,
+      "col": 51,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1000_acarm000",
+      "name": "小盾",
+      "row": 23,
+      "col": 52,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1001_acarm001",
+      "name": "短剑",
+      "row": 23,
+      "col": 53,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1002_acarm002",
+      "name": "幸运币",
+      "row": 23,
+      "col": 54,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1003_acarm003",
+      "name": "冰块",
+      "row": 23,
+      "col": 55,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1004_acarm004",
+      "name": "压缩饼干",
+      "row": 23,
+      "col": 56,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1005_acarm005",
+      "name": "信标",
+      "row": 23,
+      "col": 57,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1006_acarm006",
+      "name": "源岩匕首",
+      "row": 23,
+      "col": 58,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1007_acarm007",
+      "name": "源石溶剂",
+      "row": 23,
+      "col": 59,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1008_acarm008",
+      "name": "激光发射器",
+      "row": 23,
+      "col": 60,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1009_acarm009",
+      "name": "喀兰贸易文档",
+      "row": 23,
+      "col": 61,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1010_acarm010",
+      "name": "卡西米尔文档",
+      "row": 23,
+      "col": 62,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1011_acarm011",
+      "name": "深海猎人文档",
+      "row": 23,
+      "col": 63,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1012_acarm012",
+      "name": "浓茶",
+      "row": 23,
+      "col": 64,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1013_acarm013",
+      "name": "蜂鸣器",
+      "row": 23,
+      "col": 65,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1014_acarm014",
+      "name": "精打细算玩偶",
+      "row": 23,
+      "col": 66,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1015_acarm015",
+      "name": "见钱眼开玩偶",
+      "row": 23,
+      "col": 67,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1016_acarm016",
+      "name": "预备进阶许可",
+      "row": 22,
+      "col": 40,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1017_acarm017",
+      "name": "战场分析仪",
+      "row": 22,
+      "col": 41,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1018_acarm018",
+      "name": "震撼弹",
+      "row": 22,
+      "col": 42,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1019_acarm019",
+      "name": "制式重装盾",
+      "row": 22,
+      "col": 43,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1020_acarm020",
+      "name": "制式狙击镜",
+      "row": 22,
+      "col": 44,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1021_acarm021",
+      "name": "制式术师杖",
+      "row": 22,
+      "col": 45,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1022_acarm022",
+      "name": "口袋法阵",
+      "row": 22,
+      "col": 46,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1023_acarm023",
+      "name": "竞技投币机",
+      "row": 22,
+      "col": 47,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1024_acarm024",
+      "name": "工匠锤",
+      "row": 22,
+      "col": 48,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1025_acarm025",
+      "name": "休眠子裔",
+      "row": 22,
+      "col": 49,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1026_acarm026",
+      "name": "术师无人机",
+      "row": 22,
+      "col": 50,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1027_acarm027",
+      "name": "卡西米尔模型",
+      "row": 22,
+      "col": 51,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1028_acarm028",
+      "name": "喀兰贸易模型",
+      "row": 22,
+      "col": 52,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1029_acarm029",
+      "name": "深海猎人模型",
+      "row": 22,
+      "col": 53,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1030_acarm030",
+      "name": "精英重装套组",
+      "row": 22,
+      "col": 54,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1031_acarm031",
+      "name": "精英狙击套组",
+      "row": 22,
+      "col": 55,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1032_acarm032",
+      "name": "精英术师套组",
+      "row": 22,
+      "col": 56,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1033_acarm033",
+      "name": "歌利亚头盔",
+      "row": 22,
+      "col": 57,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1034_acarm034",
+      "name": "M3护甲",
+      "row": 22,
+      "col": 58,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1035_acarm035",
+      "name": "M3利爪",
+      "row": 22,
+      "col": 59,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1036_acarm036",
+      "name": "便携弹射器",
+      "row": 22,
+      "col": 60,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1037_acarm037",
+      "name": "有限加速器",
+      "row": 22,
+      "col": 61,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1038_acarm038",
+      "name": "全能机械臂",
+      "row": 22,
+      "col": 62,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1039_acarm039",
+      "name": "博士投影",
+      "row": 22,
+      "col": 63,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_103_ymdgct",
+      "name": "地形增伤控制",
+      "row": 22,
+      "col": 64,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1040_acarm040",
+      "name": "炎国短刀",
+      "row": 22,
+      "col": 65,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1041_acarm041",
+      "name": "维式重锤",
+      "row": 22,
+      "col": 66,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1042_acarm042",
+      "name": "灼燃维式重锤",
+      "row": 22,
+      "col": 67,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1043_acarm043",
+      "name": "坚固维式重锤",
+      "row": 21,
+      "col": 40,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1044_acarm044",
+      "name": "加速维式重锤",
+      "row": 21,
+      "col": 41,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1045_acarm045",
+      "name": "战栗维式重锤",
+      "row": 21,
+      "col": 42,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1046_acarm046",
+      "name": "阿戈尔重刃",
+      "row": 21,
+      "col": 43,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1047_acarm047",
+      "name": "坚守盾牌",
+      "row": 21,
+      "col": 44,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1048_acarm048",
+      "name": "奥术法阵",
+      "row": 21,
+      "col": 45,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1049_acarm049",
+      "name": "歌利亚头盔",
+      "row": 21,
+      "col": 46,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1050_acarm050",
+      "name": "萨尔贡浓茶",
+      "row": 21,
+      "col": 47,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1051_acarm051",
+      "name": "迅捷作战粮",
+      "row": 21,
+      "col": 48,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1052_acarm052",
+      "name": "有限加速器",
+      "row": 21,
+      "col": 49,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1053_acarm053",
+      "name": "激光发射器",
+      "row": 21,
+      "col": 50,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1054_acarm054",
+      "name": "蜂鸣器",
+      "row": 21,
+      "col": 51,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1055_acarm055",
+      "name": "伪装服",
+      "row": 21,
+      "col": 52,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1056_acarm056",
+      "name": "不屈弹射器",
+      "row": 21,
+      "col": 53,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1057_acarm057",
+      "name": "拉特兰桥夹",
+      "row": 21,
+      "col": 54,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1058_acarm058",
+      "name": "催泪瓦斯",
+      "row": 21,
+      "col": 55,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1059_acarm059",
+      "name": "浓缩嗅盐",
+      "row": 21,
+      "col": 56,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_105_mhwrct",
+      "name": "滞空牵引无人机",
+      "row": 21,
+      "col": 57,
+      "visual": "wiki-avatar",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1060_acarm060",
+      "name": "防暴盾",
+      "row": 21,
+      "col": 58,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1061_acarm061",
+      "name": "护盾无人机",
+      "row": 21,
+      "col": 59,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1062_acarm062",
+      "name": "谢拉格不融冰",
+      "row": 21,
+      "col": 60,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1063_acarm063",
+      "name": "精准狙击镜",
+      "row": 21,
+      "col": 61,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1064_acarm064",
+      "name": "突袭手雷",
+      "row": 21,
+      "col": 62,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1065_acarm065",
+      "name": "休眠子裔",
+      "row": 21,
+      "col": 63,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1066_acarm066",
+      "name": "盟约之币",
+      "row": 21,
+      "col": 64,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1067_acarm067",
+      "name": "双模机械臂",
+      "row": 21,
+      "col": 65,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1068_acarm068",
+      "name": "M3茧甲",
+      "row": 21,
+      "col": 66,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1069_acarm069",
+      "name": "拟态物质",
+      "row": 21,
+      "col": 67,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1070_acarm070",
+      "name": "人事部文档",
+      "row": 20,
+      "col": 40,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1071_acarm071",
+      "name": "博士投影",
+      "row": 20,
+      "col": 41,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1072_acarm072",
+      "name": "突变细胞",
+      "row": 20,
+      "col": 42,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1073_acarm073",
+      "name": "变形同构体",
+      "row": 20,
+      "col": 43,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1074_acarm074",
+      "name": "商业包装方案",
+      "row": 20,
+      "col": 44,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1075_acarm075",
+      "name": "寻呼模块",
+      "row": 20,
+      "col": 45,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1076_acarm076",
+      "name": "铳骑之威",
+      "row": 20,
+      "col": 46,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1077_acarm077",
+      "name": "天师古鼎",
+      "row": 20,
+      "col": 47,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1078_acarm078",
+      "name": "海沟实验体",
+      "row": 20,
+      "col": 48,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1079_acarm079",
+      "name": "蒸汽之心",
+      "row": 20,
+      "col": 49,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_107_smpow",
+      "name": "空间稳定设施",
+      "row": 20,
+      "col": 50,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1080_acspell001",
+      "name": "法术：恢复",
+      "row": 20,
+      "col": 51,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1081_acspell002",
+      "name": "法术：力量",
+      "row": 20,
+      "col": 52,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1082_acspell003",
+      "name": "法术：传动",
+      "row": 20,
+      "col": 53,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1083_acspell004",
+      "name": "法术：贪婪",
+      "row": 20,
+      "col": 54,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1084_acspell005",
+      "name": "法术：满足",
+      "row": 20,
+      "col": 55,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1085_acspell006",
+      "name": "法术：护盾",
+      "row": 20,
+      "col": 56,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1086_acspell007",
+      "name": "法术：榜样",
+      "row": 20,
+      "col": 57,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1087_acspell008",
+      "name": "法术：屏障",
+      "row": 20,
+      "col": 58,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1088_acspell009",
+      "name": "法术：熟人",
+      "row": 20,
+      "col": 59,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1089_acspell010",
+      "name": "法术：同行",
+      "row": 20,
+      "col": 60,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1090_acspell011",
+      "name": "法术：提升",
+      "row": 20,
+      "col": 61,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1091_acspell012",
+      "name": "法术：迟缓",
+      "row": 20,
+      "col": 62,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1093_acspell014",
+      "name": "法术：全力",
+      "row": 20,
+      "col": 63,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1094_acspell015",
+      "name": "法术：血税",
+      "row": 20,
+      "col": 64,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1095_acspell016",
+      "name": "法术：破袭",
+      "row": 20,
+      "col": 65,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1096_acshopup",
+      "name": "驳船操作员",
+      "row": 20,
+      "col": 66,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1097_acshopre",
+      "name": "补给调配器",
+      "row": 20,
+      "col": 67,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1098_acshopfr",
+      "name": "补给留存器",
+      "row": 19,
+      "col": 40,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1099_acspell017",
+      "name": "晋升调配特许",
+      "row": 19,
+      "col": 41,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1100_acreddoor",
+      "name": "敌人入口",
+      "row": 19,
+      "col": 42,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1101_acplane",
+      "name": "补给驳船",
+      "row": 19,
+      "col": 43,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1102_acarm102",
+      "name": "耶拉冈德之泪",
+      "row": 19,
+      "col": 44,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1103_acarm103",
+      "name": "黄沙罗盘",
+      "row": 19,
+      "col": 45,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1104_aclasert",
+      "name": "“双眼皮”",
+      "row": 19,
+      "col": 46,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1105_accrate",
+      "name": "阻隔工事",
+      "row": 19,
+      "col": 47,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1106_achplat",
+      "name": "射击台",
+      "row": 19,
+      "col": 48,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1107_acblock",
+      "name": "封印的地面",
+      "row": 19,
+      "col": 49,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1108_acdisney",
+      "name": "“神秘顾客”",
+      "row": 19,
+      "col": 50,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1109_acarm109",
+      "name": "信标",
+      "row": 19,
+      "col": 51,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1110_accopy",
+      "name": "画卷",
+      "row": 19,
+      "col": 52,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1111_acchal",
+      "name": "教鞭",
+      "row": 19,
+      "col": 53,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1112_acblzd",
+      "name": "盟约寒风",
+      "row": 19,
+      "col": 54,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1113_acarm113",
+      "name": "精打细算玩偶",
+      "row": 19,
+      "col": 55,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1114_acarm114",
+      "name": "简易通讯机",
+      "row": 19,
+      "col": 56,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1115_acarm115",
+      "name": "紧急调度券",
+      "row": 19,
+      "col": 57,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1116_acarm116",
+      "name": "见钱眼开玩偶",
+      "row": 19,
+      "col": 58,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1117_acarm117",
+      "name": "天马之枪",
+      "row": 19,
+      "col": 59,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1118_acarm118",
+      "name": "天马之盔",
+      "row": 19,
+      "col": 60,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1119_acarm119",
+      "name": "卡西米尔竞技旗",
+      "row": 19,
+      "col": 61,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_111_wdfarm",
+      "name": "街头应急储备",
+      "row": 19,
+      "col": 62,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1120_acarm120",
+      "name": "骑士戒律",
+      "row": 19,
+      "col": 63,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1121_acarm121",
+      "name": "叙拉古正装",
+      "row": 19,
+      "col": 64,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1122_acarm122",
+      "name": "家族徽章",
+      "row": 19,
+      "col": 65,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1123_acarm123",
+      "name": "骑士储蓄罐",
+      "row": 19,
+      "col": 66,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1124_acarm124",
+      "name": "随身身份牌",
+      "row": 19,
+      "col": 67,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1125_acarm125",
+      "name": "源石溶剂",
+      "row": 18,
+      "col": 40,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_112_crsbow",
+      "name": "解雇者清债程序",
+      "row": 18,
+      "col": 41,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_113_snflwr",
+      "name": "全自动划账器",
+      "row": 18,
+      "col": 42,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_115_gasctrl",
+      "name": "毒雾塔控制",
+      "row": 18,
+      "col": 43,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_121_gractrl",
+      "name": "重力",
+      "row": 18,
+      "col": 44,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_131_toolgun",
+      "name": "战场装置LUD-99X",
+      "row": 18,
+      "col": 45,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_134_condtr",
+      "name": "调谐节点",
+      "row": 18,
+      "col": 46,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_136_portlexi",
+      "name": "创生之相",
+      "row": 18,
+      "col": 47,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_137_winfire",
+      "name": "紧急供暖器",
+      "row": 18,
+      "col": 48,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_146_dhdcr",
+      "name": "天桩",
+      "row": 18,
+      "col": 49,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1507_lhukmi",
+      "name": "富集矿区",
+      "row": 18,
+      "col": 50,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1515_lhfacp",
+      "name": "被污染的回收炉",
+      "row": 18,
+      "col": 51,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1519_lhrift",
+      "name": "巫术村落",
+      "row": 18,
+      "col": 52,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_151_muruinw",
+      "name": "折叠式堡垒模块",
+      "row": 18,
+      "col": 53,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1520_lhcolb",
+      "name": "大图书馆",
+      "row": 18,
+      "col": 54,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1521_lhmagd",
+      "name": "术法岗哨",
+      "row": 18,
+      "col": 55,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1523_lhtown",
+      "name": "侦测中心",
+      "row": 18,
+      "col": 56,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1524_lhport",
+      "name": "装卸机",
+      "row": 18,
+      "col": 57,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1525_lhswer",
+      "name": "水产村落",
+      "row": 18,
+      "col": 58,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1526_lharen",
+      "name": "冲突围栏",
+      "row": 18,
+      "col": 59,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1527_lhtwer",
+      "name": "警戒岗哨",
+      "row": 18,
+      "col": 60,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_152_muruino",
+      "name": "折叠式辅助器械",
+      "row": 18,
+      "col": 61,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1531_lhcampa",
+      "name": "猎户村落",
+      "row": 18,
+      "col": 62,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1532_lhcampb",
+      "name": "山地村落",
+      "row": 18,
+      "col": 63,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1533_lhcampc",
+      "name": "牧场村落",
+      "row": 18,
+      "col": 64,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1540_lhpad2",
+      "name": "温室拱棚",
+      "row": 18,
+      "col": 65,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_154_mugtps",
+      "name": "阵地屏障",
+      "row": 18,
+      "col": 66,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_155_aegiret",
+      "name": "航道信标",
+      "row": 18,
+      "col": 67,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_156_dsshell",
+      "name": "赘生甲壳",
+      "row": 17,
+      "col": 40,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_160_lrlgun",
+      "name": "洪流束激发器",
+      "row": 17,
+      "col": 41,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_162_lrctrl",
+      "name": "十四章机制控制器",
+      "row": 17,
+      "col": 42,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_163_foolcrate",
+      "name": "障碍物",
+      "row": 17,
+      "col": 43,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1640_akbtst",
+      "name": "障碍物",
+      "row": 17,
+      "col": 44,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1641_akbtel",
+      "name": "梅什科线圈",
+      "row": 17,
+      "col": 45,
+      "visual": "wiki-avatar",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1642_akbtjt",
+      "name": "源石祭坛",
+      "row": 17,
+      "col": 46,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1643_akbtbd",
+      "name": "源石冰晶",
+      "row": 17,
+      "col": 47,
+      "visual": "wiki-avatar",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_1644_akbowf",
+      "name": "弩炮",
+      "row": 17,
+      "col": 48,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_164_lrsiege",
+      "name": "振奋荣光",
+      "row": 17,
+      "col": 49,
+      "visual": "effect",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_167_muruinf",
+      "name": "折叠式维护车",
+      "row": 17,
+      "col": 50,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_169_muruinb",
+      "name": "折叠式后勤站",
+      "row": 17,
+      "col": 51,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_171_trpot",
+      "name": "很大的锅",
+      "row": 17,
+      "col": 52,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_172_trbox",
+      "name": "“宝箱”",
+      "row": 17,
+      "col": 53,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_178_trrbox",
+      "name": "“宝箱”",
+      "row": 17,
+      "col": 54,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_179_muctrl",
+      "name": "促融共竞控制",
+      "row": 17,
+      "col": 55,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_180_dsblock",
+      "name": "封印的地面",
+      "row": 17,
+      "col": 56,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_185_vtlntw",
+      "name": "黄金回响",
+      "row": 17,
+      "col": 57,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_187_arcgacha",
+      "name": "扭蛋机",
+      "row": 17,
+      "col": 58,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_192_archook",
+      "name": "勾爪",
+      "row": 17,
+      "col": 59,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_193_arctoll",
+      "name": "大战记分站",
+      "row": 17,
+      "col": 60,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_196_cnnon",
+      "name": "盐坨子炮",
+      "row": 17,
+      "col": 61,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_203_mufrprn",
+      "name": "坍塌的杂物堆",
+      "row": 17,
+      "col": 62,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_205_mufrfm",
+      "name": "建筑工具间",
+      "row": 17,
+      "col": 63,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_206_mufrbk",
+      "name": "临时休息舱",
+      "row": 17,
+      "col": 64,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_207_mufrwl",
+      "name": "液压式高台 ",
+      "row": 17,
+      "col": 65,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_208_mufrst",
+      "name": "混凝土路障 ",
+      "row": 17,
+      "col": 66,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_209_mufrbs",
+      "name": "便携健身架",
+      "row": 17,
+      "col": 67,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_211_cjgtow",
+      "name": "火灶",
+      "row": 16,
+      "col": 40,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_212_cjbtow",
+      "name": "废弃火灶",
+      "row": 16,
+      "col": 41,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_213_dqore",
+      "name": "源石祭坛",
+      "row": 16,
+      "col": 42,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_214_dqballis",
+      "name": "弩炮",
+      "row": 16,
+      "col": 43,
+      "visual": "effect",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_215_dqcrsbow",
+      "name": "解雇者清债程序",
+      "row": 16,
+      "col": 44,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_216_dqelec",
+      "name": "梅什科线圈",
+      "row": 16,
+      "col": 45,
+      "visual": "wiki-avatar",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_218_fttree",
+      "name": "树丛",
+      "row": 16,
+      "col": 46,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_219_fttreant",
+      "name": "盾与墙",
+      "row": 16,
+      "col": 47,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_220_ftbone",
+      "name": "旧日之火",
+      "row": 16,
+      "col": 48,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_221_ftshad",
+      "name": "空壳",
+      "row": 16,
+      "col": 49,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_222_rgdysm",
+      "name": "雕伥",
+      "row": 16,
+      "col": 50,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_223_dynbox",
+      "name": "宝葫芦",
+      "row": 16,
+      "col": 51,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_224_dyrbox",
+      "name": "铁葫芦",
+      "row": 16,
+      "col": 52,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_225_dysbox",
+      "name": "怪葫芦",
+      "row": 16,
+      "col": 53,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_226_dychss",
+      "name": "瑕",
+      "row": 16,
+      "col": 54,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_227_mpweak",
+      "name": "弱化节点",
+      "row": 16,
+      "col": 55,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_228_mptxs",
+      "name": "特雷西斯",
+      "row": 16,
+      "col": 56,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_229_mpcata",
+      "name": "冰镇饮料机",
+      "row": 16,
+      "col": 57,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_230_mpcatab",
+      "name": "加热饮料机",
+      "row": 16,
+      "col": 58,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_231_mpgrou",
+      "name": "“寒灾回响”",
+      "row": 16,
+      "col": 59,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_232_mpgroub",
+      "name": "“风雪中的影子”",
+      "row": 16,
+      "col": 60,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_233_mpmage",
+      "name": "稳定态萨卡兹术师结晶",
+      "row": 16,
+      "col": 61,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_234_mpmageb",
+      "name": "活性态萨卡兹术师结晶",
+      "row": 16,
+      "col": 62,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_235_hlnpcm",
+      "name": "圣徒像扮演者",
+      "row": 16,
+      "col": 63,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_236_hlnpcs",
+      "name": "圣堂射手扮演者",
+      "row": 16,
+      "col": 64,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_237_hlnpcb",
+      "name": "圣堂保育员扮演者",
+      "row": 16,
+      "col": 65,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_238_dydfst",
+      "name": "明烛台",
+      "row": 16,
+      "col": 66,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_239_dyffgd",
+      "name": "狭路相逢",
+      "row": 16,
+      "col": 67,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_240_dyffdd",
+      "name": "狭路相逢",
+      "row": 15,
+      "col": 40,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_247_crfilm",
+      "name": "摄影机",
+      "row": 15,
+      "col": 41,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_248_crprop",
+      "name": "打光道具",
+      "row": 15,
+      "col": 42,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_249_mjcsdw",
+      "name": "“月影之茧”",
+      "row": 15,
+      "col": 43,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_250_hlctrl",
+      "name": "寻根圣事",
+      "row": 15,
+      "col": 44,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_251_buftrp",
+      "name": "遗物中枢",
+      "row": 15,
+      "col": 45,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_252_pckstp",
+      "name": "天命来袭",
+      "row": 15,
+      "col": 46,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_253_boxnma",
+      "name": "压力舒缓帮手",
+      "row": 15,
+      "col": 47,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_254_boxmac",
+      "name": "压力归零帮手",
+      "row": 15,
+      "col": 48,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_258_rgcssm",
+      "name": "古雕伥",
+      "row": 15,
+      "col": 49,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_259_murjet",
+      "name": "全手动推进器",
+      "row": 15,
+      "col": 50,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_262_murtre",
+      "name": "物资浮板",
+      "row": 15,
+      "col": 51,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_263_murbox",
+      "name": "防水物资箱",
+      "row": 15,
+      "col": 52,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_264_xdplat",
+      "name": "伊斯贝塔高台",
+      "row": 15,
+      "col": 53,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_265_xdice1",
+      "name": "圣女像",
+      "row": 15,
+      "col": 54,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_272_nomstn",
+      "name": "阻道岩壁",
+      "row": 15,
+      "col": 55,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_277_pycblk",
+      "name": "盘踞岩峰",
+      "row": 15,
+      "col": 56,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_278_dyfgdd",
+      "name": "狭路相逢",
+      "row": 15,
+      "col": 57,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_280_pycfbd",
+      "name": "风化的碎屑",
+      "row": 15,
+      "col": 58,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_285_tjggt",
+      "name": "山脊",
+      "row": 15,
+      "col": 59,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_287_baizi",
+      "name": "断",
+      "row": 15,
+      "col": 60,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_288_sunmao",
+      "name": "镇岁柱",
+      "row": 15,
+      "col": 61,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_293_suishan",
+      "name": "岁用山",
+      "row": 15,
+      "col": 62,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_308_izcamp",
+      "name": "原型之手",
+      "row": 15,
+      "col": 63,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_309_muctba",
+      "name": "智能裁判官",
+      "row": 15,
+      "col": 64,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_316_ubtower",
+      "name": "警戒塔",
+      "row": 15,
+      "col": 65,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_317_ubprison",
+      "name": "禁闭所",
+      "row": 15,
+      "col": 66,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_319_shpvas",
+      "name": "绒绒云团",
+      "row": 15,
+      "col": 67,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_320_shtlbx",
+      "name": "丰饶树冢",
+      "row": 14,
+      "col": 40,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_321_shnbox",
+      "name": "恶笼草",
+      "row": 14,
+      "col": 41,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_322_shrbox",
+      "name": "畸变恶笼草",
+      "row": 14,
+      "col": 42,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_323_shsbox",
+      "name": "箱型恶笼草",
+      "row": 14,
+      "col": 43,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_324_shmbmb",
+      "name": "源阶方模块",
+      "row": 14,
+      "col": 44,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_325_shfort",
+      "name": "“危朽”",
+      "row": 14,
+      "col": 45,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_326_shruin",
+      "name": "“崩解”",
+      "row": 14,
+      "col": 46,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_327_shchst",
+      "name": "坎诺特保险柜",
+      "row": 14,
+      "col": 47,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_328_newlamp",
+      "name": "城市霓虹",
+      "row": 14,
+      "col": 48,
+      "visual": "wiki-avatar",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_329_rift",
+      "name": "泄漏标记",
+      "row": 14,
+      "col": 49,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_330_ycwang",
+      "name": "演出望",
+      "row": 14,
+      "col": 50,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_334_agmbox",
+      "name": "邮箱",
+      "row": 14,
+      "col": 51,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_335_totalattack",
+      "name": "全场总攻击",
+      "row": 14,
+      "col": 52,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_408_xbbase",
+      "name": "基地",
+      "row": 14,
+      "col": 53,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_412_redtower",
+      "name": "移动战塔",
+      "row": 14,
+      "col": 54,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_413_hiddenstone",
+      "name": "遗迹残骸",
+      "row": 14,
+      "col": 55,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_414_vegetation",
+      "name": "灌木丛",
+      "row": 14,
+      "col": 56,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_416_gtreasure",
+      "name": "埋没金属箱",
+      "row": 14,
+      "col": 57,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_422_streasure",
+      "name": "宝刺金属箱",
+      "row": 14,
+      "col": 58,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_432_oldisin",
+      "name": "老伊辛",
+      "row": 14,
+      "col": 59,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_433_sandsdr",
+      "name": "“沙卒”",
+      "row": 14,
+      "col": 60,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_434_klmantc",
+      "name": "曼提柯杀手",
+      "row": 14,
+      "col": 61,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_435_trsrhuntr",
+      "name": "寻宝人",
+      "row": 14,
+      "col": 62,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_437_poachr",
+      "name": "老练猎手",
+      "row": 14,
+      "col": 63,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_440_xbalis",
+      "name": "简易弩台",
+      "row": 14,
+      "col": 64,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_441_xbmgbird",
+      "name": "喙中奇物",
+      "row": 14,
+      "col": 65,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_442_xbtrap",
+      "name": "流沙黯坑",
+      "row": 14,
+      "col": 66,
+      "visual": "effect",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_446_xbfdtion",
+      "name": "风沙营垒",
+      "row": 14,
+      "col": 67,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_447_xbmcv",
+      "name": "旷野房车\n",
+      "row": 13,
+      "col": 40,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_461_xbhydr",
+      "name": "机关石门",
+      "row": 13,
+      "col": 41,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_465_xbstation",
+      "name": "号令点",
+      "row": 13,
+      "col": 42,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_466_tzumama",
+      "name": "森蚺",
+      "row": 13,
+      "col": 43,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_467_ttuye",
+      "name": "图耶",
+      "row": 13,
+      "col": 44,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_468_tpriest",
+      "name": "大祭司",
+      "row": 13,
+      "col": 45,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_469_tpasngr",
+      "name": "异客",
+      "row": 13,
+      "col": 46,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_470_tmantic",
+      "name": "狮蝎",
+      "row": 13,
+      "col": 47,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_471_tegmaus",
+      "name": "佩佩",
+      "row": 13,
+      "col": 48,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_472_tfalco",
+      "name": "红隼",
+      "row": 13,
+      "col": 49,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_473_trmedic",
+      "name": "罗德岛工作人员",
+      "row": 13,
+      "col": 50,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_474_mailbox",
+      "name": "信使邮筒",
+      "row": 13,
+      "col": 51,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_476_mscskt",
+      "name": "讯息匣",
+      "row": 13,
+      "col": 52,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_479_xbbillb",
+      "name": "告示牌",
+      "row": 13,
+      "col": 53,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_480_roadblockxb",
+      "name": "道路障碍物",
+      "row": 13,
+      "col": 54,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_481_gtreasureb",
+      "name": "埋没金属箱",
+      "row": 13,
+      "col": 55,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_484_xbcp",
+      "name": "检查点",
+      "row": 13,
+      "col": 56,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_485_xbrandprop",
+      "name": "随机道具盒",
+      "row": 13,
+      "col": 57,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_486_xbspd",
+      "name": "加速块",
+      "row": 13,
+      "col": 58,
+      "visual": "effect",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_492_xbamai",
+      "name": "狩闻匣",
+      "row": 13,
+      "col": 59,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_500_xbaflu",
+      "name": "荧光棒弹射装置",
+      "row": 13,
+      "col": 60,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_501_xbaarm",
+      "name": "外骨骼",
+      "row": 13,
+      "col": 61,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_502_xbaice",
+      "name": "冰瀑喷射罐",
+      "row": 13,
+      "col": 62,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_503_xbabla",
+      "name": "凋亡发射器",
+      "row": 13,
+      "col": 63,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_504_xbaess",
+      "name": "桶装液香",
+      "row": 13,
+      "col": 64,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_505_xbawea",
+      "name": "庇护制造器",
+      "row": 13,
+      "col": 65,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_506_xbadiv",
+      "name": "驯兽口粮",
+      "row": 13,
+      "col": 66,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_507_xbabut",
+      "name": "感知链接器",
+      "row": 13,
+      "col": 67,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_508_xbabat",
+      "name": "行动套装",
+      "row": 12,
+      "col": 40,
+      "visual": "game-ui",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_515_xb2wdo",
+      "name": "杂木林",
+      "row": 12,
+      "col": 41,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_516_xb2wod",
+      "name": "杂木林",
+      "row": 12,
+      "col": 42,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_517_xb2stn",
+      "name": "巨大岩石",
+      "row": 12,
+      "col": 43,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_518_xb2irn",
+      "name": "奇异矿脉",
+      "row": 12,
+      "col": 44,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_519_xb2dmn",
+      "name": "澄亮矿脉",
+      "row": 12,
+      "col": 45,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_520_xb2cve",
+      "name": "巢穴",
+      "row": 12,
+      "col": 46,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_521_xb2cmp",
+      "name": "废弃移动战塔",
+      "row": 12,
+      "col": 47,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_522_xb2dor",
+      "name": "待清理材料",
+      "row": 12,
+      "col": 48,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_523_xb2brd",
+      "name": "好奇的小羽兽",
+      "row": 12,
+      "col": 49,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_524_xb2onf",
+      "name": "损坏的资源前哨站",
+      "row": 12,
+      "col": 50,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_530_xb2gtr",
+      "name": "埋没金属箱",
+      "row": 12,
+      "col": 51,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_531_xb2str",
+      "name": "宝刺金属箱",
+      "row": 12,
+      "col": 52,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_532_xb2shb",
+      "name": "灌木丛",
+      "row": 12,
+      "col": 53,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_621_xb2flr",
+      "name": "荧光棒",
+      "row": 12,
+      "col": 54,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_624_xb2mtr",
+      "name": "Mon3tr",
+      "row": 12,
+      "col": 55,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_625_xb2smy",
+      "name": "Stormeye",
+      "row": 12,
+      "col": 56,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_626_xb2tex",
+      "name": "Thermal-EX",
+      "row": 12,
+      "col": 57,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_627_xb2amy",
+      "name": "阿米娅",
+      "row": 12,
+      "col": 58,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_628_xb2cls",
+      "name": "可露希尔",
+      "row": 12,
+      "col": 59,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_630_xb2als",
+      "name": "简易弩台",
+      "row": 12,
+      "col": 60,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_631_xb2ach",
+      "name": "持弓罗德岛男干员",
+      "row": 12,
+      "col": 61,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_757_skzbox",
+      "name": "宝箱",
+      "row": 12,
+      "col": 62,
+      "visual": "wiki-avatar",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_758_skzmbx",
+      "name": "停滞巧械",
+      "row": 12,
+      "col": 63,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_759_skzwyx",
+      "name": "垂死羽兽",
+      "row": 12,
+      "col": 64,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_760_skztzs",
+      "name": "年代之刺",
+      "row": 12,
+      "col": 65,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_761_skzthx",
+      "name": "尊主的残影",
+      "row": 12,
+      "col": 66,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_762_skztxy",
+      "name": "特蕾西娅，黑冠圣贤",
+      "row": 12,
+      "col": 67,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_763_skzddd",
+      "name": "圣卫坚盾",
+      "row": 11,
+      "col": 40,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_764_skzshp",
+      "name": "驮兽旅行家",
+      "row": 11,
+      "col": 41,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_766_duelwal",
+      "name": "狭路相逢",
+      "row": 11,
+      "col": 42,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_767_duelcdt",
+      "name": "狭路相逢",
+      "row": 11,
+      "col": 43,
+      "visual": "mechanism",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_778_giatow",
+      "name": "L-44\"留声机\"",
+      "row": 11,
+      "col": 44,
+      "visual": "model",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_779_skzth",
+      "name": "尼卢火",
+      "row": 11,
+      "col": 45,
+      "visual": "spine",
+      "displayOnly": true
+    },
+    {
+      "section": "objects",
+      "id": "trap_786_fxdtwr",
+      "name": "“绝对助手”",
+      "row": 11,
+      "col": 46,
+      "visual": "spine",
+      "displayOnly": true
+    }
+  ],
+  "actualTerrainPrefabCount": 116,
+  "modeAliasCount": 3,
+  "prtsVirtualTileCount": 1,
+  "missingIconCount": 371,
+  "supplementVisualCounts": {
+    "game-ui": 44,
+    "model": 98,
+    "mechanism": 22,
+    "spine": 191,
+    "weather-marker": 1,
+    "effect": 7,
+    "wiki-avatar": 8
+  }
+}
