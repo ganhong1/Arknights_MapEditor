@@ -1,0 +1,1010 @@
+{
+  "version": 1,
+  "source": "prts-map/definitions.mjs; Timeline main 5396314c3d895a7177f15952d7fdae6ce2806997",
+  "tiles": {
+    "tile_forbidden": {
+      "legend": "Forbidden",
+      "content": ""
+    },
+    "tile_floor": {
+      "legend": "Floor",
+      "content": ""
+    },
+    "tile_wall": {
+      "legend": "Wall",
+      "content": ""
+    },
+    "tile_road": {
+      "legend": "Road",
+      "content": ""
+    },
+    "tile_start": {
+      "legend": "Start",
+      "content": ""
+    },
+    "tile_flystart": {
+      "legend": "Fly Start",
+      "content": "air",
+      "content_on_top": true
+    },
+    "tile_end": {
+      "legend": "End",
+      "content": ""
+    },
+    "tile_telin": {
+      "legend": "Teleport in",
+      "content": "in"
+    },
+    "tile_telout": {
+      "legend": "Teleport out",
+      "content": "out"
+    },
+    "tile_hole": {
+      "legend": "Hole",
+      "content": "hole"
+    },
+    "tile_empty": {
+      "legend": "Empty",
+      "content": ""
+    },
+    "tile_grass": {
+      "legend": "Grass",
+      "content": "",
+      "content_on_top": true,
+      "effect": "effect_grass"
+    },
+    "tile_fence": {
+      "legend": "Fence",
+      "content": "",
+      "content_on_top": true
+    },
+    "tile_fence_bound": {
+      "render_as": "tile_fence",
+      "legend": "Fence Bound",
+      "content": "",
+      "content_on_top": true
+    },
+    "tile_healing": {
+      "legend": "Healing",
+      "content": "",
+      "content_on_top": true,
+      "effect": "effect_healing"
+    },
+    "tile_bigforce": {
+      "legend": "Big force",
+      "content": "F+",
+      "content_on_top": true,
+      "effect": "effect_buff"
+    },
+    "tile_defup": {
+      "legend": "Def up",
+      "content": "def+",
+      "content_on_top": true,
+      "effect": "effect_buff"
+    },
+    "tile_gazebo": {
+      "legend": "Gazebo",
+      "content": "air+",
+      "content_on_top": true,
+      "effect": "effect_buff"
+    },
+    "tile_infection": {
+      "legend": "Infection",
+      "content": "",
+      "effect": "effect_infection"
+    },
+    "tile_volcano": {
+      "legend": "Volcano",
+      "content": "",
+      "effect": "effect_volcano"
+    },
+    "tile_volcano_emp": {
+      "legend": "Volcano",
+      "content": "",
+      "effect": "effect_volcano"
+    },
+    "tile_corrosion": {
+      "legend": "Corrosion",
+      "content": "",
+      "effect": "effect_corrosion"
+    },
+    "tile_defbreak": {
+      "legend": "Def break",
+      "content": "",
+      "effect": "effect_corrosion"
+    },
+    "tile_shallowwater": {
+      "legend": "Deep water",
+      "content": "",
+      "effect": "effect_shallowwater"
+    },
+    "tile_deepwater": {
+      "legend": "Deep water",
+      "content": "",
+      "effect": "effect_deepwater"
+    },
+    "tile_deepsea": {
+      "legend": "Deep sea",
+      "content": "",
+      "effect": "effect_deepwater"
+    },
+    "tile_volspread": {
+      "legend": "Volcano spread",
+      "content": "",
+      "effect": "effect_volspread"
+    },
+    "tile_smog": {
+      "legend": "Smoke generator",
+      "content": "",
+      "effect": "effect_smog"
+    },
+    "tile_wooden_wall": {
+      "legend": "Wooden wall",
+      "content": "WW"
+    },
+    "tile_yinyang_road": {
+      "legend": "YinYang road",
+      "content": "",
+      "effect": "effect_yinyang_road"
+    },
+    "tile_yinyang_wall": {
+      "legend": "YinYang wall",
+      "content": "",
+      "effect": "effect_yinyang_wall"
+    },
+    "tile_yinyang_switch": {
+      "legend": "YinYang switch",
+      "content": "",
+      "effect": "effect_yinyang_switch"
+    },
+    "tile_poison": {
+      "legend": "Poison",
+      "content": "",
+      "effect": "effect_poison"
+    },
+    "tile_icestr": {
+      "legend": "Ice",
+      "content": "",
+      "effect": "effect_ice"
+    },
+    "tile_icetur_lb": {
+      "legend": "Ice corner",
+      "content": "",
+      "effect": "effect_ice"
+    },
+    "tile_icetur_lt": {
+      "legend": "Ice corner",
+      "content": "",
+      "effect": "effect_ice"
+    },
+    "tile_icetur_rb": {
+      "legend": "Ice corner",
+      "content": "",
+      "effect": "effect_ice"
+    },
+    "tile_icetur_rt": {
+      "legend": "Ice corner",
+      "content": "",
+      "effect": "effect_ice"
+    },
+    "tile_aircraft": {
+      "legend": "Aircraft",
+      "content": ""
+    },
+    "tile_reed": {
+      "legend": "Reed",
+      "content": "",
+      "effect": "effect_reed"
+    },
+    "tile_reedf": {
+      "legend": "Reed forbidden",
+      "content": "",
+      "effect": "effect_reed"
+    },
+    "tile_reedw": {
+      "legend": "Reed wall",
+      "content": "",
+      "effect": "effect_reed"
+    },
+    "tile_mire": {
+      "legend": "Mire",
+      "content": "",
+      "effect": "effect_mire"
+    },
+    "tile_passable_wall": {
+      "legend": "Passable Wall",
+      "content": ""
+    },
+    "tile_passable_wall_forbidden": {
+      "legend": "Passable Wall",
+      "content": ""
+    },
+    "tile_stairs": {
+      "legend": "Stairs",
+      "content": "↕"
+    },
+    "tile_grvtybtn": {
+      "legend": "Gravity Button",
+      "content": ""
+    },
+    "tile_ristar_road": {
+      "legend": "Ristar Road",
+      "content": "",
+      "effect": "effect_ristar_road"
+    },
+    "tile_ristar_road_forbidden": {
+      "legend": "Ristar Road",
+      "content": "",
+      "effect": "effect_ristar_road"
+    },
+    "tile_start_cooperate": {
+      "render_as": "tile_start",
+      "content": ""
+    },
+    "tile_end_cooperate": {
+      "render_as": "tile_end",
+      "content": ""
+    },
+    "tile_rcm_operator": {
+      "render_as": "tile_road",
+      "legend": "Recommended Operator",
+      "content": ""
+    },
+    "tile_rcm_crate": {
+      "render_as": "tile_road",
+      "legend": "Recommended Crate",
+      "content": ""
+    },
+    "tile_crate": {
+      "legend": "Box",
+      "content": "",
+      "effect": "effect_crate"
+    },
+    "tile_achand": {
+      "legend": "手牌区",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "corners",
+        "tint": "#3e6386",
+        "family": "备战区域"
+      },
+      "symbol": "hand"
+    },
+    "tile_acshop": {
+      "legend": "驳船区",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "stamp",
+        "tint": "#92703e",
+        "family": "备战区域"
+      },
+      "symbol": "shop"
+    },
+    "tile_act27side": {
+      "legend": "活动地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "waves",
+        "tint": "#507b87",
+        "family": "活动地块"
+      },
+      "symbol": "pool-outline"
+    },
+    "tile_act48side": {
+      "legend": "活动地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "corners",
+        "tint": "#726b78",
+        "family": "活动地块"
+      },
+      "symbol": "scene-marker"
+    },
+    "tile_act6fun_end": {
+      "legend": "攻略目标",
+      "content": "",
+      "content_on_top": true,
+      "render_as": "tile_end",
+      "geometry_as": "tile_end",
+      "symbol": "exit"
+    },
+    "tile_act6fun_start": {
+      "legend": "进攻点",
+      "content": "",
+      "content_on_top": true,
+      "render_as": "tile_start",
+      "geometry_as": "tile_start",
+      "symbol": "enter"
+    },
+    "tile_alchemy_road": {
+      "legend": "炼金地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "rings",
+        "tint": "#427f78",
+        "family": "炼金地块"
+      },
+      "symbol": "flask"
+    },
+    "tile_alchemy_wall": {
+      "legend": "炼金地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "rings",
+        "tint": "#427f78",
+        "family": "炼金地块"
+      },
+      "symbol": "flask"
+    },
+    "tile_allygoal": {
+      "legend": "说明表未列名",
+      "content": "",
+      "content_on_top": true,
+      "render_as": "tile_end",
+      "geometry_as": "tile_end",
+      "symbol": "exit"
+    },
+    "tile_balloon": {
+      "legend": "“可浮空区块”",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "rings",
+        "tint": "#678db0",
+        "family": "浮空地块"
+      },
+      "symbol": "balloon"
+    },
+    "tile_balloon_fbd": {
+      "legend": "“可浮空区块”",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "rings",
+        "tint": "#678db0",
+        "family": "浮空地块"
+      },
+      "symbol": "balloon"
+    },
+    "tile_bnspck_road": {
+      "legend": "幸运宝座",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "stamp",
+        "tint": "#a57b39",
+        "family": "幸运宝座"
+      },
+      "symbol": "luck"
+    },
+    "tile_character": {
+      "legend": "字格",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "grid",
+        "tint": "#875345",
+        "family": "字格"
+      },
+      "symbol": "imprint"
+    },
+    "tile_characterf": {
+      "legend": "字格",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "grid",
+        "tint": "#875345",
+        "family": "字格"
+      },
+      "symbol": "imprint"
+    },
+    "tile_cnvfuse": {
+      "legend": "引线地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "diagonal",
+        "tint": "#a06b3d",
+        "family": "烟花引线"
+      },
+      "symbol": "fuse"
+    },
+    "tile_cnvfuse_fbd": {
+      "legend": "引线地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "diagonal",
+        "tint": "#a06b3d",
+        "family": "烟花引线"
+      },
+      "symbol": "fuse"
+    },
+    "tile_codpsea": {
+      "legend": "深水地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "waves",
+        "tint": "#3d6b88",
+        "family": "深水地块"
+      },
+      "symbol": "water"
+    },
+    "tile_corrosion_2": {
+      "legend": "侵蚀地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "cracks",
+        "tint": "#536269",
+        "family": "侵蚀地块"
+      },
+      "symbol": "fracture"
+    },
+    "tile_creep": {
+      "legend": "溟痕地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "waves",
+        "tint": "#535b96",
+        "family": "溟痕地块"
+      },
+      "symbol": "creep"
+    },
+    "tile_creepf": {
+      "legend": "溟痕地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "waves",
+        "tint": "#535b96",
+        "family": "溟痕地块"
+      },
+      "symbol": "creep"
+    },
+    "tile_dygmny_1": {
+      "legend": "化境地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "stamp",
+        "tint": "#b5823f",
+        "family": "化境地块"
+      },
+      "symbol": "realm-one"
+    },
+    "tile_dygmny_2": {
+      "legend": "化境地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "stamp",
+        "tint": "#bb904e",
+        "family": "化境地块"
+      },
+      "symbol": "realm-two"
+    },
+    "tile_dygmny_3": {
+      "legend": "化境地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "stamp",
+        "tint": "#a06d40",
+        "family": "化境地块"
+      },
+      "symbol": "realm-three"
+    },
+    "tile_empshock": {
+      "legend": "电磁地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "grid",
+        "tint": "#7079a2",
+        "family": "电磁地块"
+      },
+      "symbol": "shock"
+    },
+    "tile_end_dqq": {
+      "legend": "说明表未列名",
+      "content": "",
+      "content_on_top": true,
+      "render_as": "tile_end",
+      "geometry_as": "tile_end",
+      "symbol": "exit"
+    },
+    "tile_enemygoal": {
+      "legend": "说明表未列名",
+      "content": "",
+      "content_on_top": true,
+      "render_as": "tile_start",
+      "geometry_as": "tile_start",
+      "symbol": "enter"
+    },
+    "tile_flower": {
+      "legend": "花簇地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "dots",
+        "tint": "#9d6481",
+        "family": "花簇地块"
+      },
+      "symbol": "flower"
+    },
+    "tile_flowerf": {
+      "legend": "花簇地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "dots",
+        "tint": "#9d6481",
+        "family": "花簇地块"
+      },
+      "symbol": "flower"
+    },
+    "tile_football": {
+      "legend": "球场地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "grid",
+        "tint": "#5d8e65",
+        "family": "球场地块"
+      },
+      "symbol": "football"
+    },
+    "tile_ftplant_road": {
+      "legend": "草毯",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "crosshatch",
+        "tint": "#5e8753",
+        "family": "草毯"
+      },
+      "symbol": "plant"
+    },
+    "tile_ftplant_roadf": {
+      "legend": "草毯",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "crosshatch",
+        "tint": "#5e8753",
+        "family": "草毯"
+      },
+      "symbol": "plant"
+    },
+    "tile_ftplant_wall": {
+      "legend": "草毯",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "crosshatch",
+        "tint": "#5e8753",
+        "family": "草毯"
+      },
+      "symbol": "plant"
+    },
+    "tile_ftstart": {
+      "legend": "侵入点",
+      "content": "",
+      "content_on_top": true,
+      "render_as": "tile_start",
+      "geometry_as": "tile_start",
+      "symbol": "enter"
+    },
+    "tile_green": {
+      "legend": "中转点",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "chevrons",
+        "tint": "#548d64",
+        "family": "中转点"
+      },
+      "symbol": "relay"
+    },
+    "tile_infection_dqq": {
+      "legend": "侵蚀地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "diagonal",
+        "tint": "#a0624b",
+        "family": "侵蚀地块"
+      },
+      "symbol": "infection"
+    },
+    "tile_magic_circle": {
+      "legend": "激活的“谐振器”",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "rings",
+        "tint": "#5f83a6",
+        "family": "谐振器"
+      },
+      "symbol": "resonator"
+    },
+    "tile_magic_circle_h": {
+      "legend": "激活的“谐振器”",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "rings",
+        "tint": "#5f83a6",
+        "family": "谐振器"
+      },
+      "symbol": "resonator"
+    },
+    "tile_merope": {
+      "legend": "接驳地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "link",
+        "tint": "#8390a0",
+        "family": "接驳地块"
+      },
+      "symbol": "chain"
+    },
+    "tile_mpprts_enemy_born": {
+      "legend": "未授权重构界面",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "grid",
+        "tint": "#a45160",
+        "family": "重构界面"
+      },
+      "symbol": "intrusion"
+    },
+    "tile_pollution_road": {
+      "legend": "污染地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "crosshatch",
+        "tint": "#77577c",
+        "family": "污染地块"
+      },
+      "symbol": "pollution"
+    },
+    "tile_pollution_roadf": {
+      "legend": "污染地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "crosshatch",
+        "tint": "#77577c",
+        "family": "污染地块"
+      },
+      "symbol": "pollution"
+    },
+    "tile_pollution_wall": {
+      "legend": "污染地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "crosshatch",
+        "tint": "#77577c",
+        "family": "污染地块"
+      },
+      "symbol": "pollution"
+    },
+    "tile_pollution_wallf": {
+      "legend": "污染地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "crosshatch",
+        "tint": "#77577c",
+        "family": "污染地块"
+      },
+      "symbol": "pollution"
+    },
+    "tile_puddle": {
+      "legend": "池沼",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "waves",
+        "tint": "#557c7d",
+        "family": "池沼"
+      },
+      "symbol": "puddle"
+    },
+    "tile_quicksand": {
+      "legend": "盐漠",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "waves",
+        "tint": "#9b824e",
+        "family": "盐漠"
+      },
+      "symbol": "quicksand"
+    },
+    "tile_rabbithole_in_1": {
+      "legend": "兔子洞入口",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "rings",
+        "tint": "#9b7fb4",
+        "family": "兔子洞"
+      },
+      "symbol": "rabbit-in"
+    },
+    "tile_rabbithole_out_1": {
+      "legend": "兔子洞出口",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "rings",
+        "tint": "#527f9d",
+        "family": "兔子洞"
+      },
+      "symbol": "rabbit-out"
+    },
+    "tile_rabbithole_out_2": {
+      "legend": "隐蔽的兔子洞出口",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "dots",
+        "tint": "#647e9b",
+        "family": "兔子洞"
+      },
+      "symbol": "rabbit-hidden"
+    },
+    "tile_rarope": {
+      "legend": "接驳地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "link",
+        "tint": "#8390a0",
+        "family": "接驳地块"
+      },
+      "symbol": "chain"
+    },
+    "tile_replace_road": {
+      "legend": "交接！",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "chevrons",
+        "tint": "#508b92",
+        "family": "交接地块"
+      },
+      "symbol": "swap"
+    },
+    "tile_replace_wall": {
+      "legend": "交接！",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "chevrons",
+        "tint": "#508b92",
+        "family": "交接地块"
+      },
+      "symbol": "swap"
+    },
+    "tile_richfd": {
+      "legend": "太阳谷预开发地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "dots",
+        "tint": "#8a8451",
+        "family": "预开发地块"
+      },
+      "symbol": "sprout"
+    },
+    "tile_sandrope": {
+      "legend": "悬索桥起点",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "link",
+        "tint": "#9f835f",
+        "family": "悬索桥"
+      },
+      "symbol": "bridge"
+    },
+    "tile_sandrope_2": {
+      "legend": "悬索桥起点",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "link",
+        "tint": "#9f835f",
+        "family": "悬索桥"
+      },
+      "symbol": "bridge"
+    },
+    "tile_sleep_road": {
+      "legend": "入梦砖",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "rings",
+        "tint": "#746c9f",
+        "family": "入梦砖"
+      },
+      "symbol": "sleep"
+    },
+    "tile_sleep_wall": {
+      "legend": "入梦砖",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "rings",
+        "tint": "#746c9f",
+        "family": "入梦砖"
+      },
+      "symbol": "sleep"
+    },
+    "tile_start_dqq": {
+      "legend": "说明表未列名",
+      "content": "",
+      "content_on_top": true,
+      "render_as": "tile_start",
+      "geometry_as": "tile_start",
+      "symbol": "enter"
+    },
+    "tile_steam": {
+      "legend": "隐焰",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "cracks",
+        "tint": "#9b6649",
+        "family": "隐焰"
+      },
+      "symbol": "steam"
+    },
+    "tile_toxic": {
+      "legend": "源石污染区",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "diagonal",
+        "tint": "#986649",
+        "family": "源石污染区"
+      },
+      "symbol": "toxic"
+    },
+    "tile_toxichill": {
+      "legend": "源石污染区",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "diagonal",
+        "tint": "#986649",
+        "family": "源石污染区"
+      },
+      "symbol": "toxic"
+    },
+    "tile_toxicroad": {
+      "legend": "源石污染区",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "diagonal",
+        "tint": "#986649",
+        "family": "源石污染区"
+      },
+      "symbol": "toxic"
+    },
+    "tile_toxicwall": {
+      "legend": "源石污染区",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "diagonal",
+        "tint": "#986649",
+        "family": "源石污染区"
+      },
+      "symbol": "toxic"
+    },
+    "tile_volcano_strife": {
+      "legend": "熔岩裂隙",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "cracks",
+        "tint": "#b65c43",
+        "family": "熔岩裂隙"
+      },
+      "symbol": "lava"
+    },
+    "tile_water": {
+      "legend": "清澈水域",
+      "content": "",
+      "content_on_top": true,
+      "render_as": "tile_deepsea",
+      "geometry_as": "tile_deepsea",
+      "symbol": "clean-water"
+    },
+    "tile_woodrd": {
+      "legend": "临时步道",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "diagonal",
+        "tint": "#957759",
+        "family": "临时步道"
+      },
+      "symbol": "boards"
+    },
+    "tile_xbdpsea": {
+      "legend": "深水地块",
+      "content": "",
+      "content_on_top": true,
+      "editor_visual": {
+        "motif": "waves",
+        "tint": "#426d85",
+        "family": "深水地块"
+      },
+      "symbol": "water"
+    }
+  },
+  "supplement_source": "CN Android 2.7.81 tile prefab/effect names and editor terrain inventory; supplemental skeleton projection",
+  "symbols": [
+    "hand",
+    "shop",
+    "pool-outline",
+    "scene-marker",
+    "enter",
+    "exit",
+    "flask",
+    "balloon",
+    "luck",
+    "imprint",
+    "fuse",
+    "water",
+    "fracture",
+    "creep",
+    "realm-one",
+    "realm-two",
+    "realm-three",
+    "shock",
+    "flower",
+    "football",
+    "plant",
+    "relay",
+    "infection",
+    "resonator",
+    "chain",
+    "intrusion",
+    "pollution",
+    "puddle",
+    "quicksand",
+    "rabbit-in",
+    "rabbit-out",
+    "rabbit-hidden",
+    "swap",
+    "sprout",
+    "bridge",
+    "sleep",
+    "steam",
+    "toxic",
+    "lava",
+    "clean-water",
+    "boards"
+  ]
+}

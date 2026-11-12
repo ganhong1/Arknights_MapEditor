@@ -1,0 +1,1226 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "path": "schema.js",
+      "sha256": "dde645cdc504b5f67fab7eca69809258bf57abc39a97929f0ecd2d429e6d78a3"
+    },
+    {
+      "path": "tile-info.js",
+      "sha256": "13f742a99498da5b9072f136a3073cbec38b5abc8e90317c8373f83249b7ae89"
+    },
+    {
+      "path": "prts-map/definitions.mjs",
+      "sha256": "caf54e7e2c141b06ff1990369f982afe4cdf6b40403fb273b0c1cabece0d93a5"
+    },
+    {
+      "path": "prts-map/projection.mjs",
+      "sha256": "43c25052b0ebd39f2cf2c907d4a141ad75bd97ea72f169b604fad38d312febe7"
+    },
+    {
+      "path": "ProjectDesignSchemeDocument/UNITY_EDITOR_DESIGN.md",
+      "sha256": "93bdc503e3b60f5bf726559b121bfa01282f074405b04c32f43d153e1e840318"
+    },
+    {
+      "path": "BattleLab/docs/reference/terrain-object-reference.md",
+      "sha256": "e8426bfc2e202a15c8eebcf2336135242b8f1419cd35da776428b8723fe85434"
+    },
+    {
+      "path": "terrain-prefab-variant-index.json",
+      "sha256": "74b1485987c3debdd449874c5f7ec24b1b9621886d226053c943c2c59b65a660"
+    }
+  ],
+  "limitations": [
+    "Only frozen local templates are creatable.",
+    "No static device catalog exists in these inputs.",
+    "Visual definition does not establish native support."
+  ],
+  "entries": [
+    {
+      "id": "tile_achand",
+      "category": "terrain",
+      "name": "手牌区",
+      "description": "待部署区域，置于其中的干员不会加入战斗",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_acshop",
+      "category": "terrain",
+      "name": "驳船区",
+      "description": "可购买干员和道具出现的区域",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_act27side",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_act48side",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_aircraft",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_alchemy_road",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "炼金地块"
+    },
+    {
+      "id": "tile_alchemy_wall",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "炼金地块"
+    },
+    {
+      "id": "tile_allygoal",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_balloon",
+      "category": "terrain",
+      "name": "“可浮空区块”",
+      "description": "浮空时置于其中的我方单位可以阻挡空中敌人",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "可浮空区块"
+    },
+    {
+      "id": "tile_balloon_fbd",
+      "category": "terrain",
+      "name": "“可浮空区块”",
+      "description": "浮空时置于其中的我方单位可以阻挡空中敌人",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "可浮空区块"
+    },
+    {
+      "id": "tile_bigforce",
+      "category": "terrain",
+      "name": "特种战术点",
+      "description": "置于其中的我方单位在推动或拉动敌方单位时力度增大",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_bnspck_road",
+      "category": "terrain",
+      "name": "幸运宝座",
+      "description": "置于其中的干员可以吸收“某种天命”",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_character",
+      "category": "terrain",
+      "name": "字格",
+      "description": "间隔一定时间会被拓印，若其上有字，根据字产生效果",
+      "template": {
+        "tileKey": "tile_character",
+        "heightType": "LOWLAND",
+        "buildableType": "MELEE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": [
+          {
+            "key": "zi_tile_type",
+            "value": 0,
+            "valueStr": "Fortune"
+          }
+        ],
+        "effects": null
+      },
+      "visualDefinitionAvailable": false,
+      "family": "字格"
+    },
+    {
+      "id": "tile_characterf",
+      "category": "terrain",
+      "name": "字格",
+      "description": "间隔一定时间会被拓印，若其上有字，根据字产生效果",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "字格"
+    },
+    {
+      "id": "tile_cnvfuse",
+      "category": "terrain",
+      "name": "引线地块",
+      "description": "烟花引线燃烧的路径，可部署",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "引线地块"
+    },
+    {
+      "id": "tile_cnvfuse_fbd",
+      "category": "terrain",
+      "name": "引线地块",
+      "description": "烟花引线燃烧的路径，不可部署",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "引线地块"
+    },
+    {
+      "id": "tile_codpsea",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_corrosion",
+      "category": "terrain",
+      "name": "腐蚀地面",
+      "description": "置于其中的干员防御力减半",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_corrosion_2",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_crate",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "visualOnly": true
+    },
+    {
+      "id": "tile_creep",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_creepf",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_deepsea",
+      "category": "terrain",
+      "name": "深水区",
+      "description": "敌方在其中攻击和移动速度降低，并持续损失生命",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_deepwater",
+      "category": "terrain",
+      "name": "深水区",
+      "description": "代表离岸较远的水地形",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_defbreak",
+      "category": "terrain",
+      "name": "腐蚀地面",
+      "description": "置于其中的干员防御力减半",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_defup",
+      "category": "terrain",
+      "name": "防御符文",
+      "description": "置于其中的干员获得额外的防御力",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_dygmny_1",
+      "category": "terrain",
+      "name": "化境地块",
+      "description": "会有更高的概率出现各种奇妙的玩意",
+      "template": {
+        "tileKey": "tile_dygmny_1",
+        "heightType": "LOWLAND",
+        "buildableType": "MELEE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": false,
+      "family": "化境地块"
+    },
+    {
+      "id": "tile_dygmny_2",
+      "category": "terrain",
+      "name": "化境地块",
+      "description": "会有更高的概率出现各种奇妙的玩意",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "化境地块"
+    },
+    {
+      "id": "tile_dygmny_3",
+      "category": "terrain",
+      "name": "化境地块",
+      "description": "会有更高的概率出现各种奇妙的玩意",
+      "template": {
+        "tileKey": "tile_dygmny_3",
+        "heightType": "HIGHLAND",
+        "buildableType": "RANGED",
+        "passableMask": "FLY_ONLY",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": false,
+      "family": "化境地块"
+    },
+    {
+      "id": "tile_empshock",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_empty",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_end",
+      "category": "terrain",
+      "name": "保护目标",
+      "description": "蓝色目标点，敌方进入后会减少此目标点的耐久",
+      "template": {
+        "tileKey": "tile_end",
+        "heightType": "LOWLAND",
+        "buildableType": "NONE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_end_cooperate",
+      "category": "terrain",
+      "name": "保护目标",
+      "description": "敌方进入蓝色目标点后减少你的关卡生命值；进入绿色目标点后减少协作者的关卡生命值",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_end_dqq",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_enemygoal",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_fence",
+      "category": "terrain",
+      "name": "围栏",
+      "description": "可放置近战单位，不可以通行",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_fence_bound",
+      "category": "terrain",
+      "name": "围墙",
+      "description": "可放置近战单位，敌方无法进入",
+      "template": {
+        "tileKey": "tile_fence_bound",
+        "heightType": "LOWLAND",
+        "buildableType": "MELEE",
+        "passableMask": "FLY_ONLY",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_floor",
+      "category": "terrain",
+      "name": "不可放置位",
+      "description": "不可放置单位，可以通行",
+      "template": {
+        "tileKey": "tile_floor",
+        "heightType": "LOWLAND",
+        "buildableType": "NONE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_flower",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_flowerf",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_flystart",
+      "category": "terrain",
+      "name": "空袭侵入点",
+      "description": "敌方飞行单位会从此处进入战场",
+      "template": {
+        "tileKey": "tile_flystart",
+        "heightType": "HIGHLAND",
+        "buildableType": "NONE",
+        "passableMask": "FLY_ONLY",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_football",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_forbidden",
+      "category": "terrain",
+      "name": "禁入区",
+      "description": "不可放置单位，不可通行",
+      "template": {
+        "tileKey": "tile_forbidden",
+        "heightType": "HIGHLAND",
+        "buildableType": "NONE",
+        "passableMask": "FLY_ONLY",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_ftplant_road",
+      "category": "terrain",
+      "name": "草毯",
+      "description": "可以生长<树丛>，置于其上的单位持续受到法术伤害",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "草毯"
+    },
+    {
+      "id": "tile_ftplant_roadf",
+      "category": "terrain",
+      "name": "草毯",
+      "description": "可以生长<树丛>，置于其上的单位持续受到法术伤害",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "草毯"
+    },
+    {
+      "id": "tile_ftplant_wall",
+      "category": "terrain",
+      "name": "草毯",
+      "description": "可以生长<树丛>，置于其上的单位持续受到法术伤害",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "草毯"
+    },
+    {
+      "id": "tile_ftstart",
+      "category": "terrain",
+      "name": "侵入点",
+      "description": "敌方会从此进入战场",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_gazebo",
+      "category": "terrain",
+      "name": "防空符文",
+      "description": "置于其中的干员攻击速度略微下降，但在攻击空中单位时攻击力大幅度提升",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_grass",
+      "category": "terrain",
+      "name": "草丛",
+      "description": "置于其中的干员不会成为敌军远程攻击的目标",
+      "template": {
+        "tileKey": "tile_grass",
+        "heightType": "LOWLAND",
+        "buildableType": "MELEE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_green",
+      "category": "terrain",
+      "name": "中转点",
+      "description": "由此进入的敌方会在后续波次从<中转点>再次进入战场",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_grvtybtn",
+      "category": "terrain",
+      "name": "重力感应机关",
+      "description": "可被阻挡数1及以上的干员或者重量等级3及以上的敌方踩动，改变重力方向",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_healing",
+      "category": "terrain",
+      "name": "医疗符文",
+      "description": "置于其中的干员会持续恢复生命",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_hole",
+      "category": "terrain",
+      "name": "地穴",
+      "description": "危险的凹陷地形或地面破洞，经过的敌人会摔落至底部直接死亡",
+      "template": {
+        "tileKey": "tile_hole",
+        "heightType": "LOWLAND",
+        "buildableType": "NONE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_icestr",
+      "category": "terrain",
+      "name": "冰面",
+      "description": "置于其中的干员和经过的敌军周期性获得“寒冷”，摩擦系数降低",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_icetur_lb",
+      "category": "terrain",
+      "name": "转角冰面",
+      "description": "置于其中的干员和经过的敌军周期性获得“寒冷”，摩擦系数降低，改变敌人位移方向",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "转角冰面"
+    },
+    {
+      "id": "tile_icetur_lt",
+      "category": "terrain",
+      "name": "转角冰面",
+      "description": "置于其中的干员和经过的敌军周期性获得“寒冷”，摩擦系数降低，改变敌人位移方向",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "转角冰面"
+    },
+    {
+      "id": "tile_icetur_rb",
+      "category": "terrain",
+      "name": "转角冰面",
+      "description": "置于其中的干员和经过的敌军周期性获得“寒冷”，摩擦系数降低，改变敌人位移方向",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "转角冰面"
+    },
+    {
+      "id": "tile_icetur_rt",
+      "category": "terrain",
+      "name": "转角冰面",
+      "description": "置于其中的干员和经过的敌军周期性获得“寒冷”，摩擦系数降低，改变敌人位移方向",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "转角冰面"
+    },
+    {
+      "id": "tile_infection",
+      "category": "terrain",
+      "name": "活性源石",
+      "description": "部署的友军和经过的敌军获得攻击力和攻击速度提升的效果，但会持续失去生命",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_infection_dqq",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_magic_circle",
+      "category": "terrain",
+      "name": "激活的“谐振器”",
+      "description": "部署我方单位时，发出新的重整束流",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "激活的「谐振器」"
+    },
+    {
+      "id": "tile_magic_circle_h",
+      "category": "terrain",
+      "name": "激活的“谐振器”",
+      "description": "部署我方单位时，发出新的重整束流",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "激活的「谐振器」"
+    },
+    {
+      "id": "tile_merope",
+      "category": "terrain",
+      "name": "接驳地块",
+      "description": "干员不可直接部署，需要周围有其他干员传递稳固铁链",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "接驳地块"
+    },
+    {
+      "id": "tile_mire",
+      "category": "terrain",
+      "name": "沼泽地段",
+      "description": "置于其中的干员攻击速度逐渐降低，经过的敌人攻击速度和移动速度逐渐降低",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_mpprts_enemy_born",
+      "category": "terrain",
+      "name": "未授权重构界面",
+      "description": "<侵入式调用>将从这里部署敌人",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_passable_wall",
+      "category": "terrain",
+      "name": "玉门天灾工事",
+      "description": "置于其中的单位对地面单位造成的伤害提升，受到来自地面单位的伤害降低",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "玉门天灾工事"
+    },
+    {
+      "id": "tile_passable_wall_forbidden",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "玉门天灾工事"
+    },
+    {
+      "id": "tile_poison",
+      "category": "terrain",
+      "name": "瓦斯喷射器",
+      "description": "置于其中的干员会持续损失生命",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_pollution_road",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_pollution_roadf",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": {
+        "tileKey": "tile_pollution_roadf",
+        "heightType": "LOWLAND",
+        "buildableType": "NONE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": false
+    },
+    {
+      "id": "tile_pollution_wall",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_pollution_wallf",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_puddle",
+      "category": "terrain",
+      "name": "池沼",
+      "description": "<荒季>时会干涸露出地面",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_quicksand",
+      "category": "terrain",
+      "name": "盐漠",
+      "description": "经过的敌人移动速度降低，停留一段时间后会摔落至远处直接被击倒",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_rabbithole_in_1",
+      "category": "terrain",
+      "name": "兔子洞入口",
+      "description": "由此进入的敌人，会从随机的兔子洞出口及随机的隐蔽的兔子洞出口出现",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_rabbithole_out_1",
+      "category": "terrain",
+      "name": "兔子洞出口",
+      "description": "进入兔子洞入口的敌人，有可能从此处出现。其上部署有我方单位时，进入兔子洞的敌人无法再从此处出现",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "兔子洞出口"
+    },
+    {
+      "id": "tile_rabbithole_out_2",
+      "category": "terrain",
+      "name": "隐蔽的兔子洞出口",
+      "description": "进入兔子洞入口的敌人，有可能从此处出现",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "兔子洞出口"
+    },
+    {
+      "id": "tile_rarope",
+      "category": "terrain",
+      "name": "接驳地块",
+      "description": "干员不可直接部署，需要周围有其他干员传递稳固铁链",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "接驳地块"
+    },
+    {
+      "id": "tile_rcm_crate",
+      "category": "terrain",
+      "name": "推荐障碍放置点",
+      "description": "PRTS推荐的障碍物放置点",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_rcm_operator",
+      "category": "terrain",
+      "name": "推荐干员放置点",
+      "description": "PRTS推荐的战术放置点",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_reed",
+      "category": "terrain",
+      "name": "芦苇丛",
+      "description": "置于其中的干员获得\"迷彩\"",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "芦苇丛"
+    },
+    {
+      "id": "tile_reedf",
+      "category": "terrain",
+      "name": "芦苇丛",
+      "description": "不可放置单位的芦苇丛",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "芦苇丛"
+    },
+    {
+      "id": "tile_reedw",
+      "category": "terrain",
+      "name": "芦苇丛",
+      "description": "置于其中的干员获得\"迷彩\"",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "芦苇丛"
+    },
+    {
+      "id": "tile_replace_road",
+      "category": "terrain",
+      "name": "交接！",
+      "description": "可以直接部署干员替代原有干员，且原有干员再部署时间大幅缩短",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "交接！"
+    },
+    {
+      "id": "tile_replace_wall",
+      "category": "terrain",
+      "name": "交接！",
+      "description": "可以直接部署干员替代原有干员，且原有干员再部署时间大幅缩短",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "交接！"
+    },
+    {
+      "id": "tile_richfd",
+      "category": "terrain",
+      "name": "太阳谷预开发地块",
+      "description": "每天可以生长<杂木林>或<巨大岩石>或<奇异矿脉>或<澄亮矿脉>",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_ristar_road",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "ristar 地块"
+    },
+    {
+      "id": "tile_ristar_road_forbidden",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "ristar 地块"
+    },
+    {
+      "id": "tile_road",
+      "category": "terrain",
+      "name": "平地",
+      "description": "可以放置近战单位，可以通行",
+      "template": {
+        "tileKey": "tile_road",
+        "heightType": "LOWLAND",
+        "buildableType": "MELEE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_sandrope",
+      "category": "terrain",
+      "name": "悬索桥起点",
+      "description": "悬索桥起点",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "悬索桥起点"
+    },
+    {
+      "id": "tile_sandrope_2",
+      "category": "terrain",
+      "name": "悬索桥起点",
+      "description": "悬索桥起点，不可部署",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "悬索桥起点"
+    },
+    {
+      "id": "tile_shallowwater",
+      "category": "terrain",
+      "name": "浅水区",
+      "description": "代表岸边的水地形",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_sleep_road",
+      "category": "terrain",
+      "name": "入梦砖",
+      "description": "置于其中的干员会立刻被拖入美梦中",
+      "template": {
+        "tileKey": "tile_sleep_road",
+        "heightType": "LOWLAND",
+        "buildableType": "MELEE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": false,
+      "family": "入梦砖"
+    },
+    {
+      "id": "tile_sleep_wall",
+      "category": "terrain",
+      "name": "入梦砖",
+      "description": "置于其中的干员会立刻被拖入美梦中",
+      "template": {
+        "tileKey": "tile_sleep_wall",
+        "heightType": "HIGHLAND",
+        "buildableType": "RANGED",
+        "passableMask": "FLY_ONLY",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": false,
+      "family": "入梦砖"
+    },
+    {
+      "id": "tile_smog",
+      "category": "terrain",
+      "name": "排气格栅",
+      "description": "置于其中的干员不会成为敌军远程攻击的目标",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_stairs",
+      "category": "terrain",
+      "name": "云梯",
+      "description": "敌方会从此上下玉门天灾工事",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_start",
+      "category": "terrain",
+      "name": "侵入点",
+      "description": "敌方会从此进入战场",
+      "template": {
+        "tileKey": "tile_start",
+        "heightType": "LOWLAND",
+        "buildableType": "NONE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_start_cooperate",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_start_dqq",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_steam",
+      "category": "terrain",
+      "name": "隐焰",
+      "description": "<盛季>和<荒季>时每隔一段时间对其上的任何单位造成无视防御和法术抗性的伤害",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_telin",
+      "category": "terrain",
+      "name": "通道入口",
+      "description": "敌方会从此进入通道，从通道出口出现",
+      "template": {
+        "tileKey": "tile_telin",
+        "heightType": "LOWLAND",
+        "buildableType": "NONE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_telout",
+      "category": "terrain",
+      "name": "通道出口",
+      "description": "进入通道的敌方单位会从此处再度出现",
+      "template": {
+        "tileKey": "tile_telout",
+        "heightType": "LOWLAND",
+        "buildableType": "NONE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_toxic",
+      "category": "terrain",
+      "name": "源石污染区",
+      "description": "使位于其上的单位持续受到真实伤害并且技力回复速度大幅度降低",
+      "template": {
+        "tileKey": "tile_toxic",
+        "heightType": "LOWLAND",
+        "buildableType": "NONE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": false,
+      "family": "源石污染区"
+    },
+    {
+      "id": "tile_toxichill",
+      "category": "terrain",
+      "name": "源石污染区",
+      "description": "使位于其上的单位持续受到真实伤害并且技力回复速度大幅度降低",
+      "template": {
+        "tileKey": "tile_toxichill",
+        "heightType": "HIGHLAND",
+        "buildableType": "NONE",
+        "passableMask": "FLY_ONLY",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": false,
+      "family": "源石污染区"
+    },
+    {
+      "id": "tile_toxicroad",
+      "category": "terrain",
+      "name": "源石污染区",
+      "description": "使位于其上的单位持续受到真实伤害并且技力回复速度大幅度降低",
+      "template": {
+        "tileKey": "tile_toxicroad",
+        "heightType": "LOWLAND",
+        "buildableType": "MELEE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": false,
+      "family": "源石污染区"
+    },
+    {
+      "id": "tile_toxicwall",
+      "category": "terrain",
+      "name": "源石污染区",
+      "description": "使位于其上的单位持续受到真实伤害并且技力回复速度大幅度降低",
+      "template": {
+        "tileKey": "tile_toxicwall",
+        "heightType": "HIGHLAND",
+        "buildableType": "RANGED",
+        "passableMask": "FLY_ONLY",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": false,
+      "family": "源石污染区"
+    },
+    {
+      "id": "tile_volcano",
+      "category": "terrain",
+      "name": "热泵通道",
+      "description": "每隔一段时间便会喷出高温气体，对其上的任何单位造成无视防御和法抗的伤害",
+      "template": {
+        "tileKey": "tile_volcano",
+        "heightType": "LOWLAND",
+        "buildableType": "MELEE",
+        "passableMask": "ALL",
+        "playerSideMask": "ALL",
+        "blackboard": [
+          {
+            "key": "damage",
+            "value": 3000,
+            "valueStr": null
+          },
+          {
+            "key": "cd_min",
+            "value": 5,
+            "valueStr": null
+          },
+          {
+            "key": "cd_max",
+            "value": 10,
+            "valueStr": null
+          }
+        ],
+        "effects": null
+      },
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_volcano_emp",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_volcano_strife",
+      "category": "terrain",
+      "name": "熔岩裂隙",
+      "description": "每隔一段时间对周围的我方单位造成法术伤害，有干员置于此处时会向前方喷出使目标受到法术伤害增加的熔岩",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_volspread",
+      "category": "terrain",
+      "name": "岩浆喷射处",
+      "description": "每隔一段时间会喷出岩浆，对周围8格内的我方单位造成大量伤害且可以融化障碍物",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_wall",
+      "category": "terrain",
+      "name": "高台",
+      "description": "可以放置远程单位，不可通行",
+      "template": {
+        "tileKey": "tile_wall",
+        "heightType": "HIGHLAND",
+        "buildableType": "RANGED",
+        "passableMask": "FLY_ONLY",
+        "playerSideMask": "ALL",
+        "blackboard": null,
+        "effects": null
+      },
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_wooden_wall",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_woodrd",
+      "category": "terrain",
+      "name": "临时步道",
+      "description": "铺设木板时可放置和通行，易被破坏变为<地穴>，放置我方单位时步道不会受到伤害",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_xbdpsea",
+      "category": "terrain",
+      "name": "",
+      "description": "",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_yinyang_road",
+      "category": "terrain",
+      "name": "晦明之印",
+      "description": "置于其中的干员获得与其相同的明晦属性",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "晦明之印"
+    },
+    {
+      "id": "tile_yinyang_switch",
+      "category": "terrain",
+      "name": "朝暮之印",
+      "description": "经过的敌军明晦属性变化",
+      "template": null,
+      "visualDefinitionAvailable": true
+    },
+    {
+      "id": "tile_yinyang_wall",
+      "category": "terrain",
+      "name": "晦明之印",
+      "description": "置于其中的干员获得与其相同的明晦属性",
+      "template": null,
+      "visualDefinitionAvailable": true,
+      "family": "晦明之印"
+    }
+  ]
+}

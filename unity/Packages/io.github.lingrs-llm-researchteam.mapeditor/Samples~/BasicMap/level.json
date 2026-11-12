@@ -1,0 +1,16 @@
+{
+  "levelId": "editor_sample_2x2",
+  "mapId": "",
+  "mapData": {
+    "map": [[0, 1], [1, 0]],
+    "tiles": [
+      {"tileKey":"tile_road","heightType":"LOWLAND","buildableType":"MELEE","passableMask":"ALL","playerSideMask":"ALL","blackboard":null,"effects":null},
+      {"tileKey":"tile_wall","heightType":"HIGHLAND","buildableType":"RANGED","passableMask":"FLY_ONLY","playerSideMask":"ALL","blackboard":null,"effects":null}
+    ]
+  },
+  "routes": [],
+  "extraRoutes": [],
+  "waves": [],
+  "enemyDbRefs": [],
+  "futureExample": {"retained": true, "nullExample": null}
+}

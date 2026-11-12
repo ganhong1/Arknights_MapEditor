@@ -1,0 +1,5179 @@
+{
+  "version": 1,
+  "sourceVersion": "26-10-22-14-02-11-51447808",
+  "counts": {
+    "game-ui": 44,
+    "model": 98,
+    "mechanism": 22,
+    "spine": 191,
+    "weather-marker": 1,
+    "effect": 7,
+    "wiki-avatar": 8
+  },
+  "icons": {
+    "trap_002_emp": {
+      "name": "震撼装置",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.001953125,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_emp",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "760b9120d8072da4e470b1f0558be7c0bba22cb18ff580fa103a09fb9d646c03"
+    },
+    "trap_003_gate": {
+      "name": "闸门",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.037109375,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_003_gate.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "98b179ee414062f88bf7f9b09fe9de9bafbca8993ea4cf8b6dbbeebe308f5e25"
+    },
+    "trap_004_iceblock": {
+      "name": "封印的地面",
+      "kind": "mechanism",
+      "label": "机制标记 · 封锁地块",
+      "rect": [
+        0.072265625,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "封锁地块",
+      "symbol": "LOCK"
+    },
+    "trap_005_sensor": {
+      "name": "侦测器",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.107421875,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_005_sensor.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "89b493bc52bc192f6d1e07cc9333b8633a0bb342f3cc30fff6383c30f94adf10"
+    },
+    "trap_007_ballis": {
+      "name": "弩炮",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.142578125,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_ballis",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "21789fbd41597703d93f3843ce25d0f94204e2df269ce7e3edc8ab679e4fbbae"
+    },
+    "trap_011_ore": {
+      "name": "源石祭坛",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.177734375,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_011_ore.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "1f8e54fc77b21f47160fc77a2a08f1c0b7c2ed5a0b354e1c3622c74775c64157"
+    },
+    "trap_013_blower": {
+      "name": "源石流发生装置",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.212890625,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_blower",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "143f8e0c28cae9568672068f671470044eb1ed8b7109f371ef28e0510f32ded0"
+    },
+    "trap_014_tower": {
+      "name": "L-44\"留声机\"",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.248046875,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_tower",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "8700d0cc9b1eb2051786d2c50109f2548680848716f926d71c88ed73aa7b8329"
+    },
+    "trap_017_wooden_broke": {
+      "name": "破损的木桩",
+      "kind": "mechanism",
+      "label": "机制标记 · 封锁地块",
+      "rect": [
+        0.283203125,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "封锁地块",
+      "symbol": "LOCK"
+    },
+    "trap_020_roadblock": {
+      "name": "道路障碍物",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.318359375,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_roadblock",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "8f906619b29e704f54b79f28a79812fa7095816a79d7d536ccbfdb9573282ab6"
+    },
+    "trap_021_flame": {
+      "name": "能量聚合体",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.353515625,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_021_flame.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "8f8db3609549a3a74724f81e5c5d65ab1f0c0e4323c2895de1e7deb3d146723e"
+    },
+    "trap_022_frosts_friend": {
+      "name": "霜星的源石冰晶",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.388671875,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_022_frosts_friend.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "af6910b1b912da3907094e72cd1ba08783f7121b285490a12439faece462b882"
+    },
+    "trap_023_ore_friend": {
+      "name": "爱国者的源石祭坛",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.423828125,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_023_ore_friend.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "2135f20bb2026c0638d9b0f1e0a818e4a23d7086fb6eb6b8abfb1db262aebef8"
+    },
+    "trap_024_npcsld": {
+      "name": "盾卫",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.458984375,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_024_npcsld",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "c513199ed3764a5af5280861c0bcaaeb94cab385949456be7f610a0c5edb679e"
+    },
+    "trap_028_cannon": {
+      "name": "脉冲防御模组",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.494140625,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_028_cannon.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "4ff710d9dbc1c4f7257b5df57c54664532e53fceca6b5d47e89add437712f624"
+    },
+    "trap_029_poison": {
+      "name": "催泪瓦斯控制阀",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.529296875,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_029_poison.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "21c4f2ff47402c4603808ac366efdd3fcc3ce5ab6cb3ed79987a1ab82325ade3"
+    },
+    "trap_030_factory": {
+      "name": "无人机工厂",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.564453125,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_030_factory.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "9597d98bd175286770dcf55c4760d98b559dfef4dbd975352aaf93307f9686d4"
+    },
+    "trap_032_mound": {
+      "name": "土石结构",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.599609375,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_032_mound.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "b496886f64dbecd5766bd4f7efa759139dc969e099eea9060e06ee171d549669"
+    },
+    "trap_036_storm": {
+      "name": "沙尘暴",
+      "kind": "weather-marker",
+      "label": "机制标记 · 原版天气图标 · 天气",
+      "rect": [
+        0.634765625,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "天气",
+      "asset": "dyn/ui/sandboxv2/topics/[uc]sandbox_1/dungeon/weathertypeicons/weather_sandstorm.png",
+      "sourceSha256": "3fd4d30fd975243cd7ecb4424a6d2f34d0b1a7fa88ba5ba23510b093ee5d2a4f"
+    },
+    "trap_042_tidectrl": {
+      "name": "涨潮控制",
+      "kind": "mechanism",
+      "label": "机制标记 · 水位",
+      "rect": [
+        0.669921875,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "水位",
+      "symbol": "TIDE"
+    },
+    "trap_043_dupilr": {
+      "name": "破碎支柱",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.705078125,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_dupilr",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "92bfd9caf1fb294b8d547268b203fea429ca422e28007c147009de7e02f7dd04"
+    },
+    "trap_044_duruin": {
+      "name": "战场废墟",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.740234375,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_duruin",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "c06facbeb487ed9716d785d6f76c5e1f364e01699404843cf914d0cf8ef29195"
+    },
+    "trap_047_mandrablock": {
+      "name": "封印的地面",
+      "kind": "mechanism",
+      "label": "机制标记 · 封锁地块",
+      "rect": [
+        0.775390625,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "封锁地块",
+      "symbol": "LOCK"
+    },
+    "trap_050_blizzard": {
+      "name": "暴风雪",
+      "kind": "effect",
+      "label": "原版特效代表帧",
+      "rect": [
+        0.810546875,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/effects/screen_finesnow_01.prefab",
+      "bundle": "battle_prefabs_effects_screen.ab",
+      "sourceSha256": "7f8eb7a8e3532d113714af5e90cc44023e4c6e53bb796267f7fbfe7aeca668b5"
+    },
+    "trap_051_vultres": {
+      "name": "无主的财富",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.845703125,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_051_vultres",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "5c212d0a03cd1e8f1d8cea11abf0cd0c511232454bc00e2be6bcbd31f92d2274"
+    },
+    "trap_054_dancdol": {
+      "name": "“报幕助手”",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.880859375,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_054_dancdol",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "b14a0ee3b0edf17bc8edfcbc45da808c236c21251abdb6f3cb169d78e917c216"
+    },
+    "trap_055_tileblock": {
+      "name": "封印的地面",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.916015625,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_tileblock",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "c6025d2e57f5ada82df92fb8662962b18360e066d8c06567c4467610dbc98730"
+    },
+    "trap_056_sfsuifire": {
+      "name": "丹田",
+      "kind": "effect",
+      "label": "原版特效代表帧",
+      "rect": [
+        0.951171875,
+        0.93359375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/effects/sfsui_ball_idle_01_start_02.prefab",
+      "bundle": "battle_prefabs_effects_sfsui.ab",
+      "sourceSha256": "f90fc063bfb6ee1b2a7b4ceab8dd8b977f6dfce073730978dffd373f196f0b0c"
+    },
+    "trap_058_gunctrl": {
+      "name": "伦蒂尼姆城防副炮",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.001953125,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "binding": "trap_058_gunctrl",
+      "iconKind": "game-hp-icon",
+      "sourceSha256": "3bd5bb7090601916fed5f313a9cb22042af132dbdd87526ac369344104a7004b"
+    },
+    "trap_059_peacokfool": {
+      "name": "断罪者",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.037109375,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "char_159_peacok_game#1",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "2e97afe8d1177ff1f7548fdcb295412042de150f1c6098e4cd6d1f7f519bd28a"
+    },
+    "trap_061_creep": {
+      "name": "溟痕",
+      "kind": "mechanism",
+      "label": "机制标记 · 地表效果",
+      "rect": [
+        0.072265625,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "地表效果",
+      "symbol": "GRID"
+    },
+    "trap_065_normbox": {
+      "name": "宝箱",
+      "kind": "wiki-avatar",
+      "label": "原版头像 · Wiki",
+      "rect": [
+        0.107421875,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "url": "https://media.prts.wiki/4/4b/%E5%A4%B4%E5%83%8F_%E8%A3%85%E7%BD%AE_%E5%AE%9D%E7%AE%B1.png?v=3jk8n5e1jrizab7p3f8gzm0q2upwrzo",
+      "sourceSha256": "5c9e029e7d514d4fbb0c54a6a2db3ce3b16581dea7bc595810cd23f7606adaff"
+    },
+    "trap_066_rarebox": {
+      "name": "尖刺宝箱",
+      "kind": "wiki-avatar",
+      "label": "原版头像 · Wiki",
+      "rect": [
+        0.142578125,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "url": "https://media.prts.wiki/5/5f/%E5%A4%B4%E5%83%8F_%E8%A3%85%E7%BD%AE_%E5%B0%96%E5%88%BA%E5%AE%9D%E7%AE%B1.png?v=e9evg232c0gxomlh7v03yzhuv9yvgyf",
+      "sourceSha256": "56ec3682577fba3664021c6873e9a6290c7cd03f9e8135dad3da0a40fe8f4bad"
+    },
+    "trap_068_badbox": {
+      "name": "箱形恐鱼",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.177734375,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_068_badbox",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "fda81a8054458b3d2af3297d9a545884f8764787aaa12684e8398e1bab872763"
+    },
+    "trap_079_allydonq": {
+      "name": "猎潮的骑士",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.212890625,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_079_allydonq",
+      "bundle": "pkgrps_btl_pfb_tokens_0.ab",
+      "sourceSha256": "198d05dfdaa61460b131658cec87547ed30627f1663843ceba73b004d6163cea"
+    },
+    "trap_091_brctrl": {
+      "name": "实体程式控制",
+      "kind": "mechanism",
+      "label": "机制标记 · 战场规则",
+      "rect": [
+        0.248046875,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "战场规则",
+      "symbol": "CTRL"
+    },
+    "trap_092_vgctrl": {
+      "name": "复仇黑手",
+      "kind": "effect",
+      "label": "原版特效代表帧",
+      "rect": [
+        0.283203125,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/effects/screen_revenge.prefab",
+      "bundle": "battle_prefabs_effects_screen.ab",
+      "sourceSha256": "b73072f5bd2ad3cad6b72158d6b4f73c90a3d00f44bc699a22dc7f909cf2ee64"
+    },
+    "trap_096_gflag": {
+      "name": "山海密语仪",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.318359375,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_096_gflag",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "a34097b249c3225ca180b34433a0b485bfc5073d100786b3ccd6edd32ffbb792"
+    },
+    "trap_097_hstone": {
+      "name": "城防路障",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.353515625,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "skin_hstone_default.prefab",
+      "bundle": "battle_prefabs_skins_trap.ab",
+      "sourceSha256": "6490ff3fc95a341e00300163647efc968341255d0c2e140bec8037bf263d5cd9"
+    },
+    "trap_098_mire": {
+      "name": "沼泽控制",
+      "kind": "mechanism",
+      "label": "机制标记 · 地表效果",
+      "rect": [
+        0.388671875,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "地表效果",
+      "symbol": "GRID"
+    },
+    "trap_1000_acarm000": {
+      "name": "小盾",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.423828125,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1000_acarm000",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "d3fdc64173f56cdbe01a25a6015d28aa4c1e24c0db5acd2fe6502848b8415daf"
+    },
+    "trap_1001_acarm001": {
+      "name": "短剑",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.458984375,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1001_acarm001",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "c6bb9007297febf87e228ff5a0a40f005ac18420b9567bb26d7f1a15713896b3"
+    },
+    "trap_1002_acarm002": {
+      "name": "幸运币",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.494140625,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1002_acarm002",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "4b28bf8a956ec3b08bf07746e1f961cd4aed85bf762f88b66ee02c57a3bbb920"
+    },
+    "trap_1003_acarm003": {
+      "name": "冰块",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.529296875,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1003_acarm003",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "2c8e13021ee8cb3206d8d26244aad7f62a3db0c6c8c195aff845b4623140385c"
+    },
+    "trap_1004_acarm004": {
+      "name": "压缩饼干",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.564453125,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1004_acarm004",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "588dbed2361bb6d2c7ba29be49d6b076420858f73d6c8d260ccf488e943c0475"
+    },
+    "trap_1005_acarm005": {
+      "name": "信标",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.599609375,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1005_acarm005",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "c1770e5fc1ce3005782d548eeafa73c4add147e8e4bb21f0cb36a3517d4d8b9e"
+    },
+    "trap_1006_acarm006": {
+      "name": "源岩匕首",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.634765625,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1006_acarm006",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "579bf80c696345ac8019428d27d66f2989d394f9972780fa6105f0a1369adc71"
+    },
+    "trap_1007_acarm007": {
+      "name": "源石溶剂",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.669921875,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1007_acarm007",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "4801972b01173eebc41bea7102c88e131d024eccbd727079de68d3ee85500a46"
+    },
+    "trap_1008_acarm008": {
+      "name": "激光发射器",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.705078125,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1008_acarm008",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "afadff4ad74a930b6fc46161558991b79a15c27eeecc2386c0fe800023e06e4e"
+    },
+    "trap_1009_acarm009": {
+      "name": "喀兰贸易文档",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.740234375,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1009_acarm009",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "8444a299f87374dd696e1f639e70bd1577687fdf5167784992487b5095976b73"
+    },
+    "trap_1010_acarm010": {
+      "name": "卡西米尔文档",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.775390625,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1010_acarm010",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "47d84de0c46e5af30a5d22ee2311a0290351ad59eb592fcc5b8d9f1a52967603"
+    },
+    "trap_1011_acarm011": {
+      "name": "深海猎人文档",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.810546875,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1011_acarm011",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "4d253e5e0d816b047996b72d93e4d0de3323e51b2d048e652019aba38d29dea3"
+    },
+    "trap_1012_acarm012": {
+      "name": "浓茶",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.845703125,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1012_acarm012",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "d6b402863c76405d6d0146dba1d7e35fafa8816542f96c4b5c1fdf2f658b2526"
+    },
+    "trap_1013_acarm013": {
+      "name": "蜂鸣器",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.880859375,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1013_acarm013",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "19b44da46a72822819c5c45bbb11e31e0b1bd0a6804cbf0c998b542eb35aa62e"
+    },
+    "trap_1014_acarm014": {
+      "name": "精打细算玩偶",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.916015625,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1014_acarm014",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "8c29ac225f2d9a6dd9fc598afec509e52166b8f0716ef10458f0f48ba8338e0c"
+    },
+    "trap_1015_acarm015": {
+      "name": "见钱眼开玩偶",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.951171875,
+        0.86328125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1015_acarm015",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "8d92339ee86b402e22bd211255b4741062710f9c40ae75a0c0c416935ea6b72b"
+    },
+    "trap_1016_acarm016": {
+      "name": "预备进阶许可",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.001953125,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1016_acarm016",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "2eb79f846c575f7f75bc1c9d3b04876a54767d66f750bebc48336dc9a8886914"
+    },
+    "trap_1017_acarm017": {
+      "name": "战场分析仪",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.037109375,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1017_acarm017",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "1c6e61b0617ca5b6254702f9dce0b10b3b1ca03e0e70d8bd7d379345b6392cac"
+    },
+    "trap_1018_acarm018": {
+      "name": "震撼弹",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.072265625,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1018_acarm018",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "cbd916eee40d3edb266d2411f3abec5d6466539d4ba12129759affaafe76dc92"
+    },
+    "trap_1019_acarm019": {
+      "name": "制式重装盾",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.107421875,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1019_acarm019",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "aa71956a93fa9315eea1fd9aeb96913dfdca294759e7e9c0b39af16dacd21507"
+    },
+    "trap_1020_acarm020": {
+      "name": "制式狙击镜",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.142578125,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1020_acarm020",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "19fb4b1f82aada4cf2af3f5de092a6e2b677890db93b046e384d4cf7231181f1"
+    },
+    "trap_1021_acarm021": {
+      "name": "制式术师杖",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.177734375,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1021_acarm021",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "e3e193f204d44d74735bb07e8f8c405ea35bc90afeee8d8c64649c7860be9d47"
+    },
+    "trap_1022_acarm022": {
+      "name": "口袋法阵",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.212890625,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1022_acarm022",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "d7844c15e91cf963999f0785ae564341399b68879abcd0683a538dec7efa5225"
+    },
+    "trap_1023_acarm023": {
+      "name": "竞技投币机",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.248046875,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1023_acarm023",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "cac3dcfcc894a352458f604da140e8afd092a8d2689c3503aecaa393a2f500f1"
+    },
+    "trap_1024_acarm024": {
+      "name": "工匠锤",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.283203125,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1024_acarm024",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "b5c50d1f5df12fe82a9869f7e08f0ff15c7daad6f8ca024b410d36812a90d0d2"
+    },
+    "trap_1025_acarm025": {
+      "name": "休眠子裔",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.318359375,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1025_acarm025",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "c009a4fe12e9cf1e4e99429da2c3332dd98a7da00d92da6bda1a2cef76181f03"
+    },
+    "trap_1026_acarm026": {
+      "name": "术师无人机",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.353515625,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1026_acarm026",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "dd99b8e95b42d9853ff525cec81ace8c77b60437ca276dbc0c46594a3a0a85c1"
+    },
+    "trap_1027_acarm027": {
+      "name": "卡西米尔模型",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.388671875,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1027_acarm027",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "8079893fd054a78dc7b6647574b55f881de47c1881d7e774a09d617479e22f38"
+    },
+    "trap_1028_acarm028": {
+      "name": "喀兰贸易模型",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.423828125,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1028_acarm028",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "3ec8261d4c7a03974d3c43968692c698f99e19585c64c9083a6347e09e158df6"
+    },
+    "trap_1029_acarm029": {
+      "name": "深海猎人模型",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.458984375,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1029_acarm029",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "73db8d41f1a1177a75f3885ffeee203a6b91bc003c976a6a58cb9e6628e027f6"
+    },
+    "trap_1030_acarm030": {
+      "name": "精英重装套组",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.494140625,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1030_acarm030",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "3ca53f47df251f289e7403fed4c719403a14f9b15c32965ce67ad128360b0438"
+    },
+    "trap_1031_acarm031": {
+      "name": "精英狙击套组",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.529296875,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1031_acarm031",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "2d62f9b3933ba29f628413b99f989767170651d74d2dcb56543f30d05cdf4204"
+    },
+    "trap_1032_acarm032": {
+      "name": "精英术师套组",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.564453125,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1032_acarm032",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "06380dc97ee1531bb8c5f1905b7f35f7b5c34c97fae37c1ae0b71943ad570d58"
+    },
+    "trap_1033_acarm033": {
+      "name": "歌利亚头盔",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.599609375,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1033_acarm033",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "1ab92ac04f3cba8161405c817a58cbe7458200be69ab1fc27f3e88191ea48708"
+    },
+    "trap_1034_acarm034": {
+      "name": "M3护甲",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.634765625,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1034_acarm034",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "9ef31cc67cd17a651298aa771e76e800c6739c466c5200b0023d4e7259498863"
+    },
+    "trap_1035_acarm035": {
+      "name": "M3利爪",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.669921875,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1035_acarm035",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "0698e953a1c084519c5bd42b3a33a32fddb83399a8fcfcdd9bd422ef8606eb31"
+    },
+    "trap_1036_acarm036": {
+      "name": "便携弹射器",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.705078125,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1036_acarm036",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "ad863062e6038be0ef1ab74f8306b333d8902029414cecd91f9cf1a01cf85be2"
+    },
+    "trap_1037_acarm037": {
+      "name": "有限加速器",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.740234375,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1037_acarm037",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "fdf2aef2b4f001e8ded901062a9df12ef696b8aba1bd2da2acdda0575a36c1d4"
+    },
+    "trap_1038_acarm038": {
+      "name": "全能机械臂",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.775390625,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1038_acarm038",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "e82b109d5664c33e8b10fe829d3ee7e61a6f380ebeae7fd1ab26c5fbb5a21984"
+    },
+    "trap_1039_acarm039": {
+      "name": "博士投影",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.810546875,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1039_acarm039",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "19446c599f6115f669125ae34201b34146e57126a18f3d7428007596ab924f3a"
+    },
+    "trap_103_ymdgct": {
+      "name": "地形增伤控制",
+      "kind": "mechanism",
+      "label": "机制标记 · 地表效果",
+      "rect": [
+        0.845703125,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "地表效果",
+      "symbol": "GRID"
+    },
+    "trap_1040_acarm040": {
+      "name": "炎国短刀",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.880859375,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1006_acarm006",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "579bf80c696345ac8019428d27d66f2989d394f9972780fa6105f0a1369adc71"
+    },
+    "trap_1041_acarm041": {
+      "name": "维式重锤",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.916015625,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1024_acarm024",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "b5c50d1f5df12fe82a9869f7e08f0ff15c7daad6f8ca024b410d36812a90d0d2"
+    },
+    "trap_1042_acarm042": {
+      "name": "灼燃维式重锤",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.951171875,
+        0.79296875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1042_acarm042",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "652b4e0ab9612652c334b8ddcb1318b1ba7d728c3495745ee12de1e21a680f08"
+    },
+    "trap_1043_acarm043": {
+      "name": "坚固维式重锤",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.001953125,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1043_acarm043",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "43c02694a660c784b8c08ad2c1a869a22b7a59e3410d45382a066e44369b3f57"
+    },
+    "trap_1044_acarm044": {
+      "name": "加速维式重锤",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.037109375,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1044_acarm044",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "f81d177a2217bc1ac57286cba499d35820dfb38229758bccf64a16493b80b56f"
+    },
+    "trap_1045_acarm045": {
+      "name": "战栗维式重锤",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.072265625,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1045_acarm045",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "1403465e1854fd8b67066649c784bf8c57fa5fd4bd1d223a608193f424f45713"
+    },
+    "trap_1046_acarm046": {
+      "name": "阿戈尔重刃",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.107421875,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1046_acarm046",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "1c8c516e3010ce80e95c0540b1ee9295e8b4a99dd27777710fee1d50b9406e1a"
+    },
+    "trap_1047_acarm047": {
+      "name": "坚守盾牌",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.142578125,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1000_acarm000",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "d3fdc64173f56cdbe01a25a6015d28aa4c1e24c0db5acd2fe6502848b8415daf"
+    },
+    "trap_1048_acarm048": {
+      "name": "奥术法阵",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.177734375,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1022_acarm022",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "d7844c15e91cf963999f0785ae564341399b68879abcd0683a538dec7efa5225"
+    },
+    "trap_1049_acarm049": {
+      "name": "歌利亚头盔",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.212890625,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1033_acarm033",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "1ab92ac04f3cba8161405c817a58cbe7458200be69ab1fc27f3e88191ea48708"
+    },
+    "trap_1050_acarm050": {
+      "name": "萨尔贡浓茶",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.248046875,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1012_acarm012",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "d6b402863c76405d6d0146dba1d7e35fafa8816542f96c4b5c1fdf2f658b2526"
+    },
+    "trap_1051_acarm051": {
+      "name": "迅捷作战粮",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.283203125,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1004_acarm004",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "588dbed2361bb6d2c7ba29be49d6b076420858f73d6c8d260ccf488e943c0475"
+    },
+    "trap_1052_acarm052": {
+      "name": "有限加速器",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.318359375,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1037_acarm037",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "fdf2aef2b4f001e8ded901062a9df12ef696b8aba1bd2da2acdda0575a36c1d4"
+    },
+    "trap_1053_acarm053": {
+      "name": "激光发射器",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.353515625,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1008_acarm008",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "afadff4ad74a930b6fc46161558991b79a15c27eeecc2386c0fe800023e06e4e"
+    },
+    "trap_1054_acarm054": {
+      "name": "蜂鸣器",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.388671875,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1013_acarm013",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "19b44da46a72822819c5c45bbb11e31e0b1bd0a6804cbf0c998b542eb35aa62e"
+    },
+    "trap_1055_acarm055": {
+      "name": "伪装服",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.423828125,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1055_acarm055",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "52befa1b3f66ec613af93dc99dcae6541d9bfa26ac097664ca5e9f8fbacb969d"
+    },
+    "trap_1056_acarm056": {
+      "name": "不屈弹射器",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.458984375,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1036_acarm036",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "ad863062e6038be0ef1ab74f8306b333d8902029414cecd91f9cf1a01cf85be2"
+    },
+    "trap_1057_acarm057": {
+      "name": "拉特兰桥夹",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.494140625,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1057_acarm057",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "1ebb08737ea3badc3b74e8486eb7e7b15c756d48ecca57eec09121412fb38dbb"
+    },
+    "trap_1058_acarm058": {
+      "name": "催泪瓦斯",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.529296875,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1058_acarm058",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "a239cb29f3eb0dd0105b6d8e36c34ae7e21c2083f4177cbf4c0aee9fd45e2677"
+    },
+    "trap_1059_acarm059": {
+      "name": "浓缩嗅盐",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.564453125,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1059_acarm059",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "1dbd18f9e45ce8659213ac2caf7758bbfdd2fbc3a7e0448ae7dc022d604eccd9"
+    },
+    "trap_105_mhwrct": {
+      "name": "滞空牵引无人机",
+      "kind": "wiki-avatar",
+      "label": "原版头像 · Wiki",
+      "rect": [
+        0.599609375,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "url": "https://media.prts.wiki/d/d8/%E5%A4%B4%E5%83%8F_%E8%A3%85%E7%BD%AE_%E6%BB%9E%E7%A9%BA%E7%89%B5%E5%BC%95%E6%97%A0%E4%BA%BA%E6%9C%BA.png?v=1ifbjlphpoyor25gm0set15kp479kzq",
+      "sourceSha256": "f62121587aaf2831b9c2cb323dcd142ebc8354f2f4569935d09f58720c220033"
+    },
+    "trap_1060_acarm060": {
+      "name": "防暴盾",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.634765625,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1019_acarm019",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "aa71956a93fa9315eea1fd9aeb96913dfdca294759e7e9c0b39af16dacd21507"
+    },
+    "trap_1061_acarm061": {
+      "name": "护盾无人机",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.669921875,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1026_acarm026",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "dd99b8e95b42d9853ff525cec81ace8c77b60437ca276dbc0c46594a3a0a85c1"
+    },
+    "trap_1062_acarm062": {
+      "name": "谢拉格不融冰",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.705078125,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1003_acarm003",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "2c8e13021ee8cb3206d8d26244aad7f62a3db0c6c8c195aff845b4623140385c"
+    },
+    "trap_1063_acarm063": {
+      "name": "精准狙击镜",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.740234375,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1020_acarm020",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "19fb4b1f82aada4cf2af3f5de092a6e2b677890db93b046e384d4cf7231181f1"
+    },
+    "trap_1064_acarm064": {
+      "name": "突袭手雷",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.775390625,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1018_acarm018",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "cbd916eee40d3edb266d2411f3abec5d6466539d4ba12129759affaafe76dc92"
+    },
+    "trap_1065_acarm065": {
+      "name": "休眠子裔",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.810546875,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1025_acarm025",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "c009a4fe12e9cf1e4e99429da2c3332dd98a7da00d92da6bda1a2cef76181f03"
+    },
+    "trap_1066_acarm066": {
+      "name": "盟约之币",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.845703125,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1002_acarm002",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "4b28bf8a956ec3b08bf07746e1f961cd4aed85bf762f88b66ee02c57a3bbb920"
+    },
+    "trap_1067_acarm067": {
+      "name": "双模机械臂",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.880859375,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1038_acarm038",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "e82b109d5664c33e8b10fe829d3ee7e61a6f380ebeae7fd1ab26c5fbb5a21984"
+    },
+    "trap_1068_acarm068": {
+      "name": "M3茧甲",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.916015625,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1034_acarm034",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "9ef31cc67cd17a651298aa771e76e800c6739c466c5200b0023d4e7259498863"
+    },
+    "trap_1069_acarm069": {
+      "name": "拟态物质",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.951171875,
+        0.72265625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1069_acarm069",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "642c6aba7fbe2bec604cd1b5bc1f0d81201b70a95c149990866e06a82bb72d03"
+    },
+    "trap_1070_acarm070": {
+      "name": "人事部文档",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.001953125,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1070_acarm070",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "77b2d9d39f155f7004b78c386ead8226f29f18d131a58dc868cd290966ca527e"
+    },
+    "trap_1071_acarm071": {
+      "name": "博士投影",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.037109375,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1039_acarm039",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "19446c599f6115f669125ae34201b34146e57126a18f3d7428007596ab924f3a"
+    },
+    "trap_1072_acarm072": {
+      "name": "突变细胞",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.072265625,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1072_acarm072",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "8e5755038118d28a7576a511a63099123176a2c68b11d876a2fd392b82b05872"
+    },
+    "trap_1073_acarm073": {
+      "name": "变形同构体",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.107421875,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1073_acarm073",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "82707bc43c8f8d08f390eba4d307ba779d0b7aef8406aba0896897e264535a5f"
+    },
+    "trap_1074_acarm074": {
+      "name": "商业包装方案",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.142578125,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1074_acarm074",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "d9715f3b0e01bcb4c3c392815decbd737e002574ea8b86674c2cacf0f93b4aea"
+    },
+    "trap_1075_acarm075": {
+      "name": "寻呼模块",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.177734375,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1075_acarm075",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "dd77f6377ee97178e0b25aab88013fd3b866ca4e0e9d19aee44f5d6476aec2c3"
+    },
+    "trap_1076_acarm076": {
+      "name": "铳骑之威",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.212890625,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1076_acarm076",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "7252f529efc872a931e179528f230218bc08072793aa66a58b16788fdc56eb32"
+    },
+    "trap_1077_acarm077": {
+      "name": "天师古鼎",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.248046875,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1077_acarm077",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "31a63a06e538011794e49b11d26fc1178de06591f5f7be72fa154d81a51b5577"
+    },
+    "trap_1078_acarm078": {
+      "name": "海沟实验体",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.283203125,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1078_acarm078",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "dab87dfd303f9cf44d191b8f6d99076b1b309863fbdee85523749a3e39ac9ccd"
+    },
+    "trap_1079_acarm079": {
+      "name": "蒸汽之心",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.318359375,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1079_acarm079",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "ac76b268639ec1c157248f3b038866835e8af233277926ce5ce4d8e2446cd92a"
+    },
+    "trap_107_smpow": {
+      "name": "空间稳定设施",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.353515625,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_107_smpow/trap_107_smpow.fbx",
+      "bundle": "arts_maps_common_trap_trap_10.ab",
+      "sourceSha256": "e845e09d1d3659b7de1a594281e301e3d4bae83381fb8c40db9a0ebcd114e3c7"
+    },
+    "trap_1080_acspell001": {
+      "name": "法术：恢复",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.388671875,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell001_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "c9813c07d0acb6958df47d64ed1e2af0bc26e07b7d08e5ebbc803c6c8b4018a6"
+    },
+    "trap_1081_acspell002": {
+      "name": "法术：力量",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.423828125,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell002_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "3ca911f92f80c5393fbe95e9d8a3636481522f6413c8460fed82bef69895fe54"
+    },
+    "trap_1082_acspell003": {
+      "name": "法术：传动",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.458984375,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell003_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "fbbd89caa0fd43f1ffb8f41ae0b7ffaf4ccb0ba1251a703c5561ca736fcf8eb9"
+    },
+    "trap_1083_acspell004": {
+      "name": "法术：贪婪",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.494140625,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell004_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "d0fa97a317994e42d468bbc97c78f8d2a169300dc0de33731374dcb90f135048"
+    },
+    "trap_1084_acspell005": {
+      "name": "法术：满足",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.529296875,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell005_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "062045521a4ed586820a9f2c94b461d33552e28eb3c497389a18ddb2058efbc0"
+    },
+    "trap_1085_acspell006": {
+      "name": "法术：护盾",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.564453125,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell006_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "d668153479bd3117bf2cbf262a501bba8b9fd2f9db9213f2282aada236152f0b"
+    },
+    "trap_1086_acspell007": {
+      "name": "法术：榜样",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.599609375,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell007_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "5a3d6b1c7a8bca8f10db85199382bcb2268be4afd2ea9c782e8fab32d9f373c9"
+    },
+    "trap_1087_acspell008": {
+      "name": "法术：屏障",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.634765625,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell008_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "aacd6c21fbd9c7698f041bb66b59105610e8481964c6bc4b2ab3e8064e80eac0"
+    },
+    "trap_1088_acspell009": {
+      "name": "法术：熟人",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.669921875,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell009_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "d9f54ea13cddb6b39f973e089e3d9e0973aa91e1ce62431714d22c5e3141e420"
+    },
+    "trap_1089_acspell010": {
+      "name": "法术：同行",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.705078125,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell010_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "f37e5fea4da8645e9436cefc31a11e1f4c5a73ae5b7641c43cdb9bfe218b8b33"
+    },
+    "trap_1090_acspell011": {
+      "name": "法术：提升",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.740234375,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell011_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "95c550c9c125fdcbb8d9c0171b9f1cde6fdd6a071a625e75e6c310e1103af974"
+    },
+    "trap_1091_acspell012": {
+      "name": "法术：迟缓",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.775390625,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell012_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "304b94f9a60e8a26f59c16f7e6d82215c6afdb7baf1770aba49a16516ed3c153"
+    },
+    "trap_1093_acspell014": {
+      "name": "法术：全力",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.810546875,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell014_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "3cfd1c8cc1f025fb8d5e28437367beff07da97d0bbc616c599a798882108b047"
+    },
+    "trap_1094_acspell015": {
+      "name": "法术：血税",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.845703125,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell015_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "b381343500202feb90887d9b108d32e9adb2c8de0526ab21ed9bd0f9b8a3eea1"
+    },
+    "trap_1095_acspell016": {
+      "name": "法术：破袭",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.880859375,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell016_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "72e3cf99c7a8f2fcb0e92571436076fcdb5f44d19fb17cf59535e044120e6a50"
+    },
+    "trap_1096_acshopup": {
+      "name": "驳船操作员",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.916015625,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1096_acshopup",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "f366525494a715df98019216a9af8a5f69a03b0566185beee20a11a65fcfc28c"
+    },
+    "trap_1097_acshopre": {
+      "name": "补给调配器",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.951171875,
+        0.65234375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1097_acshopre",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "13ac1459263e0012074332b2a74bbc424e4f91be71088b10f8fccc7964bc00f3"
+    },
+    "trap_1098_acshopfr": {
+      "name": "补给留存器",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.001953125,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1098_acshopfr",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "2dcc916d25f6932a7407099471e085df934b757985756f9fda2f3cae273e1166"
+    },
+    "trap_1099_acspell017": {
+      "name": "晋升调配特许",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.037109375,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acspell017_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "6dc0927ab44c1c5cd5258f6b86c2a2e2d1d4a4f882f158fbb2b48e3ae87662dc"
+    },
+    "trap_1100_acreddoor": {
+      "name": "敌人入口",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.072265625,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_1100_acreddoor/trap_1100_acreddoor.fbx",
+      "bundle": "arts_maps_common_trap_trap_110.ab",
+      "sourceSha256": "a8cac2aab5958965f1797ada5deb6fa165c056534d890a080f839d45b4ea8993"
+    },
+    "trap_1101_acplane": {
+      "name": "补给驳船",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.107421875,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_1101_acplane/trap_1101_acplane.fbx",
+      "bundle": "arts_maps_common_trap_trap_110.ab",
+      "sourceSha256": "944a52461c58f6385963a3f0f7c554a4f673ac141571646f3f685aabf733fb27"
+    },
+    "trap_1102_acarm102": {
+      "name": "耶拉冈德之泪",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.142578125,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1102_acarm102",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "90db636ff97ec9657d1859141032b17cc8b687983e440d59bc5f303cd89dd946"
+    },
+    "trap_1103_acarm103": {
+      "name": "黄沙罗盘",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.177734375,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1103_acarm103",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "1e1512976eba53482ba0c7367771fabd2e1aae118e52573b242f7f23feeaaf11"
+    },
+    "trap_1104_aclasert": {
+      "name": "“双眼皮”",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.212890625,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_1104_aclasert/trap_1104_aclasert.fbx",
+      "bundle": "arts_maps_common_trap_trap_110.ab",
+      "sourceSha256": "336d2b3ec009fe52c0a60495520ed8cbb5cd6084fc58a4721b67582635dedf9e"
+    },
+    "trap_1105_accrate": {
+      "name": "阻隔工事",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.248046875,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_1105_accrate/trap_1105_accrate.fbx",
+      "bundle": "arts_maps_common_trap_trap_110.ab",
+      "sourceSha256": "7507fb0dc5582e3abba945d258c810bac7f61a02636d35ae9d743a04ab2af990"
+    },
+    "trap_1106_achplat": {
+      "name": "射击台",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.283203125,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_1106_achplat/trap_1106_achplat.fbx",
+      "bundle": "arts_maps_common_trap_trap_110.ab",
+      "sourceSha256": "05d520cea85c6e96a1d3bbba706e0176fdeb5944ff811afde16bc5b1c179f3cf"
+    },
+    "trap_1107_acblock": {
+      "name": "封印的地面",
+      "kind": "mechanism",
+      "label": "机制标记 · 封锁地块",
+      "rect": [
+        0.318359375,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "封锁地块",
+      "symbol": "LOCK"
+    },
+    "trap_1108_acdisney": {
+      "name": "“神秘顾客”",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.353515625,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acdisney_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "28b57df0f05ddb3905ae9629eafca3f8c0adb324792a8336653fbe43fd08309a"
+    },
+    "trap_1109_acarm109": {
+      "name": "信标",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.388671875,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1005_acarm005",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "c1770e5fc1ce3005782d548eeafa73c4add147e8e4bb21f0cb36a3517d4d8b9e"
+    },
+    "trap_1110_accopy": {
+      "name": "画卷",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.423828125,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_accopy_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "08d71eeca6375f7fc6712054e1d1912d4543ee1e2e27b9cc314a70e4ae908d24"
+    },
+    "trap_1111_acchal": {
+      "name": "教鞭",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.458984375,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_acchal_1",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "8a10aec989a4f37fbd79e0f1bc575566c5b2add820a9343a16262c5c5a28ad4e"
+    },
+    "trap_1112_acblzd": {
+      "name": "盟约寒风",
+      "kind": "mechanism",
+      "label": "机制标记 · 环境危害",
+      "rect": [
+        0.494140625,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "环境危害",
+      "symbol": "HAZ"
+    },
+    "trap_1113_acarm113": {
+      "name": "精打细算玩偶",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.529296875,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1014_acarm014",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "8c29ac225f2d9a6dd9fc598afec509e52166b8f0716ef10458f0f48ba8338e0c"
+    },
+    "trap_1114_acarm114": {
+      "name": "简易通讯机",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.564453125,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1114_acarm114",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "cbfbd02dc230269d51ea1ee209f2fc70990d6b412034bdaec1e5c35d58466596"
+    },
+    "trap_1115_acarm115": {
+      "name": "紧急调度券",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.599609375,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1115_acarm115",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "8097dc47f0350b7f2472578b99cc122f729e848a40631ce29272a59a85044f1a"
+    },
+    "trap_1116_acarm116": {
+      "name": "见钱眼开玩偶",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.634765625,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1015_acarm015",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "8d92339ee86b402e22bd211255b4741062710f9c40ae75a0c0c416935ea6b72b"
+    },
+    "trap_1117_acarm117": {
+      "name": "天马之枪",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.669921875,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1117_acarm117",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "a83bb1a030e43f1e1f7520c061499b1952aac4b587a9f5468ecd7a00287d7789"
+    },
+    "trap_1118_acarm118": {
+      "name": "天马之盔",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.705078125,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1118_acarm118",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "206ea7f27838fdcbab2f3c69d6a437f03aef13671ee86149ea879c5c79c7ab66"
+    },
+    "trap_1119_acarm119": {
+      "name": "卡西米尔竞技旗",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.740234375,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1119_acarm119",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "ee8d1681bb866cead5499f5d7c978e6ca5886b181d795cad039423b29e2f4623"
+    },
+    "trap_111_wdfarm": {
+      "name": "街头应急储备",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.775390625,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "skin_wdfarm_default.prefab",
+      "bundle": "battle_prefabs_skins_trap.ab",
+      "sourceSha256": "58cdcd106e35022e01c17fa4842ebf30f9cfca5a56c557919b9f7f0a3166f3af"
+    },
+    "trap_1120_acarm120": {
+      "name": "骑士戒律",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.810546875,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1120_acarm120",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "1429a537108fd4dec8c8d6ad61ebc24a55ed883ee70cac4bf9ea07c2b6f926bd"
+    },
+    "trap_1121_acarm121": {
+      "name": "叙拉古正装",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.845703125,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1121_acarm121",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "92219feee9a6526e5ebdf6ec0ef45dc335c109ce097376a17eaf24129ed77fbe"
+    },
+    "trap_1122_acarm122": {
+      "name": "家族徽章",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.880859375,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1122_acarm122",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "e12eb0a84ed2eedf5e5464292b9bd6b9eaba3bd189411541fe90f6fcabe6ab5f"
+    },
+    "trap_1123_acarm123": {
+      "name": "骑士储蓄罐",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.916015625,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1023_acarm023",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "cac3dcfcc894a352458f604da140e8afd092a8d2689c3503aecaa393a2f500f1"
+    },
+    "trap_1124_acarm124": {
+      "name": "随身身份牌",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.951171875,
+        0.58203125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1017_acarm017",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "1c6e61b0617ca5b6254702f9dce0b10b3b1ca03e0e70d8bd7d379345b6392cac"
+    },
+    "trap_1125_acarm125": {
+      "name": "源石溶剂",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.001953125,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1007_acarm007",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "d88ab1a693b5b22da37bee42bd27211306de4fcc14bcbf33f5628717e8b9fa9a"
+    },
+    "trap_112_crsbow": {
+      "name": "解雇者清债程序",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.037109375,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_crsbow",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "64ef8fa65018a40b8476402ed09f611091a8566cb5a871bb09c9200d01828f41"
+    },
+    "trap_113_snflwr": {
+      "name": "全自动划账器",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.072265625,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_113_snflwr",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "7541919a5125f8070193b20e9540559903f14982592818d70e87c31a50523e25"
+    },
+    "trap_115_gasctrl": {
+      "name": "毒雾塔控制",
+      "kind": "mechanism",
+      "label": "机制标记 · 环境危害",
+      "rect": [
+        0.107421875,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "环境危害",
+      "symbol": "HAZ"
+    },
+    "trap_121_gractrl": {
+      "name": "重力",
+      "kind": "mechanism",
+      "label": "机制标记 · 方向控制",
+      "rect": [
+        0.142578125,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "方向控制",
+      "symbol": "GRAV"
+    },
+    "trap_131_toolgun": {
+      "name": "战场装置LUD-99X",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.177734375,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "binding": "rogue_3_explore_tool_4",
+      "iconKind": "game-item-icon",
+      "sourceSha256": "b303d49de9669411a5425c2d7efc0e155e564919db29d540e4a45b0472c67b3d"
+    },
+    "trap_134_condtr": {
+      "name": "调谐节点",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.212890625,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_134_condtr/trap_134_condtr.fbx",
+      "bundle": "arts_maps_common_trap_trap_13.ab",
+      "sourceSha256": "2ba69f8bd4df4ad521a33c6801b6e2f699aa8d491b7ddda8c4b498dc04e018cc"
+    },
+    "trap_136_portlexi": {
+      "name": "创生之相",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.248046875,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_portlexi",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "d691725484b6297e592048aba9ac4f8b1a31d72511ebdba495456e1e14a39444"
+    },
+    "trap_137_winfire": {
+      "name": "紧急供暖器",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.283203125,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_137_winfire/trap_137_winfire.fbx",
+      "bundle": "arts_maps_common_trap_trap_13.ab",
+      "sourceSha256": "828dec2b168591db2db9e6848c6d4fe0b7285bce7e8a4296b2531503d318c8ab"
+    },
+    "trap_146_dhdcr": {
+      "name": "天桩",
+      "kind": "mechanism",
+      "label": "机制标记 · 敌人生成",
+      "rect": [
+        0.318359375,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "敌人生成",
+      "symbol": "SPAWN"
+    },
+    "trap_1507_lhukmi": {
+      "name": "富集矿区",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.353515625,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_1507_lhukmi/trap_1507_lhukmi.fbx",
+      "bundle": "arts_maps_common_trap_trap_150.ab",
+      "sourceSha256": "b8e452d71666d200720507f99e8d194c8546a52a93e90bcb809b282a6f5281f4"
+    },
+    "trap_1515_lhfacp": {
+      "name": "被污染的回收炉",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.388671875,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_1515_lhfacp/trap_1515_lhfacp.fbx",
+      "bundle": "arts_maps_common_trap_trap_151.ab",
+      "sourceSha256": "70495bd4991151f4358a39b33ab5967907cf48fed7b1609daec2a14bca7820fe"
+    },
+    "trap_1519_lhrift": {
+      "name": "巫术村落",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.423828125,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1519_lhrift",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "ff698b366815077d47d07f6e5ccdeee01dcb799b84ae212f5b50429c493081bd"
+    },
+    "trap_151_muruinw": {
+      "name": "折叠式堡垒模块",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.458984375,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_151_muruinw/trap_151_muruinw.fbx",
+      "bundle": "arts_maps_common_trap_trap_15.ab",
+      "sourceSha256": "cc79f1593381c9ec63d049070ce1dde8973db5c7acdc8f76aa3a08e4bc6d2ca6"
+    },
+    "trap_1520_lhcolb": {
+      "name": "大图书馆",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.494140625,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_1520_lhcolb/trap_1520_lhcolb.fbx",
+      "bundle": "arts_maps_common_trap_trap_152.ab",
+      "sourceSha256": "cf3b1e7a6431ff98baaaff4709bee731096cbff1b8f3d2d7d9eea7c17e3afeca"
+    },
+    "trap_1521_lhmagd": {
+      "name": "术法岗哨",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.529296875,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_1521_lhmagd/trap_1521_lhmagd.fbx",
+      "bundle": "arts_maps_common_trap_trap_152.ab",
+      "sourceSha256": "6606673bd7ea9d9120c02d245af3750165e1784e3528ef20568996020b6e2061"
+    },
+    "trap_1523_lhtown": {
+      "name": "侦测中心",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.564453125,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_1523_lhtown/trap_1523_lhtown.fbx",
+      "bundle": "arts_maps_common_trap_trap_152.ab",
+      "sourceSha256": "ebeadebef7210a1ad2549e94f957de1c9e660f6a52d0731cfcbbb88c423cde4f"
+    },
+    "trap_1524_lhport": {
+      "name": "装卸机",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.599609375,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_1524_lhport/trap_1524_lhport.fbx",
+      "bundle": "arts_maps_common_trap_trap_152.ab",
+      "sourceSha256": "d5564a2efeecb4e98ba65b854d5d238ff6b78cb11ab4547ecbc87a827bcca6df"
+    },
+    "trap_1525_lhswer": {
+      "name": "水产村落",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.634765625,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_lhswer",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "3a525d3d195e6809fd7e7bb17b822a1b4e2b99e820877ac422dfe2bb296209e2"
+    },
+    "trap_1526_lharen": {
+      "name": "冲突围栏",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.669921875,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1526_lharen",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "075c7e5cfe281115656582b27df1927b84f99c1d47b13c2b0e6d2dc8adaf3511"
+    },
+    "trap_1527_lhtwer": {
+      "name": "警戒岗哨",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.705078125,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_1527_lhtwer/trap_1527_lhtwer.fbx",
+      "bundle": "arts_maps_common_trap_trap_152.ab",
+      "sourceSha256": "8786df09b3d19bec7d9c8519daff278890806a86e96ef6416ec1086c77e2f366"
+    },
+    "trap_152_muruino": {
+      "name": "折叠式辅助器械",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.740234375,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_152_muruino/trap_152_muruino.fbx",
+      "bundle": "arts_maps_common_trap_trap_15.ab",
+      "sourceSha256": "cc44fa75653746aa14303416a79f694809841687a5c82e9e0dc8f53952f3c644"
+    },
+    "trap_1531_lhcampa": {
+      "name": "猎户村落",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.775390625,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1531_lhcampa",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "b28f80e4f451fa99d5b195e83769b0b4fad5d8c4bcf3953c1f4ed6ce9f9bad00"
+    },
+    "trap_1532_lhcampb": {
+      "name": "山地村落",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.810546875,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1532_lhcampb",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "784c0885a2af55faf699138338308c2d63e610987f054613d8d89cde1ca73fde"
+    },
+    "trap_1533_lhcampc": {
+      "name": "牧场村落",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.845703125,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_1533_lhcampc",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "888e6e9b9c331ae5949cdd600385090b19f8f0a8144e61ac04f8aac7e696a655"
+    },
+    "trap_1540_lhpad2": {
+      "name": "温室拱棚",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.880859375,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_1540_lhpad2/trap_1540_lhpad2.fbx",
+      "bundle": "arts_maps_common_trap_trap_154.ab",
+      "sourceSha256": "5e527a45e1147b7548c1d44dfdf3e9c1d4d45f29283a65703af206dab488516e"
+    },
+    "trap_154_mugtps": {
+      "name": "阵地屏障",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.916015625,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_154_mugtps/trap_154_mugtps.fbx",
+      "bundle": "arts_maps_common_trap_trap_15.ab",
+      "sourceSha256": "0122e9292ed3b671a9093c42aab34e0923dffdfb1c5ecad7db0964978d9e1fe4"
+    },
+    "trap_155_aegiret": {
+      "name": "航道信标",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.951171875,
+        0.51171875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_155_aegiret/trap_155_aegiret.fbx",
+      "bundle": "arts_maps_common_trap_trap_15.ab",
+      "sourceSha256": "b94d3c881dab083efae27696c0ee42ce4ccec091cc7f43a2771e8efdf969832b"
+    },
+    "trap_156_dsshell": {
+      "name": "赘生甲壳",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.001953125,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_156_dsshell/trap_156_dsshell.fbx",
+      "bundle": "arts_maps_common_trap_trap_15.ab",
+      "sourceSha256": "46fa7fe660c7b6c953a347926442c95903d674ad664f2f5b018167ea44d83252"
+    },
+    "trap_160_lrlgun": {
+      "name": "洪流束激发器",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.037109375,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_160_lrlgun/trap_160_lrlgun.fbx",
+      "bundle": "arts_maps_common_trap_trap_16.ab",
+      "sourceSha256": "6f11763406f3dbcefbf498892128933cb4f4eeaeda68632d4e689c789b3000b8"
+    },
+    "trap_162_lrctrl": {
+      "name": "十四章机制控制器",
+      "kind": "mechanism",
+      "label": "机制标记 · 战场规则",
+      "rect": [
+        0.072265625,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "战场规则",
+      "symbol": "CTRL"
+    },
+    "trap_163_foolcrate": {
+      "name": "障碍物",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.107421875,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_163_foolcrate.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "b7901b28b21a12607e7722f23464e48aebccd2645dcf042aff779d7b6ef4263a"
+    },
+    "trap_1640_akbtst": {
+      "name": "障碍物",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.142578125,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_1640_akbtst.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_6.ab",
+      "sourceSha256": "b7901b28b21a12607e7722f23464e48aebccd2645dcf042aff779d7b6ef4263a"
+    },
+    "trap_1641_akbtel": {
+      "name": "梅什科线圈",
+      "kind": "wiki-avatar",
+      "label": "原版头像 · Wiki",
+      "rect": [
+        0.177734375,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "url": "https://media.prts.wiki/1/16/%E5%A4%B4%E5%83%8F_%E8%A3%85%E7%BD%AE_%E6%A2%85%E4%BB%80%E7%A7%91%E7%BA%BF%E5%9C%88.png?v=1yc3p0y63u46kw84yeduyio2r44zpmw",
+      "sourceSha256": "e2cfcf77e0f748ee44c518da21a29609f07d08494a71ee8064486152db9904f9"
+    },
+    "trap_1642_akbtjt": {
+      "name": "源石祭坛",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.212890625,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_1642_akbtjt.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_6.ab",
+      "sourceSha256": "fb4ae8d7ffd09d5ccf7e72bb412a94e795524cf1a1f5580f51d9a5f5d96b1111"
+    },
+    "trap_1643_akbtbd": {
+      "name": "源石冰晶",
+      "kind": "wiki-avatar",
+      "label": "原版头像 · Wiki",
+      "rect": [
+        0.248046875,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "url": "https://media.prts.wiki/7/75/%E5%A4%B4%E5%83%8F_%E8%A3%85%E7%BD%AE_%E6%BA%90%E7%9F%B3%E5%86%B0%E6%99%B6.png?v=mhf6wzmjb501hnv1k16onxvle4bada7",
+      "sourceSha256": "f4e7e3b44d750683fc0016cc14b6898f8e5d1ff72be743e38414b3133f8c9b14"
+    },
+    "trap_1644_akbowf": {
+      "name": "弩炮",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.283203125,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_akbowf",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "21789fbd41597703d93f3843ce25d0f94204e2df269ce7e3edc8ab679e4fbbae"
+    },
+    "trap_164_lrsiege": {
+      "name": "振奋荣光",
+      "kind": "effect",
+      "label": "原版特效代表帧",
+      "rect": [
+        0.318359375,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/effects/trap_irsiege_01.prefab",
+      "bundle": "battle_prefabs_effects_trap.ab",
+      "sourceSha256": "42d62ab93bfc37ca067b325a70af2c5f3d6fbf128ab9eede588381aa1aa16279"
+    },
+    "trap_167_muruinf": {
+      "name": "折叠式维护车",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.353515625,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_167_muruinf.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "539bd130070a7d2e8405f3f0016c5f9a041cafc63b01917b304570f68f5fd86c"
+    },
+    "trap_169_muruinb": {
+      "name": "折叠式后勤站",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.388671875,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_169_muruinb.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "a256aec97c32a7db329543a009fbf1f391649003124a5cd4ba70e619617167c8"
+    },
+    "trap_171_trpot": {
+      "name": "很大的锅",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.423828125,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_171_trpot/trap_171_trpot.fbx",
+      "bundle": "arts_maps_common_trap_trap_17.ab",
+      "sourceSha256": "8bdc7d4bc3adce7152ecda03a7659bd5696dcab696b3305dfbe70f0aaaaf4d36"
+    },
+    "trap_172_trbox": {
+      "name": "“宝箱”",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.458984375,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_172_trbox",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "1846d1becd39c6a5550b6148552ada72aeeffdb1160ffca798f60edd862e142f"
+    },
+    "trap_178_trrbox": {
+      "name": "“宝箱”",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.494140625,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_178_trrbox",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "2695b984e4cc27724ea6106540c09c46dd96bff3962b0a0e516305378d602280"
+    },
+    "trap_179_muctrl": {
+      "name": "促融共竞控制",
+      "kind": "mechanism",
+      "label": "机制标记 · 战场规则",
+      "rect": [
+        0.529296875,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "战场规则",
+      "symbol": "CTRL"
+    },
+    "trap_180_dsblock": {
+      "name": "封印的地面",
+      "kind": "mechanism",
+      "label": "机制标记 · 封锁地块",
+      "rect": [
+        0.564453125,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "封锁地块",
+      "symbol": "LOCK"
+    },
+    "trap_185_vtlntw": {
+      "name": "黄金回响",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.599609375,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_185_vtlntw",
+      "bundle": "pkgrps_btl_pfb_tokens_1.ab",
+      "sourceSha256": "03159558b8387af2f2aba747d877a8b0c8b3bb4ee545b203489859f0b3642f36"
+    },
+    "trap_187_arcgacha": {
+      "name": "扭蛋机",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.634765625,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_187_arcgacha",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "1a631b5e8e380c6ffbcee6bdc8b77d999d7ad63dc8805511c4543bde29452ee6"
+    },
+    "trap_192_archook": {
+      "name": "勾爪",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.669921875,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_192_archook/trap_192_archook.fbx",
+      "bundle": "arts_maps_common_trap_trap_19.ab",
+      "sourceSha256": "2dfc52be17da2d2fea26b0bc903d610f75fa77b72df24b3ba0fada4c9f971f05"
+    },
+    "trap_193_arctoll": {
+      "name": "大战记分站",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.705078125,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_193_arctoll/trap_193_arctoll.fbx",
+      "bundle": "arts_maps_common_trap_trap_19.ab",
+      "sourceSha256": "e7aeca7e3546f27ef93ceeea0ccb116aaf6ceab06f1fe2a565b3fa9666a3b1e5"
+    },
+    "trap_196_cnnon": {
+      "name": "盐坨子炮",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.740234375,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_196_cnnon/trap_196_cnnon.fbx",
+      "bundle": "arts_maps_common_trap_trap_19.ab",
+      "sourceSha256": "759ac003338bbfbe3225c0c1b3269cc4af6f710ff2e42506b7b910abb0e5da69"
+    },
+    "trap_203_mufrprn": {
+      "name": "坍塌的杂物堆",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.775390625,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_203_mufrprn",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "2860ee0cd8aa311727845470c3c1ac5c03c2d61a9f04827672edab44d2fb3633"
+    },
+    "trap_205_mufrfm": {
+      "name": "建筑工具间",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.810546875,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_205_mufrfm.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "bee7b3b7a048c053ea0a96adb1f5ddb474667e59df0ee78702b85a28f2cf5352"
+    },
+    "trap_206_mufrbk": {
+      "name": "临时休息舱",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.845703125,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_206_mufrbk.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "51f0f45c2a84de5bde00da17f652782c399d1f6f1929c8eb5f896fa72b1493ee"
+    },
+    "trap_207_mufrwl": {
+      "name": "液压式高台 ",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.880859375,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_207_mufrwl.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "997b8881275d51a508fe3c8a2effd74e68745da7f819c4b7c6fca1fca7e28353"
+    },
+    "trap_208_mufrst": {
+      "name": "混凝土路障 ",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.916015625,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_208_mufrst.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "b72646cd922fdc1007fcde5d3a1110cf125d6753eca9e6dda0114da6253382a0"
+    },
+    "trap_209_mufrbs": {
+      "name": "便携健身架",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.951171875,
+        0.44140625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_209_mufrbs.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "be1d8c85449f0610aee19279f559ba54a25c3287793ca056678a580f021b3d05"
+    },
+    "trap_211_cjgtow": {
+      "name": "火灶",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.001953125,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_211_cjgtow/trap_211_cjgtow.fbx",
+      "bundle": "arts_maps_common_trap_trap_21.ab",
+      "sourceSha256": "b265aeac2d719bce61f5b8d6a612a4f48cdeec5b536f5fba93e1aab730a18cf8"
+    },
+    "trap_212_cjbtow": {
+      "name": "废弃火灶",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.037109375,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_212_cjbtow.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "2d8ad489c395f99a95b26a7844ad6f4d2c425fb256aff45a676664794f7869ed"
+    },
+    "trap_213_dqore": {
+      "name": "源石祭坛",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.072265625,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_213_dqore.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "fb4ae8d7ffd09d5ccf7e72bb412a94e795524cf1a1f5580f51d9a5f5d96b1111"
+    },
+    "trap_214_dqballis": {
+      "name": "弩炮",
+      "kind": "effect",
+      "label": "原版特效代表帧",
+      "rect": [
+        0.107421875,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/effects/bow_birth_01_start.prefab",
+      "bundle": "battle_prefabs_effects_bow.ab",
+      "sourceSha256": "487ae111bc1085318ba32b9242df899e0c2d6014037a17e261dd7d98234b30ac"
+    },
+    "trap_215_dqcrsbow": {
+      "name": "解雇者清债程序",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.142578125,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "skin_crsbow_default.prefab",
+      "bundle": "battle_prefabs_skins_trap.ab",
+      "sourceSha256": "6a9d45dd37bcc22d3518755ab40621d89cd3e481c3e138c9ca1c93a909a6781a"
+    },
+    "trap_216_dqelec": {
+      "name": "梅什科线圈",
+      "kind": "wiki-avatar",
+      "label": "原版头像 · Wiki",
+      "rect": [
+        0.177734375,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "url": "https://media.prts.wiki/1/16/%E5%A4%B4%E5%83%8F_%E8%A3%85%E7%BD%AE_%E6%A2%85%E4%BB%80%E7%A7%91%E7%BA%BF%E5%9C%88.png?v=1yc3p0y63u46kw84yeduyio2r44zpmw",
+      "sourceSha256": "e2cfcf77e0f748ee44c518da21a29609f07d08494a71ee8064486152db9904f9"
+    },
+    "trap_218_fttree": {
+      "name": "树丛",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.212890625,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_218_fttree/trap_218_fttree.fbx",
+      "bundle": "arts_maps_common_trap_trap_21.ab",
+      "sourceSha256": "bc6432e5ce7ac21eaafb1e0b725b1e949a2d2403f3f1c7f51d8bddfb1e5303f0"
+    },
+    "trap_219_fttreant": {
+      "name": "盾与墙",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.248046875,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_219_fttreant/trap_219_fttreant.fbx",
+      "bundle": "arts_maps_common_trap_trap_21.ab",
+      "sourceSha256": "46da73a321c82680cc7f39adc069d81e1b8dc0c88449b0ad4324073f7e7f6e7d"
+    },
+    "trap_220_ftbone": {
+      "name": "旧日之火",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.283203125,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_220_ftbone/trap_220_ftbone.fbx",
+      "bundle": "arts_maps_common_trap_trap_22.ab",
+      "sourceSha256": "09d5325736626d29f066dbf63299524f360012a2837e1789c036fe172340678f"
+    },
+    "trap_221_ftshad": {
+      "name": "空壳",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.318359375,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_221_ftshad",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "e039409095513dd9d1171c683445fa6f5dd2a1f21bb81cabb4e5bafd174b49bb"
+    },
+    "trap_222_rgdysm": {
+      "name": "雕伥",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.353515625,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_222_rgdysm",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "0ff5bf52333519519092eaa95df71ea540ae54ab8b062f70f7b71b7312590db4"
+    },
+    "trap_223_dynbox": {
+      "name": "宝葫芦",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.388671875,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_223_dynbox",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "981c8b6a0e8ebffba4bf9192f84ff3c93eb1ab8b5b555c76fb9aefb60c6eb7ab"
+    },
+    "trap_224_dyrbox": {
+      "name": "铁葫芦",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.423828125,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_224_dyrbox",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "e5f951a76dfe2d72842b3e07d4ba2bbc08697f7d1d5c46a74f617787541bb4e1"
+    },
+    "trap_225_dysbox": {
+      "name": "怪葫芦",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.458984375,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_225_dysbox",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "6417a893c988da762946f48c195db925cc17ee52230c01a1caaee07f1f70bac7"
+    },
+    "trap_226_dychss": {
+      "name": "瑕",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.494140625,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_226_dychss",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "563b54907c0a292fd8d6b543f4a14154d2b958d6231bfa8ab9228e427dc511e6"
+    },
+    "trap_227_mpweak": {
+      "name": "弱化节点",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.529296875,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_227_mpweak/trap_227_mpweak.fbx",
+      "bundle": "arts_maps_common_trap_trap_22.ab",
+      "sourceSha256": "48896ad3e3eab49afc59b589f52e1b637718fa13fac9d84fb1643ae8fbef7552"
+    },
+    "trap_228_mptxs": {
+      "name": "特雷西斯",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.564453125,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_228_mptxs",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "7a4844831cae2b27907c4876a640a35f5ac44b033cabacf1568fcef2db7d4a1e"
+    },
+    "trap_229_mpcata": {
+      "name": "冰镇饮料机",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.599609375,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_229_mpcata",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "74221615670dec2b2509177c7df615c47ce5391f374314f68a7155bb54534087"
+    },
+    "trap_230_mpcatab": {
+      "name": "加热饮料机",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.634765625,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_230_mpcatab",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "5810af1099872e8cc8535d5cafaf45d3cc73e5af333827443b2d027556adff6e"
+    },
+    "trap_231_mpgrou": {
+      "name": "“寒灾回响”",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.669921875,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_231_mpgrou",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "8fb084680575c830628b4d187b78ab7b51a1a8a802989b4cc57f4f6a2a0fa41a"
+    },
+    "trap_232_mpgroub": {
+      "name": "“风雪中的影子”",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.705078125,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_232_mpgroub",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "e172bf28fba1622f50b5fe13be2011d4433095f9578d79668f73aff84421bafe"
+    },
+    "trap_233_mpmage": {
+      "name": "稳定态萨卡兹术师结晶",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.740234375,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_233_mpmage",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "cc667d7ab51c5ef39a6229e2657c9d87241e05744754bd1fdd1f4f68e663b233"
+    },
+    "trap_234_mpmageb": {
+      "name": "活性态萨卡兹术师结晶",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.775390625,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_234_mpmageb",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "cc79a16c7ff9fdc08e0bd60e254538fdf4966b69a4d932b513cad61228752e23"
+    },
+    "trap_235_hlnpcm": {
+      "name": "圣徒像扮演者",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.810546875,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_235_hlnpcm",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "8ec0918b7d1028d7be8722fce4a30b7655471cc0f1d9c98fd372886f852f15c4"
+    },
+    "trap_236_hlnpcs": {
+      "name": "圣堂射手扮演者",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.845703125,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_236_hlnpcs",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "c372bf06b0740c069dc0f3a297051a2e4460772351963fd01b5cbb731c36ca34"
+    },
+    "trap_237_hlnpcb": {
+      "name": "圣堂保育员扮演者",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.880859375,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_237_hlnpcb",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "aefe292164ff693c3bb131ce6e0b7bcc7e761d0714d7012454c1812dde0be71c"
+    },
+    "trap_238_dydfst": {
+      "name": "明烛台",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.916015625,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_238_dydfst/trap_238_dydfst.fbx",
+      "bundle": "arts_maps_common_trap_trap_23.ab",
+      "sourceSha256": "1a18841c9b866b4e71827257a49a87cb9f3f68b9c5bce59993ce6feb875bd897"
+    },
+    "trap_239_dyffgd": {
+      "name": "狭路相逢",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.951171875,
+        0.37109375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_239_dyffgd/trap_239_dyffgd.fbx",
+      "bundle": "arts_maps_common_trap_trap_23.ab",
+      "sourceSha256": "6efd2999bf53b2a330f97658be04e0dfadba727ca7d6d87e33fe70cf82bc04ce"
+    },
+    "trap_240_dyffdd": {
+      "name": "狭路相逢",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.001953125,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_240_dyffdd/trap_240_dyffdd.fbx",
+      "bundle": "arts_maps_common_trap_trap_24.ab",
+      "sourceSha256": "ad20835a035ab781148405fddeabc8fd849ed578965288f56d6dabdc012fb597"
+    },
+    "trap_247_crfilm": {
+      "name": "摄影机",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.037109375,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_247_crfilm/trap_247_crfilm.fbx",
+      "bundle": "arts_maps_common_trap_trap_24.ab",
+      "sourceSha256": "77c216499897ada5e5628404231942eca661548b9208b940a6d2e4a2ed93b76b"
+    },
+    "trap_248_crprop": {
+      "name": "打光道具",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.072265625,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_248_crprop",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "0632875201efc1427f8df8413ecedf7e2cc71068c292e59bb937f3b5f2005d89"
+    },
+    "trap_249_mjcsdw": {
+      "name": "“月影之茧”",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.107421875,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_249_mjcsdw",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "99f4e948116ebc771f44f1d03949bd78d157526511aff074ffc2ca92f271b0f5"
+    },
+    "trap_250_hlctrl": {
+      "name": "寻根圣事",
+      "kind": "mechanism",
+      "label": "机制标记 · 区域切换",
+      "rect": [
+        0.142578125,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "区域切换",
+      "symbol": "ZONE"
+    },
+    "trap_251_buftrp": {
+      "name": "遗物中枢",
+      "kind": "mechanism",
+      "label": "机制标记 · 战场规则",
+      "rect": [
+        0.177734375,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "战场规则",
+      "symbol": "CTRL"
+    },
+    "trap_252_pckstp": {
+      "name": "天命来袭",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.212890625,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_252_pckstp/trap_252_pckstp.fbx",
+      "bundle": "arts_maps_common_trap_trap_25.ab",
+      "sourceSha256": "8d8f3db8686f3791882a111f77c97280ddc05029581360b222d2d74da9a88819"
+    },
+    "trap_253_boxnma": {
+      "name": "压力舒缓帮手",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.248046875,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_253_boxnma",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "8c332752cd333850b2beb56654e73f88eb77900fa5bc03d4c2b8128edf5e190f"
+    },
+    "trap_254_boxmac": {
+      "name": "压力归零帮手",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.283203125,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_254_boxmac",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "f11edb8d5fd6c142d71e80b42c7f828c0304c779d4561f7d628bbf6a7241c824"
+    },
+    "trap_258_rgcssm": {
+      "name": "古雕伥",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.318359375,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_258_rgcssm",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "06a15cbfe6ce5789026894dc1d932d3b59fa58cc2fc58cea8708c9b496c3d584"
+    },
+    "trap_259_murjet": {
+      "name": "全手动推进器",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.353515625,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_259_murjet/trap_259_murjet.fbx",
+      "bundle": "arts_maps_common_trap_trap_25.ab",
+      "sourceSha256": "19989f26c488d476ba5a78cdf1cdd71ae4395c58201a6e83e233a1fd34188314"
+    },
+    "trap_262_murtre": {
+      "name": "物资浮板",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.388671875,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_262_murtre/trap_262_murtre.fbx",
+      "bundle": "arts_maps_common_trap_trap_26.ab",
+      "sourceSha256": "55dc2be944ac54bfd01a4fa46fc8d6332f7088bdf51e78de2f211a6dcceadeb4"
+    },
+    "trap_263_murbox": {
+      "name": "防水物资箱",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.423828125,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_263_murbox/trap_263_murbox.fbx",
+      "bundle": "arts_maps_common_trap_trap_26.ab",
+      "sourceSha256": "b7464bacab9ed11cf9935ddf9c27c3fec81bbd0a2525f811b2bf75d39b8ffc6f"
+    },
+    "trap_264_xdplat": {
+      "name": "伊斯贝塔高台",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.458984375,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_264_xdplat/trap_264_xdplat.fbx",
+      "bundle": "arts_maps_common_trap_trap_26.ab",
+      "sourceSha256": "958d6651dd5f6a8d79dcfe6248af9dfdd0a366cc3e478058f0224f60efa46852"
+    },
+    "trap_265_xdice1": {
+      "name": "圣女像",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.494140625,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_265_xdice1/trap_265_xdice1.fbx",
+      "bundle": "arts_maps_common_trap_trap_26.ab",
+      "sourceSha256": "5ad3ce83d4fdec6ec5d43681868a3f1d0f3e7a5929d13d8882b7d25a4910221a"
+    },
+    "trap_272_nomstn": {
+      "name": "阻道岩壁",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.529296875,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_272_nomstn/trap_272_nomstn.fbx",
+      "bundle": "arts_maps_common_trap_trap_27.ab",
+      "sourceSha256": "ad5911fa4415f769513118f8f7a5af0b1e464b0c5b26bd14c97999e78c9347c3"
+    },
+    "trap_277_pycblk": {
+      "name": "盘踞岩峰",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.564453125,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_277_pycblk/trap_277_pycblk.fbx",
+      "bundle": "arts_maps_common_trap_trap_27.ab",
+      "sourceSha256": "f65b8a47c80e6c7c29ad41376f391e8ae9ad8cf3e6d45a60167fab06657b429e"
+    },
+    "trap_278_dyfgdd": {
+      "name": "狭路相逢",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.599609375,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_278_dyfgdd.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "6bb9dda1e2c50a8bb5b941a505a27ef665e74aa6821f2cf8cb35036c34740016"
+    },
+    "trap_280_pycfbd": {
+      "name": "风化的碎屑",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.634765625,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_280_pycfbd/trap_280_pycfbd.fbx",
+      "bundle": "arts_maps_common_trap_trap_28.ab",
+      "sourceSha256": "bb7c1fb1c9cebbe80e8e62e016d4a505a4dda2a24a89f3a661e02b22eb25dbb0"
+    },
+    "trap_285_tjggt": {
+      "name": "山脊",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.669921875,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_285_tjggt/trap_285_tjggt.fbx",
+      "bundle": "arts_maps_common_trap_trap_28.ab",
+      "sourceSha256": "d6e01ad74eea45591ff8af27b0dd970c79eb27382002e27f76f44d9a806da698"
+    },
+    "trap_287_baizi": {
+      "name": "断",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.705078125,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_287_baizi",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "bac544202dd8decc88e1b4159cb315eb1229cd6e875760a29cce274e9ec1d40f"
+    },
+    "trap_288_sunmao": {
+      "name": "镇岁柱",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.740234375,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_288_sunmao/trap_288_sunmao.controller",
+      "bundle": "arts_maps_common_trap_trap_28.ab",
+      "sourceSha256": "a22a7521d0a7c6b8ab2ee707763e75de7cce73397ed31795f45f4a900a5186cb"
+    },
+    "trap_293_suishan": {
+      "name": "岁用山",
+      "kind": "mechanism",
+      "label": "机制标记 · 召唤卡",
+      "rect": [
+        0.775390625,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "召唤卡",
+      "symbol": "CARD"
+    },
+    "trap_308_izcamp": {
+      "name": "原型之手",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.810546875,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_308_izcamp",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "4e7cfe484c4116a9e91dffe16c74c15c4526a65445eeabdbc57eb63276d618fd"
+    },
+    "trap_309_muctba": {
+      "name": "智能裁判官",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.845703125,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_309_muctba",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "296b4a25fa08c86f18300812e67ce8a7d2f674d56bac68396b0277f92b06f3ba"
+    },
+    "trap_316_ubtower": {
+      "name": "警戒塔",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.880859375,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_316_ubtower/trap_316_ubtower.fbx",
+      "bundle": "arts_maps_common_trap_trap_31.ab",
+      "sourceSha256": "513b07a767c52a4dde49eea08283af8ebd10013efed672bd0235d06eb319d845"
+    },
+    "trap_317_ubprison": {
+      "name": "禁闭所",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.916015625,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_317_ubprison/trap_317_ubprison.fbx",
+      "bundle": "arts_maps_common_trap_trap_31.ab",
+      "sourceSha256": "94e5104fb6c180e8c2211592e5cd26a984828af95433dfc5351f353c2c1dc04e"
+    },
+    "trap_319_shpvas": {
+      "name": "绒绒云团",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.951171875,
+        0.30078125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_319_shpvas",
+      "bundle": "pkgrps_btl_pfb_tokens_6.ab",
+      "sourceSha256": "caf621845068b992d71494f54d2d532d77e1cda5752efb4c40b1c49ea06f22ed"
+    },
+    "trap_320_shtlbx": {
+      "name": "丰饶树冢",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.001953125,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_320_shtlbx",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "b1cc073dfbc4132e0704776f7e67f8a75a659843551f0fceda4e6057339eafd9"
+    },
+    "trap_321_shnbox": {
+      "name": "恶笼草",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.037109375,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_321_shnbox",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "6eea430fcbf019365b5f17c6f5749e460d895ac2e2236d5a076d069872ee9c80"
+    },
+    "trap_322_shrbox": {
+      "name": "畸变恶笼草",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.072265625,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_322_shrbox",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "931553074c91dbd56977b54c6f8e294fd6197445b12cbe2f3313dd50596bfde8"
+    },
+    "trap_323_shsbox": {
+      "name": "箱型恶笼草",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.107421875,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_323_shsbox",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "eb1c648a656aaa55c4a14aa93dcff358cc29c9c2a65440a454fa3c60aec1f69e"
+    },
+    "trap_324_shmbmb": {
+      "name": "源阶方模块",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.142578125,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_324_shmbmb",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "6e8916d2cfdbb03aff920def5242cef9c2207d6f889feee228b1180a69517d33"
+    },
+    "trap_325_shfort": {
+      "name": "“危朽”",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.177734375,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_325_shfort/trap_325_shfort.fbx",
+      "bundle": "arts_maps_common_trap_trap_32.ab",
+      "sourceSha256": "31c7e07dd3ae800cd0098bb458ce12eb8bfd644e41f873fc449e95eaafcae6d4"
+    },
+    "trap_326_shruin": {
+      "name": "“崩解”",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.212890625,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_shruin",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "8c2f0185562ac29bb5233459e8faf93ce84dcebd633630550f04d523b30938b2"
+    },
+    "trap_327_shchst": {
+      "name": "坎诺特保险柜",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.248046875,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_327_shchst",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "bb3443789db0f0254f7dc9e7484abf5d759494a86803eaca6e3e77a17905d84c"
+    },
+    "trap_328_newlamp": {
+      "name": "城市霓虹",
+      "kind": "wiki-avatar",
+      "label": "原版头像 · Wiki",
+      "rect": [
+        0.283203125,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "url": "https://media.prts.wiki/4/44/%E5%A4%B4%E5%83%8F_%E8%A3%85%E7%BD%AE_%E5%9F%8E%E5%B8%82%E9%9C%93%E8%99%B9.png?v=8fcfiy48sbr4mlg91xsybe9of46f339",
+      "sourceSha256": "eb0d15edd01db54c1d3b5c5ee4ba67577665c3ea66ce471890e9839f0e37a752"
+    },
+    "trap_329_rift": {
+      "name": "泄漏标记",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.318359375,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_329_rift/trap_329_rift.fbx",
+      "bundle": "arts_maps_common_trap_trap_32.ab",
+      "sourceSha256": "e330629695c38e47ad247180e9dc93e5a4c0d4e92a066f970addd82db92983a5"
+    },
+    "trap_330_ycwang": {
+      "name": "演出望",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.353515625,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "char_2027_wang",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "2aa0c701cb50f3341409660a68f3ae01499eb998803d2a9709382db45096f668"
+    },
+    "trap_334_agmbox": {
+      "name": "邮箱",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.388671875,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_334_agmbox",
+      "bundle": "pkgrps_btl_pfb_tokens_6.ab",
+      "sourceSha256": "10f2ac7ddc7de2cdc2b02f9e58148cfdceea9552f257ff630f41a0a41fbccd0c"
+    },
+    "trap_335_totalattack": {
+      "name": "全场总攻击",
+      "kind": "mechanism",
+      "label": "机制标记 · 全场攻击",
+      "rect": [
+        0.423828125,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "全场攻击",
+      "symbol": "ATK"
+    },
+    "trap_408_xbbase": {
+      "name": "基地",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.458984375,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_408_xbbase.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "2252bc05c6794aef3df594ba48501e6a757486d8b1bb55b798598b63b499b17a"
+    },
+    "trap_412_redtower": {
+      "name": "移动战塔",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.494140625,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_412_redtower.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "690bf2c695baddf40bb26a7c02171d28f8ee2531a175e76fc5354708d7c512d2"
+    },
+    "trap_413_hiddenstone": {
+      "name": "遗迹残骸",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.529296875,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_413_hiddenstone.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "cbbde8d879ca0cdf0946624cb00cb401e014e789f3591a22ffa7194033fde775"
+    },
+    "trap_414_vegetation": {
+      "name": "灌木丛",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.564453125,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_414_vegetation.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "cdc441b6b9255575993ea9fb125fb6ef124fac3d0d78fa6e9c0332cba756a1fc"
+    },
+    "trap_416_gtreasure": {
+      "name": "埋没金属箱",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.599609375,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_416_gtreasure",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "933a97fc41e285c10715e58df9695965eab707ef4a0cdb12a49892a247a563fb"
+    },
+    "trap_422_streasure": {
+      "name": "宝刺金属箱",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.634765625,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_422_streasure",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "0a14f07c67b7010faa30d71004fbb93d7ff71099e5a074d70476924bb3f09dbf"
+    },
+    "trap_432_oldisin": {
+      "name": "老伊辛",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.669921875,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_432_oldisin",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "5ade38652331029a8fe7712af554209dcb92abc825d5e9a34793e6938a79eea1"
+    },
+    "trap_433_sandsdr": {
+      "name": "“沙卒”",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.705078125,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_433_sandsdr",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "d8ab41d724f83b17e2aaf2abe757963ca4d084cc7a41e05c92d7da4fc900238a"
+    },
+    "trap_434_klmantc": {
+      "name": "曼提柯杀手",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.740234375,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_434_klmantc",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "872cb0abac0b43c6f51bfb46aeff04a9b55b115877abf878d38ec0e4997164e9"
+    },
+    "trap_435_trsrhuntr": {
+      "name": "寻宝人",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.775390625,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_435_trsrhuntr",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "30416cb6ad48fbed55643b3ac9cd0755979a91b014021e497a7c9b62badd1cee"
+    },
+    "trap_437_poachr": {
+      "name": "老练猎手",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.810546875,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_437_poachr",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "0493ad420ad3917b72fc36a08eccba4da545643ac68997ab6936da5364b87118"
+    },
+    "trap_440_xbalis": {
+      "name": "简易弩台",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.845703125,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_440_xbalis/trap_440_xbalis.fbx",
+      "bundle": "arts_maps_common_trap_trap_44.ab",
+      "sourceSha256": "02fd71cd293c3d6a32ed1512198f8fc2656ad3bb4d6dcafca3e45fe2a0c38579"
+    },
+    "trap_441_xbmgbird": {
+      "name": "喙中奇物",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.880859375,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_441_xbmgbird",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "7345fc3b0c3abafca58baf330db2f847b527128a57bf9bf5adad3ffa1879f00e"
+    },
+    "trap_442_xbtrap": {
+      "name": "流沙黯坑",
+      "kind": "effect",
+      "label": "原版特效代表帧",
+      "rect": [
+        0.916015625,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/effects/trap_xbtrap_02.prefab",
+      "bundle": "battle_prefabs_effects_trap.ab",
+      "sourceSha256": "53056eb24cb64a268c20708cbd16941f7b937b787bec7f9801c32dee9d5fdc06"
+    },
+    "trap_446_xbfdtion": {
+      "name": "风沙营垒",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.951171875,
+        0.23046875,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_446_xbfdtion/trap_446_xbfdtion.fbx",
+      "bundle": "arts_maps_common_trap_trap_44.ab",
+      "sourceSha256": "70928594b99a33a3dc7e3177ec96756c786f297babcf20d0a2d21b41d1e38c41"
+    },
+    "trap_447_xbmcv": {
+      "name": "旷野房车\n",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.001953125,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_447_xbmcv/trap_447_xbmcv.fbx",
+      "bundle": "arts_maps_common_trap_trap_44.ab",
+      "sourceSha256": "89f7e991b78f89c38fd9a8aef8d16f611ec18807734003b62d32e7404738a256"
+    },
+    "trap_461_xbhydr": {
+      "name": "机关石门",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.037109375,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_461_xbhydr/trap_461_xbhydr.fbx",
+      "bundle": "arts_maps_common_trap_trap_46.ab",
+      "sourceSha256": "9dfd909d5316d14b41925495e9a2c7d021b792bd71f79409935205b1cb486478"
+    },
+    "trap_465_xbstation": {
+      "name": "号令点",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.072265625,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_465_xbstation/trap_465_xbstation.fbx",
+      "bundle": "arts_maps_common_trap_trap_46.ab",
+      "sourceSha256": "7f0c957ec7a040b061061feef488e8f0ae7a07dad4a1682e5b4ff747ce79689a"
+    },
+    "trap_466_tzumama": {
+      "name": "森蚺",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.107421875,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_466_tzumama",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "8394a21a88270ebcc316a468e93c62cc02c4993ac9100c9d5479a7d3bf315a63"
+    },
+    "trap_467_ttuye": {
+      "name": "图耶",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.142578125,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_467_ttuye",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "f3513ca60f88f1b1f87568b3470b2246b882bfaa170535551face336bef60214"
+    },
+    "trap_468_tpriest": {
+      "name": "大祭司",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.177734375,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_468_tpriest",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "6d2989450311965afc091ade9cf8aaacc6d1fe5048e7a4bf71e0f5475cf70072"
+    },
+    "trap_469_tpasngr": {
+      "name": "异客",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.212890625,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_469_tpasngr",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "a624760aa754325964d355a8e9f3eff28dcd7d151c3ead831a2fd2959f4dbbb5"
+    },
+    "trap_470_tmantic": {
+      "name": "狮蝎",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.248046875,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_470_tmantic",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "35f411f6b73907462594797498f55b0bd15c7e4cdf83f789649e91ab6024a870"
+    },
+    "trap_471_tegmaus": {
+      "name": "佩佩",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.283203125,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_471_tegmaus",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "660de0a1dc65737cab8e73155b8c587e965516158cf7c4908697b3a1eab5f178"
+    },
+    "trap_472_tfalco": {
+      "name": "红隼",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.318359375,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_472_tfalco",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "196be8d77354dafeecf912c7b457863d2d22ba82e22951c067229e86308fd394"
+    },
+    "trap_473_trmedic": {
+      "name": "罗德岛工作人员",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.353515625,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_473_trmedic",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "745194c6f02461cf61fd20b0bf1abe2164d7dfe75d6a7efd5b58137e4ae4b8a5"
+    },
+    "trap_474_mailbox": {
+      "name": "信使邮筒",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.388671875,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_474_mailbox",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "0b5c645fd4adffc7a412e378d7986faf4ed2b67f5fcf340dd51d741347a120b4"
+    },
+    "trap_476_mscskt": {
+      "name": "讯息匣",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.423828125,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_476_mscskt",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "ea1bf7b3e2eb1c8ffdab7f01786f3b6595fcf2dfce4bc36c545bd12186355f72"
+    },
+    "trap_479_xbbillb": {
+      "name": "告示牌",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.458984375,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_479_xbbillb",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "b98f406743644155b266b11bd3e2b67e3974b2ead9a4e35437fa4f7e51c7f318"
+    },
+    "trap_480_roadblockxb": {
+      "name": "道路障碍物",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.494140625,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sktok_roadblock",
+      "iconKind": "game-skill-icon",
+      "sourceSha256": "8f906619b29e704f54b79f28a79812fa7095816a79d7d536ccbfdb9573282ab6"
+    },
+    "trap_481_gtreasureb": {
+      "name": "埋没金属箱",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.529296875,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_416_gtreasure",
+      "bundle": "pkgrps_btl_pfb_tokens_2.ab",
+      "sourceSha256": "933a97fc41e285c10715e58df9695965eab707ef4a0cdb12a49892a247a563fb"
+    },
+    "trap_484_xbcp": {
+      "name": "检查点",
+      "kind": "mechanism",
+      "label": "机制标记 · 检查点",
+      "rect": [
+        0.564453125,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "检查点",
+      "symbol": "FLAG"
+    },
+    "trap_485_xbrandprop": {
+      "name": "随机道具盒",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.599609375,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_485_xbrandprop/trap_485_xbrandprop.fbx",
+      "bundle": "arts_maps_common_trap_trap_48.ab",
+      "sourceSha256": "f81d8c1ee4d3287fbe6ec452b04b0b985288b4bdd8e1e63b45a144763745d59a"
+    },
+    "trap_486_xbspd": {
+      "name": "加速块",
+      "kind": "effect",
+      "label": "原版特效代表帧",
+      "rect": [
+        0.634765625,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/effects/common_v049_insect_rushloop_01.prefab",
+      "bundle": "battle_prefabs_effects_common.ab",
+      "sourceSha256": "c77e17122e3ddea413110e5a51e1490f8752be5155fab1fb4c1f0494c8a3163e"
+    },
+    "trap_492_xbamai": {
+      "name": "狩闻匣",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.669921875,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_492_xbamai",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "bcc197f1033c90602edf95cb24ff7cfbdee8b438a5e91ff2414b7216ae648a65"
+    },
+    "trap_500_xbaflu": {
+      "name": "荧光棒弹射装置",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.705078125,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sandbox_1_tactical_35",
+      "iconKind": "game-item-icon",
+      "sourceSha256": "a231520916a84862f3719c328bd5ee5937b81e59fb7ec5fc67e379781fb401a3"
+    },
+    "trap_501_xbaarm": {
+      "name": "外骨骼",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.740234375,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sandbox_1_tactical_36",
+      "iconKind": "game-item-icon",
+      "sourceSha256": "80cdad667e89408f26eb7ec115aca8b8fad96a24b335eac66c5e28fc8478b26c"
+    },
+    "trap_502_xbaice": {
+      "name": "冰瀑喷射罐",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.775390625,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sandbox_1_tactical_37",
+      "iconKind": "game-item-icon",
+      "sourceSha256": "a61b831898ed73271814ef4f4927e48b7f4b5179b9d8e2fec3a4174b15b1b464"
+    },
+    "trap_503_xbabla": {
+      "name": "凋亡发射器",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.810546875,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sandbox_1_tactical_38",
+      "iconKind": "game-item-icon",
+      "sourceSha256": "c372efecb724b4c7a8da8a2ebada60bea7bc29ad6a17765efced707dbbbf90a8"
+    },
+    "trap_504_xbaess": {
+      "name": "桶装液香",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.845703125,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sandbox_1_tactical_39",
+      "iconKind": "game-item-icon",
+      "sourceSha256": "63c72cd9c98406f129a9137e0f11899a4af3ee284b7abf13576c9027933a1dee"
+    },
+    "trap_505_xbawea": {
+      "name": "庇护制造器",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.880859375,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sandbox_1_tactical_40",
+      "iconKind": "game-item-icon",
+      "sourceSha256": "fa80281b807e6f1424493151ca646bea00a41088fe3699d70deb0ca97fc49e66"
+    },
+    "trap_506_xbadiv": {
+      "name": "驯兽口粮",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.916015625,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sandbox_1_tactical_41",
+      "iconKind": "game-item-icon",
+      "sourceSha256": "9837ebf8996fd7cb5a358dee708867002c3eac6ee3838e3e55368db7a40c9ca9"
+    },
+    "trap_507_xbabut": {
+      "name": "感知链接器",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.951171875,
+        0.16015625,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sandbox_1_tactical_42",
+      "iconKind": "game-item-icon",
+      "sourceSha256": "8a72187ccfc83ef8791360edce630d62105f3035fe3b60a40c5250071833e02f"
+    },
+    "trap_508_xbabat": {
+      "name": "行动套装",
+      "kind": "game-ui",
+      "label": "原版游戏图标",
+      "rect": [
+        0.001953125,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "binding": "sandbox_1_tactical_34",
+      "iconKind": "game-item-icon",
+      "sourceSha256": "221c9da22acc3cf259cfc1ce79e6589021cce6a7217a736ee53e40cd27d4fc2a"
+    },
+    "trap_515_xb2wdo": {
+      "name": "杂木林",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.037109375,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/battle/prefabs/[uc]tokens/trap_515_xb2wdo.prefab",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "f920b8e91fb638c87fa1e4619723835894bfe97a3e993adb6729ada2cf35fbb3"
+    },
+    "trap_516_xb2wod": {
+      "name": "杂木林",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.072265625,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_516_xb2wod/trap_516_xb2wod.fbx",
+      "bundle": "arts_maps_common_trap_trap_51.ab",
+      "sourceSha256": "9ca0c2cb2bfec44562a6707ab116d2f944304007f956bc4feff6303a7b0a441d"
+    },
+    "trap_517_xb2stn": {
+      "name": "巨大岩石",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.107421875,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_517_xb2stn/trap_517_xb2stn.fbx",
+      "bundle": "arts_maps_common_trap_trap_51.ab",
+      "sourceSha256": "d9c19b9b46f28b9267a2ebe60d3ad94b2b9a30bdbf299cf83cde0d9ab5cf4035"
+    },
+    "trap_518_xb2irn": {
+      "name": "奇异矿脉",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.142578125,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_518_xb2irn/trap_518_xb2irn.fbx",
+      "bundle": "arts_maps_common_trap_trap_51.ab",
+      "sourceSha256": "e53c4d4a84c6f6df6c64e24b19dd20449865d767c327d699541e899d177bdaad"
+    },
+    "trap_519_xb2dmn": {
+      "name": "澄亮矿脉",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.177734375,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_519_xb2dmn/trap_519_xb2dmn.fbx",
+      "bundle": "arts_maps_common_trap_trap_51.ab",
+      "sourceSha256": "eedf1082b72217d333ccf0f2647ad51e06b5b3c400232e87dbebaaf8f70f0c17"
+    },
+    "trap_520_xb2cve": {
+      "name": "巢穴",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.212890625,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_520_xb2cve",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "1bfc646e2ace37ca67731ba10b5cec3b050e6f9b42accda652605523c17f3d69"
+    },
+    "trap_521_xb2cmp": {
+      "name": "废弃移动战塔",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.248046875,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_521_xb2cmp/trap_521_xb2cmp.fbx",
+      "bundle": "arts_maps_common_trap_trap_52.ab",
+      "sourceSha256": "f3fd5096d26126a9930c2fb43ea30aa8657ac77c3ee00c277ace7d31a0a61e73"
+    },
+    "trap_522_xb2dor": {
+      "name": "待清理材料",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.283203125,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_522_xb2dor/trap_522_xb2dor.fbx",
+      "bundle": "arts_maps_common_trap_trap_52.ab",
+      "sourceSha256": "f3f7a58df795e6b7a5247159d55a1fcd509c18052fe85e0d4904538018bdc4a4"
+    },
+    "trap_523_xb2brd": {
+      "name": "好奇的小羽兽",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.318359375,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_523_xb2brd",
+      "bundle": "pkgrps_btl_pfb_tokens_4.ab",
+      "sourceSha256": "24beccf4344f3b7b129416c1afec3b550ef7777fb3b0acbc9d24fbdba9718884"
+    },
+    "trap_524_xb2onf": {
+      "name": "损坏的资源前哨站",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.353515625,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_524_xb2onf/trap_524_xb2onf.fbx",
+      "bundle": "arts_maps_common_trap_trap_52.ab",
+      "sourceSha256": "a0692cea893d37a584307cede5ccdc7ebfc1a433b3bfb380fa9d7db4b8ba4fe6"
+    },
+    "trap_530_xb2gtr": {
+      "name": "埋没金属箱",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.388671875,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_530_xb2gtr",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "15261f3f42aff2fff1a45570644234c3e535505026c7108ceeebde15fa5c6c36"
+    },
+    "trap_531_xb2str": {
+      "name": "宝刺金属箱",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.423828125,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_531_xb2str",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "33c342f122aa2b01674ec8f14bc9319a47615e934c95fa6e6842e2ffd8bf8fc3"
+    },
+    "trap_532_xb2shb": {
+      "name": "灌木丛",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.458984375,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_532_xb2shb/trap_532_xb2shb.fbx",
+      "bundle": "arts_maps_common_trap_trap_53.ab",
+      "sourceSha256": "ae31a6d46a1114d4aab691d586a28f4ccbba82efa763259c615d2e442a865cf2"
+    },
+    "trap_621_xb2flr": {
+      "name": "荧光棒",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.494140625,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_451_xbflare",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "4ed6f3862dc746b6485df0d69170741d75156334a80d587e07922afe0e76fd0d"
+    },
+    "trap_624_xb2mtr": {
+      "name": "Mon3tr",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.529296875,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_624_xb2mtr",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "419f2b8297111ff9568582d800902844f6925f630ef3f559f951e35a76a2730e"
+    },
+    "trap_625_xb2smy": {
+      "name": "Stormeye",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.564453125,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_625_xb2smy",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "56492f8fd763d9e97f8db8058514bd4be02d4efb6b8806eed70c462842a88e1b"
+    },
+    "trap_626_xb2tex": {
+      "name": "Thermal-EX",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.599609375,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_626_xb2tex",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "cd8e1233ccfae31d604247ffc49b22ac263395586a4b34bf6fc11f052d313a2b"
+    },
+    "trap_627_xb2amy": {
+      "name": "阿米娅",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.634765625,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_627_xb2amy",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "da9374017c612d7cdf78213d2f5e3c60a9455f2a34e4b78c477c68de4f93132c"
+    },
+    "trap_628_xb2cls": {
+      "name": "可露希尔",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.669921875,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_628_xb2cls",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "a11331f71be3ac099282bb97a7002f30096cebe70db38f17974720f30434ea6c"
+    },
+    "trap_630_xb2als": {
+      "name": "简易弩台",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.705078125,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_630_xb2als/trap_630_xb2als.fbx",
+      "bundle": "arts_maps_common_trap_trap_63.ab",
+      "sourceSha256": "39fed008c6e9d52f5ba0839338e55f93119bd379bea996a929a8f0e665c88bb6"
+    },
+    "trap_631_xb2ach": {
+      "name": "持弓罗德岛男干员",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.740234375,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_631_xb2ach",
+      "bundle": "pkgrps_btl_pfb_tokens_5.ab",
+      "sourceSha256": "f7f23235e5b5373822fed6ec6157fea9042f87cf4d1d8122eabe1140ae112054"
+    },
+    "trap_757_skzbox": {
+      "name": "宝箱",
+      "kind": "wiki-avatar",
+      "label": "原版头像 · Wiki",
+      "rect": [
+        0.775390625,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "url": "https://media.prts.wiki/4/4b/%E5%A4%B4%E5%83%8F_%E8%A3%85%E7%BD%AE_%E5%AE%9D%E7%AE%B1.png?v=3jk8n5e1jrizab7p3f8gzm0q2upwrzo",
+      "sourceSha256": "5c9e029e7d514d4fbb0c54a6a2db3ce3b16581dea7bc595810cd23f7606adaff"
+    },
+    "trap_758_skzmbx": {
+      "name": "停滞巧械",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.810546875,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_758_skzmbx",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "e99b64217cdfb8827359a28fe55a49ba035c5ff5048097af4d6fd39c89a9be59"
+    },
+    "trap_759_skzwyx": {
+      "name": "垂死羽兽",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.845703125,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_759_skzwyx",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "8eaa3475c34d8403218254f4e6cd64547e9a96fea2d01a89b51c356950ab4352"
+    },
+    "trap_760_skztzs": {
+      "name": "年代之刺",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.880859375,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_760_skztzs",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "180c8b6bd771a2aa5b9fa2ec56471ebfd638ad449c30ed9f4454448d12ac4cd6"
+    },
+    "trap_761_skzthx": {
+      "name": "尊主的残影",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.916015625,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_761_skzthx",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "f8e3e1ca21115e7c4fc336ea0ebd27f4a73fb8304bf67833e40d3c119cefdaec"
+    },
+    "trap_762_skztxy": {
+      "name": "特蕾西娅，黑冠圣贤",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.951171875,
+        0.08984375,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_762_skztxy",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "3365c3d67ea637c6644d8ec39db5439db2fbf4b644c6e29cb3354a704387e735"
+    },
+    "trap_763_skzddd": {
+      "name": "圣卫坚盾",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.001953125,
+        0.01953125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_763_skzddd",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "792586c752fe350bd36dcc4cdd0798a58a86502ec3618fef67c7a07bedfe5272"
+    },
+    "trap_764_skzshp": {
+      "name": "驮兽旅行家",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.037109375,
+        0.01953125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_764_skzshp",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "9e5a9d4f9c326af82de9b4be9510a371f4f0edeef869b7abc444e05f62f32ea9"
+    },
+    "trap_766_duelwal": {
+      "name": "狭路相逢",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.072265625,
+        0.01953125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_766_duelwal/trap_766_duelwal.fbx",
+      "bundle": "arts_maps_common_trap_trap_76.ab",
+      "sourceSha256": "c48b511d879d04e79d31763c32bb3143e311c3940a2e53c67a57196029dfdc4f"
+    },
+    "trap_767_duelcdt": {
+      "name": "狭路相逢",
+      "kind": "mechanism",
+      "label": "机制标记 · 战场规则",
+      "rect": [
+        0.107421875,
+        0.01953125,
+        0.03125,
+        0.0625
+      ],
+      "mechanism": "战场规则",
+      "symbol": "CTRL"
+    },
+    "trap_778_giatow": {
+      "name": "L-44\"留声机\"",
+      "kind": "model",
+      "label": "原模型缩略图",
+      "rect": [
+        0.142578125,
+        0.01953125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "dyn/arts/maps/common/trap/trap_778_giatow/trap_778_giatow.fbx",
+      "bundle": "arts_maps_common_trap_trap_77.ab",
+      "sourceSha256": "6b71212e74e8da47c0a0fd97b2b41b7e732b8fd1053e67972c31b4fd72d4f12e"
+    },
+    "trap_779_skzth": {
+      "name": "尼卢火",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.177734375,
+        0.01953125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_779_skzth",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "445f7ca432c7940849e2a525645552dea953a4d6cae27783153c050ec33f1a2e"
+    },
+    "trap_786_fxdtwr": {
+      "name": "“绝对助手”",
+      "kind": "spine",
+      "label": "原 Spine 姿势缩略图",
+      "rect": [
+        0.212890625,
+        0.01953125,
+        0.03125,
+        0.0625
+      ],
+      "asset": "trap_786_fxdtwr",
+      "bundle": "pkgrps_btl_pfb_tokens_3.ab",
+      "sourceSha256": "be20f36fac21621220f25a155666e2e20f2d72c508c4bf1fd243013f0d58ac5a"
+    }
+  }
+}

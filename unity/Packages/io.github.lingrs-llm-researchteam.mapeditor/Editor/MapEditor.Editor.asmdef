@@ -1,0 +1,17 @@
+{
+  "name": "MapEditor.Editor",
+  "rootNamespace": "Arknights.MapEditor",
+  "references": [
+    "MapEditor.Core",
+    "MapEditor.Storage"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "Newtonsoft.Json.dll",
+    "Jint.dll",
+    "Esprima.dll"
+  ]
+}

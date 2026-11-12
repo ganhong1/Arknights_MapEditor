@@ -1,0 +1,65 @@
+var TerrainFuse = module.exports;
+
+function buildCatalogIndex(serializedDocuments, serializedIndex) {
+  return new TerrainFuse(JSON.parse(serializedDocuments), {
+    includeScore: true,
+    shouldSort: true,
+    threshold: 0.2,
+    minMatchCharLength: 1,
+    ignoreLocation: true,
+    keys: [
+      { name: 'name', weight: 0.55 },
+      { name: 'targetFile', weight: 0.22 },
+      { name: 'namePinyin', weight: 0.14 },
+      { name: 'nameInitials', weight: 0.06 },
+      { name: 'category', weight: 0.02 },
+      { name: 'description', weight: 0.01 }
+    ]
+  }, serializedIndex ? TerrainFuse.parseIndex(JSON.parse(serializedIndex)) : undefined);
+}
+
+function findCatalogMatches(index, query) {
+  const terms = query.split(/\s+/);
+  const results = index.search(terms.length === 1 ? query : {
+    $and: terms.map(term => ({
+      $or: ['name', 'targetFile', 'namePinyin', 'nameInitials', 'category', 'description']
+        .map(key => ({ [key]: term }))
+    }))
+  });
+  return JSON.stringify(results.map(result => result.refIndex));
+}
+
+
+class TerrainBitapSearcher {
+  static condition(pattern, options) {
+    return pattern.length > 0 && options.threshold === 0.2 && options.ignoreLocation
+      && options.minMatchCharLength === 1 && !options.includeMatches && !options.findAllMatches
+      && !options.isCaseSensitive && !options.ignoreDiacritics;
+  }
+
+  constructor(pattern) {
+    this.pattern = pattern.toLowerCase();
+    this.chunks = [];
+    if (this.pattern.length <= 32) {
+      this.chunks.push(this.pattern);
+    } else {
+      const end = this.pattern.length - this.pattern.length % 32;
+      for (let i = 0; i < end; i += 32) this.chunks.push(this.pattern.slice(i, i + 32));
+      if (end < this.pattern.length) this.chunks.push(this.pattern.slice(-32));
+    }
+  }
+
+  searchIn(text) {
+    text = text.toLowerCase();
+    if (text === this.pattern) return { isMatch: true, score: 0 };
+    let total = 0;
+    let isMatch = false;
+    for (const chunk of this.chunks) {
+      const score = terrainBitapScore(text, chunk);
+      isMatch = isMatch || score < 1;
+      total += score;
+    }
+    return { isMatch, score: isMatch ? total / this.chunks.length : 1 };
+  }
+}
+TerrainFuse.use(TerrainBitapSearcher);
