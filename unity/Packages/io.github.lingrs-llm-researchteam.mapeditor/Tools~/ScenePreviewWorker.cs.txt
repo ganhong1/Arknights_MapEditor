@@ -1,0 +1,242 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
+
+[InitializeOnLoad]
+public static class OfflineScenePreviewWorker
+{
+    private const string RequestKey = "Arknights.MapEditor.ScenePreviewRequest";
+
+    [Serializable]
+    private sealed class Request
+    {
+        public string scene;
+        public string[] bundles;
+    }
+
+    [Serializable]
+    private sealed class Result
+    {
+        public bool success;
+        public string message;
+    }
+
+    static OfflineScenePreviewWorker()
+    {
+        EditorApplication.playModeStateChanged += state =>
+        {
+            if (state == PlayModeStateChange.EnteredPlayMode)
+                EditorApplication.delayCall += Render;
+        };
+    }
+
+    public static void Start()
+    {
+        var args = Environment.GetCommandLineArgs();
+        var index = Array.IndexOf(args, "-arkScenePreviewRequest");
+        if (index < 0 || index + 1 >= args.Length || !File.Exists(args[index + 1]))
+            throw new ArgumentException("Missing scene preview request.");
+        SessionState.SetString(RequestKey, args[index + 1]);
+        EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+        EditorApplication.delayCall += EditorApplication.EnterPlaymode;
+    }
+
+    private static async void Render()
+    {
+        var input = SessionState.GetString(RequestKey, "");
+        if (input.Length == 0) return;
+        SessionState.EraseString(RequestKey);
+        var result = new Result();
+        var root = Path.GetDirectoryName(input);
+        var loaded = new List<AssetBundle>();
+        var original = SceneManager.GetActiveScene();
+        Scene scene = default;
+        try
+        {
+            var request = JsonUtility.FromJson<Request>(File.ReadAllText(input));
+            if (request == null || string.IsNullOrWhiteSpace(request.scene) ||
+                request.bundles == null || request.bundles.Length == 0)
+                throw new InvalidDataException("Invalid scene preview request.");
+
+            foreach (var path in request.bundles)
+            {
+                var bundle = AssetBundle.LoadFromFile(path);
+                if (bundle == null) throw new InvalidDataException("Unity 无法加载 " + Path.GetFileName(path));
+                loaded.Add(bundle);
+            }
+
+            if (!loaded.Last().GetAllScenePaths().Contains(request.scene, StringComparer.OrdinalIgnoreCase))
+                throw new InvalidDataException("场景地址未在资源包登记。");
+
+            // Unity 2021's streamed scene loader accepts the short name. Ensure it resolves uniquely.
+            var name = Path.GetFileNameWithoutExtension(request.scene);
+            var matches = loaded.SelectMany(bundle => bundle.GetAllScenePaths())
+                .Count(path => string.Equals(Path.GetFileNameWithoutExtension(path), name, StringComparison.OrdinalIgnoreCase));
+            if (matches != 1) throw new InvalidDataException("声明的依赖中包含同名场景，无法确定预览目标。");
+
+            await WaitFor(SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive));
+            scene = SceneManager.GetSceneByPath(request.scene);
+            if (!scene.IsValid() || !scene.isLoaded || !SceneManager.SetActiveScene(scene))
+                throw new InvalidDataException("Unity 未能激活场景。");
+            var objects = scene.GetRootGameObjects();
+            var renderers = objects.SelectMany(go => go.GetComponentsInChildren<Renderer>())
+                .Where(renderer => renderer.enabled).ToArray();
+            var cameras = objects.SelectMany(go => go.GetComponentsInChildren<Camera>(true))
+                .Where(IsSceneCamera).OrderBy(camera => camera.name == "Camera" ? 0 : 1).ThenBy(camera => camera.depth).ToArray();
+
+            byte[] pixels = null;
+            foreach (var camera in cameras)
+            {
+                try
+                {
+                    pixels = Capture(camera);
+                    if (pixels != null) { result.message = "场景原相机"; break; }
+                }
+                catch (Exception failure) when (failure is UnityException || failure is InvalidOperationException)
+                {
+                    Debug.LogWarning($"场景相机 {camera.name} 无法捕获：{failure.Message}");
+                }
+            }
+            if (pixels == null)
+            {
+                var camera = FitCamera(scene, renderers);
+                try { pixels = Capture(camera); }
+                finally { Object.DestroyImmediate(camera.gameObject); }
+                result.message = "自动取景";
+            }
+            if (pixels == null) throw new InvalidDataException("场景相机未捕获到可见画面。");
+            File.WriteAllBytes(Path.Combine(root, "frame.png"), pixels);
+            result.message += $" · {renderers.Length} 个活动渲染器";
+            result.success = true;
+        }
+        catch (Exception failure)
+        {
+            Debug.LogException(failure);
+            result.message = failure.Message;
+        }
+        finally
+        {
+            try
+            {
+                if (scene.IsValid() && scene.isLoaded)
+                {
+                    SceneManager.SetActiveScene(original);
+                    await WaitFor(SceneManager.UnloadSceneAsync(scene));
+                }
+                for (var i = loaded.Count - 1; i >= 0; i--) loaded[i].Unload(true);
+            }
+            catch (Exception failure)
+            {
+                Debug.LogException(failure);
+                result.success = false;
+                result.message = "场景资源释放失败。";
+            }
+            try { File.WriteAllText(Path.Combine(root, "result.json"), JsonUtility.ToJson(result)); }
+            catch (Exception failure) when (failure is IOException || failure is UnauthorizedAccessException)
+            {
+                Debug.LogException(failure);
+                result.success = false;
+            }
+            finally { EditorApplication.Exit(result.success ? 0 : 1); }
+        }
+    }
+
+    private static bool IsSceneCamera(Camera camera) =>
+        camera.gameObject.activeInHierarchy && camera.targetDisplay == 0 && camera.cullingMask != 0 &&
+        !camera.name.StartsWith("UI", StringComparison.OrdinalIgnoreCase) &&
+        !camera.name.EndsWith("UICamera", StringComparison.OrdinalIgnoreCase) &&
+        camera.name.IndexOf("fake", StringComparison.OrdinalIgnoreCase) < 0;
+
+    private static System.Threading.Tasks.Task WaitFor(AsyncOperation operation)
+    {
+        if (operation == null) throw new InvalidOperationException("Unity 未返回场景加载或卸载任务。");
+        var completion = new System.Threading.Tasks.TaskCompletionSource<bool>();
+        if (operation.isDone) completion.SetResult(true);
+        else operation.completed += _ => completion.TrySetResult(true);
+        return completion.Task;
+    }
+
+    private static Camera FitCamera(Scene scene, Renderer[] renderers)
+    {
+        var ground = renderers.Where(renderer => renderer is MeshRenderer || renderer is SkinnedMeshRenderer)
+            .Select(renderer => renderer.bounds).Where(bounds => bounds.size.sqrMagnitude > 0f).ToArray();
+        if (ground.Length == 0) throw new InvalidDataException("场景缺少可用于取景的网格。");
+        // A distant sky or fog plane should not determine the framing of the playfield.
+        var low = Vector3.zero;
+        var high = Vector3.zero;
+        var trim = ground.Length >= 32 ? ground.Length / 50 : 0;
+        for (var axis = 0; axis < 3; axis++)
+        {
+            var index = axis;
+            low[axis] = ground.Select(item => item.min[index]).OrderBy(value => value).ElementAt(trim);
+            high[axis] = ground.Select(item => item.max[index]).OrderByDescending(value => value).ElementAt(trim);
+        }
+        var bounds = new Bounds((low + high) * .5f, high - low);
+
+        var owner = new GameObject("Offline scene preview camera");
+        SceneManager.MoveGameObjectToScene(owner, scene);
+        var camera = owner.AddComponent<Camera>();
+        camera.clearFlags = CameraClearFlags.SolidColor;
+        camera.backgroundColor = new Color(.09f, .11f, .13f);
+        camera.transform.rotation = Quaternion.Euler(-30f, 0f, 0f);
+        camera.fieldOfView = 40f;
+        const float aspect = 16f / 9f;
+        var slope = Mathf.Tan(camera.fieldOfView * .5f * Mathf.Deg2Rad);
+        var inverse = Quaternion.Inverse(camera.transform.rotation);
+        var distance = 3f;
+        foreach (var x in new[] { -bounds.extents.x, bounds.extents.x })
+        foreach (var y in new[] { -bounds.extents.y, bounds.extents.y })
+        foreach (var z in new[] { -bounds.extents.z, bounds.extents.z })
+        {
+            var corner = inverse * new Vector3(x, y, z);
+            var fit = Mathf.Max(Mathf.Abs(corner.x) / (slope * aspect), Mathf.Abs(corner.y) / slope);
+            distance = Mathf.Max(distance, fit * 1.14f - corner.z);
+        }
+        camera.transform.position = bounds.center - camera.transform.forward * distance;
+        camera.farClipPlane = Mathf.Max(100f, distance * 3f);
+        return camera;
+    }
+
+    private static byte[] Capture(Camera camera)
+    {
+        const int width = 1280, height = 720;
+        var previousTarget = camera.targetTexture;
+        var previousRect = camera.rect;
+        var previousActive = RenderTexture.active;
+        var previousAspect = camera.aspect;
+        var target = RenderTexture.GetTemporary(width, height, 24, RenderTextureFormat.ARGB32);
+        var image = new Texture2D(width, height, TextureFormat.RGB24, false);
+        try
+        {
+            camera.rect = new Rect(0, 0, 1, 1);
+            camera.aspect = (float)width / height;
+            camera.targetTexture = target;
+            camera.Render();
+            RenderTexture.active = target;
+            image.ReadPixels(new Rect(0, 0, width, height), 0, 0, false);
+            var colors = new HashSet<int>();
+            var sampled = image.GetPixels32();
+            for (var i = 0; i < sampled.Length && colors.Count < 12; i += 67)
+            {
+                var color = sampled[i];
+                colors.Add(((color.r >> 3) << 10) | ((color.g >> 3) << 5) | (color.b >> 3));
+            }
+            return colors.Count >= 12 ? ImageConversion.EncodeToPNG(image) : null;
+        }
+        finally
+        {
+            camera.targetTexture = previousTarget;
+            camera.rect = previousRect;
+            camera.aspect = previousAspect;
+            RenderTexture.active = previousActive;
+            RenderTexture.ReleaseTemporary(target);
+            Object.DestroyImmediate(image);
+        }
+    }
+}

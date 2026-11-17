@@ -7,7 +7,10 @@
   "unityRelease": "39f1",
   "license": "See LICENSE.md",
   "dependencies": {
-    "com.unity.nuget.newtonsoft-json": "3.2.2"
+    "com.unity.nuget.newtonsoft-json": "3.2.2",
+    "com.unity.modules.assetbundle": "1.0.0",
+    "com.unity.modules.particlesystem": "1.0.0",
+    "com.unity.modules.imageconversion": "1.0.0"
   },
   "samples": [
     {
