@@ -48,7 +48,7 @@ namespace Arknights.MapEditor.Core
             var warnings = new List<string>();
             var mapData = (JObject)root["mapData"]!;
             if (HasMapDataPayload(mapData["blockEdges"]))
-                warnings.Add("mapData.blockEdges：仅检查已识别的 row/col 坐标，阻挡边的方向与边界语义尚未完整验证；不自动改写。");
+                warnings.Add("mapData.blockEdges：裁剪会检查格边所属格坐标；请先调整受影响的阻挡边。");
             if (HasMapDataPayload(mapData["effects"]))
                 warnings.Add("mapData.effects：效果 offset 的空间关联与资源可用性尚未验证；不随尺寸自动平移或删除。");
             if (HasMapDataPayload(mapData["layerRects"]))

@@ -52,7 +52,7 @@ namespace Arknights.MapEditor.Core
             var copy = (JObject)root.DeepClone();
             var list = PredefinedCollection(copy, section, collection);
             CheckIndex(index, list.Count);
-            CheckPredefinedRemoval(copy);
+            CheckPredefinedRemoval(copy, EffectivePredefinedAlias(list[index] as JObject), IsCardCollection(collection));
             list.RemoveAt(index);
             return Parse(copy.ToString(Formatting.None));
         }
@@ -70,14 +70,52 @@ namespace Arknights.MapEditor.Core
             return Parse(copy.ToString(Formatting.None));
         }
 
-        private static void CheckPredefinedRemoval(JObject document)
+        private static void CheckPredefinedRemoval(JObject document, string? alias, bool card)
         {
             foreach (var item in Actions(document))
             {
-                var type = item.Item1["actionType"];
-                if (IsPredefinedAction(type))
+                var action = item.Item1;
+                var type = action["actionType"];
+                if (CanReferencePredefined(type, card) &&
+                    (string.IsNullOrEmpty(alias) || !PredefinedActionAliases(action).Any() ||
+                     ReferencesPredefinedAlias(action, alias, card)))
                     throw Error("Predefined action exists; resolve its target before removing an entry", item.Item1.Path);
                 if (!KnownAction(type)) throw Error("Unknown action prevents safe predefined removal", item.Item1.Path);
+            }
+        }
+
+        private static bool IsCardCollection(string collection) => collection.EndsWith("Cards", StringComparison.Ordinal);
+
+        internal static string? EffectivePredefinedAlias(JObject? record)
+        {
+            var alias = record?["alias"];
+            if (alias?.Type == JTokenType.String && !string.IsNullOrEmpty(alias.Value<string>()))
+                return alias.Value<string>();
+            var characterKey = (record?["inst"] as JObject)?["characterKey"];
+            return characterKey?.Type == JTokenType.String ? characterKey.Value<string>() : null;
+        }
+
+        private static bool CanReferencePredefined(JToken? type, bool card) =>
+            IsPredefinedAction(type) && !(card && IsAction(type, "WITHDRAW_PREDEFINED", 10));
+
+        private static bool ReferencesPredefinedAlias(JObject action, string alias, bool card) =>
+            CanReferencePredefined(action["actionType"], card) &&
+            PredefinedActionAliases(action).Contains(alias, StringComparer.Ordinal);
+
+        internal static IEnumerable<string> PredefinedActionAliases(JObject action)
+        {
+            var key = action["key"];
+            if (key?.Type != JTokenType.String || string.IsNullOrWhiteSpace(key.Value<string>())) yield break;
+            var text = key.Value<string>()!;
+            if (!IsAction(action["actionType"], "TRIGGER_PREDEFINED", 8))
+            {
+                yield return text;
+                yield break;
+            }
+            foreach (var candidate in text.Split('|'))
+            {
+                var separator = candidate.IndexOf(':');
+                yield return separator < 0 ? candidate : candidate.Substring(0, separator);
             }
         }
 
@@ -85,17 +123,29 @@ namespace Arknights.MapEditor.Core
             IsAction(type, "ACTIVATE_PREDEFINED", 6) || IsAction(type, "TRIGGER_PREDEFINED", 8) ||
             IsAction(type, "WITHDRAW_PREDEFINED", 10);
 
-        public IReadOnlyList<LevelDiagnostic> ValidateReferences()
+        public IReadOnlyList<LevelDiagnostic> ValidateReferences() => ValidateReferences(false, null);
+
+        internal IReadOnlyList<LevelDiagnostic> ValidateWaveReferences(IEnumerable<string> resolvedEnemies) =>
+            ValidateReferences(true, new HashSet<string>(resolvedEnemies, StringComparer.Ordinal));
+
+        private IReadOnlyList<LevelDiagnostic> ValidateReferences(bool wavesOnly, HashSet<string>? resolvedEnemies)
         {
             var diagnostics = new List<LevelDiagnostic>();
             ValidateRouteAndWaveStructure(diagnostics);
-            Tuple<JObject, bool>[] actions;
-            try { actions = Actions(root).ToArray(); }
-            catch (LevelDocumentException error)
+            var actions = new List<(JObject Action, bool FromBranch)>();
+            void ReadActions(IEnumerable<JObject> records, bool branch)
             {
-                diagnostics.Add(new LevelDiagnostic("error", error.Path, error.Message));
-                return diagnostics;
+                try { foreach (var action in records) actions.Add((action, branch)); }
+                catch (LevelDocumentException error)
+                {
+                    var path = error.Path.Length == 0 ? (branch ? "$.branches" : "$.waves") : error.Path;
+                    diagnostics.Add(new LevelDiagnostic("error", path, error.Message));
+                }
             }
+            if (root["waves"]?.Type == JTokenType.Null)
+                diagnostics.Add(new LevelDiagnostic("error", "$.waves", "Expected waves array, got null"));
+            else ReadActions(MainActions(root), false);
+            if (!wavesOnly) ReadActions(BranchActions(root), true);
             foreach (var field in new[] { "routes", "extraRoutes", "enemyDbRefs" })
                 if (root[field] != null && root[field]!.Type != JTokenType.Null && !(root[field] is JArray))
                     diagnostics.Add(new LevelDiagnostic("error", "$." + field, "Expected array"));
@@ -108,9 +158,17 @@ namespace Arknights.MapEditor.Core
                     else if (!ids.Add(entry["id"]!.Value<string>()!))
                         diagnostics.Add(new LevelDiagnostic("error", entry.Path + ".id", "Duplicate enemy reference id"));
                 }
+            if (root["enemies"] is JArray inlineEnemies)
+                foreach (var enemy in inlineEnemies.OfType<JObject>())
+                {
+                    var alias = enemy["alias"]?.Type == JTokenType.String ? enemy["alias"]!.Value<string>() : null;
+                    var key = string.IsNullOrEmpty(alias) && enemy["key"]?.Type == JTokenType.String
+                        ? enemy["key"]!.Value<string>() : alias;
+                    if (!string.IsNullOrEmpty(key)) ids.Add(key!);
+                }
             foreach (var item in actions)
             {
-                var action = item.Item1;
+                var action = item.Action;
                 var type = action["actionType"];
                 NumberDiagnostic(action["count"], action.Path + ".count", 0, true, diagnostics);
                 NumberDiagnostic(action["preDelay"], action.Path + ".preDelay", 0, false, diagnostics);
@@ -123,22 +181,22 @@ namespace Arknights.MapEditor.Core
                 }
                 if (IsRouteAction(type))
                 {
-                    var extra = action["useExtraRoute"];
-                    if (extra != null && extra.Type != JTokenType.Null && extra.Type != JTokenType.Boolean)
-                        diagnostics.Add(new LevelDiagnostic("error", extra.Path, "Ambiguous useExtraRoute value"));
-                    else
-                    {
-                        var library = item.Item2 || extra?.Value<bool?>() == true ? "extraRoutes" : "routes";
-                        var index = action["routeIndex"];
-                        if (!(root[library] is JArray routes) || index?.Type != JTokenType.Integer || !int.TryParse(index.ToString(), out var number) || number < 0 || number >= routes.Count || !(routes[number] is JObject))
-                            diagnostics.Add(new LevelDiagnostic("error", action.Path + ".routeIndex", "Missing or invalid " + library + " reference"));
-                    }
+                    var library = RouteLibraryForAction(item.FromBranch);
+                    var index = action["routeIndex"];
+                    var routes = root[library] as JArray;
+                    var route = WaveSchedule.Integer(index);
+                    if (wavesOnly ? !WaveSchedule.HasRoute(routes, route) :
+                        routes == null || route is not int position || position < 0 || position >= routes.Count ||
+                        routes[position] is not JObject)
+                        diagnostics.Add(new LevelDiagnostic("error", action.Path + ".routeIndex", "Missing or invalid " + library + " reference"));
                 }
-                if (IsAction(type, "SPAWN", 0))
+                var spawn = IsAction(type, "SPAWN", 0);
+                if (spawn || wavesOnly && IsAction(type, "DISPLAY_ENEMY_INFO", 5))
                 {
                     var key = action["key"];
-                    if (key?.Type != JTokenType.String || !ids.Contains(key.Value<string>()!))
-                        diagnostics.Add(new LevelDiagnostic("warning", action.Path + ".key", "SPAWN key absent from enemyDbRefs: " + key));
+                    if (key?.Type != JTokenType.String || !(resolvedEnemies ?? ids).Contains(key.Value<string>()!))
+                        diagnostics.Add(new LevelDiagnostic("warning", action.Path + ".key",
+                            (spawn ? "SPAWN" : "DISPLAY_ENEMY_INFO") + " key unresolved in document enemy definitions; check mode/runtime inputs: " + key));
                 }
                 if (IsPredefinedAction(type))
                     diagnostics.Add(new LevelDiagnostic("warning", action.Path, "Predefined target requires native context; not validated"));
@@ -146,13 +204,16 @@ namespace Arknights.MapEditor.Core
             return diagnostics;
         }
 
-        private static JObject ParseObjectFragment(string json)
+        private static JObject ParseObjectFragment(string json) =>
+            ParseValueFragment(json) as JObject ?? throw Error("Expected object fragment", "$fragment");
+
+        internal static JToken ParseValueFragment(string json)
         {
             if (json == null) throw new ArgumentNullException(nameof(json));
             if (json.Length > MaximumUtf8Bytes) throw Error("Fragment exceeds size limit", "$fragment");
             StrictJsonGuard.Validate(json);
             var envelope = Parse("{\"mapData\":{\"map\":[[0]],\"tiles\":[{}]},\"fragment\":" + json + "}");
-            return envelope.root["fragment"] as JObject ?? throw Error("Expected object fragment", "$fragment");
+            return envelope.root["fragment"]!;
         }
 
         private static JArray AddressedActions(JObject document, ScheduleAddress address)

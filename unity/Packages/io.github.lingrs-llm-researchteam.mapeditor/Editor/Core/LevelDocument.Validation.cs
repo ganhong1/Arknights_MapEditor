@@ -76,7 +76,7 @@ namespace Arknights.MapEditor.Core
                 diagnostics.Add(new LevelDiagnostic("error", path, "Invalid numeric value"));
         }
 
-        private static bool IsIntegralNumber(JToken token)
+        internal static bool IsIntegralNumber(JToken token)
         {
             // Numeric tokens already passed the strict JSON grammar. Determine the
             // decimal scale from the preserved lexeme, without rounding via double.

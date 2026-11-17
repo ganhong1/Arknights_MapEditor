@@ -178,6 +178,8 @@ namespace Arknights.MapEditor.Core
             return Parse(copy.ToString(Formatting.None));
         }
 
+        internal JObject CopyRoot() => (JObject)root.DeepClone();
+
         public JToken? GetSection(string key)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));

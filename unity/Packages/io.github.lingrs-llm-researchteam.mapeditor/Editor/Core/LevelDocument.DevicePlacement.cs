@@ -77,14 +77,13 @@ namespace Arknights.MapEditor.Core
             CheckIndex(index, list.Count + (replace ? 0 : 1));
             var previous = replace ? list[index] as JObject : null;
             var alias = entry.Value<string>("alias");
-            var oldAlias = previous?.Value<string>("alias");
+            var oldAlias = previous?["alias"]?.Type == JTokenType.String ? previous["alias"]!.Value<string>() : null;
             if (alias != oldAlias)
-            {
                 RequireUniquePresetAlias((JObject)copy[section]!, alias);
-                if (!string.IsNullOrEmpty(oldAlias) && Actions(copy).Any(item =>
-                    IsPredefinedAction(item.Item1["actionType"]) && (string?)item.Item1["key"] == oldAlias))
-                    throw new InvalidOperationException("有波次或分支动作引用这个别名，请先调整引用。");
-            }
+            var oldIdentity = EffectivePredefinedAlias(previous);
+            if (!string.IsNullOrEmpty(oldIdentity) && oldIdentity != EffectivePredefinedAlias(entry) &&
+                Actions(copy).Any(item => ReferencesPredefinedAlias(item.Item1, oldIdentity!, IsCardCollection(collection))))
+                throw new InvalidOperationException("有波次或分支动作引用这个别名，请先调整引用。");
             if (replace) list[index] = entry;
             else list.Insert(index, entry);
             return Parse(copy.ToString(Formatting.None));
