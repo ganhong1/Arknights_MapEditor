@@ -591,6 +591,94 @@ namespace Arknights.MapEditor.Editor.Tests
             }
         }
 
+        [UnityTest]
+        public IEnumerator WaveSearchRetainsAncestorsAndLocatesTheMatchingAction()
+        {
+            var workspace = ScriptableObject.CreateInstance<MapWorkspaceWindow>();
+            var editor = ScriptableObject.CreateInstance<MapEditorWindow>();
+            try
+            {
+                var music = WaveSchedule.NewNode(3);
+                music["actionType"] = "PLAY_BGM";
+                music["key"] = "wave_music_probe";
+                var document = WithActions(Spawn(), music);
+                editor.LoadWorkspaceDocument(workspace, "波次搜索测试", document.ToJson(), "", "");
+                editor.ShowUtility();
+                yield return null;
+                editor.CreateGUI();
+                Invoke(editor.rootVisualElement.Q<Button>("workbench-tab-2"));
+                var panel = editor.rootVisualElement.Q("waves-editor");
+                Open(panel, "0");
+                Open(panel, "0-0");
+                Assert.That(panel.Q<Foldout>("waves-node-0-0-0"), Is.Not.Null);
+
+                var filter = panel.Q<TextField>("waves-search");
+                filter.value = "wave_music_probe";
+                var deadline = Time.realtimeSinceStartup + 10;
+                while (panel.Q<Foldout>("waves-node-0-0-0") != null && Time.realtimeSinceStartup < deadline)
+                    yield return null;
+
+                Assert.That(panel.Q<Foldout>("waves-node-0")?.value, Is.True);
+                Assert.That(panel.Q<Foldout>("waves-node-0-0")?.value, Is.True);
+                Assert.That(panel.Q<Foldout>("waves-node-0-0-0"), Is.Null);
+                var match = Open(panel, "0-0-1");
+                Click(match, "字段树");
+                var tree = editor.rootVisualElement.Q("leveldata-tree");
+                Assert.That(tree.Q<Foldout>("leveldata-node:/waves/0/fragments/0/actions/1")?.value, Is.True);
+                Assert.That(editor.WorkspaceDocument.ToJson(), Is.EqualTo(document.ToJson()));
+
+                filter.value = "";
+                deadline = Time.realtimeSinceStartup + 10;
+                while (panel.Q<Foldout>("waves-node-0-0-0") == null && Time.realtimeSinceStartup < deadline)
+                    yield return null;
+                Assert.That(panel.Q<Foldout>("waves-node-0-0-0"), Is.Not.Null);
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(editor);
+                UnityEngine.Object.DestroyImmediate(workspace);
+            }
+        }
+
+        [UnityTest]
+        public IEnumerator WaveSettingsRejectInvalidTimeAndApplyOnlyTheEditedFields()
+        {
+            var workspace = ScriptableObject.CreateInstance<MapWorkspaceWindow>();
+            var editor = ScriptableObject.CreateInstance<MapEditorWindow>();
+            try
+            {
+                var document = WithActions(Spawn());
+                editor.LoadWorkspaceDocument(workspace, "波次参数测试", document.ToJson(), "", "");
+                editor.ShowUtility();
+                yield return null;
+                editor.CreateGUI();
+                Invoke(editor.rootVisualElement.Q<Button>("workbench-tab-2"));
+                var panel = editor.rootVisualElement.Q("waves-editor");
+                var wave = Open(panel, "0");
+                var delay = wave.Q<TextField>("waves-input-postDelay");
+                var initial = delay.value;
+                delay.value = "-2";
+                Assert.That(delay.value, Is.EqualTo(initial));
+                Assert.That(editor.WorkspaceDocument.ToJson(), Is.EqualTo(document.ToJson()));
+
+                delay.value = "2.5";
+                wave.Q<TextField>("waves-input-advancedWaveTag").value = "audit-wave";
+                Click(wave, "应用字段");
+
+                var updated = editor.WorkspaceDocument.GetSection("waves")![0]!;
+                Assert.That(updated.Value<float>("postDelay"), Is.EqualTo(2.5f));
+                Assert.That(updated.Value<string>("advancedWaveTag"), Is.EqualTo("audit-wave"));
+                Assert.That(JToken.DeepEquals(updated["fragments"], document.GetSection("waves")![0]!["fragments"]), Is.True);
+                editor.UndoFromShortcut();
+                Assert.That(editor.WorkspaceDocument.ToJson(), Is.EqualTo(document.ToJson()));
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(editor);
+                UnityEngine.Object.DestroyImmediate(workspace);
+            }
+        }
+
         [Test]
         public void FieldChangesPreserveChildNodesAndNewActionStaysUnbound()
         {
