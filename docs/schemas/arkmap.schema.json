@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:arknights-map-editor:schema:arkmap:1",
+  "title": "ArkMap project version 1",
+  "type": "object",
+  "required": ["version", "levelDataPath", "artMappings"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {"const": 1},
+    "levelDataPath": {"type": "string", "minLength": 1},
+    "artMappings": {"type": "array", "maxItems": 4096, "items": {
+      "type": "object", "required": ["key", "resourcePath", "unityGuid"], "additionalProperties": false,
+      "properties": {
+        "key": {"type": "string", "pattern": "\\S"},
+        "resourcePath": {"type": "string", "minLength": 1},
+        "unityGuid": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{32}$"}
+      }
+    }}
+  }
+}

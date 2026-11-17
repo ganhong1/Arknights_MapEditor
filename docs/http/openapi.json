@@ -1,0 +1,9 @@
+{
+  "openapi": "3.2.1",
+  "info": {
+    "title": "Arknights LevelData Editor HTTP API",
+    "version": "0.0.0",
+    "description": "当前插件没有业务 HTTP 服务。已有能力见 C# API 文档。paths 为空表示尚无可调用端点。"
+  },
+  "paths": {}
+}

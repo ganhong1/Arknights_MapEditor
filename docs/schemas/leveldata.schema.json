@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:arknights-map-editor:schema:leveldata:1",
+  "title": "LevelDocument import envelope",
+  "type": "object",
+  "required": ["mapData"],
+  "properties": {
+    "mapData": {
+      "type": "object",
+      "required": ["map", "tiles"],
+      "properties": {
+        "map": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"type": "integer", "minimum": 0, "maximum": 2147483647}}},
+        "tiles": {"type": "array"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

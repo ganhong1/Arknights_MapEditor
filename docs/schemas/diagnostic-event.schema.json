@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:arknights-map-editor:schema:diagnostic-event:1",
+  "type": "object",
+  "required": ["schemaVersion","utc","lastUtc","id","count","operation","level","category","code","operationId","session","documentId","revision","outcome","durationMs","exceptionTypes","stack","cleanupExceptionTypes"],
+  "properties": {
+    "schemaVersion":{"const":1},
+    "utc":{"type":"string","format":"date-time"},"lastUtc":{"type":"string","format":"date-time"},
+    "id":{"type":"string"},"count":{"type":"integer","minimum":1},
+    "operation":{"type":"string"},"level":{"enum":["debug","info","warning","error"]},
+    "category":{"type":"string"},"code":{"type":"string"},"operationId":{"type":"string"},
+    "parentOperationId":{"type":["string","null"]},"previousRevision":{"type":["string","null"]},
+    "relatedEventIds":{"type":"array","maxItems":64,"items":{"type":"string"}},
+    "relatedOperationIds":{"type":"array","maxItems":64,"items":{"type":"string"}},
+    "session":{"type":["string","null"]},"documentId":{"type":["string","null"]},"revision":{"type":["string","null"]},
+    "outcome":{"type":"string"},"durationMs":{"type":"number","minimum":0},
+    "exceptionTypes":{"type":"array","items":{"type":"string"}},"stack":{"type":"array","items":{"type":"string"}},"cleanupExceptionTypes":{"type":"array","items":{"type":"string"}}
+  },
+  "additionalProperties":true
+}

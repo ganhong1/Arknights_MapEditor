@@ -1,0 +1,18 @@
+- name: 文档首页
+  href: index.md
+- name: 项目结构
+  href: project-layout.md
+- name: 日志与异常
+  href: operations/diagnostics.md
+- name: 错误码
+  href: operations/error-codes.md
+- name: C# 接口约定
+  href: api/contracts.md
+- name: C# API 参考
+  href: api/reference/toc.yml
+- name: 文件契约
+  href: schemas/README.md
+- name: HTTP 接口范围
+  href: http/README.md
+- name: 构建文档
+  href: building.md

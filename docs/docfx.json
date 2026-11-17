@@ -1,0 +1,10 @@
+{
+  "metadata": [],
+  "build": {
+    "content": [{"files": ["**/*.md", "**/toc.yml", "api/reference/**/*.yml"], "exclude": ["http/swagger-ui/**"]}],
+    "resource": [{"files": ["schemas/**/*.json", "http/**/*"], "exclude": ["http/**/*.md"]}],
+    "dest": "site",
+    "template": ["default", "modern"],
+    "globalMetadata": {"_appTitle": "LevelData 编辑器", "_enableSearch": true, "_disableContribution": true}
+  }
+}
