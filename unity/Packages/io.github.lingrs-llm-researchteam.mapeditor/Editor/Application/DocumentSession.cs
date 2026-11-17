@@ -23,10 +23,14 @@ namespace Arknights.MapEditor.Editor
         [SerializeField] private bool localHistory;
         [SerializeField] private List<string> undo = new List<string>();
         [SerializeField] private List<string> redo = new List<string>();
-        private const int HistoryLimit = 24;
+        [SerializeField] private List<string> undoRevisions = new List<string>();
+        [SerializeField] private List<string> redoRevisions = new List<string>();
+        [SerializeField] private string revision = "";
+        internal const int HistoryLimit = 24;
         [NonSerialized] private string? cachedJson;
         [NonSerialized] private LevelDocument? cachedDocument;
         public string Json => json;
+        internal string Revision => revision;
         public LevelDocument Document
         {
             get
@@ -49,16 +53,31 @@ namespace Arknights.MapEditor.Editor
         {
             var source = forward ? redo : undo;
             if (source.Count == 0) return;
-            PushHistory(forward ? undo : redo, json);
+            var revisions = forward ? redoRevisions : undoRevisions;
+            AlignRevisions(source, revisions);
+            PushHistory(forward ? undo : redo, forward ? undoRevisions : redoRevisions);
             var index = source.Count - 1;
             json = source[index];
+            revision = revisions[index];
             source.RemoveAt(index);
+            revisions.RemoveAt(index);
         }
 
-        private static void PushHistory(List<string> entries, string value)
+        private static void AlignRevisions(List<string> entries, List<string> revisions)
         {
-            if (entries.Count == HistoryLimit) entries.RemoveAt(0);
-            entries.Add(value);
+            while (revisions.Count < entries.Count) revisions.Insert(0, "");
+        }
+
+        private void PushHistory(List<string> entries, List<string> revisions)
+        {
+            AlignRevisions(entries, revisions);
+            if (entries.Count == HistoryLimit)
+            {
+                entries.RemoveAt(0);
+                revisions.RemoveAt(0);
+            }
+            entries.Add(json);
+            revisions.Add(revision);
         }
 
         public RecoverySnapshot CaptureRecovery(string draft) => new RecoverySnapshot(
@@ -86,6 +105,9 @@ namespace Arknights.MapEditor.Editor
             Undo.ClearUndo(this);
             undo.Clear();
             redo.Clear();
+            undoRevisions.Clear();
+            redoRevisions.Clear();
+            revision = "";
             json = valid;
             if (saved == null) saved = CreateInstance<DocumentSaveState>();
             saved.hideFlags = HideFlags.HideAndDontSave;
@@ -95,15 +117,18 @@ namespace Arknights.MapEditor.Editor
             cachedDocument = document; cachedJson = valid;
         }
 
-        public void Edit(LevelDocument next, string label)
+        public void Edit(LevelDocument next, string label) => Edit(next, label, false);
+
+        internal void Edit(LevelDocument next, string label, bool recordUnchanged)
         {
             if (next == null) throw new ArgumentNullException(nameof(next));
             var text = next.ToJson();
-            if (text == json) return;
+            if (text == json && !recordUnchanged) return;
             if (localHistory)
             {
-                PushHistory(undo, json);
+                PushHistory(undo, undoRevisions);
                 redo.Clear();
+                redoRevisions.Clear();
             }
             else
             {
@@ -111,6 +136,7 @@ namespace Arknights.MapEditor.Editor
                 Undo.RegisterCompleteObjectUndo(this, label);
             }
             json = text;
+            revision = Guid.NewGuid().ToString("N");
             cachedDocument = next; cachedJson = text;
         }
 

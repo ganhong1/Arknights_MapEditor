@@ -21,7 +21,7 @@ namespace Arknights.MapEditor.Catalog
         private JsValue? index;
 
         internal CatalogSearch(Func<T, JObject> describe)
-            : this(describe, () => TerrainSearchRuntime.Engine, null) { }
+            : this(describe, () => CatalogSearchRuntime.Engine, null) { }
 
         internal CatalogSearch(Func<T, JObject> describe, Func<Engine> getEngine, Func<T[], string?>? prebuilt)
         {
@@ -33,7 +33,7 @@ namespace Arknights.MapEditor.Catalog
         internal IEnumerable<T> Filter(IEnumerable<T> entries, string? text, out string? error)
         {
             error = null;
-            if (string.IsNullOrWhiteSpace(text)) return entries;
+            if (text == null || string.IsNullOrWhiteSpace(text)) return entries;
             try
             {
                 var runtime = getEngine();
@@ -55,8 +55,7 @@ namespace Arknights.MapEditor.Catalog
             catch (Exception failure) when (failure is InvalidOperationException || failure is JsonException ||
                 failure is Jint.Runtime.JavaScriptException || failure is TimeoutException)
             {
-                error = "搜索暂不可用，已显示完整列表。";
-                Debug.LogWarning("目录搜索失败 · " + failure.Message);
+                error = "搜索暂不可用，已显示完整列表。 · 日志 " + Editor.PluginLog.Failure("catalog.search", failure);
                 return entries;
             }
         }

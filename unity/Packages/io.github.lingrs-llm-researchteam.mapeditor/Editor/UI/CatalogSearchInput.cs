@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Arknights.MapEditor.Catalog;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Arknights.MapEditor.Editor
 {
     internal sealed class CatalogSearchInput<T>
     {
-        private readonly TextField input;
+        private readonly VisualElement input;
+        private readonly INotifyValueChanged<string> query;
         private readonly Func<CatalogSearch<T>> createWorker;
         private IReadOnlyList<T> items;
         private readonly Action showPending;
@@ -25,19 +25,25 @@ namespace Arknights.MapEditor.Editor
 
         internal CatalogSearchInput(TextField input, Func<CatalogSearch<T>> createWorker, IReadOnlyList<T> items,
             Action showPending, Action<IReadOnlyList<T>, string?> showResults)
+            : this(input, input, createWorker, items, showPending, showResults) { }
+
+        internal CatalogSearchInput(VisualElement input, INotifyValueChanged<string> query,
+            Func<CatalogSearch<T>> createWorker, IReadOnlyList<T> items, Action showPending,
+            Action<IReadOnlyList<T>, string?> showResults)
         {
             this.input = input;
+            this.query = query;
             this.createWorker = createWorker;
             this.items = items;
             this.showPending = showPending;
             this.showResults = showResults;
-            input.RegisterValueChangedCallback(change => Filter(change.newValue));
+            query.RegisterValueChangedCallback(change => Filter(change.newValue));
         }
 
         internal void SetItems(IReadOnlyList<T> next)
         {
             items = next;
-            Filter(input.value);
+            Filter(query.value);
         }
 
         private void Filter(string text)
@@ -55,7 +61,8 @@ namespace Arknights.MapEditor.Editor
         private void Start()
         {
             try { worker ??= createWorker(); }
-            catch (Exception error) when (error is InvalidOperationException || error is Newtonsoft.Json.JsonException)
+            catch (Exception error) when (error is InvalidOperationException || error is Newtonsoft.Json.JsonException ||
+                error is FormatException || error is ArgumentException || error is System.IO.IOException)
             {
                 ShowFailure(error);
                 return;
@@ -96,8 +103,8 @@ namespace Arknights.MapEditor.Editor
 
         private void ShowFailure(Exception? error)
         {
-            Debug.LogWarning("目录搜索失败 · " + error?.Message);
-            showResults(items, "搜索暂不可用，已显示完整列表。");
+            var code = error == null ? "" : " · 日志 " + PluginLog.Failure("catalog.search", error);
+            showResults(items, "搜索暂不可用，已显示完整列表。" + code);
         }
     }
 }
