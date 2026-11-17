@@ -21,12 +21,15 @@ namespace Arknights.MapEditor.Editor
         private sealed class Entry
         {
             internal readonly string Hash, Target, Initial, Raw;
-            internal Entry(string hash, string target, string initial, string raw)
-            { Hash = hash; Target = target; Initial = initial; Raw = raw; }
+            internal readonly bool RawPending;
+            internal Entry(string hash, string target, string initial, string raw, bool rawPending = false)
+            { Hash = hash; Target = target; Initial = initial; Raw = raw; RawPending = rawPending; }
         }
 
         public bool IsDirty => entries.Values.Any(entry => entry.Initial != entry.Raw);
         public bool HasChanges(string slot) => entries.TryGetValue(slot, out var entry) && entry.Initial != entry.Raw;
+        internal bool HasPendingRaw(string slot) => entries.TryGetValue(slot, out var entry) && entry.RawPending;
+
         public bool TryReadTarget(string slot, out string target)
         {
             if (entries.TryGetValue(slot, out var entry)) { target = entry.Target; return true; }
@@ -56,8 +59,29 @@ namespace Arknights.MapEditor.Editor
         {
             CheckText(raw);
             var previous = Required(slot);
-            Replace(slot, new Entry(previous.Hash, previous.Target, previous.Initial, raw));
+            Replace(slot, new Entry(previous.Hash, previous.Target, previous.Initial, raw, previous.RawPending));
         }
+
+        internal void SetDraft(string slot, string documentJson, string target, string initial, string raw, bool rawPending = false)
+        {
+            CheckKey(slot, 256); CheckKey(target, 4096); CheckText(initial); CheckText(raw);
+            Replace(slot, new Entry(Digest(documentJson), target, initial, raw, rawPending));
+        }
+
+        internal void RenameSlot(string oldSlot, string newSlot)
+        {
+            CheckKey(newSlot, 256);
+            var previous = Required(oldSlot);
+            var candidate = new Dictionary<string, Entry>(entries, StringComparer.Ordinal);
+            candidate.Remove(oldSlot);
+            candidate.Add(newSlot, previous);
+            Serialize(candidate);
+            entries = candidate;
+        }
+
+        internal IEnumerable<string> DirtySlots(string prefix) => entries
+            .Where(entry => entry.Key.StartsWith(prefix, StringComparison.Ordinal) && entry.Value.Initial != entry.Value.Raw)
+            .Select(entry => entry.Key).ToArray();
 
         public bool TryRead(string slot, out string raw)
         {
@@ -66,10 +90,16 @@ namespace Arknights.MapEditor.Editor
             raw = ""; return false;
         }
 
+        internal bool IsCurrent(string slot, string documentJson, string target) =>
+            entries.TryGetValue(slot, out var entry) && Matches(entry, documentJson, target);
+
+        private static bool Matches(Entry entry, string documentJson, string target) =>
+            string.Equals(entry.Target, target, StringComparison.Ordinal) && entry.Hash == Digest(documentJson);
+
         public void RequireCurrent(string slot, string documentJson, string target)
         {
             var entry = Required(slot);
-            if (!string.Equals(entry.Target, target, StringComparison.Ordinal) || entry.Hash != Digest(documentJson))
+            if (!Matches(entry, documentJson, target))
                 throw new InvalidOperationException("Local draft belongs to another document revision or target. Preserve it before explicitly reloading this field.");
         }
 
@@ -89,7 +119,9 @@ namespace Arknights.MapEditor.Editor
             var store = new InspectorDraftStore();
             foreach (var value in slots)
             {
-                if (!(value is JObject item) || item.Count != 5) throw new FormatException("Invalid inspector draft entry.");
+                if (!(value is JObject item) || (item.Count != 5 &&
+                    (item.Count != 6 || item["rawPending"]?.Type != JTokenType.Boolean)))
+                    throw new FormatException("Invalid inspector draft entry.");
                 string Field(string key) => item[key]?.Type == JTokenType.String ? item[key]!.Value<string>()! : throw new FormatException("Missing draft string: " + key);
                 var slot = Field("slot"); var hash = Field("documentHash"); var target = Field("target");
                 var initial = Field("initialRaw"); var raw = Field("raw");
@@ -97,7 +129,7 @@ namespace Arknights.MapEditor.Editor
                 if (hash.Length != 64 || hash.Any(c => !(c >= '0' && c <= '9' || c >= 'a' && c <= 'f')))
                     throw new FormatException("Invalid document digest.");
                 if (store.entries.ContainsKey(slot)) throw new FormatException("Duplicate inspector draft slot.");
-                store.entries.Add(slot, new Entry(hash, target, initial, raw));
+                store.entries.Add(slot, new Entry(hash, target, initial, raw, item.Value<bool?>("rawPending") ?? false));
             }
             store.ToJson();
             return store;
@@ -121,8 +153,12 @@ namespace Arknights.MapEditor.Editor
         {
             var slots = new JArray();
             foreach (var pair in source.OrderBy(pair => pair.Key, StringComparer.Ordinal))
-                slots.Add(new JObject { ["slot"] = pair.Key, ["documentHash"] = pair.Value.Hash,
-                    ["target"] = pair.Value.Target, ["initialRaw"] = pair.Value.Initial, ["raw"] = pair.Value.Raw });
+            {
+                var slot = new JObject { ["slot"] = pair.Key, ["documentHash"] = pair.Value.Hash,
+                    ["target"] = pair.Value.Target, ["initialRaw"] = pair.Value.Initial, ["raw"] = pair.Value.Raw };
+                if (pair.Value.RawPending) slot["rawPending"] = true;
+                slots.Add(slot);
+            }
             var json = new JObject { ["version"] = 1, ["slots"] = slots }.ToString(Formatting.None);
             CheckText(json); return json;
         }

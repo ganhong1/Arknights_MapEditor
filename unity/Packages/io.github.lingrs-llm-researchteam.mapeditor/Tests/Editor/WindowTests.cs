@@ -1,9 +1,12 @@
 using System.Reflection;
 using System.Collections;
+using System.Linq;
+using Arknights.MapEditor.Catalog;
 using Arknights.MapEditor.Core;
 using Arknights.MapEditor.Editor;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.TestTools;
@@ -37,7 +40,13 @@ namespace Arknights.MapEditor.Tests
                     var panel = drawer.Q("resource-panel-" + i);
                     Assert.That(panel.style.display.value, Is.EqualTo(DisplayStyle.Flex));
                     if (i == 1) Assert.That(panel.Q<ListView>("device-library"), Is.Not.Null);
-                    else Assert.That(panel.Q<HelpBox>(), Is.Not.Null);
+                    else if (i == 2) Assert.That(panel.Q<ListView>("enemy-library"), Is.Not.Null);
+                    else
+                    {
+                        Assert.That(panel.Q<ListView>("offline-art-items"), Is.Not.Null);
+                        Assert.That(panel.Q<Button>("offline-art-connect"), Is.Not.Null);
+                        Assert.That(panel.Q<Button>("offline-art-gallery"), Is.Not.Null);
+                    }
                     Assert.That(drawer.Q("resource-panel-0").style.display.value, Is.EqualTo(DisplayStyle.None));
                 }
 
@@ -62,7 +71,7 @@ namespace Arknights.MapEditor.Tests
         }
 
         [UnityTest]
-        public IEnumerator TerrainDetailsBrowseVariantsWithoutChangingSelection()
+        public IEnumerator TerrainLibrarySearchesBothVersionsInTheSameList()
         {
             var window = ScriptableObject.CreateInstance<MapEditorWindow>();
             try
@@ -71,16 +80,57 @@ namespace Arknights.MapEditor.Tests
                 yield return null;
                 window.CreateGUI();
                 var root = window.rootVisualElement;
+                var list = root.Q<ListView>("terrain-library");
+                Assert.That(root.Q("terrain-game-version"), Is.Null);
+                root.Q<TextField>("terrain-search").value = "tile_speedup";
+                Assert.That(list.itemsSource.Count, Is.EqualTo(1));
+                Submit(root.Q<Button>("resource-drawer-toggle"));
+                var deadline = EditorApplication.timeSinceStartup + 5;
+                while (root.Q<Button>("terrain-info-tile_speedup") == null && EditorApplication.timeSinceStartup < deadline)
+                    yield return null;
+                var info = root.Q<Button>("terrain-info-tile_speedup");
+                Assert.That(info, Is.Not.Null);
+                Submit(info);
+                var overlay = root.Q("terrain-detail-overlay");
+                Assert.That(overlay.Q<TextField>("terrain-detail-tiledata").value, Does.Contain("attack_speed"));
+                Submit(overlay.Q<Button>("terrain-use-sample"));
+                Assert.That(window.TerrainPlacementEnabled, Is.True);
+                root.Q<TextField>("terrain-search").value = "tile_road";
+                Assert.That(list.itemsSource.Count, Is.Positive);
+                Assert.That(window.hasUnsavedChanges, Is.False);
+            }
+            finally { Object.DestroyImmediate(window); }
+        }
+
+        [UnityTest]
+        public IEnumerator TerrainDetailsBrowseVariantsWithoutChangingSelection()
+        {
+            var window = ScriptableObject.CreateInstance<MapEditorWindow>();
+            try
+            {
+                window.ShowUtility();
+                // ShowUtility can restore native host geometry; size the live host afterwards.
+                window.position = new Rect(100, 100, 1200, 900);
+                yield return null;
+                window.CreateGUI();
+                var root = window.rootVisualElement;
                 Submit(root.Q<Button>("resource-drawer-toggle"));
                 root.Q<TextField>("terrain-search").value = "字格";
-                yield return null;
-                yield return null;
+                var deadline = EditorApplication.timeSinceStartup + 5;
+                while (root.Q<Button>("terrain-info-tile_character") == null && EditorApplication.timeSinceStartup < deadline) yield return null;
 
                 var brush = typeof(MapEditorWindow).GetField("brushJson", BindingFlags.Instance | BindingFlags.NonPublic);
                 var initial = brush.GetValue(window);
                 var button = root.Q<Button>("terrain-info-tile_character");
-                Assert.That(button, Is.Not.Null);
+                Assert.That(button, Is.Not.Null,
+                    $"Terrain row not realized: root={root.layout}, list={root.Q<ListView>("terrain-library").layout}, " +
+                    $"items={root.Q<ListView>("terrain-library").itemsSource.Count}, drawer={root.Q("resource-drawer").resolvedStyle.display}");
                 Assert.That(button.Q<Image>().image, Is.Not.Null);
+                var portrait = button.parent.Q<Image>("terrain-library-avatar");
+                var expectedPortrait = TerrainPortraitCatalog.Load().Find("tile_character");
+                Assert.That(portrait.image, Is.Not.Null);
+                Assert.That(portrait.image, Is.SameAs(expectedPortrait.Image));
+                Assert.That(portrait.uv, Is.EqualTo(expectedPortrait.Uv));
                 var name = button.parent.Q<Label>(className: "catalog-name");
                 Assert.That(name.text, Is.EqualTo("字格"));
                 var font = name.resolvedStyle.unityFontDefinition.fontAsset;
@@ -114,7 +164,8 @@ namespace Arknights.MapEditor.Tests
                 var card = browser.Q("terrain-source-cards").Q<Button>();
                 Submit(card);
                 Assert.That(browser.Q<TerrainSourceMap>()?.HighlightCount, Is.GreaterThan(0));
-                var path = card.tooltip;
+                var path = (string)sourceList.itemsSource[0];
+                Assert.That(card.tooltip, Is.EqualTo(TerrainSearchRuntime.StageCaption(path)));
                 var configJson = overlay.Q<TextField>("terrain-detail-tiledata");
                 yield return null;
                 var sourceTop = browser.worldBound.yMin;
@@ -166,6 +217,22 @@ namespace Arknights.MapEditor.Tests
             finally { Object.DestroyImmediate(window); }
         }
 
+        [Test]
+        public void TerrainPortraitAtlasCoversTheEntireCatalog()
+        {
+            var entries = EditorCatalog.LoadBundled().Entries.Where(entry => entry.Category == "terrain");
+            var portraits = TerrainPortraitCatalog.Load();
+            var all = entries.Select(entry => (entry.Id, Portrait: portraits.Find(entry.Id))).ToArray();
+            Assert.That(all, Is.Not.Empty);
+            Assert.That(all.Select(item => (item.Portrait.Image, item.Portrait.Uv)).Distinct().Count(), Is.EqualTo(all.Length));
+            foreach (var item in all)
+            {
+                Assert.That(item.Portrait.Image, Is.Not.Null, item.Id);
+                var uv = item.Portrait.Uv;
+                Assert.That(uv.width > 0 && uv.height > 0 && uv.xMin >= 0 && uv.yMin >= 0 && uv.xMax <= 1 && uv.yMax <= 1, Is.True, item.Id);
+            }
+        }
+
         private static void Submit(Button button)
         {
             using var submit = NavigationSubmitEvent.GetPooled();
@@ -179,6 +246,7 @@ namespace Arknights.MapEditor.Tests
             var window = ScriptableObject.CreateInstance<MapEditorWindow>();
             try
             {
+                window.position = new Rect(100, 100, 1200, 900);
                 window.ShowUtility();
                 window.position = new Rect(40, 80, 430, 420);
                 window.CreateGUI();
@@ -203,7 +271,8 @@ namespace Arknights.MapEditor.Tests
                 Assert.That(categoryTabs.worldBound.yMax, Is.LessThanOrEqualTo(search.worldBound.yMin + 1));
                 Assert.That(search.worldBound.yMax, Is.LessThanOrEqualTo(filter.worldBound.yMin + 1));
                 Assert.That(filter.worldBound.yMax, Is.LessThanOrEqualTo(list.worldBound.yMin + 1));
-                Assert.That(list.layout.height, Is.GreaterThan(20f));
+                Assert.That(list.layout.height, Is.GreaterThan(20f),
+                    $"drawer {drawer.layout}, categories {drawer.Q("resource-category-strip").layout}, search {search.layout}, filter {filter.layout}, list {list.layout}");
                 Assert.That(drawer.worldBound.xMax, Is.LessThanOrEqualTo(body.worldBound.xMax + 1));
             }
             finally { Object.DestroyImmediate(window); }
@@ -259,9 +328,11 @@ namespace Arknights.MapEditor.Tests
                 var original = field.value;
                 field.value = LevelDocument.Parse(original).WithLevelId("draft_b").ToJson();
                 typeof(MapEditorWindow).GetMethod("ApplyDraft", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(window, null);
-                Undo.PerformUndo();
+                typeof(MapEditorWindow).GetMethod("StepEditorHistoryCore", BindingFlags.Instance | BindingFlags.NonPublic)
+                    .Invoke(window, new object[] { false });
                 Assert.That(field.value, Is.EqualTo(original));
-                Undo.PerformRedo();
+                typeof(MapEditorWindow).GetMethod("StepEditorHistoryCore", BindingFlags.Instance | BindingFlags.NonPublic)
+                    .Invoke(window, new object[] { true });
                 Assert.That(LevelDocument.Parse(field.value).LevelId, Is.EqualTo("draft_b"));
             }
             finally { Object.DestroyImmediate(window); }

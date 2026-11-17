@@ -107,9 +107,9 @@ namespace Arknights.MapEditor.Editor
 
             internal void RefreshDocument()
             {
-                if (synchronizedDocument != owner.session!.Json && !owner.InspectorStore.HasChanges(OptionsDraftSlot))
+                if (synchronizedDocument != owner.session!.Json)
                 {
-                    owner.ReloadLocalDraft(OptionsDraftSlot, "options", owner.ReadOptionsRaw());
+                    owner.RefreshRootDraftBaseline(OptionsDraftSlot, "options", owner.ReadOptionsRaw());
                     synchronizedDocument = owner.session.Json;
                 }
                 RefreshAccess();
@@ -174,7 +174,7 @@ namespace Arknights.MapEditor.Editor
             private void WriteField(string key, JToken? value)
             {
                 owner.RequireWorkspaceEditable();
-                if (!(token is JObject source)) throw new InvalidOperationException("请先创建 options 对象。");
+                if (!(token is JObject source)) throw new EditorOperationRejectedException("请先创建 options 对象。");
                 var candidate = (JObject)source.DeepClone();
                 if (value == null) candidate.Remove(key); else candidate[key] = value.DeepClone();
                 Change(candidate);

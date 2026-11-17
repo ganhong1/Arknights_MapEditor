@@ -1,7 +1,6 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Arknights.MapEditor.Catalog;
 using UnityEngine;
@@ -34,7 +33,7 @@ namespace Arknights.MapEditor.Editor
         private int page;
 
         internal TerrainSourceBrowser(IEnumerable<string> sourcePaths, bool showCards, Action<bool> remember,
-            Func<string, VisualElement>? buildPreview = null)
+            Func<string, VisualElement>? buildPreview = null, bool wrapRows = false)
         {
             name = "terrain-source-browser";
             text = "查看当前配置的关卡出处";
@@ -43,7 +42,7 @@ namespace Arknights.MapEditor.Editor
             paths = sourcePaths.ToArray();
             rememberCards = remember;
             var query = new TextField("搜索关卡") { name = "terrain-source-search" };
-            query.tooltip = "按关卡名称、拼音、首字母、ID 或路径搜索";
+            query.tooltip = "按关卡代号、名称、拼音或关卡 ID 搜索";
             Add(query);
             var toolbar = Toolbar();
             listButton = new Button(() => SetView(false)) { text = "列表", name = "terrain-source-show-list" };
@@ -53,13 +52,19 @@ namespace Arknights.MapEditor.Editor
             Add(toolbar);
             status.AddToClassList("terrain-source-line");
             Add(status);
-            list = new ListView(matches, 24, () => new Label(), (element, index) =>
+            list = new ListView(matches, 24, () =>
+            {
+                var row = new Label();
+                if (wrapRows) row.AddToClassList("terrain-source-wrapped-row");
+                return row;
+            }, (element, index) =>
             {
                 var path = matches[index];
-                var title = TerrainSearchRuntime.StageName(path);
-                ((Label)element).text = title == null ? path : title + " · " + path;
-                element.tooltip = path;
+                var title = TerrainSearchRuntime.StageCaption(path);
+                ((Label)element).text = title;
+                element.tooltip = title;
             }) { name = "terrain-source-list", selectionType = buildPreview == null ? SelectionType.None : SelectionType.Single };
+            if (wrapRows) list.virtualizationMethod = CollectionVirtualizationMethod.DynamicHeight;
             list.onSelectionChange += selected =>
             {
                 if (selected.FirstOrDefault() is string path) ShowPreview(path);
@@ -168,14 +173,11 @@ namespace Arknights.MapEditor.Editor
             cards.Clear();
             foreach (var path in matches.Skip(page * PageSize).Take(PageSize))
             {
-                var card = new Button(() => ShowPreview(path)) { tooltip = path };
+                var title = TerrainSearchRuntime.StageCaption(path);
+                var card = new Button(() => ShowPreview(path)) { tooltip = title };
                 card.SetEnabled(buildPreview != null);
                 card.AddToClassList("terrain-source-card");
-                var title = TerrainSearchRuntime.StageName(path);
-                card.Add(new Label(title ?? Path.GetFileNameWithoutExtension(path)));
-                var directory = new Label(title != null ? path : Path.GetDirectoryName(path)?.Replace('\\', '/') ?? "");
-                directory.AddToClassList("catalog-id");
-                card.Add(directory);
+                card.Add(new Label(title));
                 cards.Add(card);
             }
             pagination.style.display = DisplayStyle.Flex;

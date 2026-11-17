@@ -13,6 +13,7 @@ namespace Arknights.MapEditor.Editor
     {
         [SerializeField] private List<string> expandedDocumentPaths = new List<string>();
         private Action? refreshDocumentView;
+        private Action? refreshDocumentNotice;
         private Action<bool>? setDocumentMode;
 
         private VisualElement BuildDocumentView()
@@ -53,11 +54,13 @@ namespace Arknights.MapEditor.Editor
             setDocumentMode = Mode;
             sourceButton.clicked += () => Mode(true);
             var rendered = "";
+            refreshDocumentNotice = () => notice.text = draft != session!.Json ? "原始 JSON 有未应用修改；字段树显示已应用文档。" :
+                    InspectorDirty ? "编辑抽屉有未应用草稿；字段树显示已应用文档。" : "完整 LevelData · 已应用文档（字段树只读）";
             refreshDocumentView = () =>
             {
+                if (session == null) return;
                 foreach (var refresh in refreshFieldSummaries) refresh();
-                notice.text = draft != session!.Json ? "原始 JSON 有未应用修改；字段树显示已应用文档。" :
-                    InspectorDirty ? "编辑抽屉有未应用草稿；字段树显示已应用文档。" : "完整 LevelData · 已应用文档（字段树只读）";
+                RefreshDocumentNotice();
                 if (rendered == session.Json) return;
                 var offset = tree.scrollOffset;
                 tree.Clear();
@@ -72,6 +75,8 @@ namespace Arknights.MapEditor.Editor
             Mode(sourceExpanded);
             return main;
         }
+
+        private void RefreshDocumentNotice() => refreshDocumentNotice?.Invoke();
 
         private static string EscapePointer(string key) => key.Replace("~", "~0").Replace("/", "~1");
 
@@ -89,6 +94,9 @@ namespace Arknights.MapEditor.Editor
             // JSON container its own explicit indent, including lazily added nodes.
             fold.style.marginLeft = 0;
             fold.contentContainer.style.marginLeft = 18;
+            fold.AddToClassList("leveldata-tree-node");
+            var header = fold.Q<Toggle>();
+            if (header != null) header.style.marginLeft = 0;
             parent.Add(fold);
             var loaded = false;
             void Load()
@@ -98,7 +106,7 @@ namespace Arknights.MapEditor.Editor
                 // Materialize only requested containers and page wide arrays/objects.
                 var items = container.Children().ToArray();
                 var next = 0;
-                var more = new Button { text = "显示后续 50 项" };
+                var more = new Button { text = "显示后续 50 项", name = "leveldata-more:" + path };
                 void Append()
                 {
                     more.RemoveFromHierarchy();
@@ -114,6 +122,7 @@ namespace Arknights.MapEditor.Editor
                     if (next < items.Length) fold.Add(more);
                 }
                 more.clicked += Append;
+                more.userData = (Action)Append;
                 Append();
             }
             fold.RegisterValueChangedCallback(evt =>

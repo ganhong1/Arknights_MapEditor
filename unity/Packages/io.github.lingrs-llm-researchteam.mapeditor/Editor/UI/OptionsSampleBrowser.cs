@@ -72,10 +72,9 @@ namespace Arknights.MapEditor.Editor
             sampleDetails.style.display = DisplayStyle.None;
             sourceFoldout.style.display = DisplayStyle.None;
             content.Add(sourceFoldout); sourceFoldout.Add(sourceFind);
-            sources = new ListView(sourceRows, 60, () => Text(""), (element, index) =>
+            sources = new ListView(sourceRows, 28, () => Text(""), (element, index) =>
             {
-                var source = sourceRows[index]; var title = TerrainSearchRuntime.StageName(source.Path);
-                ((Label)element).text = (string.IsNullOrEmpty(title) ? "" : title + "\n") + source.Path + "\n" + source.Kind;
+                ((Label)element).text = TerrainSearchRuntime.StageCaption(sourceRows[index].Path);
             }) { name = name + "-sources", selectionType = SelectionType.Single };
             sources.style.height = 168;
             sources.onSelectionChange += items => { if (!selecting && items.FirstOrDefault() is OptionsValueCatalog.Source source) ShowSource(source); };
@@ -144,7 +143,7 @@ namespace Arknights.MapEditor.Editor
                     var button = OptionsValueEditor.Action(recommendations, buttonText,
                         () => { Select(candidate); ApplySelected(); }, name + "-recommended-" + sample.Index);
                     button.style.whiteSpace = WhiteSpace.Normal;
-                    button.tooltip = "选用到当前草稿。\n" + sample.Json + "\nArknightsGameData：" + sample.PrimaryCount + " 份去重正文；共 " + sample.Sources.Count + " 个出处。";
+                    button.tooltip = "选用到当前草稿。\n" + sample.Json;
                     choices.Add(button);
                 }
                 if (group.MissingSources.Count > 0)
@@ -170,7 +169,7 @@ namespace Arknights.MapEditor.Editor
                 IEnumerable<OptionsValueCatalog.Sample> filtered = group.Samples;
                 if (!string.IsNullOrWhiteSpace(find.value))
                 {
-                    valueSearch ??= TerrainSearchRuntime.CreateWorker<OptionsValueCatalog.Sample>(sample => new JObject
+                    valueSearch ??= CatalogSearchRuntime.CreateWorker<OptionsValueCatalog.Sample>(sample => new JObject
                     { ["name"] = key, ["targetFile"] = sample.Label, ["description"] = sample.Json, ["category"] = new JArray(sample.Sources.Select(source => source.Path)) });
                     filtered = valueSearch.Filter(group.Samples, find.value, out var error); feedback.text = error ?? "";
                 }
@@ -200,7 +199,7 @@ namespace Arknights.MapEditor.Editor
             valueJson.SetValueWithoutNotify(sample.Json);
             chooseSelected.SetEnabled(canChoose);
             selectedSummary.text = "配置 #" + (sample.Index + 1) + " · " + sample.Count + " 份去重正文 · " + sample.Sources.Count + " 个出处";
-            allSources = sample.Sources;
+            allSources = OptionsStageSources.DistinctFiles(sample.Sources).ToArray();
             sourceFoldout.text = "所选值的出处 · " + allSources.Count;
             RefreshSources();
         }
@@ -213,7 +212,7 @@ namespace Arknights.MapEditor.Editor
             selected = null; SyncValueSelection(); chooseSelected.SetEnabled(false);
             sampleDetails.style.display = DisplayStyle.None;
             sourceFoldout.style.display = DisplayStyle.Flex;
-            allSources = group.MissingSources; sourceFoldout.value = true;
+            allSources = OptionsStageSources.DistinctFiles(group.MissingSources).ToArray(); sourceFoldout.value = true;
             sourceFoldout.text = "未提供此字段的全部出处 · " + allSources.Count;
             RefreshSources();
         }
@@ -244,12 +243,8 @@ namespace Arknights.MapEditor.Editor
                 IEnumerable<OptionsValueCatalog.Source> filtered = allSources;
                 if (!string.IsNullOrWhiteSpace(sourceFind.value))
                 {
-                    sourceSearch ??= TerrainSearchRuntime.CreateWorker<OptionsValueCatalog.Source>(source =>
-                    {
-                        var entry = TerrainSearchRuntime.Stage(source.Path);
-                        entry["description"] = source.Kind + " " + source.Revision;
-                        return entry;
-                    });
+                    sourceSearch ??= TerrainSearchRuntime.CreateStageWorker<OptionsValueCatalog.Source>(source =>
+                        TerrainSearchRuntime.Stage(source.Path));
                     filtered = sourceSearch.Filter(allSources, sourceFind.value, out var error); feedback.text = error ?? "";
                 }
                 selecting = true; sourceRows.Clear(); sourceRows.AddRange(filtered); sources.Rebuild();
@@ -271,8 +266,8 @@ namespace Arknights.MapEditor.Editor
         }
 
         internal static string SourceDescription(OptionsValueCatalog.Source source, string pointer) =>
-            source.Path + "\n" + pointer + "\n来源：" + source.Kind + "\n版本：" + (source.Revision ?? "版本未绑定") +
-                "\nSHA-256：" + source.Sha256 + "\nlevelId：" + source.LevelId + " · mapId：" + source.MapId + "\noptions 状态：" + source.State;
+            string.Join("\n", new[] { TerrainSearchRuntime.StageCaption(source.Path),
+                GameStageLabel.Title(source.LevelId, source.MapId), pointer }.Where(text => text.Length > 0));
 
         internal static Label Text(string value) { var label = new Label(value); label.style.whiteSpace = WhiteSpace.Normal; return label; }
         private static VisualElement Row() { var row = new VisualElement(); row.style.flexDirection = FlexDirection.Row; row.style.flexWrap = Wrap.Wrap; return row; }

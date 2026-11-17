@@ -9,9 +9,9 @@ namespace Arknights.MapEditor.Editor
 {
     public sealed partial class MapEditorWindow
     {
-        private void BuildSchedulePanel(VisualElement parent)
+        private void BuildScheduleJsonTools(VisualElement parent)
         {
-            var fold = new Foldout { text = "波次与分支动作", value = false };
+            var fold = new Foldout { text = "旧版波次与分支 JSON 工具", value = false };
             var branch = new TextField("Branch key（空表示主波次）");
             var wave = new IntegerField("Wave 索引"); var part = new IntegerField("Fragment / Phase 索引");
             var action = new IntegerField("Action 索引"); var target = new IntegerField("重排目标索引");
@@ -34,7 +34,7 @@ namespace Arknights.MapEditor.Editor
             {
                 if (branch.value.Length == 0) throw new FormatException("请输入 Branch key。");
                 var branches = session!.Document.GetSection("branches") as JObject ?? new JObject();
-                if (branches[branch.value] != null) throw new InvalidOperationException("该分支已存在，拒绝覆盖。");
+                if (branches[branch.value] != null) throw new EditorOperationRejectedException("该分支已存在，拒绝覆盖。");
                 branches[branch.value] = new JObject { ["phases"] = new JArray(new JObject { ["preDelay"] = 0, ["actions"] = new JArray() }) };
                 CommitEdit(session.Document.WithSection("branches",branches.ToString()),"新增分支",null); part.value=0;
             });

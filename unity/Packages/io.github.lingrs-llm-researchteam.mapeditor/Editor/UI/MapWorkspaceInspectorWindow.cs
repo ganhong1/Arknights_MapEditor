@@ -15,6 +15,14 @@ namespace Arknights.MapEditor.Editor
         private VisualElement? inspectorHost;
         private MapEditorWindow? displayedEditor;
 
+        private void OnEnable() =>
+            rootVisualElement.RegisterCallback<KeyDownEvent>(HandleWorkspaceUndo, TrickleDown.TrickleDown);
+
+        private void OnDisable() =>
+            rootVisualElement.UnregisterCallback<KeyDownEvent>(HandleWorkspaceUndo, TrickleDown.TrickleDown);
+
+        private void HandleWorkspaceUndo(KeyDownEvent input) => MapEditorWindow.HandleUndoKey(input, workspace?.FocusedEditor);
+
         internal void Attach(MapWorkspaceWindow owner)
         {
             workspace = owner;

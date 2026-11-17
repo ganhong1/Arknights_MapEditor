@@ -25,6 +25,7 @@ namespace Arknights.MapEditor.Storage
         public void Save(RecoverySnapshot snapshot)
         {
             SafeProjectPath.RejectLinks(CachePath);
+            Directory.CreateDirectory(Path.GetDirectoryName(CachePath)!);
             ExpectedHash = RecoveryStore.Save(CachePath, snapshot, ExpectedHash);
         }
 
@@ -41,8 +42,8 @@ namespace Arknights.MapEditor.Storage
         {
             if (ExpectedHash == null) throw new DocumentFileConflictException("Restore or create this session before discarding its journal.");
             SafeProjectPath.RejectLinks(CachePath);
-            var current = DocumentFileStore.Read(CachePath);
-            if (!string.Equals(current.Sha256, ExpectedHash, StringComparison.Ordinal))
+            var current = RecoveryStore.ReadHash(CachePath);
+            if (!string.Equals(current, ExpectedHash, StringComparison.Ordinal))
                 throw new DocumentFileConflictException("Recovery journal was changed externally.");
             File.Delete(CachePath);
             ExpectedHash = null;

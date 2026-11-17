@@ -27,6 +27,47 @@ namespace Arknights.MapEditor.Tests
         }
 
         [Test]
+        public void LibraryViewportBuildsPrtsPathsForBothRouteCollectionsAndClearsOnSwitch()
+        {
+            var document = Roads().WithSection("routes", "[" + Route + "]")
+                .WithSection("extraRoutes", "[" + Route.Replace("WALK", "FLY") + "]");
+            var original = document.ToJson();
+            using var viewport = new MapWorkspaceViewport();
+            viewport.Render(document, new MapViewportState(), new Vector2(320, 200));
+            var model = new PrtsRoutePreview(document, false);
+            Assert.That(viewport.RoutePaths.Count, Is.EqualTo(model.Definitions.Count));
+            for (var i = 0; i < model.Definitions.Count; i++)
+            {
+                var expected = model.GetPath(model.Definitions[i])!;
+                var actual = viewport.RoutePaths[i];
+                Assert.That(actual.Air, Is.EqualTo(expected.Air));
+                Assert.That(actual.Legs.Select(leg => (leg.From, leg.To, leg.Fallback)),
+                    Is.EqualTo(expected.Legs.Select(leg => (leg.From, leg.To, leg.Fallback))));
+                Assert.That(actual.Markers.Select(marker => marker.Kind), Is.EqualTo(expected.Markers.Select(marker => marker.Kind)));
+            }
+            Assert.That(document.ToJson(), Is.EqualTo(original));
+            viewport.Render(Roads(), new MapViewportState(), new Vector2(240, 200));
+            Assert.That(viewport.RoutePaths, Is.Empty);
+        }
+
+        [Test]
+        public void ProjectedRouteUsesPreviewRectangleAndCameraProjection()
+        {
+            var root = new GameObject("Route projection test");
+            try
+            {
+                var camera = root.AddComponent<Camera>(); camera.enabled = false;
+                camera.transform.SetPositionAndRotation(new Vector3(0, 10, 0), Quaternion.Euler(90, 0, 0));
+                camera.orthographic = true; camera.orthographicSize = 5; camera.aspect = 2;
+                var rect = new Rect(30, 40, 400, 200);
+                Assert.That(Vector3.Distance(PrtsRouteOverlay.Project(camera, rect, Vector3.zero), new Vector3(230, 140, 0)), Is.LessThan(.001f));
+                Assert.That(PrtsRouteOverlay.Project(camera, rect, Vector3.right).x, Is.GreaterThan(230));
+                Assert.That(PrtsRouteOverlay.Project(camera, rect, Vector3.forward).y, Is.LessThan(140));
+            }
+            finally { UnityEngine.Object.DestroyImmediate(root); }
+        }
+
+        [Test]
         public void DefaultAndRestoredPreviewUseThePrtsOverlay()
         {
             var doc = Roads().WithSection("routes", "[" + Route + "," + Route + "]");
@@ -71,7 +112,8 @@ namespace Arknights.MapEditor.Tests
             Assert.That(preview.Spawns.Select(entry => entry.Enemy), Is.EqualTo(new[] { "early", "late", "extra", "next" }));
             Assert.That(preview.Spawns.Select(entry => entry.Time), Is.EqualTo(new[] { 6d, 11d, 14d, 22d }));
             Assert.That(preview.Spawns.Select(entry => entry.First), Is.EqualTo(new[] { 1L, 4L, 5L, 6L }));
-            Assert.That(preview.Spawns[2].Library, Is.EqualTo("extraRoutes"));
+            Assert.That(preview.Spawns[2].Library, Is.EqualTo("routes"));
+            Assert.That(preview.BranchSpawns.Single().Library, Is.EqualTo("extraRoutes"));
             Assert.That(preview.BranchSpawns.Single().Time, Is.EqualTo(5d));
             Assert.That(preview.BranchSpawns.Single().Group, Is.EqualTo("on_hit"));
             Assert.That(new PrtsRoutePreview(doc, true).Spawns[0].Enemy, Is.EqualTo("hidden"));

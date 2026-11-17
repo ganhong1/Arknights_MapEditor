@@ -20,8 +20,11 @@ namespace Arknights.MapEditor.Editor
         {
             var catalog = EditorCatalog.LoadBundled();
             var samples = TerrainSampleCatalog.LoadBundled();
-            var terrain = catalog.Entries.Where(entry => entry.Category == "terrain").ToArray();
-            var groups = terrain.GroupBy(GroupKey).ToDictionary(group => group.Key, group => group.ToArray());
+            var addedSamples = TerrainSampleCatalog.Load2791();
+            var portraits = TerrainPortraitCatalog.Load();
+            var groups = catalog.Entries.Where(entry => entry.Category == "terrain")
+                .GroupBy(GroupKey).ToDictionary(group => group.Key, group => group.ToArray());
+            TerrainSampleCatalog SamplesFor(string id) => addedSamples.Contains(id) ? addedSamples : samples;
             var search = new TextField { name = "terrain-search", label = "搜索", tooltip = "搜索家族、中文名、ID 或描述" };
             search.AddToClassList("catalog-search");
             search.labelElement.style.minWidth = 36;
@@ -37,14 +40,15 @@ namespace Arknights.MapEditor.Editor
             ListView list = null!;
             var selection = new Label { name = "terrain-selection" };
             selection.AddToClassList("tiledata-preview-message");
-            var detail = new TerrainDetailOverlay(samples, ApplyTerrain);
+            var detail = new TerrainDetailOverlay(SamplesFor, ApplyTerrain);
             workbench.Add(detail);
             var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(
                 "Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/Catalog/terrain-info.png");
             list = new ListView(entries, 48,
-                () => new TerrainCatalogRow(icon, SelectTerrain, (entry, button) => detail.Open(entry, groups[GroupKey(entry)], button)),
+                () => new TerrainCatalogRow(icon, portraits, SelectTerrain, (entry, button) => detail.Open(entry, groups[GroupKey(entry)], button)),
                 (element, index) => ((TerrainCatalogRow)element).Bind(entries[index], groups[GroupKey(entries[index])].Length,
-                    samples.HasRecommendation(entries[index].Id), GroupKey(entries[index]) == selectedTerrainGroup))
+                    SamplesFor(entries[index].Id).HasRecommendation(entries[index].Id),
+                    GroupKey(entries[index]) == selectedTerrainGroup))
             {
                 name = "terrain-library",
                 selectionType = SelectionType.None
@@ -60,9 +64,9 @@ namespace Arknights.MapEditor.Editor
             {
                 entries.Clear();
                 entries.AddRange(catalog.Search(search.value, "terrain", out var error)
-                    .Where(entry => !available.value || samples.HasRecommendation(entry.Id))
+                    .Where(entry => !available.value || SamplesFor(entry.Id).HasRecommendation(entry.Id))
                     .GroupBy(GroupKey)
-                    .Select(group => group.FirstOrDefault(entry => samples.HasRecommendation(entry.Id)) ?? group.First()));
+                    .Select(group => group.FirstOrDefault(entry => SamplesFor(entry.Id).HasRecommendation(entry.Id)) ?? group.First()));
                 searchHint.text = error ?? "";
                 searchHint.style.display = error == null ? DisplayStyle.None : DisplayStyle.Flex;
                 list.Rebuild();
@@ -70,7 +74,7 @@ namespace Arknights.MapEditor.Editor
 
             void SelectTerrain(CatalogEntry entry)
             {
-                var tile = samples.Default(entry.Id);
+                var tile = SamplesFor(entry.Id).Default(entry.Id);
                 if (tile == null)
                 {
                     selection.text = $"{entry.DisplayName} · 暂无可直接绘制的配置";
@@ -99,12 +103,16 @@ namespace Arknights.MapEditor.Editor
         {
             private readonly Button select;
             private readonly Button info;
+            private readonly Image portrait = LibraryPortrait.Create("operator-library-avatar", "terrain-library-avatar");
+            private readonly TerrainPortraitCatalog portraits;
             private readonly Label title = new Label();
             private readonly Label subtitle = new Label();
             private CatalogEntry? entry;
 
-            internal TerrainCatalogRow(Texture2D icon, Action<CatalogEntry> choose, Action<CatalogEntry, Button> showDetails)
+            internal TerrainCatalogRow(Texture2D icon, TerrainPortraitCatalog portraits, Action<CatalogEntry> choose,
+                Action<CatalogEntry, Button> showDetails)
             {
+                this.portraits = portraits;
                 AddToClassList("catalog-entry");
                 AddToClassList("terrain-entry-row");
                 select = new Button(() =>
@@ -114,8 +122,12 @@ namespace Arknights.MapEditor.Editor
                 select.AddToClassList("terrain-select");
                 title.AddToClassList("catalog-name");
                 subtitle.AddToClassList("catalog-id");
-                select.Add(title);
-                select.Add(subtitle);
+                select.Add(portrait);
+                var labels = new VisualElement { pickingMode = PickingMode.Ignore };
+                labels.AddToClassList("library-row-labels");
+                labels.Add(title);
+                labels.Add(subtitle);
+                select.Add(labels);
                 Add(select);
 
                 info = new Button();
@@ -138,6 +150,8 @@ namespace Arknights.MapEditor.Editor
                 select.EnableInClassList("terrain-selected", selected);
                 select.name = "terrain-select-" + item.Id;
                 entry = item;
+                var thumbnail = portraits.Find(item.Id);
+                LibraryPortrait.Bind(portrait, thumbnail.Image, thumbnail.Uv);
                 title.text = item.DisplayName;
                 subtitle.text = variantCount > 1 ? $"{variantCount} 个变种" : item.Name.Length > 0 ? item.Id : "";
                 subtitle.style.display = subtitle.text.Length > 0 ? DisplayStyle.Flex : DisplayStyle.None;
@@ -152,15 +166,15 @@ namespace Arknights.MapEditor.Editor
             private readonly Label title = new Label();
             private readonly ScrollView body = new ScrollView();
             private readonly Button close;
-            private readonly TerrainSampleCatalog samples;
+            private readonly Func<string, TerrainSampleCatalog> samplesFor;
             private readonly Action<CatalogEntry, JObject> choose;
             private Button? opener;
             private bool sourceCards;
             private bool totalSourceCards;
 
-            internal TerrainDetailOverlay(TerrainSampleCatalog samples, Action<CatalogEntry, JObject> choose)
+            internal TerrainDetailOverlay(Func<string, TerrainSampleCatalog> samplesFor, Action<CatalogEntry, JObject> choose)
             {
-                this.samples = samples;
+                this.samplesFor = samplesFor;
                 this.choose = choose;
                 name = "terrain-detail-overlay";
                 AddToClassList("terrain-detail-overlay");
@@ -193,7 +207,7 @@ namespace Arknights.MapEditor.Editor
                 close.Focus();
             }
 
-            private void Close()
+            internal void Close()
             {
                 style.display = DisplayStyle.None;
                 if (opener?.panel != null) opener.Focus();
@@ -216,6 +230,7 @@ namespace Arknights.MapEditor.Editor
 
             private void BuildSamples(CatalogEntry entry)
             {
+                var samples = samplesFor(entry.Id);
                 var originals = samples.Samples(entry.Id);
                 var recommended = samples.Recommended(entry.Id);
                 var template = TerrainBlackboardCatalog.Template(entry.Id);
@@ -262,7 +277,7 @@ namespace Arknights.MapEditor.Editor
                 };
                 body.Add(totalSources);
                 var initial = originals[recommended.Length == 0 ? 0 : recommended[0]];
-                var updatePreview = BuildSamplePreview(preview, entry, initial);
+                var updatePreview = BuildSamplePreview(preview, entry, initial, samples.Revision);
                 var recommendationButtons = new List<Button>();
                 var markSelectedCard = BuildSampleCards(browse, originals, Show);
                 for (var i = 0; i < recommended.Length; i++)
@@ -397,7 +412,7 @@ namespace Arknights.MapEditor.Editor
             }
 
             private Action<TerrainSampleCatalog.Sample> BuildSamplePreview(VisualElement preview, CatalogEntry entry,
-                TerrainSampleCatalog.Sample initial)
+                TerrainSampleCatalog.Sample initial, string revision)
             {
                 var selected = initial;
                 var source = new Label { name = "terrain-current-source-count" };
@@ -419,7 +434,7 @@ namespace Arknights.MapEditor.Editor
                     Close();
                 }) { text = "使用这套配置", name = "terrain-use-sample" });
                 var sources = new TerrainSourceBrowser(initial.SourcePaths, sourceCards, show => sourceCards = show,
-                    path => new TerrainSourceMap(path, entry.Id, selected.Number, samples.Revision));
+                    path => new TerrainSourceMap(path, entry.Id, selected.Number, revision));
                 preview.Add(sources);
                 RefreshText();
                 return sample =>

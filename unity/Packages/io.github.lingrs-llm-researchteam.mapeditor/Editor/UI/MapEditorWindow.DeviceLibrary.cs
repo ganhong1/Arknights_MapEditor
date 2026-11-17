@@ -54,20 +54,29 @@ namespace Arknights.MapEditor.Editor
         {
             private readonly Button select;
             private readonly Button info;
+            private readonly Image portrait = LibraryPortrait.Create("operator-library-avatar", "device-library-avatar");
             private readonly Label title = new Label();
             private readonly Label subtitle = new Label();
             private DeviceSampleCatalog.Entry? entry;
 
-            internal DeviceLibraryRow(Texture2D icon, Action<DeviceSampleCatalog.Entry, Button> open)
+            internal DeviceLibraryRow(Texture2D? icon, Action<DeviceSampleCatalog.Entry, Button> open)
             {
                 AddToClassList("terrain-entry-row");
                 AddToClassList("catalog-entry");
-                select = new Button(() => { if (entry != null) open(entry, select); });
-                select.AddToClassList("terrain-select");
+                select = new Button();
+                select.clicked += () => { if (entry != null) open(entry, select); };
+                select.AddToClassList("operator-library-row");
                 title.AddToClassList("catalog-name");
                 subtitle.AddToClassList("catalog-id");
-                select.Add(title); select.Add(subtitle); Add(select);
-                info = new Button(() => { if (entry != null) open(entry, info); });
+                var labels = new VisualElement { pickingMode = PickingMode.Ignore };
+                labels.AddToClassList("library-row-labels");
+                labels.Add(title);
+                labels.Add(subtitle);
+                select.Add(portrait);
+                select.Add(labels);
+                Add(select);
+                info = new Button();
+                info.clicked += () => { if (entry != null) open(entry, info); };
                 info.AddToClassList("terrain-info-button");
                 if (icon != null) info.Add(new Image { image = icon, pickingMode = PickingMode.Ignore });
                 else info.text = "ⓘ";
@@ -79,8 +88,12 @@ namespace Arknights.MapEditor.Editor
                 entry = item;
                 title.text = item.Name;
                 subtitle.text = item.Id;
+                select.name = "device-select-" + item.Id;
+                PrtsObjectView.TryGetIcon(item.Id, out var texture, out var uv);
+                LibraryPortrait.Bind(portrait, texture, uv);
                 select.tooltip = item.HasSamples
-                    ? $"场上预设 {item.Configurations("tokenInsts")} 组 · 卡牌配置 {item.Configurations("tokenCards")} 组"
+                    ? item.ModeConfigurationCount > 0 ? $"玩法配置 {item.ModeConfigurationCount} 份"
+                        : $"场上预设 {item.Configurations("tokenInsts")} 份 · 卡牌配置 {item.Configurations("tokenCards")} 份"
                     : "暂无原版场上或卡牌配置";
                 info.tooltip = "查看 " + item.Name + " 的配置与出处";
                 info.name = "device-info-" + item.Id;

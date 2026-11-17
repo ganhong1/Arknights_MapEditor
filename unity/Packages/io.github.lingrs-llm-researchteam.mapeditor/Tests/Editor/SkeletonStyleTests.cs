@@ -12,7 +12,7 @@ namespace Arknights.MapEditor.Tests
         [Test]
         public void DefinitionsAreAvailableAndAliasesUseSamePattern()
         {
-            Assert.That(SkeletonStyle.DefinitionCount, Is.EqualTo(120));
+            Assert.That(SkeletonStyle.DefinitionCount, Is.EqualTo(125));
             Assert.That(SkeletonStyle.Resolve(Tile("tile_start_cooperate")).Pattern,
                 Is.EqualTo(SkeletonStyle.Resolve(Tile("tile_start")).Pattern));
             Assert.That(SkeletonStyle.Resolve(Tile("tile_end")).Pattern, Is.EqualTo(3));
@@ -76,7 +76,7 @@ namespace Arknights.MapEditor.Tests
                 Assert.That(style.Symbol, Is.InRange(1, ((JArray)catalog["symbols"]).Count), entry.Name);
                 Assert.That(style.Label, Is.Empty, entry.Name);
             }
-            Assert.That(marked, Is.EqualTo(66));
+            Assert.That(marked, Is.EqualTo(70));
             Assert.That(SkeletonStyle.Resolve(Tile("tile_sleep_wall")).Symbol,
                 Is.Not.EqualTo(SkeletonStyle.Resolve(Tile("tile_replace_wall")).Symbol));
             var atlas = AssetDatabase.LoadAssetAtPath<Texture2D>(SkeletonStyle.SymbolAtlasPath);

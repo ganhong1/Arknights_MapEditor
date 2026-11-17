@@ -22,7 +22,6 @@ namespace Arknights.MapEditor.Editor
         private TextField? projectLevelField;
         private TextField? projectArtField;
         private bool ProjectDirty => projectLevelPath != savedProjectLevel || artJson != savedProjectArt;
-        private string ProjectRecoveryFingerprint => CaptureProjectRecovery();
         private bool CanReplaceProject() => !ProjectDirty || Dialogs.Discard("未保存编辑工程", "丢弃当前工程路径和美术映射修改？");
         private void ResetProjectState()
         {
@@ -66,7 +65,7 @@ namespace Arknights.MapEditor.Editor
         {
             var comparison = Application.platform == RuntimePlatform.WindowsEditor ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
             if (string.IsNullOrWhiteSpace(sessionPath) || !string.Equals(Path.GetFullPath(levelFile), Path.GetFullPath(sessionPath), comparison))
-                throw new InvalidOperationException("工程关卡引用必须指向当前已保存的 LevelData；请先另存关卡到该位置或调整相对路径。");
+                throw new EditorOperationRejectedException("工程关卡引用必须指向当前已保存的 LevelData；请先另存关卡到该位置或调整相对路径。");
         }
         private string CaptureProjectRecovery()
         {

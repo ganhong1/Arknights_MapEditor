@@ -13,6 +13,7 @@ namespace Arknights.MapEditor.Editor
         private const string AssetPath =
             "Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/Catalog/terrain-source-maps.json";
         private static JObject? catalog;
+        private static JObject? newerCatalog;
         private readonly int width;
         private readonly int height;
         private readonly Color32[] colors;
@@ -20,7 +21,9 @@ namespace Arknights.MapEditor.Editor
 
         internal TerrainSourceMap(string path, string tileKey, int? sampleNumber, string revision)
         {
-            var data = catalog ??= LoadCatalog();
+            var data = revision == TerrainSampleCatalog.ExpansionRevision
+                ? newerCatalog ??= LoadCatalog(PrtsObjectView.CatalogRoot + "terrain-source-maps-2791.json")
+                : catalog ??= LoadCatalog(AssetPath);
             if (data.Value<int>("version") != 1 || data.Value<string>("revision") != revision ||
                 !(data["maps"]?[path] is JArray map) || !(data["tiles"] is JArray tiles))
                 throw new FormatException("此出处暂无同版本的地图预览。");
@@ -59,7 +62,7 @@ namespace Arknights.MapEditor.Editor
             }
 
             name = "terrain-source-map-preview";
-            var title = new Label(TerrainSearchRuntime.StageName(path) ?? path);
+            var title = new Label(TerrainSearchRuntime.StageCaption(path));
             title.AddToClassList("tiledata-preview-important");
             Add(title);
             var highlightedScope = sampleNumber.HasValue ? "当前配置" : "当前地块变体";
@@ -73,9 +76,9 @@ namespace Arknights.MapEditor.Editor
             Add(canvas);
         }
 
-        private static JObject LoadCatalog()
+        private static JObject LoadCatalog(string assetPath)
         {
-            var asset = AssetDatabase.LoadAssetAtPath<TextAsset>(AssetPath);
+            var asset = AssetDatabase.LoadAssetAtPath<TextAsset>(assetPath);
             if (asset == null) throw new FormatException("找不到关卡地图预览资源。");
             return JObject.Parse(asset.text);
         }

@@ -75,9 +75,9 @@ namespace Arknights.MapEditor.Tests
                 Assert.That(Field<string>(window,"brushJson"),Is.EqualTo("invalid raw draft"));
                 Assert.That(promptCalls, Is.Zero);
                 var library = window.rootVisualElement.Q<ListView>("terrain-library");
-                Assert.That(library.itemsSource.Count, Is.EqualTo(92));
+                Assert.That(library.itemsSource.Count, Is.EqualTo(97));
                 window.rootVisualElement.Q<Toggle>("terrain-filter").value = true;
-                Assert.That(library.itemsSource.Count, Is.EqualTo(87));
+                Assert.That(library.itemsSource.Count, Is.EqualTo(92));
                 window.DiscardChanges();
             } finally {Object.DestroyImmediate(window);}
         }
@@ -179,8 +179,8 @@ namespace Arknights.MapEditor.Tests
                 paint(new[]{new Vector2Int(0,0),new Vector2Int(1,0),new Vector2Int(2,0)});
                 Assert.That(promptCalls, Is.EqualTo(1));
                 Assert.That(session.Document.GetCell(0,0)["tileKey"].ToString(),Is.EqualTo("tile_road"));
-                Undo.PerformUndo();Assert.That(session.Document.GetCell(0,2)["tileKey"].ToString(),Is.EqualTo("tile_forbidden"));
-                Undo.PerformRedo();window.SaveChanges();Assert.That(window.hasUnsavedChanges,Is.False);
+                Call(window,"StepEditorHistoryCore",false);Assert.That(session.Document.GetCell(0,2)["tileKey"].ToString(),Is.EqualTo("tile_forbidden"));
+                Call(window,"StepEditorHistoryCore",true);window.SaveChanges();Assert.That(window.hasUnsavedChanges,Is.False);
                 var exported=LevelDocument.Parse(File.ReadAllText(dialogs.SavePath));
                 Assert.That(exported.GetSection("future").ToString(),Is.EqualTo(doc.GetSection("future").ToString()));
                 dialogs.OpenPath=dialogs.SavePath;Call(window,"OpenDocument");
@@ -196,8 +196,10 @@ namespace Arknights.MapEditor.Tests
             {
                 window.Show();yield return null;window.CreateGUI();window.Dialogs=new Dialogs();
                 var field=window.rootVisualElement.Q<TextField>("leveldata-json");field.value=LevelDocument.Create(4,3).WithLevelId("unsaved").ToJson();
+                var unapplied = field.value;
                 window.SaveChanges();Assert.That(window.hasUnsavedChanges,Is.True);
-                Call(window,"NewDocument");Assert.That(Field<DocumentSession>(window,"session").Document.LevelId,Is.EqualTo("unsaved"));
+                Call(window,"NewDocument");Assert.That(Field<DocumentSession>(window,"session").Document.LevelId,Is.Empty);
+                Assert.That(field.value, Is.EqualTo(unapplied));
             }
             finally {Object.DestroyImmediate(window);}
         }
@@ -223,6 +225,56 @@ namespace Arknights.MapEditor.Tests
             }
             finally {Object.DestroyImmediate(window);}
         }
+        [Test]
+        public void RecoveryRetriesSameDraftAndTracksSourceCheckpointAfterSave()
+        {
+            var window = ScriptableObject.CreateInstance<MapEditorWindow>();
+            var target = Path.Combine(Path.GetTempPath(), "ark-map-" + System.Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(target);
+            try
+            {
+                var cache = new AutoRecovery(target, System.Guid.NewGuid());
+                Set(window, "recovery", cache);
+                Set(window, "loadRecoveryDigest", false);
+                var current = Field<DocumentSession>(window, "session");
+                var changed = current.Document.WithLevelId("pending");
+                current.Edit(changed, "test");
+                Set(window, "draft", current.Json);
+                Set(window, "artJson", "unfinished art");
+                Directory.Delete(target);
+                File.WriteAllText(target, "directory unavailable");
+                Call(window, "FlushRecovery");
+                Assert.That(cache.ExpectedHash, Is.Null);
+                Assert.That(Field<double>(window, "retryRecoveryAt"), Is.GreaterThan(0));
+                File.Delete(target);
+                Set(window, "retryRecoveryAt", 0.0);
+                Set(window, "nextRecoveryTime", 0.0);
+                Call(window, "UpdateRecovery");
+                Assert.That(cache.Load().DraftJson, Is.EqualTo(current.Json));
+                var savedPath = Path.Combine(target, "saved.json");
+                current.Save(savedPath);
+                Call(window, "FlushRecovery");
+                var checkpoint = cache.Load();
+                Assert.That(checkpoint.SourcePath, Is.EqualTo(savedPath));
+                Assert.That(checkpoint.SourceHash, Is.EqualTo(DocumentFileStore.Read(savedPath).Sha256));
+                Assert.That(checkpoint.SavedJson, Is.EqualTo(current.Json));
+
+                File.WriteAllText(cache.CachePath, "external contents");
+                Set(window, "draft", "new draft");
+                Call(window, "FlushRecovery");
+                var replacement = Field<AutoRecovery>(window, "recovery");
+                Assert.That(replacement.SessionId, Is.Not.EqualTo(cache.SessionId));
+                Assert.That(File.ReadAllText(cache.CachePath), Is.EqualTo("external contents"));
+                Assert.That(replacement.Load().DraftJson, Is.EqualTo("new draft"));
+            }
+            finally
+            {
+                Object.DestroyImmediate(window);
+                if (Directory.Exists(target)) Directory.Delete(target, true);
+                else if (File.Exists(target)) File.Delete(target);
+            }
+        }
+
         [UnityTest]
         public IEnumerator CancelLevelSaveNeverStartsProjectSave()
         {
@@ -232,6 +284,7 @@ namespace Arknights.MapEditor.Tests
                 window.Show();yield return null;window.CreateGUI();
                 var dialogs=new Dialogs();window.Dialogs=dialogs;
                 window.rootVisualElement.Q<TextField>("leveldata-json").value=LevelDocument.Create(4,3).WithLevelId("pending").ToJson();
+                Call(window,"ApplyDraft");
                 Set(window,"artJson","[{\"unfinished\":true}]");
                 window.SaveChanges();
                 Assert.That(dialogs.SaveCalls,Is.EqualTo(1));

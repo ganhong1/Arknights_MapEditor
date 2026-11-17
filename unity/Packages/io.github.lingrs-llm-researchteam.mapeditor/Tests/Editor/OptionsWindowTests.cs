@@ -77,6 +77,26 @@ namespace Arknights.MapEditor.Tests
             Assert.That(Session.Json, Is.EqualTo(original));
         }
 
+        [Test] public void LevelIdIsAboveOptionsAndCanBeAppliedAndUndoneWithoutLosingAnOptionsDraft()
+        {
+            SetOptions("{\"initialCost\":3}");
+            var panel = window.rootVisualElement.Q("level-id-settings");
+            Assert.That(panel.parent.Children().First(), Is.SameAs(panel));
+            var field = panel.Q<TextField>("global-field-levelId");
+            Raw.value = "{\"initialCost\":8}";
+            field.value = "Obt/Main/level_main_05-10";
+            Assert.That(Session.Document.LevelId, Is.Empty);
+            Click("apply-level-id");
+            Assert.That(Session.Document.LevelId, Is.EqualTo(field.value));
+            Assert.That(Options.Value<int>("initialCost"), Is.EqualTo(3));
+            Call("ApplyOptionsDraft");
+            Assert.That(Options.Value<int>("initialCost"), Is.EqualTo(8));
+            Session.StepHistory(false);
+            Session.StepHistory(false);
+            Assert.That(Session.Document.LevelId, Is.Empty);
+            Assert.That(Options.Value<int>("initialCost"), Is.EqualTo(3));
+        }
+
         [TestCase("costIncreaseTime", "0", "自然回费计时器不启用")]
         [TestCase("costIncreaseTime", "-1", "自然回费计时器不启用")]
         [TestCase("costIncreaseTime", "1.0000308066082653e-05", "自然回费计时器不启用")]
@@ -133,14 +153,13 @@ namespace Arknights.MapEditor.Tests
         [Test] public void StaleDraftIsPreservedAndCannotOverwriteAnotherRevision()
         {
             SetOptions("{\"initialCost\":3}"); Raw.value = "{\"initialCost\":8}";
-            Session.Edit(Session.Document.WithLevelId("changed"), "change document");
+            Session.Edit(Session.Document.WithSection("options", "{\"initialCost\":12}"), "change options");
             typeof(MapEditorWindow).GetField("draft", Private)!.SetValue(window, Session.Json);
             window.CreateGUI();
             Assert.That(Raw.value, Does.Contain("8"));
             var error = Assert.Throws<TargetInvocationException>(() => Call("ApplyOptionsDraft"));
-            Assert.That(error!.InnerException, Is.TypeOf<InvalidOperationException>());
-            Assert.That(Options["initialCost"]!.Value<int>(), Is.EqualTo(3));
-            Assert.That(Session.Document.LevelId, Is.EqualTo("changed"));
+            Assert.That(error!.InnerException, Is.InstanceOf<InvalidOperationException>());
+            Assert.That(Options["initialCost"]!.Value<int>(), Is.EqualTo(12));
         }
 
         [Test] public void CleanFormRefreshesToNewRevisionButEditLockRejectsChanges()
@@ -151,7 +170,7 @@ namespace Arknights.MapEditor.Tests
             window.SetWorkspaceEditLock(true);
             window.rootVisualElement.Q<IntegerField>("options-field-initialCost-integer").value = 17;
             Assert.That(OptionsFieldSchema.Parse(Raw.value)!["initialCost"]!.Value<int>(), Is.EqualTo(9));
-            Assert.That(Assert.Throws<TargetInvocationException>(() => Call("ApplyOptionsDraft"))!.InnerException, Is.TypeOf<InvalidOperationException>());
+            Assert.That(Assert.Throws<TargetInvocationException>(() => Call("ApplyOptionsDraft"))!.InnerException, Is.InstanceOf<InvalidOperationException>());
         }
 
         [Test] public void MaskButtonsPreserveUnknownBitsAndOriginalStringUntilExplicitEdit()

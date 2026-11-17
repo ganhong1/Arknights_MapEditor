@@ -25,6 +25,7 @@ namespace Arknights.MapEditor.Editor
         internal bool WorkspaceDirty => DocumentDirty || draft != session!.Json || ProjectDirty || InspectorDirty;
         internal string WorkspaceTitle => WorkspacePath.Length > 0 ? Path.GetFileNameWithoutExtension(WorkspacePath) : workspaceTitle;
         internal bool WorkspaceEditLocked => workspaceEditLocked;
+        internal MapWorkspaceWindow? WorkspaceOwner => workspaceOwner;
         internal void SetWorkspaceOwner(MapWorkspaceWindow owner) => workspaceOwner = owner;
         internal bool IsStandalone => workspaceOwner == null;
 
@@ -46,6 +47,7 @@ namespace Arknights.MapEditor.Editor
                 copy.libraryPanelWidth = libraryPanelWidth;
                 copy.workbenchTab = workbenchTab;
                 copy.routePreviewSettings = routePreviewSettings;
+                copy.routePlaybackSelected = routePlaybackSelected;
                 copy.sourceExpanded = sourceExpanded;
                 return copy;
             }
@@ -59,7 +61,7 @@ namespace Arknights.MapEditor.Editor
 
         private void RequireWorkspaceEditable()
         {
-            if (workspaceEditLocked) throw new InvalidOperationException("此地图已启用编辑锁。");
+            if (workspaceEditLocked) throw new EditorOperationRejectedException("此地图已启用编辑锁。");
         }
 
         internal void LoadWorkspaceDocument(MapWorkspaceWindow owner, string title, string json, string path, string hash)
@@ -76,7 +78,7 @@ namespace Arknights.MapEditor.Editor
         internal void CreateFromFinishedLevel(string title, string json, string origin)
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode)
-                throw new InvalidOperationException("请退出 Play Mode 后新建地图。");
+                throw new EditorOperationRejectedException("请退出 Play Mode 后新建地图。");
             if (workspaceOwner != null)
             {
                 workspaceOwner.AddFinishedLevel(title, json, origin);
@@ -105,25 +107,76 @@ namespace Arknights.MapEditor.Editor
             {
                 workspaceInspector = new VisualElement();
                 workspaceInspector.style.flexGrow = 1;
-                CreateGUI();
+                try { CreateGUI(); }
+                catch
+                {
+                    workspaceInspector = null;
+                    throw;
+                }
             }
             return workspaceInspector;
         }
 
         internal bool ConfirmWorkspaceClose() => CanReplace();
 
-        private void StepEditorHistory(bool forward)
+        internal static bool IsUndoShortcut(KeyCode key, EventModifiers modifiers)
         {
-            ApplyDraft();
-            if (workspaceOwner == null)
+            const EventModifiers relevant = EventModifiers.Control | EventModifiers.Shift |
+                EventModifiers.Alt | EventModifiers.Command;
+            return key == KeyCode.Z && (modifiers & relevant) == EventModifiers.Control;
+        }
+
+        internal static bool IsTextInput(VisualElement? target)
+        {
+            for (var element = target; element != null; element = element.parent)
+                if (element is TextField || element.ClassListContains(TextInputBaseField<string>.ussClassName) ||
+                    element.name == TextInputBaseField<string>.textInputUssName) return true;
+            return false;
+        }
+
+        internal void UndoFromShortcut()
+        {
+            if (WorkspaceEditLocked) return;
+            try { StepEditorHistory(false); }
+            catch (Exception error)
             {
-                if (forward) Undo.PerformRedo();
-                else Undo.PerformUndo();
-                return;
+                if (status != null) status.text = error.Message;
+                if (workspaceOwner != null) workspaceOwner.ReportNativeError("document.undo", error);
+                else ReportWindowFailure("document.undo", error);
             }
+        }
+
+        internal static void HandleUndoKey(KeyDownEvent input, MapEditorWindow? editor)
+        {
+            if (editor == null || !IsUndoShortcut(input.keyCode, input.modifiers) ||
+                IsTextInput(input.target as VisualElement)) return;
+            input.StopImmediatePropagation();
+            input.PreventDefault();
+            input.imguiEvent?.Use();
+            editor.UndoFromShortcut();
+        }
+
+        private void StepEditorHistory(bool forward)
+            => DiagnoseDocumentOperation(forward ? "document.redo" : "document.undo", () => StepEditorHistoryCore(forward));
+
+        private void StepEditorHistoryCore(bool forward)
+        {
+            RequireWorkspaceEditable();
+            RequireAppliedDraft();
+            var previous = session!.Document;
             session!.StepHistory(forward);
+            RestoreWaveHistory();
+            RestoreBranchHistory();
+            var rebased = RebaseModuleDrafts(InspectorStore, previous, session.Document);
+            if (rebased != null)
+            {
+                inspectorStore = rebased;
+                inspectorJson = rebased.ToJson();
+            }
+            ReconcileRecordSelections(previous, session.Document);
             draft = session.Json;
             Refresh();
+            ownedPreview?.UpdateDocument(session.Document, null);
         }
 
         internal void PaintWorkspaceCells(IReadOnlyList<Vector2Int> cells)

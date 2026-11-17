@@ -1,5 +1,6 @@
 #nullable enable
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,6 +12,8 @@ using NUnit.Framework;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.TestTools;
+using UnityEngine.UIElements;
 
 namespace Arknights.MapEditor.Editor.Tests
 {
@@ -32,7 +35,15 @@ namespace Arknights.MapEditor.Editor.Tests
             Assert.That(first.GetSection("options")!.Value<int>("initialCost"), Is.EqualTo(10));
             Assert.That(second.GetSection("options")!.Value<int>("initialCost"), Is.EqualTo(5));
             Assert.That(normal.Source.Revision, Is.Not.Empty);
-            Assert.That(JObject.Parse(normal.Origin).Value<string>("path"), Is.EqualTo(normal.Source.Path));
+            var origin = JObject.Parse(normal.Origin);
+            Assert.That(origin.Value<string>("stageId"), Is.EqualTo("main_12-16"));
+            Assert.That(origin.Value<string>("levelId"), Is.EqualTo(normal.LevelId));
+            Assert.That(origin.Property("source"), Is.Null);
+            Assert.That(origin.Property("revision"), Is.Null);
+            var variants = group.GameVariants().ToArray();
+            Assert.That(variants.Select(variant => (variant.Stage!.Id, variant.Source.Body)), Is.Unique);
+            Assert.That(variants.Select(variant => variant.Stage!.Mode), Does.Contain("普通").And.Contain("磨难"));
+            Assert.That(variants.Select(variant => variant.Label), Has.None.Contains("ArknightsGameData"));
         }
 
         [Test]
@@ -41,13 +52,30 @@ namespace Arknights.MapEditor.Editor.Tests
             var catalog = FinishedLevelCatalog.Load(FinishedLevelCatalog.BundledPath());
             var groups = catalog.Groups.Where(group => !group.IsComponent).ToArray();
             var expected = groups.Single(group => group.Variants.Any(variant => variant.Stage?.Id == "main_05-10"));
-            var search = TerrainSearchRuntime.CreateWorker<FinishedLevelCatalog.StageGroup>(TerrainSearchRuntime.FinishedLevel);
+            var search = TerrainSearchRuntime.CreateFinishedLevelWorker();
             foreach (var query in new[] { "长夜终尽", "changyezhongjin", "cyzj", "main_05-10", "level_main_05-10", "cyzj 突袭" })
             {
                 var matches = search.Filter(groups, query, out var error).ToArray();
                 Assert.That(error, Is.Null, query);
                 Assert.That(matches, Does.Contain(expected), query);
             }
+        }
+
+        [TestCase("main_05-10", "obt/main/level_main_05-10.json", "Obt/Main/level_main_05-10")]
+        [TestCase("main_05-10#f#", "obt/main/level_main_05-10.json", "Obt/Main/level_main_05-10")]
+        [TestCase("act21side_01_m", "activities/act21side/level_act21side_01.json", "Activities/ACT21side/Mission/level_act21side_01_m")]
+        public void FinishedMapUsesTheRequestIdWithoutChangingArchivedBody(string stage, string path, string id)
+        {
+            var catalog = FinishedLevelCatalog.Load(FinishedLevelCatalog.BundledPath());
+            var item = catalog.Groups.SelectMany(group => group.Variants).Single(variant =>
+                variant.Stage?.Id == stage && variant.Source.Repository == "ArknightsGameData" && variant.Source.Path == path);
+            using var archive = catalog.OpenBodies();
+            var raw = JObject.Parse(catalog.ReadBody(archive, item.Source.Body));
+            var copy = catalog.ReadVariant(item);
+            Assert.That(raw["levelId"]!.Type, Is.EqualTo(JTokenType.Null));
+            Assert.That(copy.LevelId, Is.EqualTo(id));
+            raw["levelId"] = id;
+            Assert.That(JToken.DeepEquals(JObject.Parse(copy.ToJson()), raw), Is.True);
         }
 
         [Test]
@@ -62,8 +90,7 @@ namespace Arknights.MapEditor.Editor.Tests
                 var catalog = FinishedLevelCatalog.Load(FinishedLevelCatalog.BundledPath());
                 var item = catalog.Groups.SelectMany(group => group.Variants)
                     .First(variant => variant.Stage?.Id == "main_05-10");
-                using var archive = catalog.OpenBodies();
-                workspace.AddFinishedLevel(item.Title, catalog.ReadBody(archive, item.Source.Body), item.Origin, refresh: false);
+                workspace.AddFinishedLevel(item.Title, catalog.ReadVariant(item).ToJson(), item.Origin, refresh: false);
                 Assert.That(workspace.Documents, Does.Contain(draft));
                 Assert.That(draft.WorkspaceDocument, Is.SameAs(document));
                 Assert.That(workspace.FocusedEditor!.WorkspacePath, Is.Empty);
@@ -71,6 +98,64 @@ namespace Arknights.MapEditor.Editor.Tests
             }
             finally { UnityEngine.Object.DestroyImmediate(workspace); }
         }
+
+        [UnityTest]
+        public IEnumerator FinishedLevelBrowserCreatesOf1AfterItsOpeningMapCloses()
+        {
+            var workspace = ScriptableObject.CreateInstance<MapWorkspaceWindow>();
+            FinishedLevelBrowser? browser = null;
+            try
+            {
+                workspace.AddDocument(0, "保留地图", LevelDocument.Create(6, 5).ToJson(), refresh: false);
+                var retained = workspace.FocusedEditor!;
+                var document = retained.WorkspaceDocument;
+                workspace.AddDocument(0, "打开资源库的地图", LevelDocument.Create(10, 6).ToJson(), refresh: false);
+                var opener = workspace.FocusedEditor!;
+                workspace.CreateGUI();
+                browser = FinishedLevelBrowser.Open(opener);
+                yield return null;
+
+                var close = workspace.rootVisualElement.Q("workspace-left").Query<Button>().ToList()
+                    .Last(button => button.text == "×");
+                InvokeButton(close);
+                Assert.That(opener == null, Is.True);
+
+                var groups = browser.rootVisualElement.Q<ListView>("finished-level-groups");
+                var clock = System.Diagnostics.Stopwatch.StartNew();
+                while (groups.itemsSource.Count == 0 && clock.Elapsed.TotalSeconds < 15) yield return null;
+                var index = groups.itemsSource.Cast<FinishedLevelCatalog.StageGroup>().ToList().FindIndex(group =>
+                    group.Variants.Any(variant => variant.Stage?.Code == "OF-1"));
+                Assert.That(index, Is.GreaterThanOrEqualTo(0));
+                groups.SetSelection(index);
+
+                var create = browser.rootVisualElement.Q<Button>("finished-level-create");
+                clock.Restart();
+                while (!create.enabledSelf && clock.Elapsed.TotalSeconds < 15) yield return null;
+                Assert.That(create.enabledSelf, Is.True);
+                Assert.That(browser.rootVisualElement.Q<Label>("finished-level-details").text,
+                    Is.EqualTo("OF-1 · 火山制造 · 普通"));
+                InvokeButton(create);
+                Assert.That(browser == null, Is.True);
+                Assert.That(workspace.Documents.Count(), Is.EqualTo(2));
+                Assert.That(retained.WorkspaceDocument, Is.SameAs(document));
+                var copy = workspace.FocusedEditor!;
+                Assert.That(copy.WorkspaceTitle, Does.StartWith("OF-1"));
+                Assert.That(copy.WorkspaceDocument.Width, Is.EqualTo(11));
+                Assert.That(copy.WorkspaceDocument.Height, Is.EqualTo(7));
+                Assert.That(copy.WorkspaceDocument.LevelId, Is.EqualTo("Activities/ACT3D0/level_act3d0_01"));
+                Assert.That(copy.WorkspacePath, Is.Empty);
+                Assert.That(copy.WorkspaceDirty, Is.True);
+            }
+            finally
+            {
+                if (browser != null) browser.Close();
+                UnityEngine.Object.DestroyImmediate(workspace);
+            }
+        }
+
+        private static void InvokeButton(Button button) => typeof(Clickable)
+            .GetMethod("Invoke", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!
+            .Invoke(button.clickable, new object?[] { null });
 
         [Test]
         public void RenderEntireCorpusWhenReportPathIsSupplied()

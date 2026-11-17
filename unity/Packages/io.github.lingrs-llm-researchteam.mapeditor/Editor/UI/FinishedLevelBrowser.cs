@@ -14,6 +14,7 @@ namespace Arknights.MapEditor.Editor
     internal sealed class FinishedLevelBrowser : EditorWindow
     {
         private static readonly Vector2 PreviewSize = new Vector2(512, 300);
+        [SerializeField] private MapWorkspaceWindow? workspace;
         [SerializeField] private MapEditorWindow? opener;
         private FinishedLevelCatalog? catalog;
         private MapWorkspaceViewport? viewport;
@@ -32,12 +33,14 @@ namespace Arknights.MapEditor.Editor
         private Button create = null!;
         private IMGUIContainer canvas = null!;
 
-        internal static void Open(MapEditorWindow owner)
+        internal static FinishedLevelBrowser Open(MapEditorWindow owner)
         {
             var window = GetWindow<FinishedLevelBrowser>(true, "从成品关卡新建地图", true);
             window.minSize = new Vector2(680, 580);
-            window.opener = owner;
+            window.workspace = owner.WorkspaceOwner;
+            window.opener = window.workspace == null ? owner : null;
             window.Focus();
+            return window;
         }
 
         public void CreateGUI()
@@ -75,18 +78,22 @@ namespace Arknights.MapEditor.Editor
             var right = new VisualElement();
             right.style.paddingLeft = 10;
             split.Add(right);
-            right.Add(new Label("模式与来源版本"));
+            right.Add(new Label("模式与关卡配置"));
             variantList = new ListView(variants, 26, () => new Label(), (element, index) =>
             {
                 var variant = variants[index];
-                ((Label)element).text = variant.Label;
-                element.tooltip = variant.Stage?.Id + "\n" + variant.Source.Path;
+                var matching = variants.Where(item => item.Label == variant.Label).ToList();
+                var label = matching.Count > 1
+                    ? variant.Label + " · 配置 " + (matching.IndexOf(variant) + 1)
+                    : variant.Label;
+                ((Label)element).text = label;
+                element.tooltip = label;
             }) { name = "finished-level-variants" };
             variantList.style.minHeight = 95;
             variantList.style.maxHeight = 154;
             variantList.style.flexGrow = 1;
             right.Add(variantList);
-            details = new Label();
+            details = new Label { name = "finished-level-details" };
             details.style.whiteSpace = WhiteSpace.Normal;
             right.Add(details);
             canvas = new IMGUIContainer(DrawPreview) { name = "finished-level-preview" };
@@ -104,7 +111,7 @@ namespace Arknights.MapEditor.Editor
             right.Add(actions);
 
             var search = new CatalogSearchInput<FinishedLevelCatalog.StageGroup>(query,
-                () => TerrainSearchRuntime.CreateWorker<FinishedLevelCatalog.StageGroup>(TerrainSearchRuntime.FinishedLevel),
+                TerrainSearchRuntime.CreateFinishedLevelWorker,
                 Array.Empty<FinishedLevelCatalog.StageGroup>(), () => result.text = "搜索中…",
                 (matches, error) => ShowGroups(matches, error));
             void RefreshGroups() => search.SetItems(catalog?.Groups.Where(group => group.IsComponent == componentToggle.value).ToArray()
@@ -115,7 +122,7 @@ namespace Arknights.MapEditor.Editor
             {
                 if (items.OfType<FinishedLevelCatalog.Variant>().FirstOrDefault() is { } item) LoadVariant(item);
             };
-            ClearPreview("选择关卡和版本以预览骨架。");
+            ClearPreview("选择关卡和配置以预览骨架。");
             LoadIndex(RefreshGroups);
         }
 
@@ -133,7 +140,7 @@ namespace Arknights.MapEditor.Editor
             }
             catch (Exception error)
             {
-                if (this != null && generation == indexRequest) result.text = "关卡索引读取失败 · " + error.Message;
+                if (this != null && generation == indexRequest) result.text = "关卡索引读取失败 · " + PluginLog.FailureMessage("catalog.level-index", error);
             }
         }
 
@@ -152,9 +159,9 @@ namespace Arknights.MapEditor.Editor
 
         private void SelectGroup(FinishedLevelCatalog.StageGroup? group)
         {
-            ClearPreview("请选择要预览的模式和版本。");
+            ClearPreview("请选择要预览的模式和配置。");
             variants.Clear();
-            if (group != null) variants.AddRange(group.Variants);
+            if (group != null) variants.AddRange(group.GameVariants());
             variantList.SetSelectionWithoutNotify(Array.Empty<int>());
             variantList.RefreshItems();
             if (variants.Count > 0) variantList.SetSelection(0);
@@ -166,15 +173,14 @@ namespace Arknights.MapEditor.Editor
             ClearPreview("正在读取 LevelData…");
             var generation = request;
             var library = catalog;
-            details.text = string.Join("\n", new[] { variant.Stage?.Id, variant.Source.Path }.Where(value => !string.IsNullOrEmpty(value)));
-            details.tooltip = variant.Source.Repository + "\n" + (variant.Source.Revision ?? "版本未标注");
+            details.text = variant.Label;
+            details.tooltip = variant.Stage?.Id ?? GameStageLabel.LevelId(variant.Source.Path);
             try
             {
                 var data = await Task.Run(() =>
                 {
-                    using var archive = library.OpenBodies();
-                    var json = library.ReadBody(archive, variant.Source.Body);
-                    return (json, document: LevelDocument.Parse(json));
+                    var document = library.ReadVariant(variant);
+                    return (json: document.ToJson(), document);
                 });
                 if (this == null || generation != request) return;
                 viewport ??= new MapWorkspaceViewport();
@@ -187,7 +193,7 @@ namespace Arknights.MapEditor.Editor
             }
             catch (Exception error)
             {
-                if (this != null && generation == request) ClearPreview("无法预览 · " + error.Message, false);
+                if (this != null && generation == request) ClearPreview("无法预览 · " + PluginLog.FailureMessage("catalog.level-preview", error), false);
             }
         }
 
@@ -219,13 +225,21 @@ namespace Arknights.MapEditor.Editor
 
         private void CreateMap()
         {
-            if (loaded == null || loadedJson == null || opener == null) return;
+            if (loaded == null || loadedJson == null) return;
+            if (workspace == null && opener == null)
+            {
+                message.text = "原编辑窗口已关闭。请从当前工作台重新打开成品关卡地图。";
+                return;
+            }
             try
             {
-                opener.CreateFromFinishedLevel(loaded.NewDocumentTitle, loadedJson, loaded.Origin);
+                if (workspace != null)
+                    workspace.AddFinishedLevel(loaded.NewDocumentTitle, loadedJson, loaded.Origin);
+                else
+                    opener!.CreateFromFinishedLevel(loaded.NewDocumentTitle, loadedJson, loaded.Origin);
                 Close();
             }
-            catch (Exception error) { message.text = "新建失败 · " + error.Message; }
+            catch (Exception error) { message.text = "新建失败 · " + PluginLog.FailureMessage("catalog.level-create", error); }
         }
 
         private void OnDisable()

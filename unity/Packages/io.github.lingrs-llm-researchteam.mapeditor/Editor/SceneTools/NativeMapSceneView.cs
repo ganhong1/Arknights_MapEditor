@@ -6,10 +6,11 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 namespace Arknights.MapEditor.Editor
 {
-    public sealed class NativeMapSceneView : SceneView
+    public sealed partial class NativeMapSceneView : SceneView
     {
         [SerializeField] private MapWorkspaceWindow? owner;
         [SerializeField] private int group;
@@ -42,6 +43,8 @@ namespace Arknights.MapEditor.Editor
         public override void OnEnable()
         {
             base.OnEnable();
+            wantsMouseMove = true;
+            wantsMouseEnterLeaveWindow = true;
             duringSceneGui += DrawMap;
             beforeSceneGui += HandleMapInput;
         }
@@ -62,6 +65,7 @@ namespace Arknights.MapEditor.Editor
             if (editor != documentEditor || viewState != state)
             {
                 CancelStroke();
+                ResetRouteGesture(); ResetMapRuleGesture();
                 RememberPose();
                 editor = documentEditor;
                 viewState = state;
@@ -128,7 +132,8 @@ namespace Arknights.MapEditor.Editor
                 if (focusedWindow == this) owner?.ActivateNativeGroup(group);
                 terrain!.SetBackdropVisible(camera.transform.position.y >= -1.1f);
                 labels?.Update(renderedDocument, viewState?.Coordinates == true, orthographic);
-                editor.DrawRoutePreview();
+                if (!DrawRouteEditing()) editor.DrawRoutePreview();
+                DrawMapRuleOverlay();
                 if (missingIconLines.Length > 0)
                     using (new Handles.DrawingScope(Color.yellow)) Handles.DrawLines(missingIconLines);
                 if (editor.SelectedPresetCell is Vector2Int cell)
@@ -160,16 +165,41 @@ namespace Arknights.MapEditor.Editor
         private void HandleMapInput(SceneView view)
         {
             if (view != this || editor == null || renderedDocument == null || camera.scene != preview) return;
-            HandlePaint(Event.current);
+            var input = Event.current;
+            if (input.type == EventType.KeyDown && MapEditorWindow.IsUndoShortcut(input.keyCode, input.modifiers) &&
+                !EditorGUIUtility.editingTextField &&
+                !MapEditorWindow.IsTextInput(rootVisualElement.focusController?.focusedElement as VisualElement))
+            {
+                input.Use();
+                CancelStroke();
+                ResetRouteGesture(); ResetMapRuleGesture();
+                owner?.ActivateNativeGroup(group);
+                editor.UndoFromShortcut();
+                return;
+            }
+            if (editor.MapRuleSceneActive)
+            {
+                CancelStroke(); ResetRouteGesture(); HandleMapRuleInput(input); return;
+            }
+            if (ruleControl != 0 || ruleHover.HasValue) ResetMapRuleGesture();
+            if (editor.RoutePanelActive && editor.RouteSceneActive)
+            {
+                CancelStroke();
+                HandleRouteInput(input);
+                return;
+            }
+            if (routeControl != 0 || routeHover.HasValue) ResetRouteGesture();
+            HandlePaint(input);
         }
 
         private void HandlePaint(Event input)
         {
+            if (editor == null) return;
             var control = GUIUtility.GetControlID(GetInstanceID(), FocusType.Passive);
-            var drawing = input.shift || editor!.EraseMode || editor.TerrainPlacementEnabled || editor.OperatorPlacementEnabled;
+            var drawing = input.shift || editor.EraseMode || editor.TerrainPlacementEnabled || editor.OperatorPlacementEnabled;
             if (input.type == EventType.Layout && drawing && !input.alt && !editor.WorkspaceEditLocked)
                 HandleUtility.AddDefaultControl(control);
-            if (editor!.WorkspaceEditLocked || input.type == EventType.Ignore ||
+            if (editor.WorkspaceEditLocked || input.type == EventType.Ignore ||
                 input.type == EventType.KeyDown && input.keyCode == KeyCode.Escape)
             {
                 if (paintControl != 0 && input.type == EventType.KeyDown) input.Use();
@@ -199,7 +229,7 @@ namespace Arknights.MapEditor.Editor
                 CancelStroke();
                 input.Use();
                 try { editor.PaintWorkspaceCells(cells); }
-                catch (Exception error) { owner?.ReportNativeError(error.Message); }
+                catch (Exception error) { owner?.ReportNativeError("scene.paint", error); }
             }
         }
 
@@ -239,6 +269,7 @@ namespace Arknights.MapEditor.Editor
             duringSceneGui -= DrawMap;
             beforeSceneGui -= HandleMapInput;
             CancelStroke();
+            ResetRouteGesture(); ResetMapRuleGesture();
             RememberPose();
             try
             {
@@ -254,9 +285,10 @@ namespace Arknights.MapEditor.Editor
             finally { base.OnDisable(); }
         }
 
-        private void OnDestroy()
+        private new void OnDestroy()
         {
-            if (!closing) owner?.NativeViewClosed(group, this);
+            try { if (!closing) owner?.NativeViewClosed(group, this); }
+            finally { base.OnDestroy(); }
         }
     }
 }

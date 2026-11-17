@@ -45,7 +45,7 @@ namespace Arknights.MapEditor.Tests
 
         [Test] public void MapDataKeepsSixNativeFieldsAndOneIndependentTileDataEditor()
         {
-            var expected = new[] { "map", "tiles", "blockEdges", "tags", "effects", "layerRects", "root" };
+            var expected = new[] { "map", "tiles", "blockEdges", "tilesDisallowToLocate", "tags", "effects", "layerRects", "root" };
             var actual = window.rootVisualElement.Q("mapdata-editor").Query<Button>().ToList()
                 .Where(b => b.name != null && b.name.StartsWith("mapdata-tab-", StringComparison.Ordinal))
                 .Select(b => b.name.Substring("mapdata-tab-".Length)).ToArray();
@@ -103,13 +103,26 @@ namespace Arknights.MapEditor.Tests
             window.CreateGUI();
             Assert.That(Field("root").value, Is.EqualTo("{unfinished map"));
             Assert.That((string)Call("CaptureInspectorRecovery"), Is.EqualTo(before));
-            Session.Edit(Session.Document.WithLevelId("newer"), "another edit");
+            Session.Edit(Session.Document.WithMapDataField("tags", "[\"newer\"]"), "another edit");
             typeof(MapEditorWindow).GetField("draft", Flags).SetValue(window, Session.Json);
             Call("Refresh");
             var current = Session.Json;
             Field("root").value = Session.Document.GetSection("mapData").ToString();
             Assert.Throws<TargetInvocationException>(() => Call("ApplyMapDataDraft", "root", Field("root").value));
             Assert.That(Session.Json, Is.EqualTo(current));
+        }
+
+        [Test] public void UnrelatedEditAndUndoKeepMapConfigDraftOnTheSameField()
+        {
+            const string pending = "[\"keep-me\"]";
+            Field("tags").value = pending;
+            Call("CommitEdit", Session.Document.WithLevelId("different-module"), "编辑 levelId", null);
+            Call("StepEditorHistoryCore", false);
+            Call("StepEditorHistoryCore", true);
+            Assert.That(Field("tags").value, Is.EqualTo(pending));
+            Call("ApplyMapDataDraft", "tags", pending);
+            Assert.That(Session.Document.GetSection("mapData")["tags"][0].ToString(), Is.EqualTo("keep-me"));
+            Assert.That(Session.Document.LevelId, Is.EqualTo("different-module"));
         }
 
         [Test] public void RawMapCannotBypassCropCheckForExternalRoute()

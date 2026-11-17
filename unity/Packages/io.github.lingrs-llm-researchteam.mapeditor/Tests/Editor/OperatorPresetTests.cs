@@ -475,10 +475,12 @@ namespace Arknights.MapEditor.Tests
             var window = ScriptableObject.CreateInstance<UnityEditor.EditorWindow>();
             try
             {
-                window.Show();
+                window.ShowUtility();
+                window.position = new Rect(100, 100, 360, 360);
                 var host = new VisualElement();
                 host.style.width = 310;
                 host.style.height = 300;
+                host.style.flexShrink = 0;
                 window.rootVisualElement.Add(host);
                 var view = new PresetHandPreview((_, _, _) => true);
                 host.Add(view);
@@ -493,11 +495,16 @@ namespace Arknights.MapEditor.Tests
                 Assert.That(card.worldBound.height, Is.GreaterThan(10));
                 Click(card);
                 yield return null;
+                window.Repaint();
+                yield return null;
                 var frame = card.Q<Image>("deployment-card-selected").worldBound;
                 Assert.That(frame.yMin, Is.EqualTo(card.worldBound.yMin).Within(0.1f));
                 Assert.That(frame.yMin + 2, Is.LessThan(originalTop));
                 Assert.That(neighbor.worldBound.yMin, Is.EqualTo(neighborTop).Within(0.1f));
-                Assert.That(view.panel.Pick(new Vector2(frame.center.x, frame.yMin + 2)), Is.SameAs(card));
+                var raisedPoint = new Vector2(frame.center.x, frame.yMin + 2);
+                Assert.That(window.rootVisualElement.worldBound.Contains(raisedPoint), Is.True,
+                    "The raised card must lie inside its test window before checking picking.");
+                Assert.That(view.panel.Pick(raisedPoint), Is.SameAs(card));
             }
             finally { window.Close(); }
         }

@@ -18,7 +18,7 @@ namespace Arknights.MapEditor.Editor
         private readonly Dictionary<Vector2Int, GameObject> chunks = new Dictionary<Vector2Int, GameObject>();
         private static readonly int[] TransparentFaceOrder = { 2, 3, 4, 0, 1 };
         private static readonly float[] SurfacePlanes =
-            { 0f, SkeletonStyle.BlockTop, SkeletonStyle.BoxTop, SkeletonStyle.FenceTop, SkeletonStyle.RecessTop };
+            { 0f, SkeletonStyle.BlockTop, SkeletonStyle.BoxTop, SkeletonStyle.FenceTop, SkeletonStyle.RecessTop, SkeletonStyle.TrenchTop };
         private Material? material;
         private Material? translucentMaterial;
         private GameObject? backdrop;

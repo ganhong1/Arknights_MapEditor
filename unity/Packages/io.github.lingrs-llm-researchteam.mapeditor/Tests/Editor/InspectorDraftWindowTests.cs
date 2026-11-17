@@ -6,7 +6,9 @@ using System.Reflection;
 using Arknights.MapEditor.Core;
 using Arknights.MapEditor.Editor;
 using Arknights.MapEditor.Storage;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.TestTools;
@@ -137,6 +139,85 @@ namespace Arknights.MapEditor.Tests
             var points = Newtonsoft.Json.Linq.JObject.Parse(raw);
             Assert.That((float)points["startRow"], Is.EqualTo(2));
             Assert.That((float)points["endCol"], Is.EqualTo(5));
+        }
+
+        [Test]
+        public void ChangingAdvancedFieldCannotEditAnotherFieldsDraft()
+        {
+            var fields = window.rootVisualElement.Query<PopupField<string>>().ToList().Single(f => f.label == "字段");
+            Section.value = "[{\"originalRouteDraft\":true}]";
+            fields.value = "options";
+            Assert.That(fields.value, Is.EqualTo("routes"));
+            Assert.That(Section.value, Is.EqualTo("[{\"originalRouteDraft\":true}]"));
+            ((Dialogs)window.Dialogs).Allow = true;
+            fields.value = "options";
+            Assert.That(Section.value, Does.Contain("characterLimit"));
+            Assert.DoesNotThrow(() => Invoke("RequireLocalDraft", "section", "options"));
+        }
+
+        [Test]
+        public void PresetRecoveryRestoresTheDraftLayerCollectionAndIndex()
+        {
+            const string target = "[\"hardPredefines\",\"tokenCards\",0]";
+            const string raw = "{\"inst\":{\"characterKey\":\"trap_007_ballis\"},\"initialCnt\":4}";
+            var store = new InspectorDraftStore();
+            store.Begin("preset", Session.Json, target, "{}");
+            store.Update("preset", raw);
+            Invoke("ApplyInspectorRecovery", store);
+            window.CreateGUI();
+            Assert.That(window.rootVisualElement.Q<PopupField<string>>("device-edit-section").value, Is.EqualTo("hardPredefines"));
+            Assert.That(window.rootVisualElement.Q<PopupField<string>>("device-edit-role").value, Is.EqualTo("tokenCards"));
+            Assert.That(window.rootVisualElement.Q<TextField>("device-edit-json").value, Is.EqualTo(raw));
+            Assert.That(Session.Document.GetSection("hardPredefines"), Is.Null);
+        }
+
+        [Test]
+        public void RouteSelectionSurvivesRouteOrderUndoRedo()
+        {
+            var original = Session.Document.WithSection("routes",
+                "[{\"startPosition\":{\"row\":0,\"col\":0},\"id\":\"first\"},{\"startPosition\":{\"row\":0,\"col\":1},\"id\":\"second\"}]");
+            var type = typeof(MapEditorWindow);
+            var selected = type.GetField("routeListSelection", Private);
+            Session.Load(original.ToJson(), "", "");
+            type.GetField("draft", Private).SetValue(window, Session.Json);
+            selected.SetValue(window, 0);
+            Invoke("ChangeRouteOrder", 1);
+            Assert.That(selected.GetValue(window), Is.EqualTo(1));
+            Invoke("StepEditorHistoryCore", false);
+            Assert.That(selected.GetValue(window), Is.EqualTo(0));
+            Invoke("StepEditorHistoryCore", true);
+            Assert.That(selected.GetValue(window), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void OpeningRouteThenEditingUnrelatedFieldKeepsRouteEditable()
+        {
+            var route = "{\"motionMode\":\"WALK\",\"startPosition\":{\"row\":0,\"col\":0},\"endPosition\":{\"row\":0,\"col\":1},\"checkpoints\":[]}";
+            Invoke("CommitEdit", Session.Document.WithSection("routes", "[" + route + "]"), "setup", null);
+            window.BeginRouteDraft("routes", 0, "WALK");
+            Invoke("CommitEdit", Session.Document.WithLevelId("different"), "edit metadata", null);
+            window.MoveRouteNode(-2, new Vector2Int(2, 0));
+            window.ApplyRouteDraft();
+            Assert.That(Session.Document.GetSection("routes")[0]["endPosition"]["col"].Value<int>(), Is.EqualTo(2));
+            Assert.That(Session.Document.LevelId, Is.EqualTo("different"));
+        }
+
+        [Test]
+        public void StandaloneUndoUsesOnlyTheInvokingMapHistory()
+        {
+            var other = ScriptableObject.CreateInstance<MapEditorWindow>();
+            try
+            {
+                var otherSession = (DocumentSession)typeof(MapEditorWindow).GetField("session", Private).GetValue(other);
+                var first = Session.Json;
+                Invoke("CommitEdit", Session.Document.WithLevelId("first"), "first edit", null);
+                typeof(MapEditorWindow).GetMethod("CommitEdit", Private).Invoke(other,
+                    new object[] { otherSession.Document.WithLevelId("second"), "second edit", null });
+                Invoke("StepEditorHistoryCore", false);
+                Assert.That(Session.Json, Is.EqualTo(first));
+                Assert.That(otherSession.Document.LevelId, Is.EqualTo("second"));
+            }
+            finally { UnityEngine.Object.DestroyImmediate(other); }
         }
     }
 }

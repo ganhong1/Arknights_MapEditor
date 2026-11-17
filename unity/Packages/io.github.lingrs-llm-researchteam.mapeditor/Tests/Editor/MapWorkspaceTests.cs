@@ -56,6 +56,10 @@ namespace Arknights.MapEditor.Tests
                 var root = window.rootVisualElement;
                 Assert.That(root.Q("workspace-inspector"), Is.Null);
                 Assert.That(side.Q("workspace-document-tabs").Query<Button>().ToList().Count, Is.EqualTo(2));
+                var pairedTab = root.Q("workspace-left").Q(className: "workspace-document-tab");
+                Assert.That(pairedTab.Q<Button>(className: "workspace-document-title").text, Does.Contain("未命名地图"));
+                Assert.That(pairedTab.Q<Button>(className: "workspace-document-close").text, Is.EqualTo("×"));
+                Assert.That(pairedTab.ClassListContains("workspace-selected"), Is.True);
                 var leftCanvas = root.Q("workspace-left").Q("map-viewport-canvas");
                 var rightCanvas = root.Q("workspace-right").Q("map-viewport-canvas");
                 Assert.That(leftCanvas.layout.height, Is.GreaterThan(200f));
@@ -71,6 +75,9 @@ namespace Arknights.MapEditor.Tests
                 Assert.That(Tile(referenceEditor), Is.EqualTo("tile_forbidden"));
                 var draft = side.Q("workspace-inspector").Q<TextField>("leveldata-json");
                 draft.value = "unapplied left draft";
+                Assert.That(SendUndo(side), Is.True);
+                Assert.That(draft.value, Is.EqualTo("unapplied left draft"));
+                Assert.That(Tile(blankEditor), Is.EqualTo("tile_road"));
                 var referenceTab = side.Q("workspace-document-tabs").Query<Button>().ToList()[1];
                 using (var submit = NavigationSubmitEvent.GetPooled())
                 {
@@ -82,9 +89,20 @@ namespace Arknights.MapEditor.Tests
                 Call(window, "FocusGroup", 0);
                 Assert.That(side.Q("workspace-inspector").Q<TextField>("leveldata-json").value, Is.EqualTo("unapplied left draft"));
                 draft.value = ((LevelDocument)Property(blankEditor, "WorkspaceDocument")).ToJson();
-                Call(blankEditor, "StepEditorHistory", false);
+                var textInput = draft.Q("unity-text-input");
+                textInput.Focus();
+                SendUndo(textInput);
+                Assert.That(Tile(blankEditor), Is.EqualTo("tile_road"));
+                Call(blankEditor, "SetWorkspaceEditLock", true);
+                Assert.That(SendUndo(side), Is.True);
+                Assert.That(Tile(blankEditor), Is.EqualTo("tile_road"));
+                Call(blankEditor, "SetWorkspaceEditLock", false);
+                Assert.That(SendUndo(side, EventModifiers.Control | EventModifiers.Shift), Is.False);
+                Assert.That(Tile(blankEditor), Is.EqualTo("tile_road"));
+                Call(referenceEditor, "PaintWorkspaceCells", new[] { Vector2Int.zero } as object);
+                Assert.That(SendUndo(side), Is.True);
                 Assert.That(Tile(blankEditor), Is.EqualTo("tile_forbidden"));
-                Assert.That(Tile(referenceEditor), Is.EqualTo("tile_forbidden"));
+                Assert.That(Tile(referenceEditor), Is.EqualTo("tile_road"));
 
                 Call(window, "AddDocument", 0, "左组第二张", LevelDocument.Create(5, 5).ToJson(), "", "", true);
                 var second = Selected(left);
@@ -101,6 +119,14 @@ namespace Arknights.MapEditor.Tests
 
         private static string Tile(object editor) => ((LevelDocument)Property(editor, "WorkspaceDocument"))
             .GetCell(0, 0)["tileKey"].ToString();
+
+        private static bool SendUndo(VisualElement target, EventModifiers modifiers = EventModifiers.Control)
+        {
+            using var input = KeyDownEvent.GetPooled(new Event { type = EventType.KeyDown, keyCode = KeyCode.Z, modifiers = modifiers });
+            input.target = target;
+            target.SendEvent(input);
+            return input.isPropagationStopped;
+        }
 
         [Test]
         public void NativeWorkspaceBindsEachCameraToItsOwnPreviewScene()
@@ -160,7 +186,7 @@ namespace Arknights.MapEditor.Tests
                 Assert.That(Property(editor, "WorkspaceEditLocked"), Is.True);
                 Assert.That(Assert.Throws<TargetInvocationException>(() =>
                     Call(editor, "PaintWorkspaceCells", new[] { Vector2Int.zero } as object)).InnerException,
-                    Is.TypeOf<System.InvalidOperationException>());
+                    Is.InstanceOf<System.InvalidOperationException>());
                 Call(left, "SnapAxis", 0);
                 Assert.That(Field(leftState, "Yaw"), Is.EqualTo(-90f));
                 Assert.That(Property(leftState, "Orthographic"), Is.True);

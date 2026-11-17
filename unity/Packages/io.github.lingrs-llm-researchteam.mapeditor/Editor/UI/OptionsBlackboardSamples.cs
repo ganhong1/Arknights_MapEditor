@@ -47,7 +47,7 @@ namespace Arknights.MapEditor.Editor
                 string? error = null;
                 if (!string.IsNullOrWhiteSpace(search.value))
                 {
-                    finder ??= TerrainSearchRuntime.CreateWorker<string>(key => new JObject
+                    finder ??= CatalogSearchRuntime.CreateWorker<string>(key => new JObject
                     { ["name"] = key, ["targetFile"] = key, ["description"] = OptionsReferenceNotes.SearchText(key) });
                     filtered = finder.Filter(catalog.BlackboardKeys, search.value, out error);
                 }

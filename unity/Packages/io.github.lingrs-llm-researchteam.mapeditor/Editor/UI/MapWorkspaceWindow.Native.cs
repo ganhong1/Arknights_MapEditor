@@ -1,4 +1,5 @@
 #nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -44,7 +45,7 @@ namespace Arknights.MapEditor.Editor
             root.Add(header);
             var toolbar = ToolRow(header);
             toolbar.Add(Button("新建地图", () => AddBlank(focusedGroup)));
-            toolbar.Add(Button("打开 JSON", OpenFile));
+            toolbar.Add(Button("打开 JSON", OpenFile, operation: "document.open"));
             toolbar.Add(Button(split ? "单场景" : "双场景", ToggleSplit));
             if (split) toolbar.Add(Button("另一场景显示此图", ShowInOtherGroup));
             toolbar.Add(Button("显示场景", () => { BindNativeGroup(focusedGroup); nativeViews[focusedGroup]?.Focus(); }));
@@ -117,8 +118,6 @@ namespace Arknights.MapEditor.Editor
                 nativeTabButtons.Clear();
                 foreach (var editor in documents)
                 {
-                    var pair = new VisualElement();
-                    pair.AddToClassList("workspace-row");
                     var tab = Button("", () =>
                     {
                         SelectDocument(editor);
@@ -126,15 +125,15 @@ namespace Arknights.MapEditor.Editor
                         ShowNativeTab();
                     });
                     nativeTabButtons.Add((editor, tab));
-                    pair.Add(tab);
-                    pair.Add(Button("×", () => CloseNativeDocument(editor), "关闭地图"));
-                    nativeTabs.Add(pair);
+                    nativeTabs.Add(DocumentTab(tab, Button("×", () => CloseNativeDocument(editor), "关闭 " + editor.WorkspaceTitle)));
                 }
             }
             foreach (var item in nativeTabButtons)
             {
                 item.Tab.text = item.Editor.WorkspaceTitle + (item.Editor.WorkspaceDirty ? " ●" : "");
-                item.Tab.EnableInClassList("workspace-selected", item.Editor == FocusedEditor);
+                item.Tab.parent.EnableInClassList("workspace-selected", item.Editor == FocusedEditor);
+                item.Tab.tooltip = item.Editor.WorkspaceTitle;
+                item.Tab.parent.Q<Button>(className: "workspace-document-close").tooltip = "关闭 " + item.Editor.WorkspaceTitle;
             }
             var selected = Group(focusedGroup).Selected;
             SetToolState(nativeErase, "置空", selected?.Editor.EraseMode == true, selected != null && !selected.Editor.WorkspaceEditLocked);
@@ -164,7 +163,6 @@ namespace Arknights.MapEditor.Editor
             nativeInspector.SetEnabled(editor == null || !editor.WorkspaceEditLocked);
             nativeDocumentTools.SetEnabled(editor != null && !editor.WorkspaceEditLocked);
             if (editor == nativeDisplayedEditor) return;
-            nativeDisplayedEditor = editor;
             nativeInspector.Clear();
             nativeDocumentTools.Clear();
             if (editor != null)
@@ -172,6 +170,7 @@ namespace Arknights.MapEditor.Editor
                 editor.BuildDocumentTools(nativeDocumentTools);
                 nativeInspector.Add(editor.WorkspaceInspector());
             }
+            nativeDisplayedEditor = editor;
         }
 
         private void BindNativeGroup(int index, bool dockFloating = false)
@@ -237,7 +236,25 @@ namespace Arknights.MapEditor.Editor
         }
 
         internal void ActivateNativeGroup(int index) => FocusGroup(index);
-        internal void ReportNativeError(string error) => Report(error);
+        internal void ReportNativeError(string operation, Exception error) =>
+            Report(PluginLog.FailureMessage(operation, error));
+
+        internal bool OwnsRouteInput(MapEditorWindow document, int index) =>
+            focusedGroup == index && Group(index).Selected?.Editor == document;
+
+        internal void FocusRouteScene(MapEditorWindow document, Vector2Int? cell = null)
+        {
+            if (!nativeScenes || FocusedEditor != document)
+                throw new System.InvalidOperationException("请在当前地图的原生场景中编辑路线。");
+            BindNativeGroup(focusedGroup);
+            var view = nativeViews[focusedGroup];
+            if (view == null) throw new System.InvalidOperationException("无法打开当前地图场景。");
+            var state = Group(focusedGroup).Selected?.Camera;
+            if (cell is Vector2Int point && state?.CameraLocked != true)
+                view.LookAt(new Vector3(point.x + .5f, .6f, point.y + .5f), view.rotation, view.size, view.orthographic);
+            ShowNativeTab();
+            view.Focus();
+        }
 
         internal void NativeViewClosed(int index, NativeMapSceneView view)
         {

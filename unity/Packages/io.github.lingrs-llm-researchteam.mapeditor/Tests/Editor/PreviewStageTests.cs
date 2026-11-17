@@ -12,6 +12,27 @@ namespace Arknights.MapEditor.Tests
     public sealed class PreviewStageTests
     {
         [Test]
+        public void StandaloneSceneRoutesUndoToItsBoundMap()
+        {
+            var stage = ScriptableObject.CreateInstance<MapPreviewStage>();
+            try
+            {
+                var calls = 0;
+                stage.UndoMapEdit = () => calls++;
+                var input = new Event { type = EventType.KeyDown, keyCode = KeyCode.Z, modifiers = EventModifiers.Control };
+                stage.HandleUndoInput(input);
+                Assert.That(calls, Is.EqualTo(1));
+                Assert.That(input.type, Is.EqualTo(EventType.Used));
+                stage.Unbind();
+                input.type = EventType.KeyDown;
+                stage.HandleUndoInput(input);
+                Assert.That(calls, Is.EqualTo(1));
+                Assert.That(input.type, Is.EqualTo(EventType.KeyDown));
+            }
+            finally { Object.DestroyImmediate(stage); }
+        }
+
+        [Test]
         public void InvalidPreviewClosesSceneCreatedBeforeValidation()
         {
             var stage = ScriptableObject.CreateInstance<MapPreviewStage>();

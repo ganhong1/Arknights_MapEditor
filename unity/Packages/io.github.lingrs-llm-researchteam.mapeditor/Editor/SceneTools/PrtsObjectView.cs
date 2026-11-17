@@ -15,18 +15,16 @@ namespace Arknights.MapEditor.Editor
         public const string CatalogRoot = "Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/Catalog/";
         private const string OperatorAtlasFile = "preset-operator-atlas.png";
         private const string OperatorExtraAtlasFile = "preset-operator-extra-atlas.png";
-        private enum IconAtlas { Original, Supplement, Operator, OperatorExtra }
+        private enum IconAtlas { Original, Supplement, Operator, OperatorExtra, DeviceUpdate }
         private static JObject? icons;
         private static JObject? supplements;
+        private static JObject? deviceVisuals;
         private static JObject? operators;
         private static JObject? displayNames;
         private readonly Scene scene;
         private GameObject? root;
         private Mesh? mesh;
-        private Material? originalMaterial;
-        private Material? supplementMaterial;
-        private Material? operatorMaterial;
-        private Material? operatorExtraMaterial;
+        private readonly List<Material> materials = new List<Material>();
         public int VisibleCount { get; private set; }
         internal int MissingIconCount => MissingIconMarkers.Count;
         internal readonly List<Vector3> MissingIconMarkers = new List<Vector3>();
@@ -41,7 +39,7 @@ namespace Arknights.MapEditor.Editor
                 var names = AssetDatabase.LoadAssetAtPath<TextAsset>(CatalogRoot + "display-names.json");
                 displayNames = names == null ? new JObject() : JObject.Parse(names.text);
             }
-            var name = icons![id]?["name"]?.Value<string>() ?? supplements![id]?["name"]?.Value<string>() ??
+            var name = deviceVisuals![id]?["name"]?.Value<string>() ?? icons![id]?["name"]?.Value<string>() ?? supplements![id]?["name"]?.Value<string>() ??
                 displayNames[id]?.Value<string>();
             if (!id.StartsWith("tile_", StringComparison.Ordinal)) return name ?? id;
             name = name?.Trim();
@@ -64,14 +62,7 @@ namespace Arknights.MapEditor.Editor
         {
             texture = null;
             if (!TryGetVisual(id, out rect, out var atlas)) return false;
-            var file = atlas switch
-            {
-                IconAtlas.Original => "prts-object-atlas.png",
-                IconAtlas.Supplement => "prts-object-supplement-atlas.png",
-                IconAtlas.OperatorExtra => OperatorExtraAtlasFile,
-                _ => OperatorAtlasFile
-            };
-            texture = AssetDatabase.LoadAssetAtPath<Texture2D>(CatalogRoot + file);
+            texture = AssetDatabase.LoadAssetAtPath<Texture2D>(CatalogRoot + AtlasFile(atlas));
             return texture != null;
         }
 
@@ -79,8 +70,16 @@ namespace Arknights.MapEditor.Editor
         {
             LoadCatalog();
             if (icons![id] != null) return "PRTSMap 图标";
-            return supplements![id]?["label"]?.Value<string>() ??
+            return deviceVisuals![id]?["label"]?.Value<string>() ?? supplements![id]?["label"]?.Value<string>() ??
                 (operators![id] == null ? "未收录美术" : "2.7.81 原生干员头像");
+        }
+
+        internal static string? IconSourceAsset(string id)
+        {
+            LoadCatalog();
+            var entry = deviceVisuals![id] ?? icons![id] ?? supplements![id];
+            return entry?["url"]?.Value<string>() ?? entry?["asset"]?.Value<string>() ??
+                entry?["binding"]?.Value<string>() ?? entry?["mechanism"]?.Value<string>();
         }
 
         private static bool TryGetVisual(string id, out Rect rect, out IconAtlas atlas)
@@ -88,11 +87,21 @@ namespace Arknights.MapEditor.Editor
             LoadCatalog();
             var entry = icons![id];
             var supplement = supplements![id];
+            var updated = deviceVisuals![id];
             var actor = operators![id];
-            atlas = entry != null ? IconAtlas.Original : supplement != null ? IconAtlas.Supplement :
+            atlas = updated != null ? IconAtlas.DeviceUpdate : entry != null ? IconAtlas.Original : supplement != null ? IconAtlas.Supplement :
                 (string?)actor?["atlas"] == "extra" ? IconAtlas.OperatorExtra : IconAtlas.Operator;
-            return TryReadRect(entry ?? supplement ?? actor, out rect);
+            return TryReadRect(updated ?? entry ?? supplement ?? actor, out rect);
         }
+
+        private static string AtlasFile(IconAtlas atlas) => atlas switch
+        {
+            IconAtlas.Original => "prts-object-atlas.png",
+            IconAtlas.Supplement => "prts-object-supplement-atlas.png",
+            IconAtlas.OperatorExtra => OperatorExtraAtlasFile,
+            IconAtlas.DeviceUpdate => "prts-device-update-atlas.png",
+            _ => OperatorAtlasFile
+        };
 
         private static bool TryReadRect(JToken? entry, out Rect rect)
         {
@@ -112,6 +121,9 @@ namespace Arknights.MapEditor.Editor
             var operatorAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(CatalogRoot + "preset-operator-icons.json");
             operators = operatorAsset == null ? new JObject() :
                 JObject.Parse(operatorAsset.text)["icons"] as JObject ?? throw new FormatException("Invalid operator avatar catalog.");
+            var deviceAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(CatalogRoot + "prts-device-update-icons.json");
+            deviceVisuals = deviceAsset == null ? new JObject() :
+                JObject.Parse(deviceAsset.text)["icons"] as JObject ?? throw new FormatException("Invalid device icon catalog.");
             icons = original;
         }
         public void Update(LevelDocument document)
@@ -124,10 +136,7 @@ namespace Arknights.MapEditor.Editor
         {
             var vertices = new List<Vector3>(); var uv = new List<Vector2>();
             var local = new List<Vector2>();
-            var originalIndices = new List<int>();
-            var supplementIndices = new List<int>();
-            var operatorIndices = new List<int>();
-            var operatorExtraIndices = new List<int>();
+            var indicesByAtlas = new SortedDictionary<IconAtlas, List<int>>();
             foreach (var scope in new[] { "predefines", "hardPredefines" })
             foreach (var kind in new[] { "characterInsts", "tokenInsts" })
             {
@@ -153,49 +162,24 @@ namespace Arknights.MapEditor.Editor
                     uv.Add(new Vector2(rect.xMin, rect.yMin)); uv.Add(new Vector2(rect.xMin, rect.yMax));
                     uv.Add(new Vector2(rect.xMax, rect.yMax)); uv.Add(new Vector2(rect.xMax, rect.yMin));
                     local.Add(new Vector2(0,0)); local.Add(new Vector2(0,1)); local.Add(new Vector2(1,1)); local.Add(new Vector2(1,0));
-                    var indices = atlas switch
-                    {
-                        IconAtlas.Original => originalIndices,
-                        IconAtlas.Supplement => supplementIndices,
-                        IconAtlas.OperatorExtra => operatorExtraIndices,
-                        _ => operatorIndices
-                    };
+                    if (!indicesByAtlas.TryGetValue(atlas, out var indices))
+                        indicesByAtlas.Add(atlas, indices = new List<int>());
                     indices.AddRange(new[] { start, start+1, start+2, start, start+2, start+3 }); VisibleCount++;
                 }
             }
             if (vertices.Count == 0) return;
             var shader = Shader.Find("Hidden/ArknightsMapEditor/PrtsObject");
             if (shader == null) throw new InvalidOperationException("PRTS native icon shader unavailable.");
-            var materials = new List<Material>(4);
             mesh = new Mesh { hideFlags = HideFlags.HideAndDontSave, indexFormat = UnityEngine.Rendering.IndexFormat.UInt32 };
             mesh.SetVertices(vertices);
             mesh.SetUVs(0, uv);
             mesh.SetUVs(1, local);
-            mesh.subMeshCount = (originalIndices.Count > 0 ? 1 : 0) + (supplementIndices.Count > 0 ? 1 : 0) +
-                (operatorIndices.Count > 0 ? 1 : 0) + (operatorExtraIndices.Count > 0 ? 1 : 0);
-            if (originalIndices.Count > 0)
+            mesh.subMeshCount = indicesByAtlas.Count;
+            foreach (var pair in indicesByAtlas)
             {
-                originalMaterial = CreateMaterial(shader, "prts-object-atlas.png");
-                mesh.SetTriangles(originalIndices, materials.Count);
-                materials.Add(originalMaterial);
-            }
-            if (supplementIndices.Count > 0)
-            {
-                supplementMaterial = CreateMaterial(shader, "prts-object-supplement-atlas.png");
-                mesh.SetTriangles(supplementIndices, materials.Count);
-                materials.Add(supplementMaterial);
-            }
-            if (operatorIndices.Count > 0)
-            {
-                operatorMaterial = CreateMaterial(shader, OperatorAtlasFile);
-                mesh.SetTriangles(operatorIndices, materials.Count);
-                materials.Add(operatorMaterial);
-            }
-            if (operatorExtraIndices.Count > 0)
-            {
-                operatorExtraMaterial = CreateMaterial(shader, OperatorExtraAtlasFile);
-                mesh.SetTriangles(operatorExtraIndices, materials.Count);
-                materials.Add(operatorExtraMaterial);
+                var slot = materials.Count;
+                materials.Add(CreateMaterial(shader, AtlasFile(pair.Key)));
+                mesh.SetTriangles(pair.Value, slot);
             }
             mesh.RecalculateBounds();
             root = new GameObject("PRTSMap object icons") { hideFlags = HideFlags.HideAndDontSave };
@@ -213,12 +197,9 @@ namespace Arknights.MapEditor.Editor
         {
             if (root != null) UnityEngine.Object.DestroyImmediate(root);
             if (mesh != null) UnityEngine.Object.DestroyImmediate(mesh);
-            if (originalMaterial != null) UnityEngine.Object.DestroyImmediate(originalMaterial);
-            if (supplementMaterial != null) UnityEngine.Object.DestroyImmediate(supplementMaterial);
-            if (operatorMaterial != null) UnityEngine.Object.DestroyImmediate(operatorMaterial);
-            if (operatorExtraMaterial != null) UnityEngine.Object.DestroyImmediate(operatorExtraMaterial);
-            root = null; mesh = null; originalMaterial = null; supplementMaterial = null; operatorMaterial = null;
-            operatorExtraMaterial = null;
+            foreach (var material in materials) UnityEngine.Object.DestroyImmediate(material);
+            materials.Clear();
+            root = null; mesh = null;
             VisibleCount = 0; MissingIconMarkers.Clear(); UnresolvedMarkers.Clear();
         }
     }

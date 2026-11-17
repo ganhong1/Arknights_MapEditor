@@ -87,9 +87,6 @@ namespace Arknights.MapEditor.Catalog
             return CatalogSearchRuntime.CreateWorker<string>(Stage, PrepareStageIndex);
         }
 
-        internal static CatalogSearch<T> CreateWorker<T>(Func<T, JObject> describe) =>
-            CatalogSearchRuntime.CreateWorker(describe);
-
         internal static CatalogSearch<TerrainSampleCatalog.Sample> CreateSampleWorker() =>
             CreateStageWorker<TerrainSampleCatalog.Sample>(Sample);
 

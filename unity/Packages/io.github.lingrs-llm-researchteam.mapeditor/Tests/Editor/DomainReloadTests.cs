@@ -21,7 +21,7 @@ namespace Arknights.MapEditor.Tests
         private static readonly string DomainIdentity = Guid.NewGuid().ToString("N");
 
         [UnityTest]
-        public IEnumerator ActualCompilationPreservesAppliedDocumentDraftAndSingleUndoSubscription()
+        public IEnumerator ActualCompilationPreservesAppliedDocumentDraftAndLocalHistory()
         {
             // SessionState, not static references, survives the Test Runner's domain reload.
             if (SessionState.GetString(Key + "folder", "").Length == 0)
@@ -41,7 +41,7 @@ namespace Arknights.MapEditor.Tests
                 window.rootVisualElement.Q<TextField>("leveldata-json").value = Draft;
                 window.rootVisualElement.Query<TextField>().ToList().Single(f => f.label == "字段 JSON（保留未知内容）").value = "{local-unfinished";
                 window.rootVisualElement.Query<TextField>().ToList().Single(f => f.label == "美术映射 JSON").value = "{art-unfinished";
-                AssertSingleSubscription(window);
+                AssertNoGlobalUndoSubscription(window);
                 var fullFolder = Path.Combine(Application.dataPath, "MapEditorReloadTest_" + suffix);
                 Directory.CreateDirectory(fullFolder);
                 File.WriteAllText(Path.Combine(fullFolder, "ReloadProbe.cs"), "internal sealed class ReloadProbe_" + suffix + " {}\n");
@@ -71,9 +71,9 @@ namespace Arknights.MapEditor.Tests
             Assert.That(stage, Is.Not.Null);
             Assert.That(typeof(MapPreviewStage).GetField("paint", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(stage), Is.Not.Null, "Paint callback must be rebound after domain reload.");
             Assert.That(stage.OwnedMesh.vertexCount, Is.GreaterThan(0));
-            AssertSingleSubscription(restored);
+            AssertNoGlobalUndoSubscription(restored);
             restored.CreateGUI();
-            AssertSingleSubscription(restored);
+            AssertNoGlobalUndoSubscription(restored);
         }
 
         [UnityTearDown]
@@ -103,15 +103,15 @@ namespace Arknights.MapEditor.Tests
             return (DocumentSession)field.GetValue(window);
         }
 
-        private static void AssertSingleSubscription(MapEditorWindow window)
+        private static void AssertNoGlobalUndoSubscription(MapEditorWindow window)
         {
             // Read-only test instrumentation; no private Unity UI or event mutation.
             var field = typeof(Undo).GetField("undoRedoPerformed", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
             Assert.That(field, Is.Not.Null, "Update this test instrumentation if the pinned Unity API representation changes.");
             var callbacks = field.GetValue(null) as Delegate;
             var count = callbacks == null ? 0 : callbacks.GetInvocationList().Count(callback =>
-                ReferenceEquals(callback.Target, window) && callback.Method.Name == "OnUndo");
-            Assert.That(count, Is.EqualTo(1), "This window must own exactly one Undo subscription.");
+                ReferenceEquals(callback.Target, window));
+            Assert.That(count, Is.Zero, "Each map window uses its own document history.");
         }
     }
 }

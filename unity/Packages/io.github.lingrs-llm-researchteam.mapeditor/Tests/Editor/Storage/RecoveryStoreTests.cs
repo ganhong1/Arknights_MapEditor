@@ -34,6 +34,21 @@ namespace Arknights.MapEditor.Tests.Storage
             Assert.That(File.ReadAllText(source), Is.EqualTo("unchanged"));
         }
 
+        [Test] public void LargeMapRecoverySupportsReadReplaceAndDiscard()
+        {
+            var json = "{\"mapData\":{\"map\":[[0]],\"tiles\":[{}]},\"extension\":\"" + new string('x', 6 * 1024 * 1024) + "\"}";
+            var journal = new AutoRecovery(directory, Guid.NewGuid());
+            var value = new RecoverySnapshot(json, json + " unfinished", json, "", "");
+            journal.Save(value);
+            Assert.That(new FileInfo(journal.CachePath).Length, Is.GreaterThan(DocumentFileStore.MaximumDocumentBytes));
+            Assert.That(journal.Load().HasSameContent(value), Is.True);
+            var next = new RecoverySnapshot(json, json + " changed", json, "", "");
+            journal.Save(next);
+            Assert.That(journal.Load().HasSameContent(next), Is.True);
+            journal.Discard();
+            Assert.That(File.Exists(journal.CachePath), Is.False);
+        }
+
         [Test] public void RequiresCallerOwnedHashToReplaceCache()
         {
             var value = new RecoverySnapshot("{}", "", "", "", "");
@@ -65,7 +80,7 @@ namespace Arknights.MapEditor.Tests.Storage
         {
             var old = new RecoverySnapshot("old-document", "old-draft", "saved", "", "", "old-project", "old-inspector");
             var hash = RecoveryStore.Save(path, old, null);
-            var next = new RecoverySnapshot("new-document", "draft", "saved", "", "", new string('x', DocumentFileStore.MaximumDocumentBytes), "new-inspector");
+            var next = new RecoverySnapshot("new-document", new string('x', DocumentFileStore.MaximumDocumentBytes + 1), "saved", "", "", "new-project", "new-inspector");
             Assert.Throws<InvalidDataException>(() => RecoveryStore.Save(path, next, hash));
             var read = RecoveryStore.Read(path, out var unchanged);
             Assert.That(read.DocumentJson, Is.EqualTo("old-document"));

@@ -25,7 +25,7 @@ namespace Arknights.MapEditor.Editor
         private VisualElement? host;
         private string layer = "";
         private (string Role, int Index)? selected;
-        private bool visible;
+        private bool handVisible;
         private bool revealRight;
         private bool canScroll;
 
@@ -83,17 +83,17 @@ namespace Arknights.MapEditor.Editor
                 }
                 selected = selection;
                 RefreshSelection();
-                visible = show && cards.Count > 0;
-                style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+                handVisible = show && cards.Count > 0;
+                style.display = handVisible ? DisplayStyle.Flex : DisplayStyle.None;
                 Resize();
                 return;
             }
             var nextVisible = show && cards.Count > 0;
-            if (visible != nextVisible)
+            if (handVisible != nextVisible)
             {
-                visible = nextVisible;
-                style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
-                if (visible) Resize();
+                handVisible = nextVisible;
+                style.display = handVisible ? DisplayStyle.Flex : DisplayStyle.None;
+                if (handVisible) Resize();
             }
             if (selected == selection) return;
             selected = selection;
@@ -130,7 +130,7 @@ namespace Arknights.MapEditor.Editor
 
         private void Resize()
         {
-            if (!visible || host == null || host.contentRect.width <= 0 || host.contentRect.height <= 0) return;
+            if (!handVisible || host == null || host.contentRect.width <= 0 || host.contentRect.height <= 0) return;
             var layout = Measure(host.contentRect.width, host.contentRect.height, cards.Count);
             var rowHeight = layout.CardHeight * (1 + 20 / AuthoredHeight) + 3;
             foreach (var card in cards) card.Resize(layout.CardWidth, layout.CardHeight);

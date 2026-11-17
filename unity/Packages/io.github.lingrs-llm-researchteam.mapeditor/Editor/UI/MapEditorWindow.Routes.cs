@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Arknights.MapEditor.Core;
 using Newtonsoft.Json.Linq;
+using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,6 +14,7 @@ namespace Arknights.MapEditor.Editor
     {
         private RoutePreviewPlayback? routePreview;
         [SerializeField] private RoutePreviewSettings routePreviewSettings = new();
+        [SerializeField] private bool routePlaybackSelected;
 
         internal RoutePreviewPlayback RoutePreview
         {
@@ -36,8 +38,27 @@ namespace Arknights.MapEditor.Editor
 
         private void BuildRoutesPanel(VisualElement parent)
         {
-            parent.Add(new RoutePreviewPanel(RoutePreview, () => WorkspaceDocument));
-            var fold = new VisualElement { name = "route-editor" };
+            var edit = RouteSection("路线编辑", !routePlaybackSelected, "route-edit-section");
+            BuildRouteEditing(edit);
+            parent.Add(edit);
+            var preview = RouteSection("路线演示", routePlaybackSelected, "route-preview-section");
+            preview.Add(new RoutePreviewPanel(RoutePreview, () => WorkspaceDocument));
+            parent.Add(preview);
+            edit.RegisterValueChangedCallback(change =>
+            {
+                if (change.target != edit || !change.newValue) return;
+                routePlaybackSelected = false;
+                preview.SetValueWithoutNotify(false);
+                SceneView.RepaintAll();
+            });
+            preview.RegisterValueChangedCallback(change =>
+            {
+                if (change.target != preview || !change.newValue) return;
+                routePlaybackSelected = true;
+                edit.SetValueWithoutNotify(false);
+                ExitRouteScene();
+            });
+            var fold = RouteSection("旧版坐标与 JSON 编辑", false, "route-editor");
             var library = new PopupField<string>("路线库", new List<string>{"routes", "extraRoutes"}, 0);
             var index = new IntegerField("路线索引"); var target = new IntegerField("重排目标索引");
             var startRow = new FloatField("起点 row"); var startCol = new FloatField("起点 col");
@@ -114,6 +135,25 @@ namespace Arknights.MapEditor.Editor
             });
             AddButton(fold, "移动路线并重写引用", () => { CommitEdit(session!.Document.MoveRoute(library.value,index.value,target.value), "重排路线", null); index.value = target.value; load(); });
             parent.Add(fold);
+        }
+
+        private static Foldout RouteSection(string title, bool expanded = false, string? name = null)
+        {
+            var section = new Foldout { text = title, value = expanded };
+            if (name != null) section.name = name;
+            section.AddToClassList("route-section");
+            return section;
+        }
+
+        internal static VisualElement AddRouteCard(VisualElement parent, string title)
+        {
+            var card = new VisualElement();
+            card.AddToClassList("route-card");
+            var heading = new Label(title);
+            heading.AddToClassList("route-card-title");
+            card.Add(heading);
+            parent.Add(card);
+            return card;
         }
 
     }

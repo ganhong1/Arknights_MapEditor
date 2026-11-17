@@ -50,6 +50,32 @@ namespace Arknights.MapEditor.Tests
 
         private static void Click(Button button) => typeof(Clickable).GetMethod("Invoke", Private)!.Invoke(button.clickable, new object?[] { null });
 
+        [Test]
+        public void EveryDeviceBindsAnExistingIconAndDetailDisplaysItsSource()
+        {
+            var root = window.rootVisualElement;
+            var list = root.Q<ListView>("device-library");
+            var catalog = DeviceSampleCatalog.LoadBundled();
+            Assert.That(catalog.Entries.Count, Is.EqualTo(885));
+            Assert.That(list.itemsSource.Count, Is.EqualTo(catalog.Entries.Count));
+            var row = list.makeItem();
+            for (var i = 0; i < catalog.Entries.Count; i++)
+            {
+                var id = catalog.Entries[i].Id;
+                Assert.That(PrtsObjectView.TryGetIcon(id, out var texture, out var uv), Is.True, id);
+                Assert.That(uv.xMin >= 0 && uv.yMin >= 0 && uv.xMax <= 1 && uv.yMax <= 1, Is.True, id);
+                list.bindItem(row, i);
+                var image = row.Q<Image>("device-library-avatar");
+                Assert.That(image.image, Is.SameAs(texture), id);
+                Assert.That(image.uv, Is.EqualTo(uv), id);
+            }
+
+            var overlay = root.Q<DeviceDetailOverlay>();
+            var entry = catalog.Entries.Single(x => x.Id == "trap_001_crate");
+            overlay.Open(entry, new Button());
+            Assert.That(overlay.Q<Image>("library-detail-portrait").image, Is.Not.Null);
+            Assert.That(overlay.Q<Label>("library-portrait-source").text, Is.EqualTo(PrtsObjectView.VisualSource(entry.Id)));
+        }
 
         [Test]
         public void PresetCardsPageAndShareSelectionWithTheList()
@@ -101,7 +127,7 @@ namespace Arknights.MapEditor.Tests
             Assert.That(raw.Property("position"), Is.Null);
             var before = session.Json;
             window.SetWorkspaceEditLock(true);
-            Assert.Throws<InvalidOperationException>(() => window.PaintWorkspaceCells(new[] { new Vector2Int(1, 1) }));
+            Assert.Throws<EditorOperationRejectedException>(() => window.PaintWorkspaceCells(new[] { new Vector2Int(1, 1) }));
             Assert.That(session.Json, Is.EqualTo(before));
         }
 

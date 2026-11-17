@@ -1,5 +1,6 @@
 #nullable enable
 using System;
+using System.IO;
 using Arknights.MapEditor.Core;
 using Arknights.MapEditor.Storage;
 using UnityEditor;
@@ -18,7 +19,11 @@ namespace Arknights.MapEditor.Editor
         [SerializeField] private MapPreviewStage? ownedPreview;
         [SerializeField] private string recoveryId = "";
         [NonSerialized] private AutoRecovery? recovery;
-        [NonSerialized] private string recoveryFingerprint = "";
+        [NonSerialized] private RecoverySnapshot? lastRecovery;
+        [NonSerialized] private string? recoveryError;
+        [NonSerialized] private string? failedRecoverySession;
+        [NonSerialized] private double retryRecoveryAt;
+        [NonSerialized] private bool loadRecoveryDigest = true;
         [NonSerialized] private double nextRecoveryTime;
         private TextField? jsonField;
         private Label? status;
@@ -30,7 +35,7 @@ namespace Arknights.MapEditor.Editor
 
         private void OnEnable()
         {
-            Undo.undoRedoPerformed += OnUndo;
+            rootVisualElement.RegisterCallback<KeyDownEvent>(HandleStandaloneUndo, TrickleDown.TrickleDown);
             EditorApplication.update += UpdateRecovery;
             EditorApplication.playModeStateChanged += OnPlayModeChanged;
             saveChangesMessage = "关卡有未保存修改。保存后关闭，或明确丢弃。";
@@ -40,21 +45,12 @@ namespace Arknights.MapEditor.Editor
                 session.hideFlags = HideFlags.HideAndDontSave;
                 session.Load(LevelDocument.Create(10, 6).ToJson(), "", "");
             }
+            session.UseLocalHistory();
             if (!draftInitialized) { draft = session.Json; draftInitialized = true; }
             if (ownedPreview != null) BindPreview(ownedPreview);
-            if (!Guid.TryParseExact(recoveryId, "N", out var id))
-            {
-                id = Guid.NewGuid();
-                recoveryId = id.ToString("N");
-            }
-            recovery = new AutoRecovery(RecoveryDirectory, id);
-            // The serialized window has authoritative live text after reload. Loading
-            // only acquires our cache digest; it never overwrites the live draft.
-            if (System.IO.File.Exists(recovery.CachePath))
-            {
-                try { recovery.Load(); }
-                catch (Exception error) { Debug.LogWarning("Map editor recovery cache: " + error.Message); }
-            }
+            if (!Guid.TryParseExact(recoveryId, "N", out _))
+                recoveryId = Guid.NewGuid().ToString("N");
+            TryOpenRecovery();
         }
 
         public void CreateGUI()
@@ -73,7 +69,7 @@ namespace Arknights.MapEditor.Editor
                 if (workspaceOwner == null)
                 {
                     AddButton(row, "新建", NewDocument);
-                    AddButton(row, "打开 JSON", OpenDocument);
+                    AddButton(row, "打开 JSON", OpenDocument, "document.open");
                 }
                 BuildDocumentTools(row);
                 if (workspaceOwner == null)
@@ -97,20 +93,21 @@ namespace Arknights.MapEditor.Editor
 
         internal void BuildDocumentTools(VisualElement row)
         {
-            AddButton(row, "保存", () => SaveDocument(false));
-            AddButton(row, "另存", () => SaveDocument(true));
+            AddButton(row, "保存", () => SaveDocument(false), "document.save");
+            AddButton(row, "另存", () => SaveDocument(true), "document.save-as");
             AddButton(row, "撤销", () => StepEditorHistory(false));
             AddButton(row, "重做", () => StepEditorHistory(true));
-            AddButton(row, "保存恢复副本", SaveRecovery);
-            AddButton(row, "恢复草稿", RestoreRecovery);
+            AddButton(row, "打开地图文件所在位置", OpenMapFileLocation);
+            AddButton(row, "保存恢复副本", SaveRecovery, "recovery.manual-save");
+            AddButton(row, "恢复草稿", RestoreRecovery, "recovery.restore");
         }
 
-        private void AddButton(VisualElement parent, string text, Action action)
+        private void AddButton(VisualElement parent, string text, Action action, string operation = "document.command")
         {
             parent.Add(new Button(() =>
             {
                 try { action(); }
-                catch (Exception error) { if (status != null) status.text = error.Message; }
+                catch (Exception error) { ReportWindowFailure(operation, error); }
             }) { text = text });
         }
 
@@ -120,23 +117,17 @@ namespace Arknights.MapEditor.Editor
         private void ApplyDraft()
         {
             RequireWorkspaceEditable();
-            session!.Edit(LevelDocument.Parse(draft), "编辑关卡 JSON");
-            draft = session.Json;
-            lastRenderedJson = session.Json;
+            var previous = session!.Document;
+            EditSession(LevelDocument.Parse(draft), "编辑关卡 JSON");
+            ReconcileRecordSelections(previous, session.Document);
             if (ownedPreview != null) ownedPreview.UpdateDocument(session.Document, null);
             workspaceOwner?.DocumentChanged(this);
         }
 
-        private void OnUndo()
+        private void HandleStandaloneUndo(KeyDownEvent input)
         {
-            if (workspaceOwner != null) return;
-            // An external Unity undo must not silently replace an un-applied text draft.
-            if (!hasUnsavedChanges || draft == lastRenderedJson) draft = session!.Json;
-            Refresh();
-            if (ownedPreview != null) ownedPreview.UpdateDocument(session!.Document, null);
+            if (workspaceOwner == null) HandleUndoKey(input, this);
         }
-
-        [NonSerialized] private string lastRenderedJson = "";
 
         private void NewDocument()
         {
@@ -155,8 +146,7 @@ namespace Arknights.MapEditor.Editor
 
         private void OpenPreview()
         {
-            if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("请退出 Play Mode 后编辑地图。");
-            ApplyDraft();
+            if (EditorApplication.isPlayingOrWillChangePlaymode) throw new EditorOperationRejectedException("请退出 Play Mode 后编辑地图。");
             CloseOwnedPreview();
             var stage = CreateInstance<MapPreviewStage>();
             stage.Configure(session!.Document);
@@ -171,6 +161,7 @@ namespace Arknights.MapEditor.Editor
             if (target == null) target = CreateWindow<SceneView>("地图场景");
             target.Show();
             StageUtility.GoToStage(stage, false);
+            InvalidateSceneStageLayout();
             stage.SetView(false, target);
             target.Focus();
             Refresh();
@@ -204,6 +195,9 @@ namespace Arknights.MapEditor.Editor
         }
 
         private void SaveRecovery()
+            => DiagnoseDocumentOperation("recovery.manual-save", SaveRecoveryCore);
+
+        private void SaveRecoveryCore()
         {
             System.IO.Directory.CreateDirectory(RecoveryDirectory);
             var path = System.IO.Path.Combine(RecoveryDirectory, Guid.NewGuid().ToString("N") + ".json");
@@ -212,16 +206,19 @@ namespace Arknights.MapEditor.Editor
         }
 
         private void RestoreRecovery()
+            => DiagnoseDocumentOperation("recovery.restore", RestoreRecoveryCore, value => !value);
+
+        private bool RestoreRecoveryCore()
         {
             RequireWorkspaceEditable();
-            if (!CanReplace()) return;
+            if (!CanReplace()) return false;
             var path = Dialogs.Open("恢复草稿（不会覆盖源文件）", RecoveryDirectory, "json");
-            if (path.Length == 0) return;
+            if (path.Length == 0) return false;
             var snapshot = RecoveryStore.Read(path, out _);
             var projectState = ParseProjectRecovery(snapshot.ProjectJson);
             var inspectorState = snapshot.InspectorJson.Length == 0 ? new InspectorDraftStore() : InspectorDraftStore.Parse(snapshot.InspectorJson);
             ValidateInspectorRecovery(inspectorState);
-            if (snapshot.SourcePath.Length > 0 && FocusOtherWriter(snapshot.SourcePath)) return;
+            if (snapshot.SourcePath.Length > 0 && FocusOtherWriter(snapshot.SourcePath)) return false;
             // Validate without replacing live state or its recovery journal.
             var validator = CreateInstance<DocumentSession>();
             try { validator.RestoreRecovery(snapshot); }
@@ -232,12 +229,17 @@ namespace Arknights.MapEditor.Editor
             if (projectState != null) ApplyProjectRecovery(projectState); else ResetProjectState();
             ApplyInspectorRecovery(inspectorState);
             CreateGUI();
+            return true;
         }
 
         private bool SaveDocument(bool saveAs)
+            => DiagnoseDocumentOperation(saveAs ? "document.save-as" : "document.save", () => SaveDocumentCore(saveAs), value => !value);
+
+        private bool SaveDocumentCore(bool saveAs)
         {
-            if (InspectorDirty) throw new InvalidOperationException("请先应用或明确丢弃局部编辑草稿，再保存关卡。");
-            ApplyDraft();
+            RequireWorkspaceEditable();
+            if (InspectorDirty) throw new EditorOperationRejectedException("请先应用或明确丢弃局部编辑草稿，再保存关卡。");
+            RequireAppliedDraft();
             var path = session!.SourcePath;
             var errors = session.Document.ValidateReferences();
             foreach (var diagnostic in errors)
@@ -245,7 +247,7 @@ namespace Arknights.MapEditor.Editor
             if (saveAs || path.Length == 0)
                 path = Dialogs.Save("保存 LevelData（另存须使用新文件名）", "", "level.json", "json");
             if (path.Length == 0) return false;
-            if (FocusOtherWriter(path)) throw new InvalidOperationException("该文档已由另一个编辑窗口打开，请使用已聚焦的窗口。");
+            if (FocusOtherWriter(path)) throw new EditorOperationRejectedException("该文档已由另一个编辑窗口打开，请使用已聚焦的窗口。");
             session.Save(path);
             Refresh();
             return true;
@@ -271,21 +273,92 @@ namespace Arknights.MapEditor.Editor
         private void BeginRecoveryGeneration()
         {
             FlushRecovery();
-            var id = Guid.NewGuid(); recoveryId = id.ToString("N");
-            recovery = new AutoRecovery(RecoveryDirectory, id); recoveryFingerprint = "";
+            ResetRecoveryGeneration();
+            recoveryError = null;
+            failedRecoverySession = null;
+            retryRecoveryAt = 0;
+            TryOpenRecovery();
+        }
+
+        private void ResetRecoveryGeneration()
+        {
+            recovery = null;
+            recoveryId = Guid.NewGuid().ToString("N");
+            lastRecovery = null;
+            loadRecoveryDigest = true;
+        }
+
+        private bool TryOpenRecovery(string? directory = null)
+        {
+            if (recovery != null && !loadRecoveryDigest) return true;
+            try
+            {
+                recovery ??= new AutoRecovery(directory ?? RecoveryDirectory, Guid.ParseExact(recoveryId, "N"));
+                // Acquire the cache digest without applying its content to the live document.
+                if (File.Exists(recovery.CachePath))
+                {
+                    try { recovery.Load(); }
+                    catch (Exception error) when (error is InvalidDataException || error is System.Text.DecoderFallbackException)
+                    {
+                        ReportRecoveryFailure("recovery.invalid-journal", error);
+                        ResetRecoveryGeneration();
+                        recovery = new AutoRecovery(directory ?? RecoveryDirectory, Guid.ParseExact(recoveryId, "N"));
+                    }
+                }
+                loadRecoveryDigest = false;
+                if (recoveryError != null && !WorkspaceDirty) MarkRecoveryHealthy();
+                return true;
+            }
+            catch (Exception error) when (error is IOException || error is UnauthorizedAccessException ||
+                error is InvalidDataException || error is ArgumentException || error is NotSupportedException)
+            {
+                ReportRecoveryFailure("recovery.open", error);
+                return false;
+            }
+        }
+
+        private void ReportRecoveryFailure(string operation, Exception error)
+        {
+            retryRecoveryAt = EditorApplication.timeSinceStartup + 10;
+            var message = "自动恢复暂不可用：" + error.Message;
+            if (recoveryError == null || !recoveryError.StartsWith(message + " · 日志 ", StringComparison.Ordinal))
+            {
+                failedRecoverySession = recoveryId;
+                recoveryError = message + " · 日志 " + PluginLog.Failure(operation, error, recoveryId);
+            }
+            if (status != null) status.text = recoveryError;
+        }
+
+        private void ReportWindowFailure(string operation, Exception error)
+        {
+            var message = PluginLog.FailureMessage(operation, error, recoveryId);
+            if (status != null) status.text = message;
+        }
+
+        private void MarkRecoveryHealthy()
+        {
+            PluginLog.Recovered("recovery", failedRecoverySession ?? recoveryId);
+            failedRecoverySession = null;
+            recoveryError = null;
+            retryRecoveryAt = 0;
         }
 
         private void Refresh()
         {
             if (session == null) return;
+            NoteWaveRevision();
+            NoteBranchRevision();
             hasUnsavedChanges = WorkspaceDirty;
             jsonField?.SetValueWithoutNotify(draft);
-            lastRenderedJson = session.Json;
             routePreview?.Refresh(session.Document);
+            RefreshRouteEditing();
             refreshPresets?.Invoke();
             refreshDocumentView?.Invoke();
+            RefreshWaves();
+            RefreshBranches();
+            RefreshMusic();
             if (status != null) status.text = $"{session.Document.Width} × {session.Document.Height} | " +
-                (draft != session.Json ? "有未应用完整草稿" : InspectorDirty ? "有未应用局部草稿" : DocumentDirty || ProjectDirty ? "未保存" : "文档已载入") + " | LevelData 编辑器；地图示意随已应用修改更新";
+                (draft != session.Json ? "有未应用完整草稿" : InspectorDirty ? "有未应用局部草稿" : DocumentDirty || ProjectDirty ? "未保存" : "文档已载入") + " | LevelData 编辑器；地图示意随已应用修改更新" + (recoveryError == null ? "" : " | " + recoveryError);
             workspaceOwner?.DocumentChanged(this);
         }
 
@@ -300,7 +373,7 @@ namespace Arknights.MapEditor.Editor
             catch (Exception error)
             {
                 hasUnsavedChanges = true;
-                if (status != null) status.text = error.Message;
+                ReportWindowFailure("document.save-on-close", error);
             }
         }
 
@@ -308,33 +381,63 @@ namespace Arknights.MapEditor.Editor
         {
             if (ownedPreview != null) ownedPreview.Unbind();
             if (ownedPreview != null && StageUtility.GetCurrentStage() == ownedPreview)
+            {
                 StageUtility.GoBackToPreviousStage();
+                InvalidateSceneStageLayout();
+            }
             ownedPreview = null;
+        }
+
+        private static void InvalidateSceneStageLayout()
+        {
+            // Unity 2021.3's scene breadcrumb changes its GUILayout tree when the stage changes.
+            // Undo can send ValidateCommand before the next frame, so invalidate the cached layout now.
+            foreach (SceneView view in SceneView.sceneViews)
+            {
+                if (view == null || view.GetType() != typeof(SceneView)) continue;
+                var root = view.rootVisualElement;
+                while (root.parent != null) root = root.parent;
+                // The stage toolbar is a sibling of the public SceneView content root.
+                root.Query<IMGUIContainer>().Where(container =>
+                    container.name?.StartsWith("prefab-toolbar", StringComparison.Ordinal) == true)
+                    .ForEach(container => container.MarkDirtyLayout());
+            }
         }
 
         private void UpdateRecovery()
         {
-            if (EditorApplication.timeSinceStartup < nextRecoveryTime) return;
-            nextRecoveryTime = EditorApplication.timeSinceStartup + 2;
+            var now = EditorApplication.timeSinceStartup;
+            if (now < nextRecoveryTime || now < retryRecoveryAt) return;
+            nextRecoveryTime = now + 2;
             FlushRecovery();
         }
 
         private void FlushRecovery()
         {
-            if (session == null || recovery == null || !WorkspaceDirty) return;
-            var fingerprint = session.Json + "\u0000" + draft + "\u0000" + ProjectRecoveryFingerprint + "\u0000" + CaptureInspectorRecovery();
-            if (fingerprint == recoveryFingerprint) return;
             try
             {
-                recovery.Save(CaptureWindowRecovery());
-                recoveryFingerprint = fingerprint;
+                if (session == null || !WorkspaceDirty || !TryOpenRecovery()) return;
+                var snapshot = CaptureWindowRecovery();
+                if (recoveryError == null && lastRecovery?.HasSameContent(snapshot) == true) return;
+                try { recovery!.Save(snapshot); }
+                catch (DocumentFileConflictException error)
+                {
+                    ReportRecoveryFailure("recovery.journal-conflict", error);
+                    var directory = Path.GetDirectoryName(recovery!.CachePath);
+                    ResetRecoveryGeneration();
+                    if (!TryOpenRecovery(directory)) return;
+                    recovery!.Save(snapshot);
+                }
+                lastRecovery = snapshot;
+                if (recoveryError != null)
+                {
+                    MarkRecoveryHealthy();
+                    if (status != null) status.text = "自动恢复已恢复写入。";
+                }
             }
             catch (Exception error)
             {
-                // Throttle identical failures until the user changes the document.
-                recoveryFingerprint = fingerprint;
-                if (status != null) status.text = "自动恢复副本保存失败：" + error.Message;
-                Debug.LogWarning("Map editor recovery: " + error.Message);
+                ReportRecoveryFailure("recovery.write", error);
             }
         }
 
@@ -345,11 +448,17 @@ namespace Arknights.MapEditor.Editor
 
         private void OnDisable()
         {
-            routePreview?.Stop();
-            FlushRecovery();
-            Undo.undoRedoPerformed -= OnUndo;
-            EditorApplication.update -= UpdateRecovery;
-            EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+            try
+            {
+                rootVisualElement.UnregisterCallback<KeyDownEvent>(HandleStandaloneUndo, TrickleDown.TrickleDown);
+                routePreview?.Stop();
+                FlushRecovery();
+            }
+            finally
+            {
+                EditorApplication.update -= UpdateRecovery;
+                EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+            }
         }
         private void OnDestroy()
         {

@@ -40,7 +40,8 @@ namespace Arknights.MapEditor.Editor
         private readonly ChunkedMapView terrain;
         private readonly PrtsObjectView objects;
         private readonly PrtsLabelView labels;
-        private readonly List<Vector3[]> routes = new List<Vector3[]>();
+        private readonly List<PrtsRoutePreview.Path> routes = new();
+        internal IReadOnlyList<PrtsRoutePreview.Path> RoutePaths => routes;
         private RenderTexture? texture;
         private LevelDocument? renderedDocument;
         internal int RenderedChunkCount => terrain.ChunkCount;
@@ -77,7 +78,13 @@ namespace Arknights.MapEditor.Editor
             {
                 terrain.Update(document, null);
                 objects.Update(document);
-                MapPreviewStage.ReadRouteLines(document, routes);
+                routes.Clear();
+                var routeModel = new PrtsRoutePreview(document, false);
+                foreach (var definition in routeModel.Definitions)
+                {
+                    var path = routeModel.GetPath(definition);
+                    if (path != null) routes.Add(path);
+                }
                 renderedDocument = document;
             }
             var scale = EditorGUIUtility.pixelsPerPoint;
@@ -140,19 +147,7 @@ namespace Arknights.MapEditor.Editor
 
         internal void DrawRoutes(Rect rect)
         {
-            using (new Handles.DrawingScope(new Color(.28f, .78f, .91f)))
-            {
-                foreach (var route in routes)
-                {
-                    for (var i = 1; i < route.Length; i++)
-                    {
-                        var a = camera.WorldToViewportPoint(route[i - 1]);
-                        var b = camera.WorldToViewportPoint(route[i]);
-                        if (a.z < camera.nearClipPlane || b.z < camera.nearClipPlane) continue;
-                        Handles.DrawLine(ToGui(a, rect), ToGui(b, rect));
-                    }
-                }
-            }
+            foreach (var route in routes) PrtsRouteOverlay.DrawProjected(route, camera, rect);
             using (new Handles.DrawingScope(Color.yellow))
             {
                 foreach (var marker in objects.UnresolvedMarkers)

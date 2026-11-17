@@ -19,6 +19,7 @@ namespace Arknights.MapEditor.Editor
         [NonSerialized] private LevelDocument? document;
         [NonSerialized] private Action<IReadOnlyList<Vector2Int>>? paint;
         [NonSerialized] private Action<Vector2Int>? pick;
+        [NonSerialized] internal Action? UndoMapEdit;
         [NonSerialized] internal Func<bool>? DrawRoutePreview;
         private readonly List<Vector2Int> stroke = new List<Vector2Int>();
         private readonly HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
@@ -35,7 +36,7 @@ namespace Arknights.MapEditor.Editor
         public Mesh OwnedMesh => view != null ? view.MeshAt(0, 0) : throw new InvalidOperationException("Stage is not open.");
         public void Configure(LevelDocument value) { document = value; documentJson = value.ToJson(false); BuildMarkers(); }
         public void Bind(Action<IReadOnlyList<Vector2Int>> paintAction, Action<Vector2Int> pickAction) { paint = paintAction; pick = pickAction; }
-        public void Unbind() { paint = null; pick = null; DrawRoutePreview = null; SelectHandPreset = null; stroke.Clear(); visited.Clear(); lastCell = null; }
+        public void Unbind() { paint = null; pick = null; UndoMapEdit = null; DrawRoutePreview = null; SelectHandPreset = null; stroke.Clear(); visited.Clear(); lastCell = null; }
         public void SetCoordinates(bool value) { coordinates = value; SceneView.RepaintAll(); }
         internal void SetPresetHand(string layer, bool visible, (string Role, int Index)? selection)
         {
@@ -87,6 +88,8 @@ namespace Arknights.MapEditor.Editor
             view = new ChunkedMapView(scene); view.Update(document, null);
             objectView = new PrtsObjectView(scene); objectView.Update(document);
             labelView = new PrtsLabelView(scene);
+            SceneView.beforeSceneGui -= BeforeSceneGui;
+            SceneView.beforeSceneGui += BeforeSceneGui;
             SceneView.duringSceneGui -= DuringSceneGui;
             SceneView.duringSceneGui += DuringSceneGui;
         }
@@ -95,6 +98,7 @@ namespace Arknights.MapEditor.Editor
         protected override void OnCloseStage() { ReleaseView(); base.OnCloseStage(); }
         private void ReleaseView()
         {
+            SceneView.beforeSceneGui -= BeforeSceneGui;
             SceneView.duringSceneGui -= DuringSceneGui;
             view?.Dispose(); view = null; stroke.Clear(); visited.Clear(); lastCell = null;
             objectView?.Dispose(); objectView = null;
@@ -104,6 +108,23 @@ namespace Arknights.MapEditor.Editor
             if (GUIUtility.hotControl == controlId) GUIUtility.hotControl = 0;
         }
         private int controlId;
+
+        private void BeforeSceneGui(SceneView sceneView)
+        {
+            if (StageUtility.GetCurrentStage() == this && EditorWindow.focusedWindow == sceneView && !EditorGUIUtility.editingTextField)
+                HandleUndoInput(Event.current);
+        }
+
+        internal void HandleUndoInput(Event input)
+        {
+            if (UndoMapEdit == null || input.type != EventType.KeyDown ||
+                !MapEditorWindow.IsUndoShortcut(input.keyCode, input.modifiers)) return;
+            input.Use();
+            stroke.Clear(); visited.Clear(); lastCell = null;
+            if (controlId != 0 && GUIUtility.hotControl == controlId) GUIUtility.hotControl = 0;
+            UndoMapEdit();
+        }
+
         private void DuringSceneGui(SceneView sceneView)
         {
             if (StageUtility.GetCurrentStage() != this || document == null) return;
@@ -155,7 +176,7 @@ namespace Arknights.MapEditor.Editor
             {
                 var cells = stroke.ToArray(); stroke.Clear(); visited.Clear(); lastCell = null;
                 GUIUtility.hotControl = 0; e.Use();
-                try { paint?.Invoke(cells); } catch (Exception error) { Debug.LogWarning("Map edit rejected: " + error.Message); }
+                try { paint?.Invoke(cells); } catch (Exception error) { PluginLog.Failure("scene.paint", error); }
                 return;
             }
             if (e.alt || e.button != 0) return;

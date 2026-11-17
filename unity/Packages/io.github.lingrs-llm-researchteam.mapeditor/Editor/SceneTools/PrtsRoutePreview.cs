@@ -45,11 +45,11 @@ namespace Arknights.MapEditor.Editor
             internal bool HasFallback { get; private set; }
             internal Path(bool air) => Air = air;
 
-            internal void Add(Vector3 from, Vector3 to, bool fallback)
+            internal void Add(Vector3 from, Vector3 to, bool fallback, int insertBefore)
             {
                 var length = Vector3.Distance(from, to);
                 if (length < .0001f) return;
-                Legs.Add(new Leg(from, to, Length, length, fallback));
+                Legs.Add(new Leg(from, to, Length, length, fallback, insertBefore));
                 Length += length;
                 HasFallback |= fallback;
             }
@@ -60,8 +60,9 @@ namespace Arknights.MapEditor.Editor
             internal readonly Vector3 From, To;
             internal readonly float Offset, Length;
             internal readonly bool Fallback;
-            internal Leg(Vector3 from, Vector3 to, float offset, float length, bool fallback)
-                => (From, To, Offset, Length, Fallback) = (from, to, offset, length, fallback);
+            internal readonly int InsertBefore;
+            internal Leg(Vector3 from, Vector3 to, float offset, float length, bool fallback, int insertBefore)
+                => (From, To, Offset, Length, Fallback, InsertBefore) = (from, to, offset, length, fallback, insertBefore);
         }
 
         internal readonly struct Marker
@@ -128,11 +129,10 @@ namespace Arknights.MapEditor.Editor
                     if (!Matches(action["actionType"], "SPAWN", "0")) continue;
                     var hidden = action["hiddenGroup"]?.ToString();
                     if (!includeHidden && !string.IsNullOrEmpty(hidden)) continue;
-                    var actionLibrary = Matches(action["useExtraRoute"], "true", "1") ? "extraRoutes" : library;
                     var index = Integer(action["routeIndex"], -1);
-                    if (!libraries.TryGetValue(actionLibrary, out var routes) || index < 0 || index >= routes.Count ||
+                    if (!libraries.TryGetValue(library, out var routes) || index < 0 || index >= routes.Count ||
                         !IsRoute(routes[index])) continue;
-                    entries.Add(new Entry(actionLibrary, index, action["key"]?.ToString() ?? "", start, number, count, group));
+                    entries.Add(new Entry(library, index, action["key"]?.ToString() ?? "", start, number, count, group));
                     number += count;
                 }
                 time = end;
@@ -166,7 +166,7 @@ namespace Arknights.MapEditor.Editor
             return path;
         }
 
-        private Path? BuildPath(JObject route)
+        internal Path? BuildPath(JObject route, bool editing = false)
         {
             var air = Matches(route["motionMode"], "FLY", "1");
             if (!TryPoint(route["startPosition"], route["spawnOffset"], air, out var startCell, out var start) ||
@@ -180,23 +180,23 @@ namespace Arknights.MapEditor.Editor
             var centers = Matches(route["visitEveryTileCenter"], "true", "1") ||
                 Matches(route["visitEveryNodeCenter"], "true", "1");
             void Mark(RouteMarkerKind kind, string label = "") => path.Markers.Add(new Marker(point, kind, label, path.Length));
-            void Travel(Vector2Int targetCell, Vector3 target)
+            void Travel(Vector2Int targetCell, Vector3 target, int insertBefore)
             {
-                if (air) path.Add(point, target, false);
+                if (air) path.Add(point, target, false, insertBefore);
                 else
                 {
                     grid ??= new PrtsRouteGrid(document);
                     var points = grid.Find(cell, targetCell, diagonal, visit, centers);
-                    if (points == null) path.Add(point, target, true);
+                    if (points == null) path.Add(point, target, true, insertBefore);
                     else
                     {
                         for (var i = 1; i < points.Count - 1; ++i)
                         {
                             var next = World(points[i], null, air);
-                            path.Add(point, next, false);
+                            path.Add(point, next, false, insertBefore);
                             point = next;
                         }
-                        path.Add(point, target, false);
+                        path.Add(point, target, false, insertBefore);
                     }
                 }
                 cell = targetCell;
@@ -205,13 +205,16 @@ namespace Arknights.MapEditor.Editor
 
             Mark(RouteMarkerKind.Start);
             if (route["checkpoints"] is JArray checkpoints)
-                foreach (var step in checkpoints.OfType<JObject>())
+                for (var i = 0; i < checkpoints.Count; i++)
                 {
+                    if (checkpoints[i] is not JObject step) continue;
                     var type = step["type"]?.ToString();
                     var time = Number(step["time"]).ToString("0.##", CultureInfo.InvariantCulture);
                     switch (type)
                     {
                         case "1": case "WAIT_FOR_SECONDS": Mark(RouteMarkerKind.Wait, time + "s"); break;
+                        case "2" when editing: case "WAIT_FOR_PLAY_TIME" when editing:
+                            Mark(RouteMarkerKind.Wait, "战斗 " + time + "s"); break;
                         case "3": case "WAIT_CURRENT_FRAGMENT_TIME": Mark(RouteMarkerKind.Wait, "片段 " + time + "s"); break;
                         case "4": case "WAIT_CURRENT_WAVE_TIME": Mark(RouteMarkerKind.Wait, "波次 " + time + "s"); break;
                         case "5": case "DISAPPEAR":
@@ -225,15 +228,16 @@ namespace Arknights.MapEditor.Editor
                             Mark(RouteMarkerKind.Appear, "出现");
                             break;
                         default:
-                            if (!hidden && TryPoint(step["position"], step["reachOffset"], air, out var targetCell, out var target))
+                            if (!hidden && (!editing || Matches(step["type"], "MOVE", "0")) &&
+                                TryPoint(step["position"], step["reachOffset"], air, out var targetCell, out var target))
                             {
-                                Travel(targetCell, target);
+                                Travel(targetCell, target, i);
                                 Mark(RouteMarkerKind.Checkpoint);
                             }
                             break;
                     }
                 }
-            if (!hidden) { Travel(endCell, end); Mark(RouteMarkerKind.End); }
+            if (!hidden) { Travel(endCell, end, (route["checkpoints"] as JArray)?.Count ?? 0); Mark(RouteMarkerKind.End); }
             return path;
         }
 
@@ -266,7 +270,7 @@ namespace Arknights.MapEditor.Editor
             return !float.IsInfinity(point.x) && !float.IsInfinity(point.z);
         }
 
-        private static Vector3 World(Vector2Int cell, JToken? offset, bool air) => new(
+        internal static Vector3 World(Vector2Int cell, JToken? offset, bool air) => new(
             cell.x + .5f + (float)Number((offset as JObject)?["x"]), air ? .95f : .62f,
             cell.y + .5f + (float)Number((offset as JObject)?["y"]));
 

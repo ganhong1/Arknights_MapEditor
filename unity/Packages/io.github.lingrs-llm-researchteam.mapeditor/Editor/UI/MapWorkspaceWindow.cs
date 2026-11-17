@@ -102,7 +102,10 @@ namespace Arknights.MapEditor.Editor
         private void OnEnable()
         {
             saveChangesMessage = "工作台有未保存的地图。保存后关闭，或明确丢弃。";
+            rootVisualElement.RegisterCallback<KeyDownEvent>(HandleWorkspaceUndo, TrickleDown.TrickleDown);
         }
+
+        private void HandleWorkspaceUndo(KeyDownEvent input) => MapEditorWindow.HandleUndoKey(input, FocusedEditor);
 
         public void CreateGUI()
         {
@@ -119,7 +122,8 @@ namespace Arknights.MapEditor.Editor
             var toolbar = new VisualElement();
             toolbar.AddToClassList("workspace-row");
             toolbar.Add(Button("新建地图", () => AddBlank(focusedGroup)));
-            toolbar.Add(Button("打开地图 JSON", OpenFile));
+            toolbar.Add(Button("打开地图 JSON", OpenFile, operation: "document.open"));
+            toolbar.Add(Button("打开地图文件所在位置", () => FocusedEditor?.OpenMapFileLocation()));
             toolbar.Add(Button(split ? "合并为单组" : "左右分屏", ToggleSplit));
             if (split) toolbar.Add(Button("在另一组显示此图", ShowInOtherGroup));
             toolbar.Add(Button("编辑工作台", ShowInspector));
@@ -165,13 +169,10 @@ namespace Arknights.MapEditor.Editor
             var group = Group(index);
             foreach (var tab in group.Tabs)
             {
-                var pair = new VisualElement();
-                pair.AddToClassList("workspace-row");
                 var select = Button("", () => Select(index, tab));
-                select.EnableInClassList("workspace-selected", tab == group.Selected);
+                var pair = DocumentTab(select, Button("×", () => CloseTab(index, tab), "关闭 " + tab.Editor.WorkspaceTitle));
+                pair.EnableInClassList("workspace-selected", tab == group.Selected);
                 tabButtons.Add((tab.Editor, select));
-                pair.Add(select);
-                pair.Add(Button("×", () => CloseTab(index, tab), "关闭该标签"));
                 tabs.Add(pair);
             }
             tabs.Add(Button("+", () => AddBlank(index), "在此组新建地图"));
@@ -183,10 +184,21 @@ namespace Arknights.MapEditor.Editor
             host.Add(viewport.Element);
         }
 
-        private Button Button(string text, Action action, string tooltip = "") => new Button(() =>
+        private static VisualElement DocumentTab(Button title, Button close)
+        {
+            var tab = new VisualElement();
+            tab.AddToClassList("workspace-document-tab");
+            title.AddToClassList("workspace-document-title");
+            close.AddToClassList("workspace-document-close");
+            tab.Add(title);
+            tab.Add(close);
+            return tab;
+        }
+
+        private Button Button(string text, Action action, string tooltip = "", string operation = "workspace.command") => new Button(() =>
         {
             try { action(); }
-            catch (Exception error) { Report(error.Message); }
+            catch (Exception error) { Report(PluginLog.FailureMessage(operation, error)); }
         }) { text = text, tooltip = tooltip };
 
         private void Report(string message)
@@ -296,8 +308,25 @@ namespace Arknights.MapEditor.Editor
         private void AddBlank(int index, bool refresh = true) =>
             AddDocument(index, "未命名地图 " + nextUntitled++, LevelDocument.Create(10, 6).ToJson(), "", "", refresh);
 
-        internal void AddFinishedLevel(string title, string json, string origin, bool refresh = true) =>
+        internal void ShowOfflineArtGalleryMap()
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+                throw new InvalidOperationException("请退出 Play Mode 后打开分层展示地图。");
+            var existing = Documents.FirstOrDefault(editor => editor.WorkspaceTitle == Catalog.OfflineArtGallery.Title);
+            if (existing != null)
+            {
+                SelectDocument(existing);
+                return;
+            }
+            AddDocument(focusedGroup, Catalog.OfflineArtGallery.Title, Catalog.OfflineArtGallery.CreateMap().ToJson());
+        }
+
+        internal void AddFinishedLevel(string title, string json, string origin, bool refresh = true)
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+                throw new InvalidOperationException("请退出 Play Mode 后新建地图。");
             AddDocumentCore(focusedGroup, title, json, "", "", refresh, origin);
+        }
 
         internal void AddDocument(int index, string title, string json, string path = "", string hash = "", bool refresh = true) =>
             AddDocumentCore(index, title, json, path, hash, refresh, "");
@@ -420,7 +449,11 @@ namespace Arknights.MapEditor.Editor
             }
         }
 
-        private void OnDisable() => ReleaseViewports();
+        private void OnDisable()
+        {
+            rootVisualElement.UnregisterCallback<KeyDownEvent>(HandleWorkspaceUndo, TrickleDown.TrickleDown);
+            ReleaseViewports();
+        }
 
         private void OnDestroy()
         {

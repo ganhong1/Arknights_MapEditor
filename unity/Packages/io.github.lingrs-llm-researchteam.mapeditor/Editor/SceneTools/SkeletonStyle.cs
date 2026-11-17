@@ -36,7 +36,7 @@ namespace Arknights.MapEditor.Editor
             foreach (var entry in atlas)
             {
                 var name = ReadString(entry);
-                if (string.IsNullOrWhiteSpace(name) || !slots.TryAdd(name, slots.Count + 1))
+                if (name == null || string.IsNullOrWhiteSpace(name) || !slots.TryAdd(name, slots.Count + 1))
                     throw new FormatException("Invalid terrain symbol slot: " + name);
             }
             symbols = slots;
@@ -54,7 +54,7 @@ namespace Arknights.MapEditor.Editor
             {
                 if (!(entry is JObject pair)) return null;
                 var name = ReadString(pair["key"]);
-                if (string.IsNullOrEmpty(name) || !seen.Add(name)) return null;
+                if (name == null || name.Length == 0 || !seen.Add(name)) return null;
                 var raw = pair["value"];
                 var number = raw?.Type == JTokenType.Integer || raw?.Type == JTokenType.Float
                     ? raw.Value<double>() : double.NaN;
@@ -72,6 +72,7 @@ namespace Arknights.MapEditor.Editor
         public const float BoxTop = 1f;
         public const float FenceTop = .25f;
         public const float RecessTop = -1f;
+        public const float TrenchTop = -.4f;
 
         private static JObject? Definition(string key)
         {
@@ -93,6 +94,7 @@ namespace Arknights.MapEditor.Editor
                     return BoxTop;
                 case "tile_fence": case "tile_fence_bound": return FenceTop;
                 case "tile_hole": case "tile_deepwater": return RecessTop;
+                case "tile_trench": return TrenchTop;
                 case "tile_passable_wall": case "tile_passable_wall_forbidden": return BlockTop;
                 case "tile_forbidden": case "tile_empty": return 0f;
                 default: return IsHigh(tile) ? BlockTop : 0f;

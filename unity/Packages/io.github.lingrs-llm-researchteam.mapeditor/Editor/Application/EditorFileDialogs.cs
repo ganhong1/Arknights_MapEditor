@@ -13,6 +13,6 @@ namespace Arknights.MapEditor.Editor
     {
         public string Open(string title, string directory, string extension) => EditorUtility.OpenFilePanel(title, directory, extension);
         public string Save(string title, string directory, string name, string extension) => EditorUtility.SaveFilePanel(title, directory, name, extension);
-        public bool Discard(string title, string message) => EditorUtility.DisplayDialog(title, message, "丢弃", "取消");
+        public bool Discard(string title, string message) => EditorUtility.DisplayDialog(title, message, "确定", "取消");
     }
 }

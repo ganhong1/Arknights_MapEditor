@@ -21,10 +21,12 @@ namespace Arknights.MapEditor.Storage
         private static readonly object Gate = new object();
         private static readonly UTF8Encoding StrictUtf8 = new UTF8Encoding(false, true);
 
-        public static DocumentFileSnapshot Read(string path)
+        public static DocumentFileSnapshot Read(string path) => Read(path, MaximumDocumentBytes);
+
+        internal static DocumentFileSnapshot Read(string path, int maximumBytes)
         {
             var fullPath = NormalizePath(path);
-            lock (Gate) return ReadInternal(fullPath);
+            lock (Gate) return ReadInternal(fullPath, maximumBytes);
         }
 
         /// <summary>
@@ -32,18 +34,21 @@ namespace Arknights.MapEditor.Storage
         /// A non-null hash must be the SHA-256 of the last observed target bytes.
         /// Returns the text and digest of this write, not a claim that no later writer changed it.
         /// </summary>
-        public static DocumentFileSnapshot Save(string path, string text, string? expectedHash)
+        public static DocumentFileSnapshot Save(string path, string text, string? expectedHash) =>
+            Save(path, text, expectedHash, MaximumDocumentBytes);
+
+        internal static DocumentFileSnapshot Save(string path, string text, string? expectedHash, int maximumBytes)
         {
             var fullPath = NormalizePath(path);
             if (text == null) throw new ArgumentNullException(nameof(text));
             ValidateHash(expectedHash);
-            if (StrictUtf8.GetByteCount(text) > MaximumDocumentBytes)
-                throw new InvalidDataException("Document exceeds the 16 MiB storage limit.");
+            if (StrictUtf8.GetByteCount(text) > maximumBytes)
+                throw new InvalidDataException($"Document exceeds the {maximumBytes / (1024 * 1024)} MiB storage limit.");
             var bytes = StrictUtf8.GetBytes(text);
             var saved = new DocumentFileSnapshot(text, Hash(bytes));
             lock (Gate)
             {
-                CheckExpectedFile(fullPath, expectedHash);
+                CheckExpectedFile(fullPath, expectedHash, maximumBytes);
                 var parent = Path.GetDirectoryName(fullPath)!;
                 var temporary = Path.Combine(parent, ".arkmap-" + Guid.NewGuid().ToString("N") + ".tmp");
                 var ownsTemporary = false;
@@ -56,7 +61,7 @@ namespace Arknights.MapEditor.Storage
                         stream.Flush(true);
                     }
 
-                    CheckExpectedFile(fullPath, expectedHash);
+                    CheckExpectedFile(fullPath, expectedHash, maximumBytes);
                     if (expectedHash == null)
                         File.Move(temporary, fullPath);
                     else
@@ -82,14 +87,14 @@ namespace Arknights.MapEditor.Storage
             }
         }
 
-        private static DocumentFileSnapshot ReadInternal(string path)
+        private static DocumentFileSnapshot ReadInternal(string path, int maximumBytes)
         {
             RejectReparsePoint(path);
             byte[] bytes;
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                if (stream.Length > MaximumDocumentBytes)
-                    throw new InvalidDataException("Document exceeds the 16 MiB storage limit.");
+                if (stream.Length > maximumBytes)
+                    throw new InvalidDataException($"Document exceeds the {maximumBytes / (1024 * 1024)} MiB storage limit.");
                 bytes = new byte[(int)stream.Length];
                 var offset = 0;
                 while (offset < bytes.Length)
@@ -106,7 +111,7 @@ namespace Arknights.MapEditor.Storage
             return new DocumentFileSnapshot(StrictUtf8.GetString(bytes, start, bytes.Length - start), Hash(bytes));
         }
 
-        private static void CheckExpectedFile(string path, string? expectedHash)
+        private static void CheckExpectedFile(string path, string? expectedHash, int maximumBytes)
         {
             if (expectedHash == null)
             {
@@ -116,10 +121,26 @@ namespace Arknights.MapEditor.Storage
             }
             if (!File.Exists(path))
                 throw new DocumentFileConflictException("Destination was removed or is inaccessible; reload or save to another path.");
-            var current = ReadInternal(path);
-            if (!string.Equals(current.Sha256, expectedHash, StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(ReadHash(path, maximumBytes), expectedHash, StringComparison.OrdinalIgnoreCase))
                 throw new DocumentFileConflictException("Destination changed outside this editing session; reload or save to another path.");
         }
+
+        internal static string ReadHash(string path, int maximumBytes)
+        {
+            RejectReparsePoint(path);
+            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var length = stream.Length;
+            if (length > maximumBytes)
+                throw new InvalidDataException($"Document exceeds the {maximumBytes / (1024 * 1024)} MiB storage limit.");
+            using var algorithm = SHA256.Create();
+            var hash = algorithm.ComputeHash(stream);
+            if (stream.Position != length || stream.Length != length)
+                throw new IOException("Document changed while being read.");
+            return FormatDigest(hash);
+        }
+
+        private static string FormatDigest(byte[] bytes) =>
+            BitConverter.ToString(bytes).Replace("-", "").ToLowerInvariant();
 
         private static string NormalizePath(string path)
         {
@@ -150,7 +171,7 @@ namespace Arknights.MapEditor.Storage
             using (var algorithm = SHA256.Create())
             {
                 var digest = algorithm.ComputeHash(bytes);
-                return BitConverter.ToString(digest).Replace("-", "").ToLowerInvariant();
+                return FormatDigest(digest);
             }
         }
     }

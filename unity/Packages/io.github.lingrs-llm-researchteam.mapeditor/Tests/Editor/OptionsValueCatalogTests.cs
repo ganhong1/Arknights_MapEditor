@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using Arknights.MapEditor.Catalog;
 using Arknights.MapEditor.Core;
+using Arknights.MapEditor.Editor;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
@@ -22,6 +23,10 @@ namespace Arknights.MapEditor.Tests
             Assert.That(rogue.Files.Select(file => file.Path).Distinct().Count(), Is.EqualTo(3));
             Assert.That(groups.Single(group => group.Id == "easy_09-01").Files.Single(),
                 Is.SameAs(groups.Single(group => group.Id == "main_09-01").Files.Single()));
+            var source = groups.Single(group => group.Id == "main_09-01").Files.Single();
+            var caption = OptionsSampleBrowser.SourceDescription(source, "/options/initialCost");
+            Assert.That(caption, Does.Contain("9-2 鬼魂危机").And.Contain("/options/initialCost"));
+            Assert.That(caption, Does.Not.Contain(source.Kind).And.Not.Contain(source.Sha256).And.Not.Contain(source.Path));
         }
 
         private static JObject Fixture()

@@ -12,7 +12,7 @@ namespace Arknights.MapEditor.Editor
 {
     public sealed partial class MapEditorWindow
     {
-        private static readonly string[] MapDataFields = { "map", "tiles", "blockEdges", "tags", "effects", "layerRects" };
+        private static readonly string[] MapDataFields = { "map", "tiles", "blockEdges", "tilesDisallowToLocate", "tags", "effects", "layerRects" };
         private const string DimensionsSlot = "mapData:dimensions";
         [SerializeField] private string mapDataField = "tiles";
         private Action? openMapDataPanel;
@@ -27,6 +27,7 @@ namespace Arknights.MapEditor.Editor
             var pages = new Dictionary<string, (Button Button, VisualElement Page)>();
             void Select(string field)
             {
+                if (mapDataField != field) ExitMapRuleScene();
                 mapDataField = pages.ContainsKey(field) ? field : "tiles";
                 foreach (var entry in pages)
                 {
@@ -41,6 +42,7 @@ namespace Arknights.MapEditor.Editor
                 var button = new Button(() => Select(key)) { name = "mapdata-tab-" + key, text = key == "tiles" ? "tiles · TileData" : key };
                 var page = new VisualElement { name = "mapdata-page-" + key };
                 if (key == "tiles") BuildTileDataPanel(page);
+                else if (key == "blockEdges" || key == "tilesDisallowToLocate") BuildMapRuleEditor(page, key);
                 else
                 {
                     page.Add(new Label("LevelData.mapData." + key));
@@ -165,10 +167,10 @@ namespace Arknights.MapEditor.Editor
         {
             RequireWorkspaceEditable(); RequireAppliedDraft();
             if (InspectorStore.HasChanges("tileData"))
-                throw new InvalidOperationException("TileData 有未应用草稿，请先在 tiles 中应用或明确重置，再修改地图结构。");
+                throw new EditorOperationRejectedException("TileData 有未应用草稿，请先在 tiles 中应用或明确重置，再修改地图结构。");
             foreach (var slot in inspectorBindings.Keys)
-                if (slot.StartsWith("mapData:", StringComparison.Ordinal) && slot != currentSlot && InspectorStore.HasChanges(slot))
-                    throw new InvalidOperationException("地图数据中还有另一份未应用草稿，请先处理：" + slot.Substring(8));
+                if ((slot.StartsWith("mapData:", StringComparison.Ordinal) || slot == "tilesDisallowToLocate") && slot != currentSlot && InspectorStore.HasChanges(slot))
+                    throw new EditorOperationRejectedException("地图数据中还有另一份未应用草稿，请先处理：" + slot);
         }
 
         private void ApplyMapDataDraft(string key, string raw)
@@ -196,7 +198,7 @@ namespace Arknights.MapEditor.Editor
             switch (key)
             {
                 case "map": return "二维数组的每格保存 tiles 配置索引。JSON 行序自上向下；场景和 TileData 绑定坐标自下向上。尺寸变化同样执行裁剪预检。";
-                case "blockEdges": return "每项按 pos、direction、blockMask 保存。保留未知成员；尚不提供推测性的阻挡边绘制或自动裁剪。";
+                case "blockEdges": return "pos 为格子坐标，direction 为格边方向，blockMask 选择阻挡的移动类型。原生对共享边双向生效。";
                 case "tags": return "有序字符串列表，保留原始顺序和未知值。";
                 case "effects": return "地图级效果记录：key、offset、direction。与 tiles 中的地块 effects 分开；资源存在性及运行表现未在此验证。";
                 case "layerRects": return "原生字符串列表。具体格式和空间边界尚未核实，保留原文，不自动转换成矩形。";

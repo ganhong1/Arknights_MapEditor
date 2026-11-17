@@ -55,7 +55,29 @@ namespace Arknights.MapEditor.Editor
             body.Clear();
             body.scrollOffset = Vector2.zero;
             Text(body, entry.Id, "terrain-detail-text");
+            PrtsObjectView.TryGetIcon(entry.Id, out var texture, out var uv);
+            body.Add(LibraryPortrait.Detail(texture, uv, PrtsObjectView.VisualSource(entry.Id),
+                PrtsObjectView.IconSourceAsset(entry.Id)));
             if (entry.Description.Length > 0) Text(body, entry.Description, "terrain-detail-text");
+            if (entry.Prefab.Length > 0) Text(body, entry.Prefab, "terrain-detail-text");
+            if (entry.ModeConfigurations is { Count: > 0 } mode)
+            {
+                var configurations = new Foldout { text = "卫戍协议原版玩法配置", name = "device-mode-configurations", value = false };
+                foreach (var record in mode.OfType<JObject>())
+                {
+                    var item = new Foldout { text = record.Value<string>("label"), value = false };
+                    Text(item, record.Value<string>("source") ?? "", "terrain-detail-text");
+                    AddJson(item, new TextField { isReadOnly = true, multiline = true, value = record["data"]!.ToString() });
+                    configurations.Add(item);
+                }
+                body.Add(configurations);
+            }
+            if (entry.Definition is JObject definition)
+            {
+                var source = new Foldout { text = "原版装置定义", name = "device-static-definition", value = false };
+                AddJson(source, new TextField { isReadOnly = true, multiline = true, value = definition.ToString() });
+                body.Add(source);
+            }
             try
             {
                 var details = catalog.Load(entry.Id);
@@ -228,7 +250,7 @@ namespace Arknights.MapEditor.Editor
             previous.clicked += () => { if (!pending) { page--; Render(); } };
             next.clicked += () => { if (!pending) { page++; Render(); } };
             _ = new CatalogSearchInput<DeviceSampleCatalog.Sample>(query,
-                () => TerrainSearchRuntime.CreateWorker<DeviceSampleCatalog.Sample>(item => new JObject
+                () => CatalogSearchRuntime.CreateWorker<DeviceSampleCatalog.Sample>(item => new JObject
                 { ["name"] = "配置 " + item.Number, ["targetFile"] = new JArray(item.SourcePaths),
                   ["description"] = item.CopyRecord().ToString(Formatting.None) }), samples,
                 () => { pending = true; status.text = "搜索中…"; },
@@ -240,8 +262,7 @@ namespace Arknights.MapEditor.Editor
         private static VisualElement SourcePreview(string path, IEnumerable<DeviceSampleCatalog.Original> originals)
         {
             var panel = new ScrollView();
-            Text(panel, TerrainSearchRuntime.StageName(path) ?? path, "tiledata-preview-important");
-            Text(panel, path, "terrain-detail-text");
+            Text(panel, TerrainSearchRuntime.StageCaption(path), "tiledata-preview-important");
             foreach (var original in originals)
             {
                 Text(panel, string.Join("、", original.Pointers(path)), "tiledata-preview-important");

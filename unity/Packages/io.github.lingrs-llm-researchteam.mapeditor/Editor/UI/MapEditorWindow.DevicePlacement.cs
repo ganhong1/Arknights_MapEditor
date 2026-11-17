@@ -75,9 +75,9 @@ namespace Arknights.MapEditor.Editor
             placeDeviceCells = cells =>
             {
                 RequireWorkspaceEditable();
-                if (!IsInstanceRole(role.value)) throw new InvalidOperationException("请选择场上预设。");
+                if (!IsInstanceRole(role.value)) throw new EditorOperationRejectedException("请选择场上预设。");
                 if (role.value == "characterInsts" && cells.Count > 1)
-                    throw new InvalidOperationException("请点击单个格子放置干员。");
+                    throw new EditorOperationRejectedException("请点击单个格子放置干员。");
                 RequireLocalDraft("preset", target());
                 if (libraryOperatorDraft && role.value == "characterInsts")
                 {
@@ -118,8 +118,9 @@ namespace Arknights.MapEditor.Editor
                     {
                         RequireWorkspaceEditable();
                         if (!libraryOperatorDraft || !OperatorPlacementEnabled || session!.Document != document ||
+                            (workspaceOwner != null && workspaceOwner.FocusedEditor != this) ||
                             target() != pendingTarget || json.value != raw || devicePlacementDirection != facing)
-                            throw new InvalidOperationException("放置配置已变化，请重新点击地图格。");
+                            throw new EditorOperationRejectedException("放置配置已变化，请重新点击地图格。");
                         RequireLocalDraft("preset", pendingTarget);
                         var onMap = choice is OperatorPlacementChoice.Scene or OperatorPlacementChoice.Both;
                         var inHand = choice is OperatorPlacementChoice.Card or OperatorPlacementChoice.Both;
@@ -132,7 +133,8 @@ namespace Arknights.MapEditor.Editor
                     catch (Exception error)
                     {
                         if (status != null) status.text = error.Message;
-                        workspaceOwner?.ReportNativeError(error.Message);
+                        if (workspaceOwner != null) workspaceOwner.ReportNativeError("scene.device-placement", error);
+                        else ReportWindowFailure("scene.device-placement", error);
                     }
                 });
             }

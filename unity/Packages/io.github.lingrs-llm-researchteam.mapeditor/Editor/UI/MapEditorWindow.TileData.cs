@@ -26,9 +26,9 @@ namespace Arknights.MapEditor.Editor
 
         private void PlaceManagedTiles(IReadOnlyList<UnityEngine.Vector2Int> cells)
         {
-            if (!automaticTileData) throw new InvalidOperationException("自动绑定已关闭，请在 TileData 面板显式绑定配置与坐标。");
+            if (!automaticTileData) throw new EditorOperationRejectedException("自动绑定已关闭，请在 TileData 面板显式绑定配置与坐标。");
             RequireAppliedDraft();
-            if (InspectorStore.HasChanges("tileData")) throw new InvalidOperationException("请先应用或保留并重新读取 TileData 草稿，再放置地块。");
+            if (InspectorStore.HasChanges("tileData")) throw new EditorOperationRejectedException("请先应用或保留并重新读取 TileData 草稿，再放置地块。");
             var positions = cells.Select(cell => (Row: cell.y, Col: cell.x)).Distinct().ToArray();
             if (positions.Length == 0) return;
             var next = session!.Document.PlaceTileConfigurations(Brush(), positions, false);
@@ -45,6 +45,7 @@ namespace Arknights.MapEditor.Editor
             var preview = new TileDataPreview(this, () => session!.Document, SelectedTerrain, tileDataCardView,
                 showCards => tileDataCardView = showCards);
             openTileDataPreview = preview.Open;
+            refreshFieldSummaries.Add(() => { if (workbenchTab == 6 && mapDataField == "tiles") preview.Open(); });
             parent.Add(preview);
         }
 
@@ -197,9 +198,14 @@ namespace Arknights.MapEditor.Editor
 
             public void Open()
             {
+                var current = readDocument();
                 if (source == null) Load();
-                else if (source.ToJson() != readDocument().ToJson() && !owner.InspectorStore.HasChanges(DraftSlot)) Load();
-                else RefreshSnapshotLabel();
+                else if (source != current)
+                {
+                    if (JToken.DeepEquals(source.GetSection("mapData"), current.GetSection("mapData"))) source = current;
+                    else if (!owner.InspectorStore.HasChanges(DraftSlot)) Load();
+                    RefreshSnapshotLabel();
+                }
             }
 
             private string TileKey(int id)
@@ -388,7 +394,16 @@ namespace Arknights.MapEditor.Editor
                 for (var i = 0; i < tiles.Count; i++)
                     if (tiles[i] is JObject) entries.Add(i);
                 list.Rebuild();
-                if (!entries.Contains(id)) id = entries.Count == 0 ? -1 : entries[0];
+                if (id >= 0 && !entries.Contains(id))
+                {
+                    if (owner.InspectorStore.HasChanges(DraftSlot))
+                    {
+                        details.SetEnabled(false);
+                        feedback.text = "找不到草稿绑定的 TileData。草稿仍保存在恢复副本中。";
+                        return;
+                    }
+                    id = entries.Count == 0 ? -1 : entries[0];
+                }
                 if (showingCards && id >= 0) cardPage = entries.IndexOf(id) / CardsPerPage;
                 Select(id);
                 if (showingCards) RebuildCards();
@@ -406,11 +421,11 @@ namespace Arknights.MapEditor.Editor
                 selected = id;
                 owner.selectedTileData = id;
                 details.SetEnabled(id >= 0);
+                draftBound = id >= 0;
                 json.SetValueWithoutNotify(id < 0 ? "" : tiles[id]!.ToString(Formatting.Indented));
                 if (id >= 0)
                 {
                     owner.BindLocalDraft(DraftSlot, json.value, "tile:" + id, raw => { json.SetValueWithoutNotify(raw); RefreshAttributes(); });
-                    draftBound = true;
                 }
                 RefreshAttributes();
                 if (id < 0) list.ClearSelection();
@@ -448,10 +463,13 @@ namespace Arknights.MapEditor.Editor
             {
                 owner.RequireWorkspaceEditable();
                 owner.RequireAppliedDraft();
-                if (source == null || source.ToJson() != readDocument().ToJson())
-                    throw new InvalidOperationException("地图已改变，请先保留草稿并重新读取当前配置。");
+                var current = readDocument();
+                if (source == null || source != current &&
+                    !JToken.DeepEquals(source.GetSection("mapData"), current.GetSection("mapData")))
+                    throw new EditorOperationRejectedException("地图已改变，请先保留草稿并重新读取当前配置。");
                 if (!allowDraft && owner.InspectorStore.HasChanges(DraftSlot))
-                    throw new InvalidOperationException("请先应用配置修改，再执行增删或绑定。");
+                    throw new EditorOperationRejectedException("请先应用配置修改，再执行增删或绑定。");
+                source = current;
             }
 
             private void Commit(LevelDocument next, int index, string label)
@@ -492,8 +510,8 @@ namespace Arknights.MapEditor.Editor
             {
                 RequireCurrent();
                 if (References(selected).Count > 0)
-                    throw new InvalidOperationException("这条配置仍有绑定格，请先绑定替代配置。");
-                if (!EditorUtility.DisplayDialog("删除配置", $"删除未绑定配置 #{selected}？", "删除", "取消")) return;
+                    throw new EditorOperationRejectedException("这条配置仍有绑定格，请先绑定替代配置。");
+                if (!EditorUtility.DisplayDialog("删除配置", $"确定删除未绑定配置 #{selected}？", "确定", "取消")) return;
                 Commit(source!.DeleteTileConfiguration(selected), 0, "删除 TileData");
             }
 

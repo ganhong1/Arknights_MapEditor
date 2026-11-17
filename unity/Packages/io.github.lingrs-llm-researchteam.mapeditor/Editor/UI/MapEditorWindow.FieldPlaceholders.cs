@@ -36,21 +36,39 @@ namespace Arknights.MapEditor.Editor
             }
         }
 
-        private void LocateDocumentField(string field)
+        private void LocateDocumentField(string field) => LocateDocumentPath("/" + EscapePointer(field));
+
+        private void LocateDocumentPath(string path)
         {
             var root = workspaceInspector ?? rootVisualElement;
             setDocumentMode?.Invoke(false);
-            var path = "/" + EscapePointer(field);
             var tree = root.Q<ScrollView>("leveldata-tree");
-            var node = tree?.Q("leveldata-node:" + path);
-            if (node == null)
-                node = tree?.Query<Label>().Where(label => label.tooltip == path).First();
+            VisualElement? node = null;
+            VisualElement? scope = tree;
+            var current = "";
+            foreach (var part in path.Substring(1).Split('/'))
+            {
+                var parent = current;
+                current += "/" + part;
+                node = scope?.Q("leveldata-node:" + current);
+                if (node == null) node = scope?.Query<Label>().Where(label => label.tooltip == current).First();
+                if (node == null && int.TryParse(part, out var index) && index >= 50 &&
+                    scope?.Q<Button>("leveldata-more:" + parent)?.userData is Action append)
+                {
+                    for (var page = 1; page <= index / 50 && scope.Q<Button>("leveldata-more:" + parent) != null; page++)
+                        append();
+                    node = scope.Q("leveldata-node:" + current) ??
+                        (VisualElement?)scope.Query<Label>().Where(label => label.tooltip == current).First();
+                }
+                if (node == null) break;
+                if (node is Foldout fold) fold.value = true;
+                scope = node;
+            }
             if (node == null)
             {
-                if (status != null) status.text = "当前文档未提供字段：" + field;
+                if (status != null) status.text = "字段树未显示：" + path;
                 return;
             }
-            if (node is Foldout fold) fold.value = true;
             tree!.schedule.Execute(() => tree.ScrollTo(node));
         }
     }

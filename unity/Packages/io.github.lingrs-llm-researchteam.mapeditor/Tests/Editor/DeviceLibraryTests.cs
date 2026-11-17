@@ -59,8 +59,8 @@ namespace Arknights.MapEditor.Tests
         public void CatalogIncludesBothRolesHistoricalEntriesAndNonTrapRecords()
         {
             var catalog = DeviceSampleCatalog.LoadBundled();
-            Assert.That(catalog.Entries.Count, Is.EqualTo(847));
-            Assert.That(catalog.Entries.Count(x => x.HasSamples), Is.EqualTo(403));
+            Assert.That(catalog.Entries.Count, Is.EqualTo(885));
+            Assert.That(catalog.Entries.Count(x => x.HasSamples), Is.EqualTo(441));
             Assert.That(catalog.Entries.Single(x => x.Id == "token_10053_radian_tower3").HasSamples, Is.True);
             Assert.That(catalog.Entries.Single(x => x.Id == "trap_004_iceblock").HasSamples, Is.False);
             var crate = catalog.Load("trap_001_crate");
@@ -72,6 +72,29 @@ namespace Arknights.MapEditor.Tests
                 Assert.That(choices.Length, Is.InRange(1, 3));
                 Assert.That(choices.Distinct().Count(), Is.EqualTo(choices.Length));
             }
+        }
+
+        [Test]
+        public void NewDevicesShareTheLibraryAndPreserveTheirOriginalConfigurationKinds()
+        {
+            var catalog = DeviceSampleCatalog.LoadBundled();
+            var previous = DeviceSampleCatalog.LoadBaseline().Entries.Select(entry => entry.Id);
+            var added = catalog.Entries.Where(entry => !previous.Contains(entry.Id)).ToArray();
+            Assert.That(added.Length, Is.EqualTo(38));
+            Assert.That(added.Count(entry => entry.ModeConfigurationCount > 0), Is.EqualTo(33));
+            Assert.That(added.Count(entry => entry.File != null), Is.EqualTo(5));
+            Assert.That(added.All(entry => entry.HasSamples && entry.Prefab.EndsWith(entry.Id + ".prefab")), Is.True);
+            var equipment = added.Single(entry => entry.Id == "trap_1126_acarm126");
+            Assert.That(equipment.Name, Is.EqualTo("虹彩活血饮料"));
+            Assert.That(equipment.ModeConfigurationCount, Is.EqualTo(2));
+            Assert.That(catalog.Load(equipment.Id).Samples("tokenInsts"), Is.Empty);
+            var card = catalog.Load("trap_341_dsjtzd");
+            Assert.That(card.Samples("tokenInsts"), Is.Empty);
+            Assert.That(card.Samples("tokenCards"), Is.Not.Empty);
+            var overlay = new DeviceDetailOverlay(catalog, (_, __) => true);
+            overlay.Open(equipment, new Button());
+            Assert.That(overlay.Q("device-mode-configurations"), Is.Not.Null);
+            Assert.That(overlay.Q("device-static-definition"), Is.Not.Null);
         }
 
         [Test]

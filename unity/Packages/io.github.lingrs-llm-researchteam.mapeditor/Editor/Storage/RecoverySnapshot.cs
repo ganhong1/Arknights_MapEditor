@@ -13,6 +13,11 @@ namespace Arknights.MapEditor.Storage
         public string ProjectJson { get; }
         public string InspectorJson { get; }
 
+        public bool HasSameContent(RecoverySnapshot other) =>
+            DocumentJson == other.DocumentJson && DraftJson == other.DraftJson && SavedJson == other.SavedJson &&
+            SourcePath == other.SourcePath && SourceHash == other.SourceHash && ProjectJson == other.ProjectJson &&
+            InspectorJson == other.InspectorJson;
+
         public RecoverySnapshot(string documentJson, string draftJson, string savedJson, string sourcePath, string sourceHash, string projectJson = "", string inspectorJson = "")
         {
             DocumentJson = documentJson ?? throw new ArgumentNullException(nameof(documentJson));

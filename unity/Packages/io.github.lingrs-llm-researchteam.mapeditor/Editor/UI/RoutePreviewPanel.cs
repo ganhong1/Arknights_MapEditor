@@ -33,19 +33,17 @@ namespace Arknights.MapEditor.Editor
             name = "route-preview";
             AddToClassList("route-preview");
             var header = Row(this);
-            var title = new Label("路线演示");
-            title.AddToClassList("route-preview-title");
-            header.Add(title);
             visibility = AddButton(header, "route-preview-toggle", "", () => playback.SetVisible(!playback.Visible, this.document()));
 
             content = new VisualElement();
             Add(content);
-            sources = AddChoices(Row(content), "route-preview-source", SourceNames,
+            var scope = MapEditorWindow.AddRouteCard(content, "演示范围");
+            sources = AddChoices(Row(scope), "route-preview-source", SourceNames,
                 index => playback.SetSource((RoutePreviewSource)index));
-            modes = AddChoices(Row(content), "route-preview-mode", ModeNames,
+            modes = AddChoices(Row(scope), "route-preview-mode", ModeNames,
                 index => playback.SetMode((RoutePreviewMode)index));
 
-            range = Row(content);
+            range = Row(scope);
             before = new FloatField { name = "route-preview-before", isDelayed = true };
             after = new FloatField { name = "route-preview-after", isDelayed = true };
             range.Add(before);
@@ -53,7 +51,8 @@ namespace Arknights.MapEditor.Editor
             before.RegisterValueChangedCallback(e => playback.SetBounds(e.newValue, after.value));
             after.RegisterValueChangedCallback(e => playback.SetBounds(before.value, e.newValue));
 
-            var navigation = Row(content);
+            var playbackCard = MapEditorWindow.AddRouteCard(content, "播放控制");
+            var navigation = Row(playbackCard);
             navigation.focusable = true;
             navigation.RegisterCallback<KeyDownEvent>(e =>
             {
@@ -73,7 +72,7 @@ namespace Arknights.MapEditor.Editor
             current.AddToClassList("route-preview-current");
             navigation.Add(current);
 
-            var controls = Row(content);
+            var controls = Row(playbackCard);
             play = AddButton(controls, "route-preview-play", "", playback.TogglePlay);
             replay = AddButton(controls, "route-preview-replay", "重播", playback.Replay);
             speed = new PopupField<string>(new System.Collections.Generic.List<string>(SpeedNames), 0) { name = "route-preview-speed" };
@@ -88,14 +87,15 @@ namespace Arknights.MapEditor.Editor
 
             progress = new Slider(0, 1) { name = "route-preview-progress", tooltip = "拖动查看路线动画进度" };
             progress.RegisterValueChangedCallback(e => playback.Scrub(e.newValue));
-            content.Add(progress);
+            playbackCard.Add(progress);
 
+            var entries = MapEditorWindow.AddRouteCard(content, "演示记录");
             summary = new Label { name = "route-preview-summary" };
             summary.AddToClassList("route-preview-summary");
-            content.Add(summary);
+            entries.Add(summary);
             warning = new Label("虚线为检查点连线，尚未解析该段的可通行路径。");
             warning.AddToClassList("route-preview-warning");
-            content.Add(warning);
+            entries.Add(warning);
 
             list = new ListView
             {
@@ -104,8 +104,9 @@ namespace Arknights.MapEditor.Editor
                 bindItem = BindItem
             };
             list.AddToClassList("route-preview-entries");
+            list.AddToClassList("route-list");
             list.onSelectionChange += _ => { if (list.selectedIndex >= 0) playback.Select(list.selectedIndex); };
-            content.Add(list);
+            entries.Add(list);
 
             RegisterCallback<AttachToPanelEvent>(_ =>
             {

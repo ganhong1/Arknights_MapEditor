@@ -1,6 +1,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Arknights.MapEditor.Catalog;
 using Arknights.MapEditor.Core;
 using Newtonsoft.Json;
@@ -23,6 +24,7 @@ namespace Arknights.MapEditor.Editor
         [SerializeField] private string operatorSelectionInitialJson = "";
         [SerializeField] private bool showPresetHand;
         private Action? refreshPresets;
+        private Action<int>? setPresetSelectionIndex;
         private Action? openPresetPanel;
         private Action<string>? selectLastPlacedOperator;
         private Func<string, JObject, bool>? prepareOperatorPreset;
@@ -57,8 +59,44 @@ namespace Arknights.MapEditor.Editor
         private static string PresetTarget(string section, string role, int index) =>
             new JArray(section, role, index).ToString(Formatting.None);
 
+        private static bool TryReadPresetTarget(string target, out string section, out string role, out int index)
+        {
+            section = role = "";
+            index = -1;
+            try
+            {
+                var fields = JArray.Parse(target);
+                if (fields.Count != 3 || fields[0].Type != JTokenType.String || fields[1].Type != JTokenType.String ||
+                    fields[2].Type != JTokenType.Integer || !int.TryParse(fields[2].ToString(), out index) || index < -1) return false;
+                section = fields[0].Value<string>()!;
+                role = fields[1].Value<string>()!;
+                return section is "predefines" or "hardPredefines" &&
+                    role is "characterInsts" or "characterCards" or "tokenInsts" or "tokenCards";
+            }
+            catch (JsonException) { return false; }
+        }
+
+        private void RestorePresetBinding()
+        {
+            devicePresetSection = "predefines";
+            devicePresetRole = "characterInsts";
+            devicePresetIndex = 0;
+            selectedPresetCell = null;
+            libraryOperatorDraft = false;
+            selectedOperatorId = operatorSelectionInitialJson = "";
+            SetDevicePlacement(false);
+            if (!InspectorStore.HasChanges("preset") || !InspectorStore.TryReadTarget("preset", out var target) ||
+                !TryReadPresetTarget(target, out var section, out var role, out var index)) return;
+            devicePresetSection = section;
+            devicePresetRole = role;
+            devicePresetIndex = index;
+        }
+
+        private static JArray? PresetCollection(LevelDocument document, string section, string role) =>
+            (document.GetSection(section) as JObject)?[role] as JArray;
+
         private JArray? PresetRecords(string section, string role) =>
-            (session!.Document.GetSection(section) as JObject)?[role] as JArray;
+            PresetCollection(session!.Document, section, role);
 
         private void BuildPredefinedPanel(VisualElement parent)
         {
@@ -72,6 +110,11 @@ namespace Arknights.MapEditor.Editor
             collection.style.display = DisplayStyle.None;
             panel.Add(collection);
             var index = new IntegerField { name = "device-edit-index", value = devicePresetIndex };
+            setPresetSelectionIndex = row =>
+            {
+                devicePresetIndex = row;
+                index.SetValueWithoutNotify(row);
+            };
             index.style.display = DisplayStyle.None;
             panel.Add(index);
             var kind = PresetButtonRow(panel);
@@ -158,7 +201,8 @@ namespace Arknights.MapEditor.Editor
                 catch (LevelDocumentException) { value = null; }
                 form.Bind(value, collection.value);
             }
-            BindLocalDraft("preset", "{}", Target(), Show);
+            var openingRecord = index.value >= 0 ? PresetRecords(section.value, collection.value)?.ElementAtOrDefault(index.value) : null;
+            BindLocalDraft("preset", openingRecord?.ToString(Formatting.Indented) ?? "{}", Target(), Show);
             json.RegisterValueChangedCallback(e => CaptureLocalDraft("preset", e.newValue));
             advanced.RegisterValueChangedCallback(e => { if (e.target == advanced && !e.newValue) Show(json.value); });
 
@@ -169,6 +213,8 @@ namespace Arknights.MapEditor.Editor
             var remove = new Button { text = "删除", name = "preset-delete" };
             var up = new Button { text = "上移", name = "preset-up" };
             var down = new Button { text = "下移", name = "preset-down" };
+            var conflict = new HelpBox("预设草稿的绑定已变化。原始 JSON 中保留了草稿，可复制或重新读取。", HelpBoxMessageType.Warning);
+            panel.Add(conflict);
             buttons.Add(insert);
             buttons.Add(save);
             buttons.Add(remove);
@@ -245,8 +291,10 @@ namespace Arknights.MapEditor.Editor
                     selectedOperator.text = "已选干员 · " + name + (libraryOperatorDraft ? " · 待创建" : "");
                 }
                 insert.text = collection.value == "characterCards" ? "加入关卡卡牌" : "插入预设";
-                insert.SetEnabled(!HasSelection());
-                save.SetEnabled(HasSelection());
+                var stale = InspectorStore.HasChanges("preset") && !InspectorStore.IsCurrent("preset", session!.Json, Target());
+                conflict.style.display = stale ? DisplayStyle.Flex : DisplayStyle.None;
+                insert.SetEnabled(!HasSelection() && !stale);
+                save.SetEnabled(HasSelection() && !stale);
                 remove.SetEnabled(HasSelection());
                 up.SetEnabled(HasSelection() && !isInstance && index.value > 0);
                 down.SetEnabled(HasSelection() && !isInstance && index.value + 1 < rows.Count);
@@ -359,7 +407,7 @@ namespace Arknights.MapEditor.Editor
             void ReadCurrent()
             {
                 if (!InspectorStore.HasChanges("preset") && !devicePlacementEnabled)
-                    ChangeTarget(section.value, collection.value, Math.Min(index.value, rows.Count));
+                    ChangeTarget(section.value, collection.value, index.value < 0 ? rows.Count : Math.Min(index.value, rows.Count));
             }
             openPresetPanel = () =>
             {
@@ -374,7 +422,7 @@ namespace Arknights.MapEditor.Editor
             remove.clicked += () => Run(() =>
             {
                 RequireAppliedDraft();
-                if (InspectorStore.HasChanges("preset")) throw new InvalidOperationException("请先保存或重新读取这条预设的草稿。");
+                if (InspectorStore.HasChanges("preset")) throw new EditorOperationRejectedException("请先保存或重新读取这条预设的草稿。");
                 var next = session!.Document.DeletePredefined(section.value, collection.value, index.value);
                 CommitEdit(next, "删除关卡预设", null);
                 ChangeTarget(section.value, collection.value, Math.Min(index.value, rows.Count));
@@ -400,7 +448,7 @@ namespace Arknights.MapEditor.Editor
             void Move(int offset)
             {
                 RequireAppliedDraft();
-                if (InspectorStore.HasChanges("preset")) throw new InvalidOperationException("请先保存这条卡牌的草稿。");
+                if (InspectorStore.HasChanges("preset")) throw new EditorOperationRejectedException("请先保存这条卡牌的草稿。");
                 var target = index.value + offset;
                 var next = session!.Document.MovePredefined(section.value, collection.value, index.value, target);
                 CommitEdit(next, "调整预设卡牌顺序", null);

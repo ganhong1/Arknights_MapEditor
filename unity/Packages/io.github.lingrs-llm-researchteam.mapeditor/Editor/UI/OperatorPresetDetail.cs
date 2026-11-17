@@ -200,7 +200,7 @@ namespace Arknights.MapEditor.Editor
                 try
                 {
                     var labels = ((JArray)samples[selection.index]!["origins"]!).OfType<JObject>()
-                        .SelectMany(catalog.SourceLabels).ToList();
+                        .SelectMany(catalog.SourceLabels).Distinct().ToList();
                     var list = new ListView(labels, 45, () =>
                     {
                         var item = new Label();
