@@ -26,6 +26,10 @@
     if(open)panel.querySelector('button').focus();
     else if(restoreFocus)handle.focus();
   }
+  window.addEventListener('editor-reveal-panel',({target})=>{
+    const drawer=target.closest('.editor-drawer');
+    if(drawer&&!drawer.hidden&&!drawer.classList.contains('is-open'))setOpen(drawer.id,true);
+  });
   for(const handle of handles)handle.onclick=()=>setOpen(handle.getAttribute('aria-controls'),handle.getAttribute('aria-expanded')!=='true');
   for(const button of document.querySelectorAll('[data-close-drawer]'))button.onclick=()=>setOpen(button.dataset.closeDrawer,false,true);
   document.addEventListener('keydown',event=>{

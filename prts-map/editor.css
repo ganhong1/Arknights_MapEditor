@@ -7,6 +7,7 @@ button[aria-pressed=true]{background:#215d79;border-color:#8cdbff}
 .board{position:relative}.route-overlay{position:absolute;left:0;top:48px;pointer-events:none;overflow:visible;transform:translateZ(2px)}
 [data-cell]{cursor:crosshair}[data-cell]:focus-visible{outline:3px solid #ffbf60}
 .unknown{outline:1px dashed #ffbf60!important}.badge{position:absolute;right:1px;top:1px;background:#573e12;color:#ffe1a1;font-size:10px;pointer-events:none;z-index:10000}
+[data-cell].selected{outline:2px solid #ffcf70!important;outline-offset:-2px}
 .object{position:absolute;left:2px;bottom:2px;max-width:44px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;background:#245c79;color:#fff;z-index:10001;padding:2px;pointer-events:none;border:1px solid #83d3ff}
 .object.hidden{border-style:dashed;opacity:.7}.detail,.compatibility{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6}.detail{max-height:180px;overflow:auto}.compatibility{color:#e8c48b}
 .hide-coords [data-coordinate]{display:none}

@@ -7,7 +7,7 @@ let renderer, pendingFrame=0;
 function render(){
   try {
     const state=editor.getState();
-    renderer.update(editor.buildMapJson(),state.routes,state.routeIndex);
+    renderer.update(editor.buildMapJson(),state.routes,state.routeIndex,state.selectedTile);
   } catch(error) {
     window.MapEditorPerspective.lastError=error.message;
     console.error('PRTSMap editor rendering failed',error);

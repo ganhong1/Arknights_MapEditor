@@ -97,10 +97,10 @@ export function createEditorRenderer(host,onCell) {
     }
   }
   return {
-    update(level,routes,selected){
+    update(level,routes,selected,selectedTile){
       view=projectLevel(level);tileIndex.clear();objectIndex.clear();for(const t of view.tiles)tileIndex.set(`${t.row}:${t.col}`,t);for(const o of view.objects){const k=`${o.row}:${o.col}`;if(!objectIndex.has(k))objectIndex.set(k,[]);objectIndex.get(k).push(o);}const nextShape=`${view.rows}:${view.cols}`;
       if(shape!==nextShape){shape=nextShape;rebuild();routeSignature='';camera();}
-      for(const tile of view.tiles){const cell=cells.get(`${tile.row}:${tile.col}`);const signature=JSON.stringify([tile,(objectIndex.get(`${tile.row}:${tile.col}`)||[])]);if(cell.dataset.signature!==signature){decorate(cell,tile);cell.dataset.signature=signature;cell.setAttribute('aria-label',cell.title);}}
+      for(const tile of view.tiles){const cell=cells.get(`${tile.row}:${tile.col}`);const signature=JSON.stringify([tile,(objectIndex.get(`${tile.row}:${tile.col}`)||[])]);if(cell.dataset.signature!==signature){decorate(cell,tile);cell.dataset.signature=signature;cell.setAttribute('aria-label',cell.title);}cell.classList.toggle('selected',tile.row===selectedTile?.y&&tile.col===selectedTile?.x);}
       const nextRoutes=JSON.stringify([routes,selected,shape]);if(nextRoutes!==routeSignature){drawRoutes(routes,selected);routeSignature=nextRoutes;}fit();
       compatibility.textContent=`PRTSMap 配置示意，非游戏实景。${view.unknownTiles.length?' 专属样式未知：'+view.unknownTiles.join('、')+'；按高度显示并标 ?。':''} 预设 ${view.objects.length} 个（通用标记，隐藏项不代表已激活）；卡牌 ${view.cards} 个（不放置到地图）。${view.unplaced.length?' 无法定位：'+view.unplaced.join('；'):''}`;
     },
