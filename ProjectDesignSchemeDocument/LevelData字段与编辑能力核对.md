@@ -1,41 +1,41 @@
 # LevelData 字段与编辑器落地复盘
 
-复核日期 2026-11-12。原生结构以 PC 2.7.81 的 `Torappu.Battle.LevelData`（TypeDefIndex 4680）及其关联类型为准。编辑实现以 Unity 功能工作树为准。成品库的历史正文和 2.7.81 原生字段基线各有独立来源。
+复核日期 2026-11-15。原生结构以 PC 2.7.81 的 `Torappu.LevelData`（TypeDefIndex 4680）及其关联类型为准。编辑实现以 Unity 功能工作树为准。成品库的历史正文和 2.7.81 原生字段基线各有独立来源。
 
 ## 顶层字段
 
-按原生声明顺序列出 22 个可序列化字段。其中 6 个有结构化编辑模块，2 个有部分结构化操作，8 个有独立或高级 JSON 片段入口，6 个目前通过全量 JSON 编辑。中间字段树展示已应用文档，实际编辑入口在左侧模块或「原始 JSON」。全量 JSON 应用仍经过文档解析和核心检查，资源引用和实际游戏效果另由相应程序验证。
+按原生声明顺序列出 22 个可序列化字段。12 个字段已接入结构化编辑，7 个字段支持单独编辑 JSON 片段，3 个字段通过全量 JSON 编辑。mapData 内部的覆盖程度另列。中间字段树展示已应用文档，实际编辑入口在左侧模块或「原始 JSON」。全量 JSON 应用经过文档解析和核心检查。
 
 | 字段 | 原生类型或形态 | 当前入口 | 已落地的能力与边界 |
 | --- | --- | --- | --- |
 | `options` | `Options` | 全局设置 | 15 字段表单按原序排列，支持构造默认对象、样例值与出处、自定义值、缺失与 null，保留原始 JSON。详见下表。 |
-| `levelId` | `string` | 全量 JSON | Core 有 `WithLevelId`，当前无独立控件。成品库的关卡 ID、模式、版本由索引提供。 |
+| `levelId` | `string` | 全局设置第一项 | 单行输入后应用，支持撤销。成品副本写入已匹配的原版请求 ID，其中包含正文重定向场景；没有匹配记录时显示并使用所选正文的资源键。 |
 | `mapId` | `string` | 高级片段、全量 JSON | 可编辑原始值，当前没有把它接到通用 Unity 场景解析或美术选择器。 |
-| `bgmEvent` | `string` | 背景音乐 | 专用 JSON 片段、应用、重读。曲目事件字典、资源校验与试听待接。 |
-| `environmentSe` | `string` | 环境音效 | 专用 JSON 片段、应用、重读。环境音效事件字典、资源校验与试听待接。 |
-| `mapData` | `MapData` | 地图数据 | 六字段分栏，网格与共享 TileData 可结构化编辑，其余四项支持各自的 JSON 片段。详见下表。 |
-| `tilesDisallowToLocate` | `List<GridPosition>` | 全量 JSON | Core 裁剪预检会检查已有坐标。待做禁止落点的坐标列表、地图拾取与叠加标记。 |
+| `bgmEvent` | `string` | 背景音乐 | 左侧编辑开局事件键和原始 JSON。右侧「音乐」资源库提供按用途／按原版事件浏览、选曲、详情和试听。局中换曲与波次和分支共用动作草稿和撤销记录。 |
+| `environmentSe` | `string` | 环境音效 | 专用 JSON 片段、应用、重读。可从右侧音效库选用 2.7.81 的 beach 或 magma，选用写入现有草稿。 |
+| `mapData` | `MapData` | 地图数据 | 六字段分栏，网格、共享 TileData 与阻挡边可结构化编辑，其余三项支持各自的 JSON 片段。详见下表。 |
+| `tilesDisallowToLocate` | `List<GridPosition>` | 地图数据 · 禁止部署格 | 坐标表单、点选/拖动/框选、独立叠加显示、撤销与裁剪检查。仍保存于 LevelData 根；初始化时把对应运行格 buildableType 覆盖为 NONE，不影响敌人通行。 |
 | `runes` | `LegacyInLevelRuneData[]` | 符文与增益、高级片段 | 左侧模块摘要与字段树定位，编辑用高级 JSON。待做原版定义、引用和黑板编辑。 |
 | `optionalRunes` | `Dictionary<string,List<LegacyInLevelRuneData>>` | 符文与增益、高级片段 | 保留键分组及原文状态。待做分组管理、条件与引用检查。 |
 | `globalBuffs` | `GlobalBuffData[]` | 符文与增益、高级片段 | 摘要与 JSON 片段可用。待做逐项效果和参数表单。 |
-| `routes` | `RouteData[]` | 路线、高级片段 | 起终点控件、检查点与路线 JSON、路线增删重排、已知引用更新和 PRTSMap 式演示。检查点尚无完整逐类型表单。 |
-| `extraRoutes` | `RouteData[]` | 路线、高级片段 | 与主路线分别存放和选择，动作引用按分支与 `useExtraRoute` 解析。 |
-| `enemies` | `EnemyData[]` | 全量 JSON | 直接内嵌的敌人正文，现有「敌人定义」按钮定位 `enemyDbRefs`。待做两类来源的明确切换。 |
-| `enemyDbRefs` | `EnemyDataDbReference[]` | 敌人定义、高级片段 | 模块摘要、JSON 片段、已知引用保护删除。静态检查覆盖 ID 类型、重复 ID 和 SPAWN 引用；独立选择与覆盖参数表单待接。 |
-| `waves` | `WaveData[]` | 波次、高级片段 | 可建主波次及初始 Fragment，按索引读取、插入、删除、移动 Action。动作参数以 JSON 编辑，Fragment 层管理和可视时间线待做。 |
-| `branches` | `ListDict<string, BranchData>` | 分支、波次、高级片段 | 分支页是摘要。波次页可按 key 建分支及首个 Phase，再编辑该 Phase 的 Action。独立分支管理、Phase 表单、预设别名关联待做。 |
+| `routes` | `RouteData[]` | 路线、高级片段 | 场景绘制、检查点类型与参数表单、路线增删重排、已知引用更新和 PRTSMap 式演示。 |
+| `extraRoutes` | `RouteData[]` | 路线、高级片段 | 独立存放和编辑。默认调度按主波次／分支上下文确定路线库，历史 `useExtraRoute` 保留原值。 |
+| `enemies` | `EnemyData[]` | 敌人定义 · 内联定义 | 支持新建、复制、增改删和撤销。身份、属性、天赋、技能及技力有表单，完整 JSON 保留原生字段。以 `alias` 或 `key` 检查冲突，确认后同步已识别的敌人动作引用。常规调度和模式查询的优先级见 [敌人专项复核](敌人资源库数据设计.md#内联敌人的读取入口同键优先级与版本沿革)。 |
+| `enemyDbRefs` | `EnemyDataDbReference[]` | 敌人定义 · 引用定义、高级片段 | 数据库引用／独立定义，四字段与覆盖编辑、完整 JSON、合成预览、增改删和撤销。技能、天赋和技力使用覆盖表单。更名同步 SPAWN/DISPLAY_ENEMY_INFO，引用保护删除；未知字符串关联需先处理。 |
+| `waves` | `WaveData[]` | 波次、高级片段 | Wave、Fragment、Action 三层字段树支持增删、复制及上下移动。动作统一使用 ActionDataForm，19 字段可编辑；新增按类型校验，本关敌人、主路线、预设别名和资源候选可选，片段显示相对时间。见 [首版工作台操作](波次与分支数据及编辑设计.md#首版工作台操作)。 |
+| `branches` | `ListDict<string, BranchData>` | 分支、高级片段 | 分支／阶段／动作卡片编辑已接入，ActionDataForm 与 waves 共用字段表单和 ActionDataRules 校验。支持新建、复制、重命名、删除与重排、动作草稿、撤销恢复、额外路线和预设别名选择。已解析调用同步与 action_index 保护，外部及未知关联列出位置。5-10、AW-6 已验证。 |
 | `predefines` | `PredefinedData` | 关卡预设 | 基础预设，四类记录分开编辑，支持场上、卡牌、资源库选用、编队复制和手牌预览。 |
-| `hardPredefines` | `PredefinedData` | 关卡预设 | 困难预设使用同一套控件但独立读写。选择预设层只改变编辑和示意对象，游戏实际采用哪层由关卡运行上下文决定。 |
+| `hardPredefines` | `PredefinedData` | 关卡预设 | 困难预设使用同一套控件并独立读写。原生 FOUR_STAR 且困难训练标记开启、困难预设存在时，只采用困难干员卡牌，其余三组取基础预设。详见 Waves 五项复核。 |
 | `excludeCharIdList` | `string[]` | 全量 JSON | 保留已有字段。待做以干员 ID 为值的多选与重复检测。 |
 | `randomSeed` | `int` | 全量 JSON | 可随正文保存，当前无独立 Int32 控件和编辑器内的随机结果回放。 |
-| `operaConfig` | `string` | 全量 JSON | 保留原值，当前无演出引用表单和验证器。 |
+| `operaConfig` | `string` | 全量 JSON | 保留原值。已核对本地演出配置和命令；专用引用表单及部分节点的路线重排校验待接。 |
 | `cameraPlugin` | `string` | 高级片段、全量 JSON | 编辑原始引用。Unity 视图中的相机设置属于工作区状态，独立于这个字段。 |
 
 `runtimeData` 在 2.7.81 标为 `[NonSerialized]`。历史 JSON 如果带有该键，会作为导入原文保留，不为新地图生成。字段树也展示其他未知键。新建会带上 15 字段的 `options`、一个共享禁入区配置、地图索引矩阵和若干编辑所需空集合。导入仍保留未提供、显式 `null`、空值和已有未知字段。
 
 ## Options
 
-全局设置只编辑 `options`。下表默认值对应新建文档，推荐候选来自固定样例索引。出处详情按关卡分组，关卡下列出关联 LevelData，未匹配关卡的正文保留自身出处信息。
+全局设置第一项编辑 `levelId`，下方独立表单编辑 `options`。下表默认值对应新建文档，推荐候选来自固定样例索引。出处详情按关卡分组，关卡下列出关联 LevelData，未匹配关卡的正文保留自身出处信息。
 
 | 原生字段 | 类型 | 新建值 | 当前编辑与校验 |
 | --- | --- | --- | --- |
@@ -63,7 +63,7 @@
 | --- | --- | --- |
 | `map` | 地图绘制、置空、长宽调整与裁剪预检、索引矩阵 JSON。尺寸从矩阵取得。 | 继续沿用坐标与引用检查。历史 `width`／`height` 只作为已导入键保留。 |
 | `tiles` | 列表与块状视图、配置增删改查、按坐标多格绑定、共享修改、复制为独立配置。自动置换与清理默认开启，事务提供确定、取消、替换并保留旧配置。 | 扩展有证据的地块黑板控件和跨字段条件。 |
-| `blockEdges` | 专用片段与空间检查，保留 `pos/direction/blockMask`。 | 边界图层和图形编辑待做。 |
+| `blockEdges` | 坐标、方向、移动掩码表单；格边点选/拖动、叠加显示、撤销与裁剪检查。保留原始 JSON 和未知字段。 | 原生共享边双向生效，NONE/WALK_ONLY/FLY_ONLY/ALL 分别显示；路线寻路预览尚未模拟阻挡边。 |
 | `tags` | 专用片段，区分缺失、null 和空列表。 | 标签选择与用途校验待做。 |
 | `effects` | 专用片段。 | 逐类型效果控件和通用美术预览待做。 |
 | `layerRects` | 专用片段与空间提示。 | 区域绘制、逐项属性编辑与表现待做。 |
@@ -81,8 +81,8 @@
 
 ## 编辑缺口优先级
 
-1. 完成波次／分支与敌人定义的结构化编辑和引用跳转，优先连接动作、路线、敌人引用和预设别名。
-2. 给禁放格和阻挡边接入地图交互，复用现有坐标与裁剪检查。
+1. 在已落地的路线、波次、分支和共享动作表单上扩充可解析的跨模块引用。路线重排保留历史空槽，演出与玩法引用按各自的消费入口检查。来源见 [Waves 专项](波次与分支数据及编辑设计.md)。
+2. 复用已完成的禁放格和阻挡边交互，为 `mapData.tags/effects/layerRects` 补逐项编辑。图层裁剪和资源选择规则见 [全字段复核](LevelData全字段复核.md#地图分层标签与效果)。
 3. 分别补 `runes`、`optionalRunes`、`globalBuffs` 的定义目录、输入表单与本地校验。
 4. 将 `mapId` 与成品地图的来源版本接到美术资源解析，继续沿用独立的 `.arkmap` 工程映射。音频和相机字段可先接入有出处的引用选择器。
 
@@ -90,5 +90,16 @@
 
 - 原生声明 `ark-mix-source/DumpCS/2.7.81/dump-pc-x64-source.cs`，LevelData 约第 102722 行，Options 约第 102772 行，PredefinedData 约第 103145 行，TileData 与 MapData 约第 103353–103417 行。
 - Unity 包内 `Editor/Core/LevelDocument.cs`、`LevelDocument.InputCommands.cs`、`LevelDocument.MapData.cs`。UI 对照 `Editor/UI/MapEditorWindow.Workbench.cs`、`MapEditorWindow.Editing.cs` 和相应模块文件。
-- [MapData 设计](MAPDATA_EDITOR_DESIGN.md)、[Options 设计](OPTIONS_EDITOR_DESIGN.md)、[Options 值域](OPTIONS_VALUE_RESEARCH_20261106.md)、[Options 黑板](OPTIONS_BLACKBOARD_CONSTRAINTS_20261106.md)。
-- [当前代码与提交批次](LOCAL_COMMIT_REVIEW_20261112.md)、[Unity 主实施计划](PlanDocumentsForImplementation/UnityEditor/UNITY_EDITOR_IMPLEMENTATION_PLAN.md)。
+- [MapData 设计](地图数据编辑设计.md)、[Options 设计](全局设置编辑设计.md)、[Options 值域](全局设置值域研究.md)、[Options 黑板](全局设置黑板逐键约束.md)。
+- [逐字段进度树](LevelData编辑进度.md)、[Unity 主实施计划](PlanDocumentsForImplementation/UnityEditor/Unity编辑器主实施计划.md)。
+- [全字段复核](LevelData全字段复核.md) 与 [字段及类型附录](LevelData原生字段与类型.md) 提供原生读取、正文覆盖和实现边界。
+
+## Waves 后续设计（2026-11-14）
+
+动作字段适用性及引用见 [Waves 专项](波次与分支数据及编辑设计.md#动作枚举与引用)。主波次结构化表单已接入本关敌人与主路线。原生调度会给 `SPAWN` 与 `PREVIEW_CURSOR` 写入运行时 `useExtraRoute`，`PLAY_OPERA` 的部分节点读取收到的原值。当前预设删除采用粗粒度保护。5-10 的外部技能引用及 AW-6 的关卡内分支键和动作索引已核实，精确引用保护待接入。
+
+原生出怪从已加载的本关敌人表查找，`useDb=false` 可定义独立敌人。敌人表构成和同键优先级见 [敌人资源库设计](敌人资源库数据设计.md)。
+
+## 符文与增益研究设计（2026-11-14）
+
+三个根字段的原生结构、全量配置、资源库和编辑方案已单独完成，见[专项设计](符文与增益数据及编辑设计.md)。本轮未改插件，表内已落地状态保持摘要和 JSON 编辑；专用表单、目录与关联规则按专项计划推进。

@@ -1,6 +1,6 @@
 # P0–P6 核查：候选02与当前工作区
 
-日期：2026-11-03。**本文件为候选02历史检查点；最新候选03及交付结论见[最终交付记录](UNITY_DELIVERY_20261103.md)。**这里区分已经验收的归档与仍在修改的工作区，不累加有重叠的测试数量。后续当前执行状态以[主计划](../../ProjectDesignSchemeDocument/PlanDocumentsForImplementation/UnityEditor/UNITY_EDITOR_IMPLEMENTATION_PLAN.md)为准；旧`P1_STATUS.md`保留历史，不作为当前阶段状态。
+日期：2026-11-03。**本文件为候选02历史检查点；最新候选03及交付结论见[最终交付记录](UNITY_DELIVERY_20261103.md)。**这里区分已经验收的归档与仍在修改的工作区，不累加有重叠的测试数量。后续当前执行状态以[主计划](../../ProjectDesignSchemeDocument/PlanDocumentsForImplementation/UnityEditor/Unity编辑器主实施计划.md)为准；旧`P1_STATUS.md`保留历史，不作为当前阶段状态。
 
 ## 已核实候选
 

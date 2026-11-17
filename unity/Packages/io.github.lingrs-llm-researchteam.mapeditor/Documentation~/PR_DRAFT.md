@@ -1,6 +1,6 @@
 # PR 草稿（未提交）
 
-以下保留初期发行候选的范围和证据。当前工作树的代码、资源和验证状态见仓库内的 ProjectDesignSchemeDocument/LOCAL_COMMIT_REVIEW_20261112.md。
+以下保留初期发行候选的范围和证据。当前目录与源码位置见[项目文件结构](../../../../docs/project-layout.md)，字段编辑能力见[进度树](../../../../ProjectDesignSchemeDocument/LevelData编辑进度.md)。
 
 建议标题：`feat(unity): add LevelData editor package and isolated authoring workflow`
 

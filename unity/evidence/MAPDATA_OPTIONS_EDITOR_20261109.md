@@ -54,4 +54,4 @@
 
 本轮不是所有窗口尺寸、全部长列表和多地图切换组合的穷举体验验收。四个可选 mapData 字段目前是原文编辑；更完整的空间引用分析、图形编辑、options 黑板逐键助手和更深的原生值域校验仍属后续增强。不能将已检查的 row/col 裁剪扫描或字段类型校验解释为完整运行合法性证明。
 
-源文件摘要见 [来源清单](MAPDATA_OPTIONS_EDITOR_20261109.sources.json)。设计：[MapData](../../ProjectDesignSchemeDocument/MAPDATA_EDITOR_DESIGN.md)、[Options](../../ProjectDesignSchemeDocument/OPTIONS_EDITOR_DESIGN.md)。
+源文件摘要见 [来源清单](MAPDATA_OPTIONS_EDITOR_20261109.sources.json)。设计：[MapData](../../ProjectDesignSchemeDocument/地图数据编辑设计.md)、[Options](../../ProjectDesignSchemeDocument/全局设置编辑设计.md)。
