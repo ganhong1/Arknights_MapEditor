@@ -22,4 +22,4 @@
 
 日常开发使用地图编辑器仓库当前检出的 `feature/unity-leveldata-editor`。演示工程 `.local/UnityProjects/WorkbenchDemoProject` 通过相对路径加载 `unity/Packages/` 中的插件。共享 Unity 安装和第三方包仍由本机工具链管理。
 
-设计与进度从 [文档导航](../ProjectDesignSchemeDocument/文档导航.md) 进入。Unity 资源与对应的 `.meta` 一起管理，移动时保留 GUID。
+仓库中的设计与进度入口为 `ProjectDesignSchemeDocument/文档导航.md`。Unity 资源与对应的 `.meta` 一起管理，移动时保留 GUID。
