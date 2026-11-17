@@ -2,3 +2,58 @@ desktop/target/
 server*.log
 output/
 .playwright-cli
+
+# Local Unity project state and verification output
+/unity/[Ll]ibrary/
+/unity/[Tt]emp/
+/unity/[Oo]bj/
+/unity/[Ll]ogs/
+/unity/[Uu]ser[Ss]ettings/
+/unity/[Bb]uild/
+/unity/[Bb]uilds/
+/unity/[Cc]overage/
+/unity/TestResults/
+/unity/TestResults.xml
+/unity/results.xml
+/unity/[Mm]emoryCaptures/
+/unity/[Rr]ecordings/
+/unity/Packages/manifest.json
+/unity/Packages/packages-lock.json
+/.vs/
+/unity/.vs/
+*.csproj
+*.csproj.user
+*.sln
+*.suo
+*.log
+crash.dmp
+
+# Local tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+/coverage.xml
+/htmlcov/
+node_modules/
+
+# Generated documentation and local tool caches (source schemas stay tracked)
+/docs/_site/
+/docs/site/
+/docs/api/reference/
+/docs/obj/
+/tools/docs/.venv/
+/tools/docs/.cache/
+
+# Local resource libraries, Unity projects, and working maps
+/.local/
+
+# Packaged distributions and scratch verification exports
+/artifacts/
+/unity/artifacts/
+/unity/verification/artifacts/
+/io.github.lingrs-llm-researchteam.mapeditor-*.tgz
+/unity/io.github.lingrs-llm-researchteam.mapeditor-*.tgz
+/unity/Packages/io.github.lingrs-llm-researchteam.mapeditor/io.github.lingrs-llm-researchteam.mapeditor-*.tgz
