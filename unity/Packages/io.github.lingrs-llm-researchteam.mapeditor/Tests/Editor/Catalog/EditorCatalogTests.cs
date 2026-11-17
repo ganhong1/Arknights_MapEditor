@@ -10,7 +10,7 @@ namespace Arknights.MapEditor.Tests.Catalog
     {
         [Test] public void FrozenCatalogSeparatesTemplatesFromVisualOnlyEntries()
         {
-            var catalog=EditorCatalog.LoadBundled();
+            var catalog=EditorCatalog.LoadBaseline();
             Assert.That(catalog.Entries.Count, Is.EqualTo(117));
             Assert.That(catalog.Entries.Single(x => x.VisualOnly).Id, Is.EqualTo("tile_crate"));
             var native = catalog.Entries.Where(x => !x.VisualOnly).ToArray();

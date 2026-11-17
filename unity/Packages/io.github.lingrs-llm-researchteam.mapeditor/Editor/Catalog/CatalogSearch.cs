@@ -2,12 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Jint;
 using Jint.Native;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using UnityEditor;
-using UnityEngine;
 
 namespace Arknights.MapEditor.Catalog
 {
@@ -63,37 +62,43 @@ namespace Arknights.MapEditor.Catalog
 
     internal static class TerrainSearchRuntime
     {
-        private const string Root = "Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/Catalog/";
-        private static Engine? engine;
         private static JObject? metadata;
+        private static JObject? metadata2791;
         private static JObject? stageIndex;
         private static Dictionary<string, JToken>? stageRecords;
 
-        internal static Engine Engine => engine ??= BuildEngine(
-            ReadAsset("SearchDependencies/Fuse.js.txt"), ReadAsset("SearchDependencies/TerrainSearch.js.txt"));
+        private static JObject Metadata => metadata ??= JObject.Parse(CatalogSearchRuntime.ReadAsset("terrain-search-metadata.json"));
 
-        private static JObject Metadata => metadata ??= JObject.Parse(ReadAsset("terrain-search-metadata.json"));
+        private static JObject Metadata2791 => metadata2791 ??=
+            JObject.Parse(CatalogSearchRuntime.ReadAsset("terrain-search-metadata-2791.json"));
+
+        private static JToken? StageMetadata(string path) =>
+            Metadata["stages"]?[path] ?? Metadata2791["stages"]?[path];
 
         internal static CatalogSearch<string> CreateSourceWorker()
         {
             // Load Unity assets on the editor thread. The worker uses only immutable data and its own engine.
+            _ = Metadata2791;
             _ = Metadata;
-            var index = stageIndex ??= JObject.Parse(ReadAsset("terrain-source-index.json"));
+            var index = stageIndex ??= JObject.Parse(CatalogSearchRuntime.ReadAsset("terrain-source-index.json"));
             stageRecords ??= ((JArray)index["paths"]!).Values<string>().OfType<string>()
                 .Select((path, i) => (path, record: index["index"]!["records"]![i]!))
                 .ToDictionary(entry => entry.path, entry => entry.record, StringComparer.Ordinal);
-            return CreateWorker<string>(Stage, PrepareStageIndex);
+            return CatalogSearchRuntime.CreateWorker<string>(Stage, PrepareStageIndex);
         }
 
-        internal static CatalogSearch<TerrainSampleCatalog.Sample> CreateSampleWorker() => CreateWorker<TerrainSampleCatalog.Sample>(Sample);
+        internal static CatalogSearch<T> CreateWorker<T>(Func<T, JObject> describe) =>
+            CatalogSearchRuntime.CreateWorker(describe);
 
-        internal static CatalogSearch<T> CreateWorker<T>(Func<T, JObject> describe, Func<T[], string?>? prebuilt = null)
+        internal static CatalogSearch<TerrainSampleCatalog.Sample> CreateSampleWorker() =>
+            CreateStageWorker<TerrainSampleCatalog.Sample>(Sample);
+
+        internal static CatalogSearch<T> CreateStageWorker<T>(Func<T, JObject> describe)
         {
+            // Unity metadata must be loaded before the worker starts indexing on a background thread.
+            _ = Metadata2791;
             _ = Metadata;
-            var fuse = ReadAsset("SearchDependencies/Fuse.js.txt");
-            var bridge = ReadAsset("SearchDependencies/TerrainSearch.js.txt");
-            Engine? workerEngine = null;
-            return new CatalogSearch<T>(describe, () => workerEngine ??= BuildEngine(fuse, bridge), prebuilt);
+            return CatalogSearchRuntime.CreateWorker(describe);
         }
 
         private static string? PrepareStageIndex(string[] paths)
@@ -110,26 +115,9 @@ namespace Arknights.MapEditor.Catalog
                 .ToString(Formatting.None);
         }
 
-        private static Engine BuildEngine(string fuse, string bridge)
-        {
-            var runtime = new Engine(options => options.TimeoutInterval(TimeSpan.FromSeconds(8)));
-            runtime.Execute("var module = { exports: {} };");
-            runtime.Execute(fuse);
-            runtime.SetValue("terrainBitapScore", new Func<string, string, double>(new TerrainBitap().Score));
-            runtime.Execute(bridge);
-            return runtime;
-        }
-
-        private static string ReadAsset(string path)
-        {
-            var asset = AssetDatabase.LoadAssetAtPath<TextAsset>(Root + path);
-            if (asset == null) throw new InvalidOperationException("缺少搜索资源 " + path);
-            return asset.text;
-        }
-
         internal static JObject Terrain(CatalogEntry entry)
         {
-            var reading = Metadata["terrain"]?[entry.Id] as JArray;
+            var reading = (Metadata["terrain"]?[entry.Id] ?? Metadata2791["terrain"]?[entry.Id]) as JArray;
             return new JObject
             {
                 ["name"] = entry.DisplayName,
@@ -142,11 +130,20 @@ namespace Arknights.MapEditor.Catalog
         }
 
         internal static string? StageName(string path) =>
-            (Metadata["stages"]?[path]?["names"] as JArray)?.First?.Value<string>();
+            (StageMetadata(path)?["names"] as JArray)?.First?.Value<string>();
+
+        internal static string StageCaption(string source) => source.EndsWith(".json", StringComparison.OrdinalIgnoreCase)
+            ? StageName(source) ?? GameStageLabel.LevelId(source)
+            : source;
 
         internal static JObject Stage(string path)
         {
-            var stage = Metadata["stages"]?[path];
+            if (!path.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
+            {
+                var parts = path.Split(new[] { " · " }, StringSplitOptions.None);
+                return GroupedStage(new[] { path }, parts, parts.Take(1), Array.Empty<string>(), parts.Skip(2));
+            }
+            var stage = StageMetadata(path);
             var ids = stage?["ids"] as JArray;
             return new JObject
             {
@@ -178,6 +175,36 @@ namespace Arknights.MapEditor.Catalog
 
             static JArray Terms(IEnumerable<string> values) =>
                 new JArray(values.Where(value => !string.IsNullOrWhiteSpace(value)).Distinct(StringComparer.Ordinal));
+        }
+
+        internal static CatalogSearch<FinishedLevelCatalog.StageGroup> CreateFinishedLevelWorker()
+        {
+            _ = Metadata;
+            var index = stageIndex ??= JObject.Parse(CatalogSearchRuntime.ReadAsset("terrain-source-index.json"));
+            var keys = (JArray)index["index"]!["keys"]!;
+            return CatalogSearchRuntime.CreateWorker<FinishedLevelCatalog.StageGroup>(FinishedLevel, groups =>
+            {
+                var records = new JArray();
+                for (var i = 0; i < groups.Length; i++)
+                {
+                    var document = FinishedLevel(groups[i]);
+                    var fields = new JObject();
+                    for (var k = 0; k < keys.Count; k++)
+                    {
+                        var values = (JArray)document[keys[k]!["id"]!.Value<string>()!]!;
+                        fields[k.ToString(System.Globalization.CultureInfo.InvariantCulture)] = new JArray(
+                            values.Values<string>().Select((value, index) => new JObject
+                            {
+                                ["v"] = value,
+                                ["i"] = index,
+                                ["n"] = Math.Round(1 / Math.Sqrt(Regex.Matches(value!, @"[^\u0009-\u000D\u0020\u00A0]+").Count), 3, MidpointRounding.AwayFromZero)
+                            }));
+                    }
+                    records.Add(new JObject { ["i"] = i, ["$"] = fields });
+                }
+                // Reuse the pinned Fuse key definitions and score field normalization.
+                return new JObject { ["keys"] = keys.DeepClone(), ["records"] = records }.ToString(Formatting.None);
+            });
         }
 
         internal static JObject FinishedLevel(FinishedLevelCatalog.StageGroup group) => GroupedStage(

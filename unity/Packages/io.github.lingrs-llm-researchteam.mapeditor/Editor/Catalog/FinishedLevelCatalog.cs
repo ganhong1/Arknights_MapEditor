@@ -14,6 +14,7 @@ namespace Arknights.MapEditor.Catalog
     internal sealed class FinishedLevelCatalog
     {
         internal const string ArchiveName = "finished-levels.zip";
+        private const string RequestIdsName = "finished-level-request-ids.json";
         internal const string PackageName = "io.github.lingrs-llm-researchteam.mapeditor";
         private static readonly UTF8Encoding Utf8 = new UTF8Encoding(false, true);
         private readonly string path;
@@ -30,8 +31,6 @@ namespace Arknights.MapEditor.Catalog
             public string Sha256 { get; set; } = "";
             public string[] Stages { get; set; } = Array.Empty<string>();
             public string[] Roles { get; set; } = Array.Empty<string>();
-            internal string VersionLabel => string.IsNullOrEmpty(Revision) ? Repository : Repository + " · " +
-                Revision!.Substring(0, Math.Min(Revision.Length, 8));
         }
 
         internal sealed class Stage
@@ -44,17 +43,7 @@ namespace Arknights.MapEditor.Catalog
             internal string Code => At(0) ?? Id;
             internal string Name => At(1) ?? "";
             internal string Display => Name.Length > 0 ? Code + " · " + Name : Code;
-            internal string Mode => (ModeOverride ?? At(2)) switch
-            {
-                "NORMAL" => "普通",
-                "FOUR_STAR" => "紧急",
-                "SIX_STAR" => "沙盘",
-                "HARD" => "突袭",
-                "TOUGH" => "磨难",
-                "EASY" => "简单",
-                { Length: > 0 } mode => mode,
-                _ => Id
-            };
+            internal string Mode => (ModeOverride ?? At(2)) is { Length: > 0 } mode ? GameStageLabel.Mode(mode, Code) : Id;
             private string? At(int position) => Label != null && Label.Length > position ? Label[position] : null;
         }
 
@@ -62,17 +51,19 @@ namespace Arknights.MapEditor.Catalog
         {
             internal Stage? Stage { get; }
             internal Source Source { get; }
+            internal string? RequestLevelId { get; }
+            internal string LevelId => RequestLevelId ?? (Source.Path.EndsWith(".json", StringComparison.OrdinalIgnoreCase)
+                ? Source.Path.Substring(0, Source.Path.Length - ".json".Length) : Source.Path);
             internal string Title => Stage?.Display ?? System.IO.Path.GetFileNameWithoutExtension(Source.Path);
-            internal string Label => (Stage == null ? Title : Stage.Code == Stage.Mode ? Stage.Code :
-                Stage.Code + " · " + Stage.Mode) + " · " + Source.VersionLabel;
+            internal string Label => GameStageLabel.Title(Title, Stage?.Mode);
             internal string NewDocumentTitle => Stage == null || Stage.Mode == Stage.Id
                 ? Title : Title + " · " + Stage.Mode;
             internal string Origin => JsonConvert.SerializeObject(new
             {
-                stageId = Stage?.Id, body = Source.Body, source = Source.Repository,
-                revision = Source.Revision, path = Source.Path
+                stageId = Stage?.Id, code = Stage?.Code, name = Stage?.Name, mode = Stage?.Mode, levelId = LevelId
             });
-            internal Variant(Stage? stage, Source source) { Stage = stage; Source = source; }
+            internal Variant(Stage? stage, Source source, string? requestLevelId)
+            { Stage = stage; Source = source; RequestLevelId = requestLevelId; }
         }
 
         internal sealed class StageGroup
@@ -86,6 +77,10 @@ namespace Arknights.MapEditor.Catalog
                 IsComponent = isComponent;
                 Variants = variants;
             }
+
+            internal IEnumerable<Variant> GameVariants() => Variants
+                .GroupBy(variant => (variant.Stage?.Id, variant.Source.Body))
+                .Select(group => group.FirstOrDefault(variant => variant.RequestLevelId != null) ?? group.First());
         }
 
         private sealed class Index
@@ -96,7 +91,7 @@ namespace Arknights.MapEditor.Catalog
             public Dictionary<string, int> Bodies { get; set; } = new Dictionary<string, int>();
         }
 
-        private FinishedLevelCatalog(string path, Index index)
+        private FinishedLevelCatalog(string path, Index index, Dictionary<string, Dictionary<string, string>> requestIds)
         {
             this.path = path;
             this.index = index;
@@ -115,7 +110,13 @@ namespace Arknights.MapEditor.Catalog
                     var sources = byStage[stage.Id].ToArray();
                     if (!new HashSet<string>(stage.Bodies, StringComparer.Ordinal).SetEquals(sources.Select(source => source.Body)))
                         throw new InvalidDataException("成品关卡版本索引有误。");
-                    return sources.Select(source => new Variant(stage, source));
+                    requestIds.TryGetValue(stage.Id, out var stageRequests);
+                    return sources.Select(source =>
+                    {
+                        string? levelId = null;
+                        stageRequests?.TryGetValue(source.Repository + "/" + source.Path, out levelId);
+                        return new Variant(stage, source, levelId);
+                    });
                 }).ToArray();
                 return new StageGroup(ordered[0].Display, false, variants);
             });
@@ -123,7 +124,7 @@ namespace Arknights.MapEditor.Catalog
                 .GroupBy(source => (Role: source.Roles.FirstOrDefault() ?? "", source.Path))
                 .Select(group => new StageGroup(ComponentName(group.Key.Role) + " · " +
                     System.IO.Path.GetFileNameWithoutExtension(group.Key.Path), true,
-                    group.Select(source => new Variant(null, source)).ToArray()));
+                    group.Select(source => new Variant(null, source, null)).ToArray()));
             Groups = stages.Concat(components).ToArray();
         }
 
@@ -138,7 +139,12 @@ namespace Arknights.MapEditor.Catalog
             var index = JsonSerializer.CreateDefault().Deserialize<Index>(reader);
             if (index?.Version != 1 || index.Bodies.Count == 0 || archive.Entries.Count != index.Bodies.Count + 1)
                 throw new InvalidDataException("成品关卡索引格式不匹配。");
-            return new FinishedLevelCatalog(path, index);
+            var idsPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(path) ?? "", RequestIdsName);
+            var requestIds = File.Exists(idsPath)
+                ? JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(File.ReadAllText(idsPath, Utf8))
+                    ?? throw new InvalidDataException("成品关卡请求 ID 索引有误。")
+                : new Dictionary<string, Dictionary<string, string>>();
+            return new FinishedLevelCatalog(path, index, requestIds);
         }
 
         internal static string BundledPath()
@@ -149,6 +155,13 @@ namespace Arknights.MapEditor.Catalog
         }
 
         internal ZipArchive OpenBodies() => Open(path);
+
+        internal LevelDocument ReadVariant(Variant variant)
+        {
+            using var archive = OpenBodies();
+            var document = LevelDocument.Parse(ReadBody(archive, variant.Source.Body));
+            return document.WithLevelId(variant.LevelId);
+        }
 
         internal string ReadBody(ZipArchive archive, string body)
         {

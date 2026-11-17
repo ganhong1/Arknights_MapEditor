@@ -21,7 +21,6 @@ namespace Arknights.MapEditor.Editor
             new List<(OptionsStageSources.Group, OptionsValueCatalog.Source?)>();
         private readonly ListView tree;
         private readonly CatalogSearchInput<OptionsStageSources.Group> searchInput;
-        private OptionsStageSources? index;
         private OptionsValueCatalog.Sample? sample;
         private IReadOnlyList<OptionsStageSources.Group> visibleGroups = Array.Empty<OptionsStageSources.Group>();
         private readonly HashSet<OptionsStageSources.Group> expanded = new HashSet<OptionsStageSources.Group>();
@@ -61,7 +60,7 @@ namespace Arknights.MapEditor.Editor
             panel.Add(detail);
             Add(panel);
             searchInput = new CatalogSearchInput<OptionsStageSources.Group>(search,
-                () => TerrainSearchRuntime.CreateWorker<OptionsStageSources.Group>(group =>
+                () => TerrainSearchRuntime.CreateStageWorker<OptionsStageSources.Group>(group =>
                     TerrainSearchRuntime.GroupedStage(new[] { group.Title }, new[] { group.Name },
                         new[] { group.Id, group.Code }, group.Files.Select(file => file.Path), new[] { group.Difficulty })),
                 Array.Empty<OptionsStageSources.Group>(), () => status.text = "搜索中…", ShowGroups);
@@ -82,12 +81,10 @@ namespace Arknights.MapEditor.Editor
             OptionsStageSources.Group[] groups;
             try
             {
-                index = OptionsStageSources.LoadBundled();
-                groups = index.GroupFiles(value.Sources);
+                groups = OptionsStageSources.LoadBundled().GroupFiles(value.Sources);
             }
             catch (Exception error) when (error is FormatException || error is IOException || error is JsonException)
             {
-                index = null;
                 indexError = error.Message + "\n";
                 groups = new[] { new OptionsStageSources.Group(null, value.Sources) };
             }
@@ -104,8 +101,7 @@ namespace Arknights.MapEditor.Editor
         private void ShowGroups(IReadOnlyList<OptionsStageSources.Group> groups, string? error)
         {
             visibleGroups = groups;
-            status.text = indexError + (error ?? groups.Count(group => group.Id.Length > 0) + " 个关卡条目 · " +
-                (sample?.Sources.Count ?? 0) + " 个文件出处");
+            status.text = indexError + (error ?? groups.Count(group => group.Id.Length > 0) + " 个关卡条目");
             RebuildRows();
         }
 
@@ -150,7 +146,7 @@ namespace Arknights.MapEditor.Editor
             button.text = entry.File == null
                 ? (expanded.Contains(entry.Group) ? "▾ " : "▸ ") + entry.Group.Title +
                     (entry.Group.Difficulty.Length > 0 ? " · " + entry.Group.Difficulty : "") + " · " + entry.Group.Files.Count + " 份"
-                : entry.File.Path + "\n" + entry.File.Kind + (index?.IsCachePathMatch(entry.File) == true ? " · 按资源路径关联" : "");
+                : GameStageLabel.LevelId(entry.File.Path);
             button.tooltip = button.text;
         }
 

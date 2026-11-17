@@ -17,17 +17,32 @@ namespace Arknights.MapEditor.Catalog
         private static string? loadedText;
         private static JObject? tiles;
         private static JObject? templates;
+        private static JObject? newer;
+
+        private static JObject Load2791()
+        {
+            if (newer != null) return newer;
+            var asset = AssetDatabase.LoadAssetAtPath<TextAsset>(Editor.PrtsObjectView.CatalogRoot + "terrain-blackboard-2791.json");
+            if (asset == null) throw new FormatException("缺少 2.7.91 地块黑板资源。");
+            var root = JObject.Parse(asset.text);
+            if (root.Value<int>("version") != 1 || root.Value<string>("assetVersion") != TerrainSampleCatalog.ExpansionRevision ||
+                root["tiles"] is not JObject || root["templates"] is not JObject)
+                throw new FormatException("2.7.91 地块黑板资源版本无效。");
+            return newer = root;
+        }
 
         internal static IReadOnlyList<JObject> Rules(string tileKey)
         {
             Load();
-            return tiles![tileKey] is JArray rules ? rules.OfType<JObject>().ToArray() : Array.Empty<JObject>();
+            var rules = (tiles![tileKey] ?? Load2791()["tiles"]?[tileKey]) as JArray;
+            return rules?.OfType<JObject>().ToArray() ?? Array.Empty<JObject>();
         }
 
         internal static JObject? Template(string tileKey)
         {
             Load();
-            return templates?[tileKey] is JObject tile ? (JObject)tile.DeepClone() : null;
+            var tile = (templates?[tileKey] ?? Load2791()["templates"]?[tileKey]) as JObject;
+            return (JObject?)tile?.DeepClone();
         }
 
         private static void Load()

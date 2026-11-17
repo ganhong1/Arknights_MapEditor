@@ -65,8 +65,6 @@ namespace Arknights.MapEditor.Catalog
             }
         }
 
-        internal bool IsCachePathMatch(OptionsValueCatalog.Source source) => cachePathMatches.Contains(source.Index);
-
         internal sealed class Group
         {
             internal string Id { get; }
@@ -81,11 +79,14 @@ namespace Arknights.MapEditor.Catalog
                 Id = stage?[0] ?? "";
                 Code = stage?[1] ?? "";
                 Name = stage?[2] ?? "";
-                Difficulty = stage?[3] ?? "";
+                Difficulty = GameStageLabel.Mode(stage?[3], Code);
                 Title = stage == null ? "未匹配关卡条目" :
                     string.Join(" · ", new[] { Code, Name, Id }.Where(text => text.Length > 0).Distinct());
-                Files = files;
+                Files = DistinctFiles(files).ToArray();
             }
         }
+
+        internal static IEnumerable<OptionsValueCatalog.Source> DistinctFiles(IEnumerable<OptionsValueCatalog.Source> files) =>
+            files.GroupBy(file => (file.Path, file.DocumentId)).Select(group => group.First());
     }
 }

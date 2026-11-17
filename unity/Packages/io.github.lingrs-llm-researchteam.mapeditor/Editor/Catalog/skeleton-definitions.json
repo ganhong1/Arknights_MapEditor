@@ -961,6 +961,44 @@
         "family": "深水地块"
       },
       "symbol": "water"
+    },
+    "tile_acbag": {
+      "editor_visual": {
+        "motif": "corners",
+        "tint": "#8b613c"
+      },
+      "content_on_top": true,
+      "content": "",
+      "symbol": "equipment"
+    },
+    "tile_acempty": {
+      "geometry_as": "tile_empty",
+      "render_as": "tile_empty",
+      "content": ""
+    },
+    "tile_duel_grassland": {
+      "editor_visual": {
+        "motif": "dots",
+        "tint": "#4f8158"
+      },
+      "content": "",
+      "symbol": "concealment"
+    },
+    "tile_speedup": {
+      "editor_visual": {
+        "motif": "chevrons",
+        "tint": "#4c7e9c"
+      },
+      "content": "",
+      "symbol": "speed"
+    },
+    "tile_trench": {
+      "editor_visual": {
+        "motif": "diagonal",
+        "tint": "#756146"
+      },
+      "content": "",
+      "symbol": "trench"
     }
   },
   "supplement_source": "CN Android 2.7.81 tile prefab/effect names and editor terrain inventory; supplemental skeleton projection",
@@ -1005,6 +1043,10 @@
     "toxic",
     "lava",
     "clean-water",
-    "boards"
+    "boards",
+    "equipment",
+    "concealment",
+    "speed",
+    "trench"
   ]
 }

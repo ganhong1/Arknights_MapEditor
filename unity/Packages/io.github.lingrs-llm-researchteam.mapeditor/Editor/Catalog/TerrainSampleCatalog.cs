@@ -16,6 +16,9 @@ namespace Arknights.MapEditor.Catalog
             "Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/Catalog/terrain-samples.json";
         private static TextAsset? loadedAsset;
         private static TerrainSampleCatalog? cached;
+        private static TextAsset? newerAsset;
+        private static TerrainSampleCatalog? newer;
+        internal const string ExpansionRevision = "26-11-13-06-37-23-89286612";
         private readonly string[] levelPaths;
         private readonly JObject tiles;
         internal string Revision { get; }
@@ -46,6 +49,20 @@ namespace Arknights.MapEditor.Catalog
             cached = result;
             return result;
         }
+
+        internal static TerrainSampleCatalog Load2791()
+        {
+            const string path = Editor.PrtsObjectView.CatalogRoot + "terrain-samples-2791.json";
+            var asset = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
+            if (asset == null) throw new FileNotFoundException("Missing 2.7.91 terrain samples.", path);
+            if (newer != null && newerAsset == asset) return newer;
+            var result = new TerrainSampleCatalog(asset);
+            if (result.Revision != ExpansionRevision) throw new FormatException("Invalid 2.7.91 terrain sample revision.");
+            newerAsset = asset;
+            return newer = result;
+        }
+
+        internal bool Contains(string id) => tiles[id] != null;
 
         internal bool HasRecommendation(string id) => tiles[id]?["recommended"] is JArray items && items.Count > 0;
 

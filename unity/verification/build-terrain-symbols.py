@@ -23,6 +23,8 @@ GROUPS = {
     "bridge": "tile_sandrope tile_sandrope_2", "sleep": "tile_sleep_road tile_sleep_wall",
     "steam": "tile_steam", "toxic": "tile_toxic tile_toxichill tile_toxicroad tile_toxicwall",
     "lava": "tile_volcano_strife", "clean-water": "tile_water", "boards": "tile_woodrd",
+    "equipment": "tile_acbag", "concealment": "tile_duel_grassland",
+    "speed": "tile_speedup", "trench": "tile_trench",
 }
 WHITE = (255, 255, 255, 255)
 CLEAR = (255, 255, 255, 0)
@@ -205,6 +207,23 @@ def draw_symbol(key: str) -> Image.Image:
     elif key == "boards":
         for y in (42,60,78):
             d.rounded_rectangle((35,y,93,y+12),radius=3,outline=WHITE,width=4)
+    elif key == "equipment":
+        d.rounded_rectangle((31, 43, 97, 91), radius=7, outline=WHITE, width=6)
+        d.rounded_rectangle((53, 31, 75, 47), radius=4, outline=WHITE, width=5)
+        line((33, 64), (95, 64), width=5)
+        d.rectangle((60, 58, 68, 71), fill=WHITE)
+    elif key == "concealment":
+        line((29, 65), (43, 53), (64, 47), (85, 53), (99, 65),
+             (85, 77), (64, 83), (43, 77), (29, 65), width=5)
+        ring((55, 56, 73, 74), 4)
+        line((38, 92), (90, 37), width=7)
+    elif key == "speed":
+        for x in (35, 61):
+            line((x, 44), (x + 20, 64), (x, 84), width=7)
+    elif key == "trench":
+        line((34, 39), (34, 70), (48, 86), (80, 86), (94, 70), (94, 39), width=6)
+        for x in (48, 64, 80):
+            line((x, 79), (x, 65), width=4)
     else:
         raise ValueError(key)
     return image.resize((64,64),Image.Resampling.LANCZOS)
@@ -217,7 +236,7 @@ def main():
     symbols = list(GROUPS)
     entries = data["tiles"]
     ids = [key for group in GROUPS.values() for key in group.split()]
-    assert len(ids) == len(set(ids)) == 66 and len(symbols) <= 64
+    assert len(ids) == len(set(ids)) == 70 and len(symbols) <= 64
     atlas = Image.new("RGBA",(512,512),CLEAR)
     for index,symbol in enumerate(symbols):
         atlas.paste(draw_symbol(symbol),(64*(index%8),64*(index//8)))

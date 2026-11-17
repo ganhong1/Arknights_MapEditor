@@ -17,10 +17,21 @@ namespace Arknights.MapEditor.Catalog
         public IReadOnlyList<CatalogEntry> Entries { get; }
         private EditorCatalog(List<CatalogEntry> entries) { Entries=new ReadOnlyCollection<CatalogEntry>(entries); }
 
+        internal static EditorCatalog LoadBaseline() => LoadAsset(AssetPath);
+
         public static EditorCatalog LoadBundled()
         {
-            var asset=AssetDatabase.LoadAssetAtPath<TextAsset>(AssetPath);
-            if(asset==null)throw new FileNotFoundException("Bundled editor catalog was not imported.",AssetPath);
+            var baseline = LoadBaseline();
+            var supplement = LoadAsset(Editor.PrtsObjectView.CatalogRoot + "terrain-catalog-2791.json");
+            if (supplement.Entries.Any(entry => entry.Category != "terrain" || baseline.Find(entry.Id) != null))
+                throw new InvalidDataException("The 2.7.91 terrain catalog conflicts with the baseline.");
+            return new EditorCatalog(baseline.Entries.Concat(supplement.Entries).ToList());
+        }
+
+        private static EditorCatalog LoadAsset(string path)
+        {
+            var asset = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
+            if (asset == null) throw new FileNotFoundException("Bundled editor catalog was not imported.", path);
             return LoadJson(asset.text);
         }
 

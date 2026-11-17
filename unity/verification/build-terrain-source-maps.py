@@ -13,20 +13,7 @@ def canonical(tile):
     return json.dumps(tile, sort_keys=True, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("levels", type=Path)
-    parser.add_argument("samples", type=Path)
-    parser.add_argument("output", type=Path)
-    args = parser.parse_args()
-    samples = json.loads(args.samples.read_bytes())
-    revision = subprocess.check_output(["git", "-C", str(args.levels), "rev-parse", "HEAD"], text=True).strip()
-    changes = subprocess.check_output(
-        ["git", "-C", str(args.levels), "status", "--porcelain", "--", "."], text=True
-    )
-    if revision != samples["revision"] or changes:
-        parser.error("level corpus must match the terrain sample catalog revision")
-
+def build_projection(levels, samples):
     identifiers = {}
     definitions = []
     expected = {}
@@ -39,7 +26,7 @@ def main():
     maps = {}
     observed = defaultdict(set)
     for source, path in enumerate(samples["levels"]):
-        map_data = json.loads((args.levels / path).read_bytes())["mapData"]
+        map_data = json.loads((levels / path).read_bytes())["mapData"]
         grid = map_data["map"]
         width = len(grid[0])
         if any(len(row) != width for row in grid) or not width or width * len(grid) > 16383:
@@ -67,9 +54,26 @@ def main():
 
     if observed != expected:
         raise ValueError("Preview matches differ from terrain sample sources")
-    result = {"version": 1, "revision": revision, "tiles": definitions, "maps": maps}
+    return {"version": 1, "revision": samples["revision"], "tiles": definitions, "maps": maps}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("levels", type=Path)
+    parser.add_argument("samples", type=Path)
+    parser.add_argument("output", type=Path)
+    args = parser.parse_args()
+    samples = json.loads(args.samples.read_bytes())
+    revision = subprocess.check_output(["git", "-C", str(args.levels), "rev-parse", "HEAD"], text=True).strip()
+    changes = subprocess.check_output(
+        ["git", "-C", str(args.levels), "status", "--porcelain", "--", "."], text=True
+    )
+    if revision != samples["revision"] or changes:
+        parser.error("level corpus must match the terrain sample catalog revision")
+
+    result = build_projection(args.levels, samples)
     args.output.write_text(json.dumps(result, separators=(",", ":"), ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"{len(maps)} maps, {len(definitions)} tile definitions")
+    print(f"{len(result['maps'])} maps, {len(result['tiles'])} tile definitions")
 
 
 if __name__ == "__main__":

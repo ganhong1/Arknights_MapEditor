@@ -15,41 +15,48 @@ namespace Arknights.MapEditor.Catalog
         internal static readonly string[] Roles = { "tokenInsts", "tokenCards" };
         private const string Root = "Packages/io.github.lingrs-llm-researchteam.mapeditor/Editor/Catalog/";
         private static DeviceSampleCatalog? cached;
-        private readonly string[] levels;
         private readonly Dictionary<string, Details> loaded = new Dictionary<string, Details>(StringComparer.Ordinal);
         private readonly Queue<string> loadOrder = new Queue<string>();
         internal IReadOnlyList<Entry> Entries { get; }
         internal string Revision { get; }
 
-        private DeviceSampleCatalog(JObject root)
+        private DeviceSampleCatalog(JObject root, JObject? update = null)
         {
-            if (root.Value<int>("version") != 3 || !(root["entries"] is JArray entries) || !(root["levels"] is JArray paths))
-                throw new FormatException("装置目录格式无效。");
-            Revision = root.Value<string>("revision") ?? throw new FormatException("缺少装置数据版本。");
-            levels = paths.Values<string>().OfType<string>().ToArray();
-            Entries = Array.AsReadOnly(entries.OfType<JObject>().Select(row => new Entry(row)).ToArray());
+            Revision = (update ?? root).Value<string>("revision") ?? throw new FormatException("缺少装置数据版本。");
+            var entries = ReadEntries(root);
+            Entries = Array.AsReadOnly((update == null ? entries : entries.Concat(ReadEntries(update))).ToArray());
             if (Entries.Select(x => x.Id).Distinct(StringComparer.Ordinal).Count() != Entries.Count)
                 throw new FormatException("装置目录存在重复 ID。");
         }
 
-        internal static DeviceSampleCatalog LoadBundled() => cached ??= new DeviceSampleCatalog(Read("device-index.json"));
+        private static IEnumerable<Entry> ReadEntries(JObject root)
+        {
+            if (root.Value<int>("version") != 3 || !(root["entries"] is JArray entries) || !(root["levels"] is JArray paths))
+                throw new FormatException("装置目录格式无效。");
+            var levels = paths.Values<string>().OfType<string>().ToArray();
+            return entries.OfType<JObject>().Select(row => new Entry(row, levels));
+        }
+
+        internal static DeviceSampleCatalog LoadBaseline() => new DeviceSampleCatalog(Read("device-index.json"));
+        internal static DeviceSampleCatalog LoadBundled() =>
+            cached ??= new DeviceSampleCatalog(Read("device-index.json"), Read("device-index-2791.json"));
 
         internal Details Load(string id)
         {
             if (loaded.TryGetValue(id, out var existing)) return existing;
             var entry = Entries.FirstOrDefault(x => x.Id == id) ?? throw new FormatException("装置不在目录中。");
-            if (!entry.HasSamples) return new Details(id, new JObject(), levels);
+            if (entry.File == null) return new Details(id, new JObject(), entry.Levels);
             var root = Read("DeviceSamples/" + entry.File);
             if (root.Value<int>("version") != 3 || root.Value<string>("id") != id || !(root["roles"] is JObject roles))
                 throw new FormatException("装置配置身份不匹配。");
-            var details = new Details(id, roles, levels);
+            var details = new Details(id, roles, entry.Levels);
             if (loaded.Count >= 4) loaded.Remove(loadOrder.Dequeue());
             loaded.Add(id, details);
             loadOrder.Enqueue(id);
             return details;
         }
 
-        internal CatalogSearch<Entry> CreateSearch() => TerrainSearchRuntime.CreateWorker<Entry>(entry => new JObject
+        internal CatalogSearch<Entry> CreateSearch() => CatalogSearchRuntime.CreateWorker<Entry>(entry => new JObject
         {
             ["name"] = entry.Name, ["targetFile"] = entry.Id, ["description"] = entry.Description,
             ["namePinyin"] = entry.Pinyin(0), ["nameInitials"] = entry.Pinyin(1), ["category"] = "装置"
@@ -67,16 +74,22 @@ namespace Arknights.MapEditor.Catalog
         internal sealed class Entry
         {
             private readonly JObject row;
+            internal string[] Levels { get; }
             internal string Id { get; }
             internal string Name { get; }
             internal string Description => row.Value<string>("description") ?? "";
             internal string? File => row.Value<string>("file");
-            internal bool HasSamples => File != null;
+            internal int ModeConfigurationCount => (row["modeConfigurations"] as JArray)?.Count ?? 0;
+            internal bool HasSamples => File != null || ModeConfigurationCount > 0;
             internal int Configurations(string role) => row["roles"]?[role]?.Value<int>("configurations") ?? 0;
             internal string? Pinyin(int index) => (row["pinyin"] as JArray)?.ElementAtOrDefault(index)?.Value<string>();
-            internal Entry(JObject row)
+            internal string Prefab => row.Value<string>("prefab") ?? "";
+            internal JArray? ModeConfigurations => row["modeConfigurations"]?.DeepClone() as JArray;
+            internal JObject? Definition => row["definition"]?.DeepClone() as JObject;
+            internal Entry(JObject row, string[] levels)
             {
                 this.row = (JObject)row.DeepClone();
+                Levels = levels;
                 Id = row.Value<string>("id") ?? throw new FormatException("缺少装置 ID。");
                 var label = (row.Value<string>("name") ?? "").Trim();
                 Name = label.Length == 0 ? Id : label;

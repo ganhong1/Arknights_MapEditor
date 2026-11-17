@@ -121,15 +121,10 @@ namespace Arknights.MapEditor.Catalog
         {
             sources ??= Read("sources.json");
             var body = (string)origin["body"]!;
-            var suffix = $" · {((string?)origin["section"] == "hardPredefines" ? "困难" : "基础")} #{origin["index"]}";
-            if (origin["position"] is JObject cell) suffix += $" · ({cell["row"]}, {cell["col"]}) {origin["direction"]}";
-            foreach (var source in (sources[body] as JArray ?? new JArray()).OfType<JObject>())
-            {
-                var stages = ((JArray)source["stages"]!).OfType<JArray>();
-                var names = string.Join(" / ", stages.Select(stage => string.Join(" · ", stage.Values<string>().Where(v => !string.IsNullOrEmpty(v)))));
-                var version = $"{source["source"]} {source["revision"]}".Trim();
-                yield return (names.Length == 0 ? "" : names + " · ") + source["path"] + suffix + "\n" + version;
-            }
+            var layer = (string?)origin["section"] == "hardPredefines" ? "困难预设" : "基础预设";
+            var placement = origin["position"] is JObject cell ? $"({cell["row"]}, {cell["col"]}) {origin["direction"]}" : "";
+            return GameStageLabel.FromOrigins(sources[body], "stages")
+                .Select(stage => GameStageLabel.Title(stage, layer, placement)).Distinct(StringComparer.Ordinal);
         }
 
         internal int FavorPhase(int points)
@@ -146,7 +141,7 @@ namespace Arknights.MapEditor.Catalog
         }
 
         internal int MaximumFavorPhase => favorFrames[favorFrames.Length - 1][1];
-        internal CatalogSearch<Entry> CreateSearch() => TerrainSearchRuntime.CreateWorker<Entry>(entry => new JObject
+        internal CatalogSearch<Entry> CreateSearch() => CatalogSearchRuntime.CreateWorker<Entry>(entry => new JObject
         {
             ["name"] = entry.Name,
             ["targetFile"] = entry.Id,
