@@ -59,18 +59,91 @@
     Object.entries(d.branches||{}).forEach(([k,b])=>(b.phases||[]).forEach((part,i)=>out.push({part,branch:true,path:`branches.${k}.phases[${i}]`})));
     return out;
   }
-  const routeLibrary=(a,branch)=>a.useExtraRoute||branch?'extraRoutes':'routes';
+  const routeLibrary=(_action,branch)=>branch?'extraRoutes':'routes';
+  // PC 2.7.81 opera nodes verified against config_common.ab.
+  const operaRoutes = {
+    usesRoute: {
+      "act12side": ["screen_submerged_start"],
+      "act34side_09": ["cannon_fire", "kill_all"],
+      "common_guide": ["effect_deploy", "effect_warning_01", "finish_effect_deploy"],
+      "main_08-15": ["fire_effect"],
+      "main_16_boss2": ["move_camera"],
+      "rune_05-01": ["dscout_skill_start"],
+    },
+    ignoresRoute: {
+      "act17d7_01": ["count_down", "play_screen_eff_blue", "switch_screen_eff_any_to_fever", "switch_screen_eff_blue_to_red", "switch_screen_eff_red_to_blue"],
+      "act24side": ["init", "move_camera"],
+      "common_guide": ["effect_warning_fullscreen"],
+      "hard_08-04": ["blast_effect_x", "blast_effect_y"],
+      "level_act46side_10": ["init", "move_camera_1", "move_camera_2"],
+      "level_lt17_06": ["summon_boss"],
+      "main_08-17": ["blast_effect_x", "blast_effect_y"],
+      "main_14-09": ["main_14_shake"],
+      "main_16_boss2": ["init"],
+      "rogue_4_boss4_formal": ["init", "move_camera"],
+      "rogue_4_boss5_formal": ["init", "move_camera_1", "move_camera_2"],
+      "rogue_6_boss1": ["kill_boss"],
+      "sandbox_v2_dlc1": ["racing_spawn_pause"],
+    },
+  };
+  function operaRouteUse(d, action) {
+    const config = d.operaConfig;
+    if (typeof config !== 'string' || typeof action.key !== 'string') return null;
+    if (Object.hasOwn(operaRoutes.ignoresRoute, config) && operaRoutes.ignoresRoute[config].includes(action.key)) return false;
+    return Object.hasOwn(operaRoutes.usesRoute, config) && operaRoutes.usesRoute[config].includes(action.key)
+      && (action.useExtraRoute === undefined || action.useExtraRoute === false) ? true : null;
+  }
   function deleteRoute(d, library, index) {
-    const refs=parts(d).flatMap(({part,branch,path})=>(part.actions||[]).filter(a=>['SPAWN','PREVIEW_CURSOR',0,1].includes(a.actionType)&&routeLibrary(a,branch)===library).map(a=>({a,path})));
-    const used=refs.find(({a})=>a.routeIndex===index);
+    if (!['routes', 'extraRoutes'].includes(library) || !Array.isArray(d[library]) ||
+        !Number.isInteger(index) || index < 0 || index >= d[library].length) {
+      throw Error('路线索引无效');
+    }
+    const refs = [];
+    const understood = new Set();
+    for (const {part, branch, path} of parts(d)) {
+      for (const [actionIndex, a] of (part.actions || []).entries()) {
+        const actionPath = path + '.actions[' + actionIndex + ']';
+        const type = a.actionType;
+        const known = typeof type === 'string' ? type !== 'E_NUM' && Object.hasOwn(S.enums.ActionType, type)
+          : Number.isInteger(type) && type >= 0 && type < S.enums.ActionType.E_NUM;
+        if (known) understood.add(a);
+        if (['SPAWN', 'PREVIEW_CURSOR', 0, 1].includes(a.actionType) && routeLibrary(a, branch) === library) {
+          refs.push({a, path: actionPath, pos: a.routeIndex});
+        } else if (branch && (type === 'EMPTY' || type === 13) && library === 'extraRoutes') {
+          const pos = a.routeIndex === undefined ? 0 : a.routeIndex;
+          if (!Number.isInteger(pos)) throw Error('无效的分支路线索引：' + actionPath);
+          if (pos >= 0 && pos < d[library].length) refs.push({a, path: actionPath, pos});
+        } else if (type === 'PLAY_OPERA' || type === 7) {
+          const use = operaRouteUse(d, a);
+          const pos = a.routeIndex === undefined ? 0 : a.routeIndex;
+          const legacy = a.useExtraRoute !== undefined && a.useExtraRoute !== false;
+          if (use === null && (library === 'routes' || legacy) &&
+              (!Number.isInteger(pos) || (pos >= index && pos < d[library].length))) {
+            throw Error('无法解析演出动作的路线引用：' + actionPath);
+          }
+          if (use === true && library === 'routes') {
+            if (!Number.isInteger(pos)) throw Error('无效的演出路线索引：' + actionPath);
+            if (pos >= 0 && pos < d[library].length) refs.push({a, path: actionPath, pos});
+          }
+        }
+      }
+    }
+    const pending = [d];
+    while (pending.length > 0) {
+      const value = pending.pop();
+      if (value === null || typeof value !== 'object') continue;
+      if (Object.hasOwn(value, 'routeIndex') && !understood.has(value)) throw Error('存在无法解析的路线索引');
+      for (const child of Object.values(value)) if (child !== null && typeof child === 'object') pending.push(child);
+    }
+    const used=refs.find(({pos})=>pos===index);
     if(used) throw Error(`路线仍被 ${used.path} 使用，请先修改动作的 routeIndex`);
-    d[library].splice(index,1);refs.forEach(({a})=>{if(a.routeIndex>index)a.routeIndex--;});
+    d[library].splice(index,1);refs.forEach(({a,pos})=>{if(pos>index)a.routeIndex=pos-1;});
   }
   function validate(d) {
     const errors=[],warnings=[];
     try{assertMap(d);}catch(e){return {errors:[e.message],warnings};}
     const checkNumber=(v,path,min,integer=false)=>{if(!Number.isFinite(v)||v<min||(integer&&!Number.isInteger(v)))errors.push(path+' 数值无效');};
-    const checkEnum=(v,name,path)=>{if(!(v in S.enums[name])&&!Object.values(S.enums[name]).includes(v)) warnings.push(path+' 含未知枚举，将原样保留：'+v);};
+    const checkEnum=(v,name,path)=>{if(!Object.hasOwn(S.enums[name],v)&&!Object.values(S.enums[name]).includes(v)) warnings.push(path+' 含未知枚举，将原样保留：'+v);};
     for(const [i,w] of (d.waves||[]).entries()) {checkNumber(w.preDelay,`waves[${i}].preDelay`,0);checkNumber(w.postDelay,`waves[${i}].postDelay`,0);checkNumber(w.maxTimeWaitingForNextWave,`waves[${i}].maxTimeWaitingForNextWave`,-1);}
     for(const {part,branch,path} of parts(d)) {
       checkNumber(part.preDelay,path+'.preDelay',0);

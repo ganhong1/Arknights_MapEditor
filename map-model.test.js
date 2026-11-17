@@ -23,6 +23,64 @@ test('legacy map corpus round-trips', {skip: fixtureCorpusAvailable ? false :
  t.diagnostic(JSON.stringify({roundTripMaps: maps, legacyMapsCleaned: legacy, malformedSources: S.invalidSources.length}));
 });
 
+test('route deletion follows the owning schedule and preserves historical flags', () => {
+ const level=M.create();
+ level.routes=[M.route(),M.route()];
+ level.extraRoutes=[M.route(),M.route()];
+ const main={...M.action(),routeIndex:1,useExtraRoute:true};
+ const branch={...M.action(true),routeIndex:1,useExtraRoute:false};
+ level.waves[0].fragments[0].actions=[main];
+ level.branches={test:{phases:[{preDelay:0,actions:[branch]}]}};
+ assert.throws(()=>M.deleteRoute(level,'routes',-1),/路线索引无效/);
+ assert.throws(()=>M.deleteRoute(level,'waves',0),/路线索引无效/);
+ assert.equal(level.routes.length,2);
+ M.deleteRoute(level,'routes',0);
+ assert.equal(main.routeIndex,0);
+ assert.equal(branch.routeIndex,1);
+ M.deleteRoute(level,'extraRoutes',0);
+ assert.equal(branch.routeIndex,0);
+ assert.equal(main.useExtraRoute,true);
+ assert.equal(branch.useExtraRoute,false);
+});
+
+test('route deletion preserves opera references and guards unresolved commands', () => {
+ const d=M.create();
+ d.routes=[M.route(),M.route(),M.route()];
+ d.operaConfig='rune_05-01';
+ const action={actionType:7,key:'dscout_skill_start',routeIndex:1};
+ d.waves[0].fragments[0].actions=[action];
+ assert.throws(()=>M.deleteRoute(d,'routes',1),/仍被/);
+ M.deleteRoute(d,'routes',0);
+ assert.equal(action.routeIndex,0);
+ action.key='external';
+ assert.throws(()=>M.deleteRoute(d,'routes',0),/无法解析/);
+ assert.equal(d.routes.length,2);
+ M.deleteRoute(d,'routes',1);
+ assert.equal(d.routes.length,1);
+});
+
+test('route deletion protects branch EMPTY and opaque route slots', () => {
+ const d=M.create();
+ d.routes=[M.route(),M.route()];
+ d.extraRoutes=[M.route(),M.route()];
+ const action={actionType:13,routeIndex:1};
+ d.branches={test:{phases:[{actions:[action]}]}};
+ assert.throws(()=>M.deleteRoute(d,'extraRoutes',1),/仍被/);
+ M.deleteRoute(d,'extraRoutes',0);
+ assert.equal(action.routeIndex,0);
+ d.waves[0].fragments[0].actions=[{actionType:'FUTURE',routeIndex:1}];
+ assert.throws(()=>M.deleteRoute(d,'routes',0),/无法解析/);
+ d.waves[0].fragments[0].actions=[{actionType:'STORY',routeIndex:1}];
+ d.extension={routeIndex:1};
+ assert.throws(()=>M.deleteRoute(d,'routes',0),/无法解析/);
+});
+
+test('inherited object keys are not treated as supported enum values', () => {
+ const level=M.create();
+ level.routes[0].motionMode='constructor';
+ assert.match(M.validate(level).warnings.join(),/motionMode.*constructor/);
+});
+
 test('editor model preserves fields and validates map, route and schedule edits', () => {
  const d=M.create();d.customFutureField={nested:[false,null,17]};
  d.routes.push(M.route(),M.route());d.extraRoutes=[M.route()];
